@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "target": "es5",
+    "module": "commonjs",
+    "moduleResolution": "NodeNext",
+    "strict": true,
+    "noEmit": true, // or use "emitDeclarationOnly": true
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "allowJs": true,
+    "baseUrl": "./",
+    "jsx": "react-jsx"
+  }
+  
+}
