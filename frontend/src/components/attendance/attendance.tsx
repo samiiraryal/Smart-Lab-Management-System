@@ -24,7 +24,7 @@ const Attendance = () => {
   const handleChange = (
     event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
-    const { name, value, type, checked } = event.target;
+    const { name, value, type, checked} = event.target;
     setAttendanceData((prevData) => ({
       ...prevData,
       [name]: type === "checkbox" ? checked : value,
