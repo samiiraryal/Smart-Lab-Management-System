@@ -1,0 +1,6 @@
+psutil
+shutil
+datetime
+asyncio
+aiohttp
+wmi

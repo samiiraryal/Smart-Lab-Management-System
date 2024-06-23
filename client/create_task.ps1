@@ -1,6 +1,5 @@
-$Action = New-ScheduledTaskAction -Execute 'start_script.bat'
+$Action = New-ScheduledTaskAction -Execute 'python' -Argument 'C:\path\to\client.py'
 $Trigger = New-ScheduledTaskTrigger -AtStartup
-$Principal = New-ScheduledTaskPrincipal -UserId "NT AUTHORITY\\SYSTEM" -LogonType ServiceAccount -RunLevel Highest
-$Settings = New-ScheduledTaskSettingsSet -AllowStartIfOnBatteries -DontStopIfGoingOnBatteries -StartWhenAvailable -DontStopOnIdleEnd
-
-Register-ScheduledTask -TaskName "ComputerExpertSystem" -Action $Action -Trigger $Trigger -Principal $Principal -Settings $Settings
+$Settings = New-ScheduledTaskSettingsSet -AllowStartIfOnBatteries -DontStopIfGoingOnBatteries -StartWhenAvailable
+$Task = New-ScheduledTask -Action $Action -Trigger $Trigger -Settings $Settings -Description "Computer Expert System Data Collection"
+Register-ScheduledTask -TaskName "ComputerExpertSystem" -InputObject $Task -User "SYSTEM" -RunLevel Highest
