@@ -12,6 +12,7 @@ class ComputerExpertSystem:
         self.status = "Good"
 
     def get_system_errors(self):
+        # Return a random error count for demonstration
         return {'system_errors': 3}
 
     def get_cpu_usage(self):
@@ -54,6 +55,17 @@ class ComputerExpertSystem:
         uptime = datetime.datetime.now() - datetime.datetime.fromtimestamp(psutil.boot_time())
         return {'prolonged_running_periods': uptime.days}
 
+    def get_network_usage(self):
+        net_io = psutil.net_io_counters()
+        return {
+            'bytes_sent': net_io.bytes_sent,
+            'bytes_recv': net_io.bytes_recv
+        }
+
+    def get_intrusion_attempts(self):
+        # Placeholder for actual intrusion detection logic
+        return {'intrusion_attempts': 0}
+
     def collect_usage_data(self):
         data = {}
         data.update(self.get_system_errors())
@@ -63,10 +75,55 @@ class ComputerExpertSystem:
         data.update(self.get_temperature())
         data.update(self.get_crash_reports())
         data.update(self.get_prolonged_running_periods())
+        data.update(self.get_network_usage())
+        data.update(self.get_intrusion_attempts())
         self.working_memory['local_computer'] = data
 
+    def system_errors_rule(self):
+        return self.working_memory['local_computer']['system_errors'] > 5
+
+    def high_cpu_usage_rule(self):
+        return self.working_memory['local_computer']['cpu_usage'] > 80
+
+    def low_disk_space_rule(self):
+        return self.working_memory['local_computer']['free_disk_space'] < 1024 * 1024 * 1024
+
+    def high_ram_usage_rule(self):
+        return self.working_memory['local_computer']['ram_usage'] > 80
+
+    def high_temperature_rule(self):
+        temp = self.working_memory['local_computer']['cpu_temperature']
+        return temp is not None and temp > 60.0
+
+    def crash_reports_rule(self):
+        return self.working_memory['local_computer']['crash_reports'] > 5
+
+    def prolonged_running_periods_rule(self):
+        return self.working_memory['local_computer']['prolonged_running_periods'] > 4
+
+    def network_issues_rule(self):
+        return self.working_memory['local_computer']['bytes_sent'] == 0 or self.working_memory['local_computer']['bytes_recv'] == 0
+
+    def intrusion_detection_rule(self):
+        return self.working_memory['local_computer']['intrusion_attempts'] > 0
+
+    def performance_degradation_rule(self):
+        return (self.working_memory['local_computer']['cpu_usage'] > 50 and
+                self.working_memory['local_computer']['ram_usage'] > 50)
+
     def evaluate_rules(self):
-        rules = [self.system_errors_rule, self.high_cpu_usage_rule, self.low_disk_space_rule, self.high_ram_usage_rule, self.high_temperature_rule, self.crash_reports_rule, self.prolonged_running_periods_rule, self.performance_degradation_rule]
+        rules = [
+            self.system_errors_rule,
+            self.high_cpu_usage_rule,
+            self.low_disk_space_rule,
+            self.high_ram_usage_rule,
+            self.high_temperature_rule,
+            self.crash_reports_rule,
+            self.prolonged_running_periods_rule,
+            self.network_issues_rule,
+            self.intrusion_detection_rule,
+            self.performance_degradation_rule
+        ]
         faults = 0
         for rule in rules:
             if rule():
@@ -76,63 +133,25 @@ class ComputerExpertSystem:
             self.status = "Maintenance Needed"
         elif faults >= 1:
             self.status = "Moderate"
+        else:
+            self.status = "Good"
 
-    def system_errors_rule(self):
-        if self.working_memory['local_computer']['system_errors'] > 5:
-            return True
-        return False
-
-    def high_cpu_usage_rule(self):
-        if self.working_memory['local_computer']['cpu_usage'] > 80:
-            return True
-        return False
-
-    def low_disk_space_rule(self):
-        if self.working_memory['local_computer']['free_disk_space'] < 1024 * 1024 * 1024:
-            return True
-        return False
-
-    def high_ram_usage_rule(self):
-        if self.working_memory['local_computer']['ram_usage'] > 80:
-            return True
-        return False
-
-    def high_temperature_rule(self):
-        if self.working_memory['local_computer']['cpu_temperature'] is not None and self.working_memory['local_computer']['cpu_temperature'] > 60.0:
-            return True
-        return False
-
-    def crash_reports_rule(self):
-        if self.working_memory['local_computer']['crash_reports'] > 5:
-            return True
-        return False
-
-    def prolonged_running_periods_rule(self):
-        if self.working_memory['local_computer']['prolonged_running_periods'] > 4:
-            return True
-        return False
-
-    def performance_degradation_rule(self):
-        if (self.working_memory['local_computer']['cpu_usage'] > 50 and
-            self.working_memory['local_computer']['ram_usage'] > 50):
-            return True
-        return False
-
-    async def send_data(self):
+    async def collect_usage_data_api(self, computer_id):
         async with aiohttp.ClientSession() as session:
-            async with session.post('http://your_server_address/receive_data', json=self.working_memory['local_computer']) as response:
-                if response.status == 200:
-                    print("Data sent successfully.")
-                else:
-                    print(f"Failed to send data. Status code: {response.status}")
+            async with session.get(f'https://api.computer_usage_data.com/computers/{computer_id}/usage_data') as response:
+                data = await response.json()
+                self.working_memory[f'computer_{computer_id}'] = data
 
-    async def run(self):
-        while True:
-            self.collect_usage_data()
-            self.evaluate_rules()
-            await self.send_data()
-            await asyncio.sleep(600)  # 600 seconds = 10 minutes
+# Create an instance of the ComputerExpertSystem
+computer_expert_system = ComputerExpertSystem()
 
-if __name__ == '__main__':
-    computer_expert_system = ComputerExpertSystem()
-    asyncio.run(computer_expert_system.run())
+# Collect usage data from your local computer
+computer_expert_system.collect_usage_data()
+
+# Evaluate rules and get actions
+computer_expert_system.evaluate_rules()
+
+if computer_expert_system.maintenance_required:
+    print("Maintenance required!")
+else:
+    print("No maintenance required.")
