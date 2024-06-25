@@ -116,8 +116,7 @@ const Attendance = () => {
               }
             />
             Absent 
-            {/* just a comment */}
-            {/* just another comment */}
+            
           </label>
         </div>
         <button onClick={handleSave} style={{ color: "black" }}>
