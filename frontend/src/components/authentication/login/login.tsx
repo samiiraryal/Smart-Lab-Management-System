@@ -6,7 +6,9 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  
+  const navigate = useNavigate();
+
+  navigate(`/dashboard`);
   const handleSubmit = (e: any) => {
     e.preventDefault();
     // Handle login logic here

@@ -23,7 +23,18 @@ const Dashboard = () => {
 
   const handleButtonClick = (action: any) => {
     console.log(`${action} button clicked`);
-    navigate(`/attendance`);
+    if (action==="Attendance") {
+      navigate(`/attendance`);
+    }
+   else if (action==="Submission") {
+    navigate(`/submission`);
+   }
+   else if (action==="Computer Condition") {
+    navigate(`/computer-condition`);
+   }
+   else {
+    navigate(`/student-progress`);
+   }
   };
 
   const toggleButtonVisibility = () => {
