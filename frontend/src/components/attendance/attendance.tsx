@@ -9,6 +9,7 @@ const Attendance = () => {
     present: false,
     course: "",
     date: "",
+    
   });
 
   const [allData, setAllData] = useState<any[]>([]);
