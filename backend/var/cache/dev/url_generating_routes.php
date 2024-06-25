@@ -4,6 +4,7 @@
 
 return [
     '_preview_error' => [['code', '_format'], ['_controller' => 'error_controller::preview', '_format' => 'html'], ['code' => '\\d+'], [['variable', '.', '[^/]++', '_format', true], ['variable', '/', '\\d+', 'code', true], ['text', '/_error']], [], [], []],
+    '_logout_api_login' => [[], [], [], [['text', '/api/logout']], [], [], []],
     '_wdt' => [['token'], ['_controller' => 'web_profiler.controller.profiler::toolbarAction'], [], [['variable', '/', '[^/]++', 'token', true], ['text', '/_wdt']], [], [], []],
     '_profiler_home' => [[], ['_controller' => 'web_profiler.controller.profiler::homeAction'], [], [['text', '/_profiler/']], [], [], []],
     '_profiler_search' => [[], ['_controller' => 'web_profiler.controller.profiler::searchAction'], [], [['text', '/_profiler/search']], [], [], []],
@@ -17,6 +18,7 @@ return [
     '_profiler_router' => [['token'], ['_controller' => 'web_profiler.controller.router::panelAction'], [], [['text', '/router'], ['variable', '/', '[^/]++', 'token', true], ['text', '/_profiler']], [], [], []],
     '_profiler_exception' => [['token'], ['_controller' => 'web_profiler.controller.exception_panel::body'], [], [['text', '/exception'], ['variable', '/', '[^/]++', 'token', true], ['text', '/_profiler']], [], [], []],
     '_profiler_exception_css' => [['token'], ['_controller' => 'web_profiler.controller.exception_panel::stylesheet'], [], [['text', '/exception.css'], ['variable', '/', '[^/]++', 'token', true], ['text', '/_profiler']], [], [], []],
+    'api_login' => [[], ['_controller' => 'App\\Controller\\ApiLoginController::login'], [], [['text', '/api/login']], [], [], []],
     'attendance_add' => [[], ['_controller' => 'App\\Controller\\AttendanceController::addAttendance'], [], [['text', '/attendance/add']], [], [], []],
     'attendance_present' => [[], ['_controller' => 'App\\Controller\\AttendanceController::getPresentStudents'], [], [['text', '/attendance/present']], [], [], []],
     'attendance_student' => [['id'], ['_controller' => 'App\\Controller\\AttendanceController::getStudentAttendance'], [], [['variable', '/', '[^/]++', 'id', true], ['text', '/attendance/student']], [], [], []],
@@ -34,6 +36,7 @@ return [
     'app_teacher_show' => [['id'], ['_controller' => 'App\\Controller\\TeacherController::show'], [], [['variable', '/', '[^/]++', 'id', true], ['text', '/teacher']], [], [], []],
     'app_teacher_edit' => [['id'], ['_controller' => 'App\\Controller\\TeacherController::edit'], [], [['text', '/edit'], ['variable', '/', '[^/]++', 'id', true], ['text', '/teacher']], [], [], []],
     'app_teacher_delete' => [['id'], ['_controller' => 'App\\Controller\\TeacherController::delete'], [], [['variable', '/', '[^/]++', 'id', true], ['text', '/teacher']], [], [], []],
+    'App\Controller\ApiLoginController::login' => [[], ['_controller' => 'App\\Controller\\ApiLoginController::login'], [], [['text', '/api/login']], [], [], []],
     'App\Controller\AttendanceController::addAttendance' => [[], ['_controller' => 'App\\Controller\\AttendanceController::addAttendance'], [], [['text', '/attendance/add']], [], [], []],
     'App\Controller\AttendanceController::getPresentStudents' => [[], ['_controller' => 'App\\Controller\\AttendanceController::getPresentStudents'], [], [['text', '/attendance/present']], [], [], []],
     'App\Controller\AttendanceController::getStudentAttendance' => [['id'], ['_controller' => 'App\\Controller\\AttendanceController::getStudentAttendance'], [], [['variable', '/', '[^/]++', 'id', true], ['text', '/attendance/student']], [], [], []],
