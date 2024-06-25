@@ -8,12 +8,14 @@
 return [
     false, // $matchHost
     [ // $staticRoutes
+        '/api/logout' => [[['_route' => '_logout_api_login'], null, null, null, false, false, null]],
         '/_profiler' => [[['_route' => '_profiler_home', '_controller' => 'web_profiler.controller.profiler::homeAction'], null, null, null, true, false, null]],
         '/_profiler/search' => [[['_route' => '_profiler_search', '_controller' => 'web_profiler.controller.profiler::searchAction'], null, null, null, false, false, null]],
         '/_profiler/search_bar' => [[['_route' => '_profiler_search_bar', '_controller' => 'web_profiler.controller.profiler::searchBarAction'], null, null, null, false, false, null]],
         '/_profiler/phpinfo' => [[['_route' => '_profiler_phpinfo', '_controller' => 'web_profiler.controller.profiler::phpinfoAction'], null, null, null, false, false, null]],
         '/_profiler/xdebug' => [[['_route' => '_profiler_xdebug', '_controller' => 'web_profiler.controller.profiler::xdebugAction'], null, null, null, false, false, null]],
         '/_profiler/open' => [[['_route' => '_profiler_open_file', '_controller' => 'web_profiler.controller.profiler::openAction'], null, null, null, false, false, null]],
+        '/api/login' => [[['_route' => 'api_login', '_controller' => 'App\\Controller\\ApiLoginController::login'], null, ['POST' => 0], null, false, false, null]],
         '/attendance/add' => [[['_route' => 'attendance_add', '_controller' => 'App\\Controller\\AttendanceController::addAttendance'], null, ['POST' => 0], null, false, false, null]],
         '/attendance/present' => [[['_route' => 'attendance_present', '_controller' => 'App\\Controller\\AttendanceController::getPresentStudents'], null, ['POST' => 0], null, false, false, null]],
         '/report/add' => [[['_route' => 'report_add', '_controller' => 'App\\Controller\\ReportController::addReport'], null, ['POST' => 0], null, false, false, null]],
