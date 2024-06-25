@@ -25,6 +25,7 @@
       <parameter key="SecurityBundle">Symfony\Bundle\SecurityBundle\SecurityBundle</parameter>
       <parameter key="MonologBundle">Symfony\Bundle\MonologBundle\MonologBundle</parameter>
       <parameter key="MakerBundle">Symfony\Bundle\MakerBundle\MakerBundle</parameter>
+      <parameter key="JoseFrameworkBundle">Jose\Bundle\JoseFramework\JoseFrameworkBundle</parameter>
     </parameter>
     <parameter key="kernel.bundles_metadata" type="collection">
       <parameter key="FrameworkBundle" type="collection">
@@ -74,6 +75,10 @@
       <parameter key="MakerBundle" type="collection">
         <parameter key="path">C:\Users\user\OneDrive\Desktop\finalproject\finalyearproject\backend\vendor\symfony\maker-bundle\src</parameter>
         <parameter key="namespace">Symfony\Bundle\MakerBundle</parameter>
+      </parameter>
+      <parameter key="JoseFrameworkBundle" type="collection">
+        <parameter key="path">C:\Users\user\OneDrive\Desktop\finalproject\finalyearproject\backend\vendor\web-token\jwt-framework\src\Bundle</parameter>
+        <parameter key="namespace">Jose\Bundle\JoseFramework</parameter>
       </parameter>
     </parameter>
     <parameter key="kernel.charset">UTF-8</parameter>
@@ -224,9 +229,12 @@
     <parameter key="security.authentication.hide_user_not_found">true</parameter>
     <parameter key="security.firewalls" type="collection">
       <parameter>dev</parameter>
+      <parameter>api_login</parameter>
       <parameter>main</parameter>
     </parameter>
-    <parameter key="security.logout_uris" type="collection"/>
+    <parameter key="security.logout_uris" type="collection">
+      <parameter key="api_login">/api/logout</parameter>
+    </parameter>
     <parameter key="monolog.use_microseconds">true</parameter>
     <parameter key="monolog.swift_mailer.handlers" type="collection"/>
     <parameter key="monolog.handlers_to_channels" type="collection">
@@ -334,6 +342,10 @@
         <parameter>serializer</parameter>
         <parameter>@WebProfiler/Collector/serializer.html.twig</parameter>
       </parameter>
+      <parameter key="Jose\Bundle\JoseFramework\DataCollector\JoseCollector" type="collection">
+        <parameter>jose_collector</parameter>
+        <parameter>@JoseFramework/data_collector/template.html.twig</parameter>
+      </parameter>
       <parameter key="data_collector.config" type="collection">
         <parameter>config</parameter>
         <parameter>@WebProfiler/Collector/config.html.twig</parameter>
@@ -349,6 +361,15 @@
     </service>
     <service id="App\Entity" class="App\Entity" abstract="true">
       <tag name="container.excluded" source="in &quot;config/services.yaml&quot;"/>
+    </service>
+    <service id="App\Controller\ApiLoginController" class="App\Controller\ApiLoginController" public="true" autowire="true" autoconfigure="true">
+      <tag name="controller.service_arguments"/>
+      <tag name="container.service_subscriber"/>
+      <argument type="service" id="App\Repository\TeacherRepository"/>
+      <argument type="service" id="security.user_password_hasher"/>
+      <call method="setContainer">
+        <argument type="service" id=".service_locator.8FV7jiY.App\Controller\ApiLoginController"/>
+      </call>
     </service>
     <service id="App\Controller\AttendanceController" class="App\Controller\AttendanceController" public="true" autowire="true" autoconfigure="true">
       <tag name="controller.service_arguments"/>
@@ -411,6 +432,10 @@
     <service id="App\Repository\TeacherRepository" class="App\Repository\TeacherRepository" autowire="true" autoconfigure="true">
       <tag name="doctrine.repository_service"/>
       <argument type="service" id="doctrine"/>
+    </service>
+    <service id="App\Security\TeacherAuthenticator" class="App\Security\TeacherAuthenticator" autowire="true" autoconfigure="true">
+      <argument type="service" id="router.default"/>
+      <argument type="service" id="App\Repository\TeacherRepository"/>
     </service>
     <service id="argument_metadata_factory" class="Symfony\Component\HttpKernel\ControllerMetadata\ArgumentMetadataFactory"/>
     <service id="argument_resolver.backed_enum_resolver" class="Symfony\Component\HttpKernel\Controller\ArgumentResolver\BackedEnumValueResolver">
@@ -582,9 +607,12 @@
         <argument key="cache.security_is_granted_attribute_expression_language" type="service" id="cache.security_is_granted_attribute_expression_language" on-invalid="ignore_uninitialized"/>
         <argument key="cache.security_is_csrf_token_valid_attribute_expression_language" type="service" id="cache.security_is_csrf_token_valid_attribute_expression_language" on-invalid="ignore_uninitialized"/>
         <argument key="debug.security.firewall" type="service" id="debug.security.firewall" on-invalid="ignore_uninitialized"/>
+        <argument key="debug.security.firewall.authenticator.api_login" type="service" id="debug.security.firewall.authenticator.api_login" on-invalid="ignore_uninitialized"/>
         <argument key="debug.security.firewall.authenticator.main" type="service" id="debug.security.firewall.authenticator.main" on-invalid="ignore_uninitialized"/>
         <argument key="monolog.handler.main" type="service" id="monolog.handler.main" on-invalid="ignore_uninitialized"/>
         <argument key="monolog.handler.console" type="service" id="monolog.handler.console" on-invalid="ignore_uninitialized"/>
+        <argument key="Jose\Bundle\JoseFramework\DataCollector\JoseCollector" type="service" id="Jose\Bundle\JoseFramework\DataCollector\JoseCollector" on-invalid="ignore_uninitialized"/>
+        <argument key="debug.security.event_dispatcher.api_login" type="service" id="debug.security.event_dispatcher.api_login" on-invalid="ignore_uninitialized"/>
         <argument key="debug.security.event_dispatcher.main" type="service" id="debug.security.event_dispatcher.main" on-invalid="ignore_uninitialized"/>
         <argument key=".debug.http_client" type="service" id=".debug.http_client" on-invalid="ignore_uninitialized"/>
       </argument>
@@ -674,6 +702,9 @@
         <argument key="debug.security.firewall" type="collection">
           <argument>reset</argument>
         </argument>
+        <argument key="debug.security.firewall.authenticator.api_login" type="collection">
+          <argument>reset</argument>
+        </argument>
         <argument key="debug.security.firewall.authenticator.main" type="collection">
           <argument>reset</argument>
         </argument>
@@ -681,6 +712,12 @@
           <argument>reset</argument>
         </argument>
         <argument key="monolog.handler.console" type="collection">
+          <argument>reset</argument>
+        </argument>
+        <argument key="Jose\Bundle\JoseFramework\DataCollector\JoseCollector" type="collection">
+          <argument>reset</argument>
+        </argument>
+        <argument key="debug.security.event_dispatcher.api_login" type="collection">
           <argument>reset</argument>
         </argument>
         <argument key="debug.security.event_dispatcher.main" type="collection">
@@ -1013,7 +1050,7 @@
     <service id="console.command.event_dispatcher_debug" class="Symfony\Bundle\FrameworkBundle\Command\EventDispatcherDebugCommand">
       <tag name="console.command"/>
       <tag name="container.no_preload"/>
-      <argument type="service" id=".service_locator.YbySDCA"/>
+      <argument type="service" id=".service_locator.ubTFIF."/>
       <call method="setName">
         <argument>debug:event-dispatcher</argument>
       </call>
@@ -1928,6 +1965,11 @@
       </call>
       <factory class="Symfony\Component\HttpClient\HttpClient" method="create"/>
     </service>
+    <service id="psr18.http_client" class="Symfony\Component\HttpClient\Psr18Client">
+      <argument type="service" id=".debug.http_client"/>
+      <argument>null</argument>
+      <argument>null</argument>
+    </service>
     <service id="http_client.abstract_retry_strategy" class="Symfony\Component\HttpClient\Retry\GenericRetryStrategy" abstract="true">
       <argument type="abstract">http codes</argument>
       <argument type="abstract">delay ms</argument>
@@ -2385,6 +2427,7 @@
           <argument>C:\Users\user\OneDrive\Desktop\finalproject\finalyearproject\backend\vendor\symfony\security-bundle/translations</argument>
           <argument>C:\Users\user\OneDrive\Desktop\finalproject\finalyearproject\backend\vendor\symfony\monolog-bundle/translations</argument>
           <argument>C:\Users\user\OneDrive\Desktop\finalproject\finalyearproject\backend\vendor\symfony\maker-bundle\src/translations</argument>
+          <argument>C:\Users\user\OneDrive\Desktop\finalproject\finalyearproject\backend\vendor\web-token\jwt-framework\src\Bundle/translations</argument>
         </argument>
         <argument key="cache_vary" type="collection">
           <argument key="scanned_directories" type="collection">
@@ -2404,6 +2447,7 @@
             <argument>C:\Users\user\OneDrive\Desktop\finalproject\finalyearproject\backend\vendor\symfony\security-bundle/translations</argument>
             <argument>C:\Users\user\OneDrive\Desktop\finalproject\finalyearproject\backend\vendor\symfony\monolog-bundle/translations</argument>
             <argument>C:\Users\user\OneDrive\Desktop\finalproject\finalyearproject\backend\vendor\symfony\maker-bundle\src/translations</argument>
+            <argument>C:\Users\user\OneDrive\Desktop\finalproject\finalyearproject\backend\vendor\web-token\jwt-framework\src\Bundle/translations</argument>
           </argument>
         </argument>
       </argument>
@@ -3290,6 +3334,102 @@
         <argument>0</argument>
       </call>
       <call method="addListener">
+        <argument>Jose\Bundle\JoseFramework\Event\HeaderCheckedSuccessEvent</argument>
+        <argument type="collection">
+          <argument type="service_closure" id="Jose\Bundle\JoseFramework\DataCollector\CheckerCollector"/>
+          <argument>catchHeaderCheckSuccess</argument>
+        </argument>
+        <argument>0</argument>
+      </call>
+      <call method="addListener">
+        <argument>Jose\Bundle\JoseFramework\Event\HeaderCheckedFailureEvent</argument>
+        <argument type="collection">
+          <argument type="service_closure" id="Jose\Bundle\JoseFramework\DataCollector\CheckerCollector"/>
+          <argument>catchHeaderCheckFailure</argument>
+        </argument>
+        <argument>0</argument>
+      </call>
+      <call method="addListener">
+        <argument>Jose\Bundle\JoseFramework\Event\ClaimCheckedSuccessEvent</argument>
+        <argument type="collection">
+          <argument type="service_closure" id="Jose\Bundle\JoseFramework\DataCollector\CheckerCollector"/>
+          <argument>catchClaimCheckSuccess</argument>
+        </argument>
+        <argument>0</argument>
+      </call>
+      <call method="addListener">
+        <argument>Jose\Bundle\JoseFramework\Event\ClaimCheckedFailureEvent</argument>
+        <argument type="collection">
+          <argument type="service_closure" id="Jose\Bundle\JoseFramework\DataCollector\CheckerCollector"/>
+          <argument>catchClaimCheckFailure</argument>
+        </argument>
+        <argument>0</argument>
+      </call>
+      <call method="addListener">
+        <argument>Jose\Bundle\JoseFramework\Event\JWEDecryptionSuccessEvent</argument>
+        <argument type="collection">
+          <argument type="service_closure" id="Jose\Bundle\JoseFramework\DataCollector\JWECollector"/>
+          <argument>catchJweDecryptionSuccess</argument>
+        </argument>
+        <argument>0</argument>
+      </call>
+      <call method="addListener">
+        <argument>Jose\Bundle\JoseFramework\Event\JWEDecryptionFailureEvent</argument>
+        <argument type="collection">
+          <argument type="service_closure" id="Jose\Bundle\JoseFramework\DataCollector\JWECollector"/>
+          <argument>catchJweDecryptionFailure</argument>
+        </argument>
+        <argument>0</argument>
+      </call>
+      <call method="addListener">
+        <argument>Jose\Bundle\JoseFramework\Event\JWEBuiltSuccessEvent</argument>
+        <argument type="collection">
+          <argument type="service_closure" id="Jose\Bundle\JoseFramework\DataCollector\JWECollector"/>
+          <argument>catchJweBuiltSuccess</argument>
+        </argument>
+        <argument>0</argument>
+      </call>
+      <call method="addListener">
+        <argument>Jose\Bundle\JoseFramework\Event\JWEBuiltFailureEvent</argument>
+        <argument type="collection">
+          <argument type="service_closure" id="Jose\Bundle\JoseFramework\DataCollector\JWECollector"/>
+          <argument>catchJweBuiltFailure</argument>
+        </argument>
+        <argument>0</argument>
+      </call>
+      <call method="addListener">
+        <argument>Jose\Bundle\JoseFramework\Event\JWSVerificationSuccessEvent</argument>
+        <argument type="collection">
+          <argument type="service_closure" id="Jose\Bundle\JoseFramework\DataCollector\JWSCollector"/>
+          <argument>catchJwsVerificationSuccess</argument>
+        </argument>
+        <argument>0</argument>
+      </call>
+      <call method="addListener">
+        <argument>Jose\Bundle\JoseFramework\Event\JWSVerificationFailureEvent</argument>
+        <argument type="collection">
+          <argument type="service_closure" id="Jose\Bundle\JoseFramework\DataCollector\JWSCollector"/>
+          <argument>catchJwsVerificationFailure</argument>
+        </argument>
+        <argument>0</argument>
+      </call>
+      <call method="addListener">
+        <argument>Jose\Bundle\JoseFramework\Event\JWSBuiltSuccessEvent</argument>
+        <argument type="collection">
+          <argument type="service_closure" id="Jose\Bundle\JoseFramework\DataCollector\JWSCollector"/>
+          <argument>catchJwsBuiltSuccess</argument>
+        </argument>
+        <argument>0</argument>
+      </call>
+      <call method="addListener">
+        <argument>Jose\Bundle\JoseFramework\Event\JWSBuiltFailureEvent</argument>
+        <argument type="collection">
+          <argument type="service_closure" id="Jose\Bundle\JoseFramework\DataCollector\JWSCollector"/>
+          <argument>catchJwsBuiltFailure</argument>
+        </argument>
+        <argument>0</argument>
+      </call>
+      <call method="addListener">
         <argument>Symfony\Component\Security\Http\Event\CheckPassportEvent</argument>
         <argument type="collection">
           <argument type="service_closure" id="security.listener.csrf_protection"/>
@@ -3355,6 +3495,9 @@
       </call>
       <call method="addLoader">
         <argument type="service" id="routing.loader.container"/>
+      </call>
+      <call method="addLoader">
+        <argument type="service" id="Jose\Bundle\JoseFramework\Routing\JWKSetLoader"/>
       </call>
       <call method="addLoader">
         <argument type="service" id="routing.loader.attribute"/>
@@ -4634,6 +4777,9 @@
         <argument type="service" id="serializer.data_collector"/>
       </call>
       <call method="add">
+        <argument type="service" id="Jose\Bundle\JoseFramework\DataCollector\JoseCollector"/>
+      </call>
+      <call method="add">
         <argument type="service" id="data_collector.config"/>
       </call>
     </service>
@@ -5874,6 +6020,14 @@
         <argument>!Security</argument>
       </call>
       <call method="addPath">
+        <argument>C:\Users\user\OneDrive\Desktop\finalproject\finalyearproject\backend\vendor\web-token\jwt-framework\src\Bundle/Resources/views</argument>
+        <argument>JoseFramework</argument>
+      </call>
+      <call method="addPath">
+        <argument>C:\Users\user\OneDrive\Desktop\finalproject\finalyearproject\backend\vendor\web-token\jwt-framework\src\Bundle/Resources/views</argument>
+        <argument>!JoseFramework</argument>
+      </call>
+      <call method="addPath">
         <argument>C:\Users\user\OneDrive\Desktop\finalproject\finalyearproject\backend/templates</argument>
       </call>
       <call method="addPath">
@@ -6180,6 +6334,7 @@
       <argument type="service" id=".service_locator.m.2ZvIK"/>
       <argument type="collection">
         <argument key="dev">null</argument>
+        <argument key="api_login" type="service" id=".service_locator.b.oTl7U"/>
         <argument key="main">null</argument>
       </argument>
     </service>
@@ -6229,9 +6384,10 @@
       <argument type="service" id="security.token_storage"/>
     </service>
     <service id="security.firewall.map" class="Symfony\Bundle\SecurityBundle\Security\FirewallMap">
-      <argument type="service" id=".service_locator.bsoXAxw"/>
+      <argument type="service" id=".service_locator.oibJEp9"/>
       <argument type="iterator">
         <argument key="security.firewall.map.context.dev" type="service" id=".security.request_matcher.gOpgIHx"/>
+        <argument key="security.firewall.map.context.api_login" type="service" id=".security.request_matcher._7JLSkp"/>
         <argument key="security.firewall.map.context.main">null</argument>
       </argument>
     </service>
@@ -6267,10 +6423,18 @@
       <argument type="service" id="request_stack" on-invalid="null"/>
       <argument type="service" id="router.default" on-invalid="null"/>
       <argument type="service" id="security.token_storage" on-invalid="null"/>
+      <call method="registerListener">
+        <argument>api_login</argument>
+        <argument>/api/logout</argument>
+        <argument>logout</argument>
+        <argument>_csrf_token</argument>
+        <argument>null</argument>
+        <argument>null</argument>
+      </call>
     </service>
     <service id="security.route_loader.logout" class="Symfony\Bundle\SecurityBundle\Routing\LogoutRouteLoader">
       <tag name="routing.route_loader"/>
-      <argument type="collection"/>
+      <argument>%security.logout_uris%</argument>
       <argument>security.logout_uris</argument>
     </service>
     <service id="security.user.provider.missing" class="Symfony\Component\Security\Core\User\MissingUserProvider" abstract="true">
@@ -6373,12 +6537,28 @@
         </service>
       </argument>
     </service>
-    <service id="security.access_map" class="Symfony\Component\Security\Http\AccessMap"/>
+    <service id="security.access_map" class="Symfony\Component\Security\Http\AccessMap">
+      <call method="add">
+        <argument type="service" id=".security.request_matcher.S.FPR_b"/>
+        <argument type="collection">
+          <argument>IS_AUTHENTICATED_ANONYMOUSLY</argument>
+        </argument>
+        <argument>null</argument>
+      </call>
+      <call method="add">
+        <argument type="service" id=".security.request_matcher.NbfjTYA"/>
+        <argument type="collection">
+          <argument>IS_AUTHENTICATED_ANONYMOUSLY</argument>
+        </argument>
+        <argument>null</argument>
+      </call>
+    </service>
     <service id="security.context_listener" class="Symfony\Component\Security\Http\Firewall\ContextListener">
       <tag name="monolog.logger" channel="security"/>
       <argument type="service" id="security.untracked_token_storage"/>
       <argument type="iterator">
         <argument type="service" id="security.user.provider.concrete.users_in_memory"/>
+        <argument type="service" id="security.user.provider.concrete.app_user_provider"/>
       </argument>
       <argument type="abstract">Provider Key</argument>
       <argument type="service" id="monolog.logger.security" on-invalid="null"/>
@@ -6471,6 +6651,7 @@
     </service>
     <service id="security.firewall.event_dispatcher_locator" class="Symfony\Component\DependencyInjection\ServiceLocator">
       <argument type="collection">
+        <argument key="api_login" type="service_closure" id="debug.security.event_dispatcher.api_login"/>
         <argument key="main" type="service_closure" id="debug.security.event_dispatcher.main"/>
       </argument>
     </service>
@@ -6487,6 +6668,7 @@
     </service>
     <service id="security.authenticator.managers_locator" class="Symfony\Component\DependencyInjection\ServiceLocator">
       <argument type="collection">
+        <argument key="api_login" type="service_closure" id="security.authenticator.manager.api_login"/>
         <argument key="main" type="service_closure" id="security.authenticator.manager.main"/>
       </argument>
     </service>
@@ -6504,7 +6686,7 @@
     </service>
     <service id="security.listener.user_provider" class="Symfony\Component\Security\Http\EventListener\UserProviderListener">
       <tag name="kernel.event_listener" event="Symfony\Component\Security\Http\Event\CheckPassportEvent" priority="1024" method="checkPassport"/>
-      <argument type="service" id="security.user.provider.concrete.users_in_memory"/>
+      <argument type="service" id="security.user_providers"/>
     </service>
     <service id="security.listener.user_provider.abstract" class="Symfony\Component\Security\Http\EventListener\UserProviderListener" abstract="true">
       <argument type="abstract">user provider</argument>
@@ -6678,9 +6860,12 @@
       <tag name="console.command" command="debug:firewall"/>
       <tag name="container.no_preload"/>
       <argument>%security.firewalls%</argument>
-      <argument type="service" id=".service_locator.bsoXAxw"/>
-      <argument type="service" id=".service_locator.YbySDCA"/>
+      <argument type="service" id=".service_locator.oibJEp9"/>
+      <argument type="service" id=".service_locator.ubTFIF."/>
       <argument type="collection">
+        <argument key="api_login" type="collection">
+          <argument type="service" id="App\Security\TeacherAuthenticator"/>
+        </argument>
         <argument key="main" type="collection"/>
       </argument>
       <argument>false</argument>
@@ -6693,6 +6878,18 @@
     </service>
     <service id="security.user.provider.concrete.users_in_memory" class="Symfony\Component\Security\Core\User\InMemoryUserProvider">
       <argument type="collection"/>
+    </service>
+    <service id="security.user.provider.concrete.app_user_provider" class="Symfony\Bridge\Doctrine\Security\User\EntityUserProvider">
+      <argument type="service" id="doctrine"/>
+      <argument>App\Entity\Teacher</argument>
+      <argument>email</argument>
+      <argument>null</argument>
+    </service>
+    <service id="security.user_providers" class="Symfony\Component\Security\Core\User\ChainUserProvider">
+      <argument type="iterator">
+        <argument type="service" id="security.user.provider.concrete.users_in_memory"/>
+        <argument type="service" id="security.user.provider.concrete.app_user_provider"/>
+      </argument>
     </service>
     <service id="security.firewall.map.config.dev" class="Symfony\Bundle\SecurityBundle\Security\FirewallConfig">
       <argument>dev</argument>
@@ -6723,6 +6920,111 @@
       <argument>null</argument>
       <argument type="service" id="security.firewall.map.config.dev"/>
     </service>
+    <service id="security.firewall.map.config.api_login" class="Symfony\Bundle\SecurityBundle\Security\FirewallConfig">
+      <argument>api_login</argument>
+      <argument>security.user_checker</argument>
+      <argument>.security.request_matcher._7JLSkp</argument>
+      <argument>true</argument>
+      <argument>true</argument>
+      <argument>security.user.provider.concrete.app_user_provider</argument>
+      <argument>null</argument>
+      <argument>null</argument>
+      <argument>null</argument>
+      <argument>null</argument>
+      <argument type="collection">
+        <argument>App\Security\TeacherAuthenticator</argument>
+      </argument>
+      <argument>null</argument>
+      <argument type="collection">
+        <argument key="path">/api/logout</argument>
+        <argument key="invalidate_session">false</argument>
+        <argument key="enable_csrf">null</argument>
+        <argument key="csrf_token_id">logout</argument>
+        <argument key="csrf_parameter">_csrf_token</argument>
+        <argument key="target">/</argument>
+        <argument key="clear_site_data" type="collection"/>
+        <argument key="delete_cookies" type="collection"/>
+      </argument>
+    </service>
+    <service id=".security.request_matcher..tvo6Vp" class="Symfony\Component\HttpFoundation\RequestMatcher\PathRequestMatcher">
+      <argument>^/api/login</argument>
+    </service>
+    <service id=".security.request_matcher._7JLSkp" class="Symfony\Component\HttpFoundation\ChainRequestMatcher">
+      <argument type="collection">
+        <argument type="service" id=".security.request_matcher..tvo6Vp"/>
+      </argument>
+    </service>
+    <service id="security.listener.api_login.user_provider" class="Symfony\Component\Security\Http\EventListener\UserProviderListener">
+      <tag name="kernel.event_listener" dispatcher="debug.security.event_dispatcher.api_login" event="Symfony\Component\Security\Http\Event\CheckPassportEvent" priority="2048" method="checkPassport"/>
+      <argument type="service" id="security.user.provider.concrete.app_user_provider"/>
+    </service>
+    <service id="security.user_checker.chain.api_login" class="Symfony\Component\Security\Core\User\ChainUserChecker">
+      <argument type="tagged_iterator" tag="security.user_checker.api_login"/>
+    </service>
+    <service id="security.logout_listener.api_login" class="Symfony\Component\Security\Http\Firewall\LogoutListener">
+      <argument type="service" id="security.token_storage"/>
+      <argument type="service" id="security.http_utils"/>
+      <argument type="service" id="debug.security.event_dispatcher.api_login"/>
+      <argument type="collection">
+        <argument key="csrf_parameter">_csrf_token</argument>
+        <argument key="csrf_token_id">logout</argument>
+        <argument key="logout_path">/api/logout</argument>
+      </argument>
+    </service>
+    <service id="security.logout.listener.default.api_login" class="Symfony\Component\Security\Http\EventListener\DefaultLogoutListener">
+      <tag name="kernel.event_subscriber" dispatcher="debug.security.event_dispatcher.api_login"/>
+      <argument type="service" id="security.http_utils"/>
+      <argument>/</argument>
+    </service>
+    <service id="security.authenticator.manager.api_login" class="Symfony\Component\Security\Http\Authentication\AuthenticatorManager">
+      <tag name="monolog.logger" channel="security"/>
+      <argument type="collection">
+        <argument type="service" id="App\Security\TeacherAuthenticator"/>
+      </argument>
+      <argument type="service" id="security.token_storage"/>
+      <argument type="service" id="debug.security.event_dispatcher.api_login"/>
+      <argument>api_login</argument>
+      <argument type="service" id="monolog.logger.security" on-invalid="null"/>
+      <argument>true</argument>
+      <argument>true</argument>
+      <argument type="collection"/>
+    </service>
+    <service id="debug.security.firewall.authenticator.api_login" class="Symfony\Component\Security\Http\Authenticator\Debug\TraceableAuthenticatorManagerListener">
+      <tag name="kernel.reset" method="reset"/>
+      <tag name="container.decorator" id="security.firewall.authenticator.api_login" inner="debug.security.firewall.authenticator.api_login.inner"/>
+      <argument type="service" id="debug.security.firewall.authenticator.api_login.inner"/>
+    </service>
+    <service id="security.listener.user_checker.api_login" class="Symfony\Component\Security\Http\EventListener\UserCheckerListener">
+      <tag name="kernel.event_subscriber" dispatcher="debug.security.event_dispatcher.api_login"/>
+      <argument type="service" id="security.user_checker"/>
+    </service>
+    <service id="security.exception_listener.api_login" class="Symfony\Component\Security\Http\Firewall\ExceptionListener">
+      <argument type="service" id="security.token_storage"/>
+      <argument type="service" id="security.authentication.trust_resolver"/>
+      <argument type="service" id="security.http_utils"/>
+      <argument>api_login</argument>
+      <argument>null</argument>
+      <argument>null</argument>
+      <argument>null</argument>
+      <argument type="service" id="monolog.logger.security" on-invalid="null"/>
+      <argument>true</argument>
+    </service>
+    <service id=".service_locator.b.oTl7U" class="Symfony\Component\DependencyInjection\ServiceLocator">
+      <tag name="container.service_locator"/>
+      <argument type="collection">
+        <argument key="App\Security\TeacherAuthenticator" type="service_closure" id="App\Security\TeacherAuthenticator"/>
+      </argument>
+    </service>
+    <service id="security.firewall.map.context.api_login" class="Symfony\Bundle\SecurityBundle\Security\FirewallContext">
+      <argument type="iterator">
+        <argument type="service" id="security.channel_listener"/>
+        <argument type="service" id="debug.security.firewall.authenticator.api_login"/>
+        <argument type="service" id="security.access_listener"/>
+      </argument>
+      <argument type="service" id="security.exception_listener.api_login"/>
+      <argument type="service" id="security.logout_listener.api_login"/>
+      <argument type="service" id="security.firewall.map.config.api_login"/>
+    </service>
     <service id="security.firewall.map.config.main" class="Symfony\Bundle\SecurityBundle\Security\FirewallConfig">
       <argument>main</argument>
       <argument>security.user_checker</argument>
@@ -6751,6 +7053,7 @@
       <argument type="service" id="security.untracked_token_storage"/>
       <argument type="iterator">
         <argument type="service" id="security.user.provider.concrete.users_in_memory"/>
+        <argument type="service" id="security.user.provider.concrete.app_user_provider"/>
       </argument>
       <argument>main</argument>
       <argument type="service" id="monolog.logger.security" on-invalid="null"/>
@@ -6808,11 +7111,25 @@
       <argument type="service" id="security.firewall.map.config.main"/>
       <argument type="service" id="security.untracked_token_storage"/>
     </service>
-    <service id=".service_locator.bsoXAxw" class="Symfony\Component\DependencyInjection\ServiceLocator">
+    <service id=".service_locator.oibJEp9" class="Symfony\Component\DependencyInjection\ServiceLocator">
       <tag name="container.service_locator"/>
       <argument type="collection">
+        <argument key="security.firewall.map.context.api_login" type="service_closure" id="security.firewall.map.context.api_login"/>
         <argument key="security.firewall.map.context.dev" type="service_closure" id="security.firewall.map.context.dev"/>
         <argument key="security.firewall.map.context.main" type="service_closure" id="security.firewall.map.context.main"/>
+      </argument>
+    </service>
+    <service id=".security.request_matcher.S.FPR_b" class="Symfony\Component\HttpFoundation\ChainRequestMatcher">
+      <argument type="collection">
+        <argument type="service" id=".security.request_matcher..tvo6Vp"/>
+      </argument>
+    </service>
+    <service id=".security.request_matcher.FMnJHKr" class="Symfony\Component\HttpFoundation\RequestMatcher\PathRequestMatcher">
+      <argument>^/api/logout</argument>
+    </service>
+    <service id=".security.request_matcher.NbfjTYA" class="Symfony\Component\HttpFoundation\ChainRequestMatcher">
+      <argument type="collection">
+        <argument type="service" id=".security.request_matcher.FMnJHKr"/>
       </argument>
     </service>
     <service id="security.command.user_password_hash" class="Symfony\Component\PasswordHasher\Command\UserPasswordHashCommand">
@@ -7083,6 +7400,826 @@
       <argument type="service" id="maker.file_manager"/>
       <argument type="service" id="maker.generator"/>
     </service>
+    <service id="Jose\Component\Core\AlgorithmManagerFactory" class="Jose\Component\Core\AlgorithmManagerFactory" public="true" autowire="true" autoconfigure="true">
+      <call method="add">
+        <argument>ES256</argument>
+        <argument type="service" id="Jose\Component\Signature\Algorithm\ES256"/>
+      </call>
+      <call method="add">
+        <argument>ES384</argument>
+        <argument type="service" id="Jose\Component\Signature\Algorithm\ES384"/>
+      </call>
+      <call method="add">
+        <argument>ES512</argument>
+        <argument type="service" id="Jose\Component\Signature\Algorithm\ES512"/>
+      </call>
+      <call method="add">
+        <argument>HS256</argument>
+        <argument type="service" id="Jose\Component\Signature\Algorithm\HS256"/>
+      </call>
+      <call method="add">
+        <argument>HS384</argument>
+        <argument type="service" id="Jose\Component\Signature\Algorithm\HS384"/>
+      </call>
+      <call method="add">
+        <argument>HS512</argument>
+        <argument type="service" id="Jose\Component\Signature\Algorithm\HS512"/>
+      </call>
+      <call method="add">
+        <argument>none</argument>
+        <argument type="service" id="Jose\Component\Signature\Algorithm\None"/>
+      </call>
+      <call method="add">
+        <argument>RS256</argument>
+        <argument type="service" id="Jose\Component\Signature\Algorithm\RS256"/>
+      </call>
+      <call method="add">
+        <argument>RS384</argument>
+        <argument type="service" id="Jose\Component\Signature\Algorithm\RS384"/>
+      </call>
+      <call method="add">
+        <argument>RS512</argument>
+        <argument type="service" id="Jose\Component\Signature\Algorithm\RS512"/>
+      </call>
+      <call method="add">
+        <argument>PS256</argument>
+        <argument type="service" id="Jose\Component\Signature\Algorithm\PS256"/>
+      </call>
+      <call method="add">
+        <argument>PS384</argument>
+        <argument type="service" id="Jose\Component\Signature\Algorithm\PS384"/>
+      </call>
+      <call method="add">
+        <argument>PS512</argument>
+        <argument type="service" id="Jose\Component\Signature\Algorithm\PS512"/>
+      </call>
+      <call method="add">
+        <argument>EdDSA</argument>
+        <argument type="service" id="Jose\Component\Signature\Algorithm\EdDSA"/>
+      </call>
+      <call method="add">
+        <argument>A128CBC-HS256</argument>
+        <argument type="service" id="Jose\Component\Encryption\Algorithm\ContentEncryption\A128CBCHS256"/>
+      </call>
+      <call method="add">
+        <argument>A192CBC-HS384</argument>
+        <argument type="service" id="Jose\Component\Encryption\Algorithm\ContentEncryption\A192CBCHS384"/>
+      </call>
+      <call method="add">
+        <argument>A256CBC-HS512</argument>
+        <argument type="service" id="Jose\Component\Encryption\Algorithm\ContentEncryption\A256CBCHS512"/>
+      </call>
+      <call method="add">
+        <argument>A128GCM</argument>
+        <argument type="service" id="Jose\Component\Encryption\Algorithm\ContentEncryption\A128GCM"/>
+      </call>
+      <call method="add">
+        <argument>A192GCM</argument>
+        <argument type="service" id="Jose\Component\Encryption\Algorithm\ContentEncryption\A192GCM"/>
+      </call>
+      <call method="add">
+        <argument>A256GCM</argument>
+        <argument type="service" id="Jose\Component\Encryption\Algorithm\ContentEncryption\A256GCM"/>
+      </call>
+      <call method="add">
+        <argument>A128GCMKW</argument>
+        <argument type="service" id="Jose\Component\Encryption\Algorithm\KeyEncryption\A128GCMKW"/>
+      </call>
+      <call method="add">
+        <argument>A192GCMKW</argument>
+        <argument type="service" id="Jose\Component\Encryption\Algorithm\KeyEncryption\A192GCMKW"/>
+      </call>
+      <call method="add">
+        <argument>A256GCMKW</argument>
+        <argument type="service" id="Jose\Component\Encryption\Algorithm\KeyEncryption\A256GCMKW"/>
+      </call>
+      <call method="add">
+        <argument>A128KW</argument>
+        <argument type="service" id="Jose\Component\Encryption\Algorithm\KeyEncryption\A128KW"/>
+      </call>
+      <call method="add">
+        <argument>A192KW</argument>
+        <argument type="service" id="Jose\Component\Encryption\Algorithm\KeyEncryption\A192KW"/>
+      </call>
+      <call method="add">
+        <argument>A256KW</argument>
+        <argument type="service" id="Jose\Component\Encryption\Algorithm\KeyEncryption\A256KW"/>
+      </call>
+      <call method="add">
+        <argument>dir</argument>
+        <argument type="service" id="Jose\Component\Encryption\Algorithm\KeyEncryption\Dir"/>
+      </call>
+      <call method="add">
+        <argument>ECDH-ES</argument>
+        <argument type="service" id="Jose\Component\Encryption\Algorithm\KeyEncryption\ECDHES"/>
+      </call>
+      <call method="add">
+        <argument>ECDH-SS</argument>
+        <argument type="service" id="Jose\Component\Encryption\Algorithm\KeyEncryption\ECDHSS"/>
+      </call>
+      <call method="add">
+        <argument>ECDH-ES+A128KW</argument>
+        <argument type="service" id="Jose\Component\Encryption\Algorithm\KeyEncryption\ECDHESA128KW"/>
+      </call>
+      <call method="add">
+        <argument>ECDH-ES+A192KW</argument>
+        <argument type="service" id="Jose\Component\Encryption\Algorithm\KeyEncryption\ECDHESA192KW"/>
+      </call>
+      <call method="add">
+        <argument>ECDH-ES+A256KW</argument>
+        <argument type="service" id="Jose\Component\Encryption\Algorithm\KeyEncryption\ECDHESA256KW"/>
+      </call>
+      <call method="add">
+        <argument>ECDH-SS+A128KW</argument>
+        <argument type="service" id="Jose\Component\Encryption\Algorithm\KeyEncryption\ECDHSSA128KW"/>
+      </call>
+      <call method="add">
+        <argument>ECDH-SS+A192KW</argument>
+        <argument type="service" id="Jose\Component\Encryption\Algorithm\KeyEncryption\ECDHSSA192KW"/>
+      </call>
+      <call method="add">
+        <argument>ECDH-SS+A256KW</argument>
+        <argument type="service" id="Jose\Component\Encryption\Algorithm\KeyEncryption\ECDHSSA256KW"/>
+      </call>
+      <call method="add">
+        <argument>PBES2-HS256+A128KW</argument>
+        <argument type="service" id="Jose\Component\Encryption\Algorithm\KeyEncryption\PBES2HS256A128KW"/>
+      </call>
+      <call method="add">
+        <argument>PBES2-HS384+A192KW</argument>
+        <argument type="service" id="Jose\Component\Encryption\Algorithm\KeyEncryption\PBES2HS384A192KW"/>
+      </call>
+      <call method="add">
+        <argument>PBES2-HS512+A256KW</argument>
+        <argument type="service" id="Jose\Component\Encryption\Algorithm\KeyEncryption\PBES2HS512A256KW"/>
+      </call>
+      <call method="add">
+        <argument>RSA1_5</argument>
+        <argument type="service" id="Jose\Component\Encryption\Algorithm\KeyEncryption\RSA15"/>
+      </call>
+      <call method="add">
+        <argument>RSA-OAEP</argument>
+        <argument type="service" id="Jose\Component\Encryption\Algorithm\KeyEncryption\RSAOAEP"/>
+      </call>
+      <call method="add">
+        <argument>RSA-OAEP-256</argument>
+        <argument type="service" id="Jose\Component\Encryption\Algorithm\KeyEncryption\RSAOAEP256"/>
+      </call>
+    </service>
+    <service id="Jose\Bundle\JoseFramework\EnvVarProcessor\KeyEnvVarProcessor" class="Jose\Bundle\JoseFramework\EnvVarProcessor\KeyEnvVarProcessor" autowire="true" autoconfigure="true">
+      <tag name="container.env_var_processor"/>
+    </service>
+    <service id="Jose\Bundle\JoseFramework\DataCollector\JoseCollector" class="Jose\Bundle\JoseFramework\DataCollector\JoseCollector" autowire="true" autoconfigure="true">
+      <tag name="data_collector" id="jose_collector" template="@JoseFramework/data_collector/template.html.twig"/>
+      <tag name="data_collector"/>
+      <tag name="kernel.reset" method="reset"/>
+      <call method="add">
+        <argument type="service" id="Jose\Bundle\JoseFramework\DataCollector\AlgorithmCollector"/>
+      </call>
+      <call method="add">
+        <argument type="service" id="Jose\Bundle\JoseFramework\DataCollector\CheckerCollector"/>
+      </call>
+      <call method="add">
+        <argument type="service" id="Jose\Bundle\JoseFramework\DataCollector\JWECollector"/>
+      </call>
+      <call method="add">
+        <argument type="service" id="Jose\Bundle\JoseFramework\DataCollector\JWSCollector"/>
+      </call>
+      <call method="add">
+        <argument type="service" id="Jose\Bundle\JoseFramework\DataCollector\KeyCollector"/>
+      </call>
+    </service>
+    <service id="Jose\Bundle\JoseFramework\DataCollector\AlgorithmCollector" class="Jose\Bundle\JoseFramework\DataCollector\AlgorithmCollector" autowire="true" autoconfigure="true">
+      <tag name="jose.data_collector"/>
+      <argument type="service" id="Jose\Component\Core\AlgorithmManagerFactory"/>
+    </service>
+    <service id="Jose\Bundle\JoseFramework\DataCollector\CheckerCollector" class="Jose\Bundle\JoseFramework\DataCollector\CheckerCollector" autowire="true" autoconfigure="true">
+      <tag name="jose.data_collector"/>
+      <tag name="kernel.event_subscriber"/>
+      <argument type="service" id="Jose\Bundle\JoseFramework\Services\ClaimCheckerManagerFactory"/>
+      <argument type="service" id="Jose\Bundle\JoseFramework\Services\HeaderCheckerManagerFactory"/>
+    </service>
+    <service id="Jose\Bundle\JoseFramework\DataCollector\JWECollector" class="Jose\Bundle\JoseFramework\DataCollector\JWECollector" autowire="true" autoconfigure="true">
+      <tag name="jose.data_collector"/>
+      <tag name="kernel.event_subscriber"/>
+      <argument type="service" id="Jose\Component\Encryption\Compression\CompressionMethodManagerFactory"/>
+      <argument type="service" id="Jose\Component\Encryption\Serializer\JWESerializerManagerFactory"/>
+    </service>
+    <service id="Jose\Bundle\JoseFramework\DataCollector\JWSCollector" class="Jose\Bundle\JoseFramework\DataCollector\JWSCollector" autowire="true" autoconfigure="true">
+      <tag name="jose.data_collector"/>
+      <tag name="kernel.event_subscriber"/>
+      <argument type="service" id="Jose\Component\Signature\Serializer\JWSSerializerManagerFactory"/>
+    </service>
+    <service id="Jose\Bundle\JoseFramework\DataCollector\KeyCollector" class="Jose\Bundle\JoseFramework\DataCollector\KeyCollector" autowire="true" autoconfigure="true">
+      <tag name="jose.data_collector"/>
+      <argument type="service" id="Jose\Component\KeyManagement\Analyzer\KeyAnalyzerManager"/>
+      <argument type="service" id="Jose\Component\KeyManagement\Analyzer\KeysetAnalyzerManager"/>
+    </service>
+    <service id="Jose\Bundle\JoseFramework\Services\HeaderCheckerManagerFactory" class="Jose\Bundle\JoseFramework\Services\HeaderCheckerManagerFactory" public="true" autowire="true" autoconfigure="true">
+      <argument type="service" id="debug.event_dispatcher"/>
+      <call method="add">
+        <argument>exp</argument>
+        <argument type="service" id="Jose\Component\Checker\ExpirationTimeChecker"/>
+      </call>
+      <call method="add">
+        <argument>iat</argument>
+        <argument type="service" id="Jose\Component\Checker\IssuedAtChecker"/>
+      </call>
+      <call method="add">
+        <argument>nbf</argument>
+        <argument type="service" id="Jose\Component\Checker\NotBeforeChecker"/>
+      </call>
+      <call method="addTokenTypeSupport">
+        <argument type="service" id="Jose\Component\Signature\JWSTokenSupport"/>
+      </call>
+      <call method="addTokenTypeSupport">
+        <argument type="service" id="Jose\Component\Encryption\JWETokenSupport"/>
+      </call>
+    </service>
+    <service id="Jose\Bundle\JoseFramework\Services\ClaimCheckerManagerFactory" class="Jose\Bundle\JoseFramework\Services\ClaimCheckerManagerFactory" public="true" autowire="true" autoconfigure="true">
+      <argument type="service" id="debug.event_dispatcher"/>
+      <call method="add">
+        <argument>exp</argument>
+        <argument type="service" id="Jose\Component\Checker\ExpirationTimeChecker"/>
+      </call>
+      <call method="add">
+        <argument>iat</argument>
+        <argument type="service" id="Jose\Component\Checker\IssuedAtChecker"/>
+      </call>
+      <call method="add">
+        <argument>nbf</argument>
+        <argument type="service" id="Jose\Component\Checker\NotBeforeChecker"/>
+      </call>
+    </service>
+    <service id="Jose\Component\Checker\ExpirationTimeChecker" class="Jose\Component\Checker\ExpirationTimeChecker" autowire="true" autoconfigure="true">
+      <tag name="jose.checker.claim" alias="exp"/>
+      <tag name="jose.checker.header" alias="exp"/>
+      <argument>0</argument>
+      <argument>false</argument>
+      <argument type="service" id="jose.internal_clock"/>
+    </service>
+    <service id="Jose\Component\Checker\IssuedAtChecker" class="Jose\Component\Checker\IssuedAtChecker" autowire="true" autoconfigure="true">
+      <tag name="jose.checker.claim" alias="iat"/>
+      <tag name="jose.checker.header" alias="iat"/>
+      <argument>0</argument>
+      <argument>false</argument>
+      <argument type="service" id="jose.internal_clock"/>
+    </service>
+    <service id="Jose\Component\Checker\NotBeforeChecker" class="Jose\Component\Checker\NotBeforeChecker" autowire="true" autoconfigure="true">
+      <tag name="jose.checker.claim" alias="nbf"/>
+      <tag name="jose.checker.header" alias="nbf"/>
+      <argument>0</argument>
+      <argument>false</argument>
+      <argument type="service" id="jose.internal_clock"/>
+    </service>
+    <service id="jose.internal_clock" class="Jose\Component\Checker\InternalClock" autowire="true" autoconfigure="true">
+      <deprecated package="web-token/jwt-bundle" version="3.2.0">The service "%service_id%" is an internal service that will be removed in 4.0.0. Please use a PSR-20 compatible service as clock.</deprecated>
+    </service>
+    <service id="Jose\Component\Console\AddKeyIntoKeysetCommand" class="Jose\Component\Console\AddKeyIntoKeysetCommand" autowire="true" autoconfigure="true">
+      <tag name="console.command"/>
+      <tag name="container.no_preload"/>
+      <call method="setName">
+        <argument>keyset:add:key</argument>
+      </call>
+      <call method="setDescription">
+        <argument>Add a key into a key set.</argument>
+      </call>
+    </service>
+    <service id="Jose\Component\Console\EcKeyGeneratorCommand" class="Jose\Component\Console\EcKeyGeneratorCommand" autowire="true" autoconfigure="true">
+      <tag name="console.command"/>
+      <tag name="container.no_preload"/>
+      <call method="setName">
+        <argument>key:generate:ec</argument>
+      </call>
+      <call method="setDescription">
+        <argument>Generate an EC key (JWK format)</argument>
+      </call>
+    </service>
+    <service id="Jose\Component\Console\EcKeysetGeneratorCommand" class="Jose\Component\Console\EcKeysetGeneratorCommand" autowire="true" autoconfigure="true">
+      <tag name="console.command"/>
+      <tag name="container.no_preload"/>
+      <call method="setName">
+        <argument>keyset:generate:ec</argument>
+      </call>
+      <call method="setDescription">
+        <argument>Generate an EC key set (JWKSet format)</argument>
+      </call>
+    </service>
+    <service id="Jose\Component\Console\GetThumbprintCommand" class="Jose\Component\Console\GetThumbprintCommand" autowire="true" autoconfigure="true">
+      <tag name="console.command"/>
+      <tag name="container.no_preload"/>
+      <call method="setName">
+        <argument>key:thumbprint</argument>
+      </call>
+      <call method="setDescription">
+        <argument>Get the thumbprint of a JWK key.</argument>
+      </call>
+    </service>
+    <service id="Jose\Component\Console\OptimizeRsaKeyCommand" class="Jose\Component\Console\OptimizeRsaKeyCommand" autowire="true" autoconfigure="true">
+      <tag name="console.command"/>
+      <tag name="container.no_preload"/>
+      <call method="setName">
+        <argument>key:optimize</argument>
+      </call>
+      <call method="setDescription">
+        <argument>Optimize a RSA key by calculating additional primes (CRT).</argument>
+      </call>
+    </service>
+    <service id="Jose\Component\Console\KeyAnalyzerCommand" class="Jose\Component\Console\KeyAnalyzerCommand" autowire="true" autoconfigure="true">
+      <tag name="console.command"/>
+      <tag name="container.no_preload"/>
+      <argument type="service" id="Jose\Component\KeyManagement\Analyzer\KeyAnalyzerManager"/>
+      <call method="setName">
+        <argument>key:analyze</argument>
+      </call>
+      <call method="setDescription">
+        <argument>JWK quality analyzer.</argument>
+      </call>
+    </service>
+    <service id="Jose\Component\Console\KeyFileLoaderCommand" class="Jose\Component\Console\KeyFileLoaderCommand" autowire="true" autoconfigure="true">
+      <tag name="console.command"/>
+      <tag name="container.no_preload"/>
+      <call method="setName">
+        <argument>key:load:key</argument>
+      </call>
+      <call method="setDescription">
+        <argument>Loads a key from a key file (JWK format)</argument>
+      </call>
+    </service>
+    <service id="Jose\Component\Console\KeysetAnalyzerCommand" class="Jose\Component\Console\KeysetAnalyzerCommand" autowire="true" autoconfigure="true">
+      <tag name="console.command"/>
+      <tag name="container.no_preload"/>
+      <argument type="service" id="Jose\Component\KeyManagement\Analyzer\KeysetAnalyzerManager"/>
+      <argument type="service" id="Jose\Component\KeyManagement\Analyzer\KeyAnalyzerManager"/>
+      <call method="setName">
+        <argument>keyset:analyze</argument>
+      </call>
+      <call method="setDescription">
+        <argument>JWKSet quality analyzer.</argument>
+      </call>
+    </service>
+    <service id="Jose\Component\Console\MergeKeysetCommand" class="Jose\Component\Console\MergeKeysetCommand" autowire="true" autoconfigure="true">
+      <tag name="console.command"/>
+      <tag name="container.no_preload"/>
+      <call method="setName">
+        <argument>keyset:merge</argument>
+      </call>
+      <call method="setDescription">
+        <argument>Merge several key sets into one.</argument>
+      </call>
+    </service>
+    <service id="Jose\Component\Console\NoneKeyGeneratorCommand" class="Jose\Component\Console\NoneKeyGeneratorCommand" autowire="true" autoconfigure="true">
+      <tag name="console.command"/>
+      <tag name="container.no_preload"/>
+      <call method="setName">
+        <argument>key:generate:none</argument>
+      </call>
+      <call method="setDescription">
+        <argument>Generate a none key (JWK format). This key type is only supposed to be used with the "none" algorithm.</argument>
+      </call>
+    </service>
+    <service id="Jose\Component\Console\OctKeyGeneratorCommand" class="Jose\Component\Console\OctKeyGeneratorCommand" autowire="true" autoconfigure="true">
+      <tag name="console.command"/>
+      <tag name="container.no_preload"/>
+      <call method="setName">
+        <argument>key:generate:oct</argument>
+      </call>
+      <call method="setDescription">
+        <argument>Generate an octet key (JWK format)</argument>
+      </call>
+    </service>
+    <service id="Jose\Component\Console\OctKeysetGeneratorCommand" class="Jose\Component\Console\OctKeysetGeneratorCommand" autowire="true" autoconfigure="true">
+      <tag name="console.command"/>
+      <tag name="container.no_preload"/>
+      <call method="setName">
+        <argument>keyset:generate:oct</argument>
+      </call>
+      <call method="setDescription">
+        <argument>Generate a key set with octet keys (JWK format)</argument>
+      </call>
+    </service>
+    <service id="Jose\Component\Console\OkpKeyGeneratorCommand" class="Jose\Component\Console\OkpKeyGeneratorCommand" autowire="true" autoconfigure="true">
+      <tag name="console.command"/>
+      <tag name="container.no_preload"/>
+      <call method="setName">
+        <argument>key:generate:okp</argument>
+      </call>
+      <call method="setDescription">
+        <argument>Generate an Octet Key Pair key (JWK format)</argument>
+      </call>
+    </service>
+    <service id="Jose\Component\Console\OkpKeysetGeneratorCommand" class="Jose\Component\Console\OkpKeysetGeneratorCommand" autowire="true" autoconfigure="true">
+      <tag name="console.command"/>
+      <tag name="container.no_preload"/>
+      <call method="setName">
+        <argument>keyset:generate:okp</argument>
+      </call>
+      <call method="setDescription">
+        <argument>Generate a key set with Octet Key Pairs keys (JWKSet format)</argument>
+      </call>
+    </service>
+    <service id="Jose\Component\Console\P12CertificateLoaderCommand" class="Jose\Component\Console\P12CertificateLoaderCommand" autowire="true" autoconfigure="true">
+      <tag name="console.command"/>
+      <tag name="container.no_preload"/>
+      <call method="setName">
+        <argument>key:load:p12</argument>
+      </call>
+      <call method="setDescription">
+        <argument>Load a key from a P12 certificate file.</argument>
+      </call>
+    </service>
+    <service id="Jose\Component\Console\PemConverterCommand" class="Jose\Component\Console\PemConverterCommand" autowire="true" autoconfigure="true">
+      <tag name="console.command"/>
+      <tag name="container.no_preload"/>
+      <call method="setName">
+        <argument>key:convert:pkcs1</argument>
+      </call>
+      <call method="setDescription">
+        <argument>Converts a RSA or EC key into PKCS#1 key.</argument>
+      </call>
+    </service>
+    <service id="Jose\Component\Console\PublicKeyCommand" class="Jose\Component\Console\PublicKeyCommand" autowire="true" autoconfigure="true">
+      <tag name="console.command"/>
+      <tag name="container.no_preload"/>
+      <call method="setName">
+        <argument>key:convert:public</argument>
+      </call>
+      <call method="setDescription">
+        <argument>Convert a private key into public key. Symmetric keys (shared keys) are not changed.</argument>
+      </call>
+    </service>
+    <service id="Jose\Component\Console\PublicKeysetCommand" class="Jose\Component\Console\PublicKeysetCommand" autowire="true" autoconfigure="true">
+      <tag name="console.command"/>
+      <tag name="container.no_preload"/>
+      <call method="setName">
+        <argument>keyset:convert:public</argument>
+      </call>
+      <call method="setDescription">
+        <argument>Convert private keys in a key set into public keys. Symmetric keys (shared keys) are not changed.</argument>
+      </call>
+    </service>
+    <service id="Jose\Component\Console\RotateKeysetCommand" class="Jose\Component\Console\RotateKeysetCommand" autowire="true" autoconfigure="true">
+      <tag name="console.command"/>
+      <tag name="container.no_preload"/>
+      <call method="setName">
+        <argument>keyset:rotate</argument>
+      </call>
+      <call method="setDescription">
+        <argument>Rotate a key set.</argument>
+      </call>
+    </service>
+    <service id="Jose\Component\Console\RsaKeyGeneratorCommand" class="Jose\Component\Console\RsaKeyGeneratorCommand" autowire="true" autoconfigure="true">
+      <tag name="console.command"/>
+      <tag name="container.no_preload"/>
+      <call method="setName">
+        <argument>key:generate:rsa</argument>
+      </call>
+      <call method="setDescription">
+        <argument>Generate a RSA key (JWK format)</argument>
+      </call>
+    </service>
+    <service id="Jose\Component\Console\RsaKeysetGeneratorCommand" class="Jose\Component\Console\RsaKeysetGeneratorCommand" autowire="true" autoconfigure="true">
+      <tag name="console.command"/>
+      <tag name="container.no_preload"/>
+      <call method="setName">
+        <argument>keyset:generate:rsa</argument>
+      </call>
+      <call method="setDescription">
+        <argument>Generate a key set with RSA keys (JWK format)</argument>
+      </call>
+    </service>
+    <service id="Jose\Component\Console\SecretKeyGeneratorCommand" class="Jose\Component\Console\SecretKeyGeneratorCommand" autowire="true" autoconfigure="true">
+      <tag name="console.command"/>
+      <tag name="container.no_preload"/>
+      <call method="setName">
+        <argument>key:generate:from_secret</argument>
+      </call>
+      <call method="setDescription">
+        <argument>Generate an octet key (JWK format) using an existing secret</argument>
+      </call>
+    </service>
+    <service id="Jose\Component\Console\X509CertificateLoaderCommand" class="Jose\Component\Console\X509CertificateLoaderCommand" autowire="true" autoconfigure="true">
+      <tag name="console.command"/>
+      <tag name="container.no_preload"/>
+      <call method="setName">
+        <argument>key:load:x509</argument>
+      </call>
+      <call method="setDescription">
+        <argument>Load a key from a X.509 certificate file.</argument>
+      </call>
+    </service>
+    <service id="Jose\Bundle\JoseFramework\Services\JWSBuilderFactory" class="Jose\Bundle\JoseFramework\Services\JWSBuilderFactory" public="true" autowire="true" autoconfigure="true">
+      <argument type="service" id="Jose\Component\Core\AlgorithmManagerFactory"/>
+      <argument type="service" id="debug.event_dispatcher"/>
+    </service>
+    <service id="Jose\Bundle\JoseFramework\Services\JWSVerifierFactory" class="Jose\Bundle\JoseFramework\Services\JWSVerifierFactory" public="true" autowire="true" autoconfigure="true">
+      <argument type="service" id="Jose\Component\Core\AlgorithmManagerFactory"/>
+      <argument type="service" id="debug.event_dispatcher"/>
+    </service>
+    <service id="Jose\Bundle\JoseFramework\Services\JWSLoaderFactory" class="Jose\Bundle\JoseFramework\Services\JWSLoaderFactory" public="true" autowire="true" autoconfigure="true">
+      <argument type="service" id="Jose\Component\Signature\Serializer\JWSSerializerManagerFactory"/>
+      <argument type="service" id="Jose\Bundle\JoseFramework\Services\JWSVerifierFactory"/>
+      <argument type="service" id="Jose\Bundle\JoseFramework\Services\HeaderCheckerManagerFactory"/>
+      <argument type="service" id="debug.event_dispatcher"/>
+    </service>
+    <service id="Jose\Component\Signature\JWSTokenSupport" class="Jose\Component\Signature\JWSTokenSupport" autowire="true" autoconfigure="true">
+      <tag name="jose.checker.token_type"/>
+    </service>
+    <service id="Jose\Component\Signature\Serializer\JWSSerializerManagerFactory" class="Jose\Component\Signature\Serializer\JWSSerializerManagerFactory" public="true" autowire="true" autoconfigure="true">
+      <call method="add">
+        <argument type="service" id="Jose\Component\Signature\Serializer\CompactSerializer"/>
+      </call>
+      <call method="add">
+        <argument type="service" id="Jose\Component\Signature\Serializer\JSONFlattenedSerializer"/>
+      </call>
+      <call method="add">
+        <argument type="service" id="Jose\Component\Signature\Serializer\JSONGeneralSerializer"/>
+      </call>
+    </service>
+    <service id="Jose\Component\Signature\Serializer\CompactSerializer" class="Jose\Component\Signature\Serializer\CompactSerializer" autowire="true" autoconfigure="true">
+      <tag name="jose.jws.serializer"/>
+    </service>
+    <service id="Jose\Component\Signature\Serializer\JSONFlattenedSerializer" class="Jose\Component\Signature\Serializer\JSONFlattenedSerializer" autowire="true" autoconfigure="true">
+      <tag name="jose.jws.serializer"/>
+    </service>
+    <service id="Jose\Component\Signature\Serializer\JSONGeneralSerializer" class="Jose\Component\Signature\Serializer\JSONGeneralSerializer" autowire="true" autoconfigure="true">
+      <tag name="jose.jws.serializer"/>
+    </service>
+    <service id="Jose\Component\Signature\Algorithm\ES256" class="Jose\Component\Signature\Algorithm\ES256" autowire="true" autoconfigure="true">
+      <tag name="jose.algorithm" alias="ES256"/>
+    </service>
+    <service id="Jose\Component\Signature\Algorithm\ES384" class="Jose\Component\Signature\Algorithm\ES384" autowire="true" autoconfigure="true">
+      <tag name="jose.algorithm" alias="ES384"/>
+    </service>
+    <service id="Jose\Component\Signature\Algorithm\ES512" class="Jose\Component\Signature\Algorithm\ES512" autowire="true" autoconfigure="true">
+      <tag name="jose.algorithm" alias="ES512"/>
+    </service>
+    <service id="Jose\Component\Signature\Algorithm\HS256" class="Jose\Component\Signature\Algorithm\HS256" autowire="true" autoconfigure="true">
+      <tag name="jose.algorithm" alias="HS256"/>
+    </service>
+    <service id="Jose\Component\Signature\Algorithm\HS384" class="Jose\Component\Signature\Algorithm\HS384" autowire="true" autoconfigure="true">
+      <tag name="jose.algorithm" alias="HS384"/>
+    </service>
+    <service id="Jose\Component\Signature\Algorithm\HS512" class="Jose\Component\Signature\Algorithm\HS512" autowire="true" autoconfigure="true">
+      <tag name="jose.algorithm" alias="HS512"/>
+    </service>
+    <service id="Jose\Component\Signature\Algorithm\None" class="Jose\Component\Signature\Algorithm\None" autowire="true" autoconfigure="true">
+      <tag name="jose.algorithm" alias="none"/>
+    </service>
+    <service id="Jose\Component\Signature\Algorithm\RS256" class="Jose\Component\Signature\Algorithm\RS256" autowire="true" autoconfigure="true">
+      <tag name="jose.algorithm" alias="RS256"/>
+    </service>
+    <service id="Jose\Component\Signature\Algorithm\RS384" class="Jose\Component\Signature\Algorithm\RS384" autowire="true" autoconfigure="true">
+      <tag name="jose.algorithm" alias="RS384"/>
+    </service>
+    <service id="Jose\Component\Signature\Algorithm\RS512" class="Jose\Component\Signature\Algorithm\RS512" autowire="true" autoconfigure="true">
+      <tag name="jose.algorithm" alias="RS512"/>
+    </service>
+    <service id="Jose\Component\Signature\Algorithm\PS256" class="Jose\Component\Signature\Algorithm\PS256" autowire="true" autoconfigure="true">
+      <tag name="jose.algorithm" alias="PS256"/>
+    </service>
+    <service id="Jose\Component\Signature\Algorithm\PS384" class="Jose\Component\Signature\Algorithm\PS384" autowire="true" autoconfigure="true">
+      <tag name="jose.algorithm" alias="PS384"/>
+    </service>
+    <service id="Jose\Component\Signature\Algorithm\PS512" class="Jose\Component\Signature\Algorithm\PS512" autowire="true" autoconfigure="true">
+      <tag name="jose.algorithm" alias="PS512"/>
+    </service>
+    <service id="Jose\Component\Signature\Algorithm\EdDSA" class="Jose\Component\Signature\Algorithm\EdDSA" autowire="true" autoconfigure="true">
+      <tag name="jose.algorithm" alias="EdDSA"/>
+    </service>
+    <service id="Jose\Bundle\JoseFramework\Services\JWEBuilderFactory" class="Jose\Bundle\JoseFramework\Services\JWEBuilderFactory" public="true" autowire="true" autoconfigure="true">
+      <argument type="service" id="Jose\Component\Core\AlgorithmManagerFactory"/>
+      <argument type="service" id="Jose\Component\Encryption\Compression\CompressionMethodManagerFactory"/>
+      <argument type="service" id="debug.event_dispatcher"/>
+    </service>
+    <service id="Jose\Bundle\JoseFramework\Services\JWEDecrypterFactory" class="Jose\Bundle\JoseFramework\Services\JWEDecrypterFactory" public="true" autowire="true" autoconfigure="true">
+      <argument type="service" id="Jose\Component\Core\AlgorithmManagerFactory"/>
+      <argument type="service" id="Jose\Component\Encryption\Compression\CompressionMethodManagerFactory"/>
+      <argument type="service" id="debug.event_dispatcher"/>
+    </service>
+    <service id="Jose\Bundle\JoseFramework\Services\JWELoaderFactory" class="Jose\Bundle\JoseFramework\Services\JWELoaderFactory" public="true" autowire="true" autoconfigure="true">
+      <argument type="service" id="Jose\Component\Encryption\Serializer\JWESerializerManagerFactory"/>
+      <argument type="service" id="Jose\Bundle\JoseFramework\Services\JWEDecrypterFactory"/>
+      <argument type="service" id="Jose\Bundle\JoseFramework\Services\HeaderCheckerManagerFactory"/>
+      <argument type="service" id="debug.event_dispatcher"/>
+    </service>
+    <service id="Jose\Component\Encryption\JWETokenSupport" class="Jose\Component\Encryption\JWETokenSupport" autowire="true" autoconfigure="true">
+      <tag name="jose.checker.token_type"/>
+    </service>
+    <service id="Jose\Component\Encryption\Serializer\JWESerializerManagerFactory" class="Jose\Component\Encryption\Serializer\JWESerializerManagerFactory" public="true" autowire="true" autoconfigure="true">
+      <call method="add">
+        <argument type="service" id="Jose\Component\Encryption\Serializer\CompactSerializer"/>
+      </call>
+      <call method="add">
+        <argument type="service" id="Jose\Component\Encryption\Serializer\JSONFlattenedSerializer"/>
+      </call>
+      <call method="add">
+        <argument type="service" id="Jose\Component\Encryption\Serializer\JSONGeneralSerializer"/>
+      </call>
+    </service>
+    <service id="Jose\Component\Encryption\Serializer\CompactSerializer" class="Jose\Component\Encryption\Serializer\CompactSerializer" autowire="true" autoconfigure="true">
+      <tag name="jose.jwe.serializer"/>
+    </service>
+    <service id="Jose\Component\Encryption\Serializer\JSONFlattenedSerializer" class="Jose\Component\Encryption\Serializer\JSONFlattenedSerializer" autowire="true" autoconfigure="true">
+      <tag name="jose.jwe.serializer"/>
+    </service>
+    <service id="Jose\Component\Encryption\Serializer\JSONGeneralSerializer" class="Jose\Component\Encryption\Serializer\JSONGeneralSerializer" autowire="true" autoconfigure="true">
+      <tag name="jose.jwe.serializer"/>
+    </service>
+    <service id="Jose\Component\Encryption\Compression\CompressionMethodManagerFactory" class="Jose\Component\Encryption\Compression\CompressionMethodManagerFactory" public="true" autowire="true" autoconfigure="true">
+      <call method="add">
+        <argument>DEF</argument>
+        <argument type="service" id="Jose\Component\Encryption\Compression\Deflate"/>
+      </call>
+      <deprecated package="web-token/jwt-bundle" version="3.3.0">The "%service_id%" service is deprecated and will be removed in version 4.0. Compression is not recommended for the JWE.</deprecated>
+    </service>
+    <service id="Jose\Component\Encryption\Compression\Deflate" class="Jose\Component\Encryption\Compression\Deflate" autowire="true" autoconfigure="true">
+      <tag name="jose.compression_method" alias="DEF"/>
+      <deprecated package="web-token/jwt-bundle" version="3.3.0">The "%service_id%" service is deprecated and will be removed in version 4.0. Compression is not recommended for the JWE.</deprecated>
+    </service>
+    <service id="Jose\Component\Encryption\Algorithm\ContentEncryption\A128CBCHS256" class="Jose\Component\Encryption\Algorithm\ContentEncryption\A128CBCHS256" autowire="true" autoconfigure="true">
+      <tag name="jose.algorithm" alias="A128CBC-HS256"/>
+    </service>
+    <service id="Jose\Component\Encryption\Algorithm\ContentEncryption\A192CBCHS384" class="Jose\Component\Encryption\Algorithm\ContentEncryption\A192CBCHS384" autowire="true" autoconfigure="true">
+      <tag name="jose.algorithm" alias="A192CBC-HS384"/>
+    </service>
+    <service id="Jose\Component\Encryption\Algorithm\ContentEncryption\A256CBCHS512" class="Jose\Component\Encryption\Algorithm\ContentEncryption\A256CBCHS512" autowire="true" autoconfigure="true">
+      <tag name="jose.algorithm" alias="A256CBC-HS512"/>
+    </service>
+    <service id="Jose\Component\Encryption\Algorithm\ContentEncryption\A128GCM" class="Jose\Component\Encryption\Algorithm\ContentEncryption\A128GCM" autowire="true" autoconfigure="true">
+      <tag name="jose.algorithm" alias="A128GCM"/>
+    </service>
+    <service id="Jose\Component\Encryption\Algorithm\ContentEncryption\A192GCM" class="Jose\Component\Encryption\Algorithm\ContentEncryption\A192GCM" autowire="true" autoconfigure="true">
+      <tag name="jose.algorithm" alias="A192GCM"/>
+    </service>
+    <service id="Jose\Component\Encryption\Algorithm\ContentEncryption\A256GCM" class="Jose\Component\Encryption\Algorithm\ContentEncryption\A256GCM" autowire="true" autoconfigure="true">
+      <tag name="jose.algorithm" alias="A256GCM"/>
+    </service>
+    <service id="Jose\Component\Encryption\Algorithm\KeyEncryption\A128GCMKW" class="Jose\Component\Encryption\Algorithm\KeyEncryption\A128GCMKW" autowire="true" autoconfigure="true">
+      <tag name="jose.algorithm" alias="A128GCMKW"/>
+    </service>
+    <service id="Jose\Component\Encryption\Algorithm\KeyEncryption\A192GCMKW" class="Jose\Component\Encryption\Algorithm\KeyEncryption\A192GCMKW" autowire="true" autoconfigure="true">
+      <tag name="jose.algorithm" alias="A192GCMKW"/>
+    </service>
+    <service id="Jose\Component\Encryption\Algorithm\KeyEncryption\A256GCMKW" class="Jose\Component\Encryption\Algorithm\KeyEncryption\A256GCMKW" autowire="true" autoconfigure="true">
+      <tag name="jose.algorithm" alias="A256GCMKW"/>
+    </service>
+    <service id="Jose\Component\Encryption\Algorithm\KeyEncryption\A128KW" class="Jose\Component\Encryption\Algorithm\KeyEncryption\A128KW" autowire="true" autoconfigure="true">
+      <tag name="jose.algorithm" alias="A128KW"/>
+    </service>
+    <service id="Jose\Component\Encryption\Algorithm\KeyEncryption\A192KW" class="Jose\Component\Encryption\Algorithm\KeyEncryption\A192KW" autowire="true" autoconfigure="true">
+      <tag name="jose.algorithm" alias="A192KW"/>
+    </service>
+    <service id="Jose\Component\Encryption\Algorithm\KeyEncryption\A256KW" class="Jose\Component\Encryption\Algorithm\KeyEncryption\A256KW" autowire="true" autoconfigure="true">
+      <tag name="jose.algorithm" alias="A256KW"/>
+    </service>
+    <service id="Jose\Component\Encryption\Algorithm\KeyEncryption\Dir" class="Jose\Component\Encryption\Algorithm\KeyEncryption\Dir" autowire="true" autoconfigure="true">
+      <tag name="jose.algorithm" alias="dir"/>
+    </service>
+    <service id="Jose\Component\Encryption\Algorithm\KeyEncryption\ECDHES" class="Jose\Component\Encryption\Algorithm\KeyEncryption\ECDHES" autowire="true" autoconfigure="true">
+      <tag name="jose.algorithm" alias="ECDH-ES"/>
+    </service>
+    <service id="Jose\Component\Encryption\Algorithm\KeyEncryption\ECDHSS" class="Jose\Component\Encryption\Algorithm\KeyEncryption\ECDHSS" autowire="true" autoconfigure="true">
+      <tag name="jose.algorithm" alias="ECDH-SS"/>
+    </service>
+    <service id="Jose\Component\Encryption\Algorithm\KeyEncryption\ECDHESA128KW" class="Jose\Component\Encryption\Algorithm\KeyEncryption\ECDHESA128KW" autowire="true" autoconfigure="true">
+      <tag name="jose.algorithm" alias="ECDH-ES+A128KW"/>
+    </service>
+    <service id="Jose\Component\Encryption\Algorithm\KeyEncryption\ECDHESA192KW" class="Jose\Component\Encryption\Algorithm\KeyEncryption\ECDHESA192KW" autowire="true" autoconfigure="true">
+      <tag name="jose.algorithm" alias="ECDH-ES+A192KW"/>
+    </service>
+    <service id="Jose\Component\Encryption\Algorithm\KeyEncryption\ECDHESA256KW" class="Jose\Component\Encryption\Algorithm\KeyEncryption\ECDHESA256KW" autowire="true" autoconfigure="true">
+      <tag name="jose.algorithm" alias="ECDH-ES+A256KW"/>
+    </service>
+    <service id="Jose\Component\Encryption\Algorithm\KeyEncryption\ECDHSSA128KW" class="Jose\Component\Encryption\Algorithm\KeyEncryption\ECDHSSA128KW" autowire="true" autoconfigure="true">
+      <tag name="jose.algorithm" alias="ECDH-SS+A128KW"/>
+    </service>
+    <service id="Jose\Component\Encryption\Algorithm\KeyEncryption\ECDHSSA192KW" class="Jose\Component\Encryption\Algorithm\KeyEncryption\ECDHSSA192KW" autowire="true" autoconfigure="true">
+      <tag name="jose.algorithm" alias="ECDH-SS+A192KW"/>
+    </service>
+    <service id="Jose\Component\Encryption\Algorithm\KeyEncryption\ECDHSSA256KW" class="Jose\Component\Encryption\Algorithm\KeyEncryption\ECDHSSA256KW" autowire="true" autoconfigure="true">
+      <tag name="jose.algorithm" alias="ECDH-SS+A256KW"/>
+    </service>
+    <service id="Jose\Component\Encryption\Algorithm\KeyEncryption\PBES2HS256A128KW" class="Jose\Component\Encryption\Algorithm\KeyEncryption\PBES2HS256A128KW" autowire="true" autoconfigure="true">
+      <tag name="jose.algorithm" alias="PBES2-HS256+A128KW"/>
+    </service>
+    <service id="Jose\Component\Encryption\Algorithm\KeyEncryption\PBES2HS384A192KW" class="Jose\Component\Encryption\Algorithm\KeyEncryption\PBES2HS384A192KW" autowire="true" autoconfigure="true">
+      <tag name="jose.algorithm" alias="PBES2-HS384+A192KW"/>
+    </service>
+    <service id="Jose\Component\Encryption\Algorithm\KeyEncryption\PBES2HS512A256KW" class="Jose\Component\Encryption\Algorithm\KeyEncryption\PBES2HS512A256KW" autowire="true" autoconfigure="true">
+      <tag name="jose.algorithm" alias="PBES2-HS512+A256KW"/>
+    </service>
+    <service id="Jose\Component\Encryption\Algorithm\KeyEncryption\RSA15" class="Jose\Component\Encryption\Algorithm\KeyEncryption\RSA15" autowire="true" autoconfigure="true">
+      <tag name="jose.algorithm" alias="RSA1_5"/>
+    </service>
+    <service id="Jose\Component\Encryption\Algorithm\KeyEncryption\RSAOAEP" class="Jose\Component\Encryption\Algorithm\KeyEncryption\RSAOAEP" autowire="true" autoconfigure="true">
+      <tag name="jose.algorithm" alias="RSA-OAEP"/>
+    </service>
+    <service id="Jose\Component\Encryption\Algorithm\KeyEncryption\RSAOAEP256" class="Jose\Component\Encryption\Algorithm\KeyEncryption\RSAOAEP256" autowire="true" autoconfigure="true">
+      <tag name="jose.algorithm" alias="RSA-OAEP-256"/>
+    </service>
+    <service id="Jose\Bundle\JoseFramework\Services\NestedTokenBuilderFactory" class="Jose\Bundle\JoseFramework\Services\NestedTokenBuilderFactory" public="true" autowire="true" autoconfigure="true">
+      <argument type="service" id="Jose\Bundle\JoseFramework\Services\JWEBuilderFactory"/>
+      <argument type="service" id="Jose\Component\Encryption\Serializer\JWESerializerManagerFactory"/>
+      <argument type="service" id="Jose\Bundle\JoseFramework\Services\JWSBuilderFactory"/>
+      <argument type="service" id="Jose\Component\Signature\Serializer\JWSSerializerManagerFactory"/>
+      <argument type="service" id="debug.event_dispatcher"/>
+    </service>
+    <service id="Jose\Bundle\JoseFramework\Services\NestedTokenLoaderFactory" class="Jose\Bundle\JoseFramework\Services\NestedTokenLoaderFactory" public="true" autowire="true" autoconfigure="true">
+      <argument type="service" id="Jose\Bundle\JoseFramework\Services\JWELoaderFactory"/>
+      <argument type="service" id="Jose\Bundle\JoseFramework\Services\JWSLoaderFactory"/>
+      <argument type="service" id="debug.event_dispatcher"/>
+    </service>
+    <service id="Jose\Component\KeyManagement\Analyzer\KeyAnalyzerManager" class="Jose\Component\KeyManagement\Analyzer\KeyAnalyzerManager" public="true" autowire="true" autoconfigure="true">
+      <call method="add">
+        <argument type="service" id="Jose\Component\KeyManagement\Analyzer\AlgorithmAnalyzer"/>
+      </call>
+      <call method="add">
+        <argument type="service" id="Jose\Component\KeyManagement\Analyzer\UsageAnalyzer"/>
+      </call>
+      <call method="add">
+        <argument type="service" id="Jose\Component\KeyManagement\Analyzer\KeyIdentifierAnalyzer"/>
+      </call>
+      <call method="add">
+        <argument type="service" id="Jose\Component\KeyManagement\Analyzer\NoneAnalyzer"/>
+      </call>
+      <call method="add">
+        <argument type="service" id="Jose\Component\KeyManagement\Analyzer\OctAnalyzer"/>
+      </call>
+      <call method="add">
+        <argument type="service" id="Jose\Component\KeyManagement\Analyzer\HS256KeyAnalyzer"/>
+      </call>
+      <call method="add">
+        <argument type="service" id="Jose\Component\KeyManagement\Analyzer\HS384KeyAnalyzer"/>
+      </call>
+      <call method="add">
+        <argument type="service" id="Jose\Component\KeyManagement\Analyzer\HS512KeyAnalyzer"/>
+      </call>
+      <call method="add">
+        <argument type="service" id="Jose\Component\KeyManagement\Analyzer\ES256KeyAnalyzer"/>
+      </call>
+      <call method="add">
+        <argument type="service" id="Jose\Component\KeyManagement\Analyzer\ES384KeyAnalyzer"/>
+      </call>
+      <call method="add">
+        <argument type="service" id="Jose\Component\KeyManagement\Analyzer\ES512KeyAnalyzer"/>
+      </call>
+    </service>
+    <service id="Jose\Component\KeyManagement\Analyzer\KeysetAnalyzerManager" class="Jose\Component\KeyManagement\Analyzer\KeysetAnalyzerManager" public="true" autowire="true" autoconfigure="true">
+      <call method="add">
+        <argument type="service" id="Jose\Component\KeyManagement\Analyzer\MixedKeyTypes"/>
+      </call>
+      <call method="add">
+        <argument type="service" id="Jose\Component\KeyManagement\Analyzer\MixedPublicAndPrivateKeys"/>
+      </call>
+    </service>
+    <service id="Jose\Component\KeyManagement\Analyzer\AlgorithmAnalyzer" class="Jose\Component\KeyManagement\Analyzer\AlgorithmAnalyzer" autowire="true" autoconfigure="true">
+      <tag name="jose.key_analyzer"/>
+    </service>
+    <service id="Jose\Component\KeyManagement\Analyzer\UsageAnalyzer" class="Jose\Component\KeyManagement\Analyzer\UsageAnalyzer" autowire="true" autoconfigure="true">
+      <tag name="jose.key_analyzer"/>
+    </service>
+    <service id="Jose\Component\KeyManagement\Analyzer\KeyIdentifierAnalyzer" class="Jose\Component\KeyManagement\Analyzer\KeyIdentifierAnalyzer" autowire="true" autoconfigure="true">
+      <tag name="jose.key_analyzer"/>
+    </service>
+    <service id="Jose\Component\KeyManagement\Analyzer\NoneAnalyzer" class="Jose\Component\KeyManagement\Analyzer\NoneAnalyzer" autowire="true" autoconfigure="true">
+      <tag name="jose.key_analyzer"/>
+    </service>
+    <service id="Jose\Component\KeyManagement\Analyzer\OctAnalyzer" class="Jose\Component\KeyManagement\Analyzer\OctAnalyzer" autowire="true" autoconfigure="true">
+      <tag name="jose.key_analyzer"/>
+    </service>
+    <service id="Jose\Component\KeyManagement\Analyzer\MixedKeyTypes" class="Jose\Component\KeyManagement\Analyzer\MixedKeyTypes" autowire="true" autoconfigure="true">
+      <tag name="jose.keyset_analyzer"/>
+    </service>
+    <service id="Jose\Component\KeyManagement\Analyzer\MixedPublicAndPrivateKeys" class="Jose\Component\KeyManagement\Analyzer\MixedPublicAndPrivateKeys" autowire="true" autoconfigure="true">
+      <tag name="jose.keyset_analyzer"/>
+    </service>
+    <service id="Jose\Component\KeyManagement\Analyzer\HS256KeyAnalyzer" class="Jose\Component\KeyManagement\Analyzer\HS256KeyAnalyzer" autowire="true" autoconfigure="true">
+      <tag name="jose.key_analyzer"/>
+    </service>
+    <service id="Jose\Component\KeyManagement\Analyzer\HS384KeyAnalyzer" class="Jose\Component\KeyManagement\Analyzer\HS384KeyAnalyzer" autowire="true" autoconfigure="true">
+      <tag name="jose.key_analyzer"/>
+    </service>
+    <service id="Jose\Component\KeyManagement\Analyzer\HS512KeyAnalyzer" class="Jose\Component\KeyManagement\Analyzer\HS512KeyAnalyzer" autowire="true" autoconfigure="true">
+      <tag name="jose.key_analyzer"/>
+    </service>
+    <service id="Jose\Component\KeyManagement\Analyzer\ES256KeyAnalyzer" class="Jose\Component\KeyManagement\Analyzer\ES256KeyAnalyzer" autowire="true" autoconfigure="true">
+      <tag name="jose.key_analyzer"/>
+    </service>
+    <service id="Jose\Component\KeyManagement\Analyzer\ES384KeyAnalyzer" class="Jose\Component\KeyManagement\Analyzer\ES384KeyAnalyzer" autowire="true" autoconfigure="true">
+      <tag name="jose.key_analyzer"/>
+    </service>
+    <service id="Jose\Component\KeyManagement\Analyzer\ES512KeyAnalyzer" class="Jose\Component\KeyManagement\Analyzer\ES512KeyAnalyzer" autowire="true" autoconfigure="true">
+      <tag name="jose.key_analyzer"/>
+    </service>
+    <service id="Jose\Component\KeyManagement\JWKFactory" class="Jose\Component\KeyManagement\JWKFactory" public="true" autowire="true" autoconfigure="true"/>
+    <service id="Jose\Bundle\JoseFramework\Controller\JWKSetControllerFactory" class="Jose\Bundle\JoseFramework\Controller\JWKSetControllerFactory" autowire="true" autoconfigure="true"/>
+    <service id="Jose\Bundle\JoseFramework\Routing\JWKSetLoader" class="Jose\Bundle\JoseFramework\Routing\JWKSetLoader" autowire="true" autoconfigure="true">
+      <tag name="routing.loader"/>
+    </service>
+    <service id=".instanceof.Symfony\Contracts\Service\ServiceSubscriberInterface.0.App\Controller\ApiLoginController" class="App\Controller\ApiLoginController" autowire="true" abstract="true"/>
+    <service id=".instanceof.Symfony\Bundle\FrameworkBundle\Controller\AbstractController.0.App\Controller\ApiLoginController" class="App\Controller\ApiLoginController" autowire="true" abstract="true"/>
+    <service id=".abstract.instanceof.App\Controller\ApiLoginController" class="App\Controller\ApiLoginController" autowire="true" autoconfigure="true" abstract="true"/>
     <service id=".instanceof.Symfony\Contracts\Service\ServiceSubscriberInterface.0.App\Controller\AttendanceController" class="App\Controller\AttendanceController" autowire="true" abstract="true"/>
     <service id=".instanceof.Symfony\Bundle\FrameworkBundle\Controller\AbstractController.0.App\Controller\AttendanceController" class="App\Controller\AttendanceController" autowire="true" abstract="true"/>
     <service id=".abstract.instanceof.App\Controller\AttendanceController" class="App\Controller\AttendanceController" autowire="true" autoconfigure="true" abstract="true"/>
@@ -7113,7 +8250,113 @@
     <service id=".abstract.instanceof.App\Repository\SubjectRepository" class="App\Repository\SubjectRepository" autowire="true" autoconfigure="true" abstract="true"/>
     <service id=".instanceof.Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepositoryInterface.0.App\Repository\TeacherRepository" class="App\Repository\TeacherRepository" autowire="true" abstract="true"/>
     <service id=".abstract.instanceof.App\Repository\TeacherRepository" class="App\Repository\TeacherRepository" autowire="true" autoconfigure="true" abstract="true"/>
-    <service id=".service_locator.1W6W_dF" class="Symfony\Component\DependencyInjection\ServiceLocator">
+    <service id=".instanceof.Symfony\Component\DependencyInjection\EnvVarProcessorInterface.0.Jose\Bundle\JoseFramework\EnvVarProcessor\KeyEnvVarProcessor" class="Jose\Bundle\JoseFramework\EnvVarProcessor\KeyEnvVarProcessor" autowire="true" abstract="true"/>
+    <service id=".abstract.instanceof.Jose\Bundle\JoseFramework\EnvVarProcessor\KeyEnvVarProcessor" class="Jose\Bundle\JoseFramework\EnvVarProcessor\KeyEnvVarProcessor" autowire="true" autoconfigure="true" abstract="true"/>
+    <service id=".instanceof.Symfony\Component\HttpKernel\DataCollector\DataCollectorInterface.0.Jose\Bundle\JoseFramework\DataCollector\JoseCollector" class="Jose\Bundle\JoseFramework\DataCollector\JoseCollector" autowire="true" abstract="true"/>
+    <service id=".instanceof.Symfony\Contracts\Service\ResetInterface.0.Jose\Bundle\JoseFramework\DataCollector\JoseCollector" class="Jose\Bundle\JoseFramework\DataCollector\JoseCollector" autowire="true" abstract="true"/>
+    <service id=".abstract.instanceof.Jose\Bundle\JoseFramework\DataCollector\JoseCollector" class="Jose\Bundle\JoseFramework\DataCollector\JoseCollector" autowire="true" autoconfigure="true" abstract="true"/>
+    <service id=".instanceof.Jose\Bundle\JoseFramework\DataCollector\Collector.0.Jose\Bundle\JoseFramework\DataCollector\AlgorithmCollector" class="Jose\Bundle\JoseFramework\DataCollector\AlgorithmCollector" autowire="true" abstract="true"/>
+    <service id=".abstract.instanceof.Jose\Bundle\JoseFramework\DataCollector\AlgorithmCollector" class="Jose\Bundle\JoseFramework\DataCollector\AlgorithmCollector" autowire="true" autoconfigure="true" abstract="true"/>
+    <service id=".instanceof.Symfony\Component\EventDispatcher\EventSubscriberInterface.0.Jose\Bundle\JoseFramework\DataCollector\CheckerCollector" class="Jose\Bundle\JoseFramework\DataCollector\CheckerCollector" autowire="true" abstract="true"/>
+    <service id=".instanceof.Jose\Bundle\JoseFramework\DataCollector\Collector.0.Jose\Bundle\JoseFramework\DataCollector\CheckerCollector" class="Jose\Bundle\JoseFramework\DataCollector\CheckerCollector" autowire="true" abstract="true"/>
+    <service id=".abstract.instanceof.Jose\Bundle\JoseFramework\DataCollector\CheckerCollector" class="Jose\Bundle\JoseFramework\DataCollector\CheckerCollector" autowire="true" autoconfigure="true" abstract="true"/>
+    <service id=".instanceof.Symfony\Component\EventDispatcher\EventSubscriberInterface.0.Jose\Bundle\JoseFramework\DataCollector\JWECollector" class="Jose\Bundle\JoseFramework\DataCollector\JWECollector" autowire="true" abstract="true"/>
+    <service id=".instanceof.Jose\Bundle\JoseFramework\DataCollector\Collector.0.Jose\Bundle\JoseFramework\DataCollector\JWECollector" class="Jose\Bundle\JoseFramework\DataCollector\JWECollector" autowire="true" abstract="true"/>
+    <service id=".abstract.instanceof.Jose\Bundle\JoseFramework\DataCollector\JWECollector" class="Jose\Bundle\JoseFramework\DataCollector\JWECollector" autowire="true" autoconfigure="true" abstract="true"/>
+    <service id=".instanceof.Symfony\Component\EventDispatcher\EventSubscriberInterface.0.Jose\Bundle\JoseFramework\DataCollector\JWSCollector" class="Jose\Bundle\JoseFramework\DataCollector\JWSCollector" autowire="true" abstract="true"/>
+    <service id=".instanceof.Jose\Bundle\JoseFramework\DataCollector\Collector.0.Jose\Bundle\JoseFramework\DataCollector\JWSCollector" class="Jose\Bundle\JoseFramework\DataCollector\JWSCollector" autowire="true" abstract="true"/>
+    <service id=".abstract.instanceof.Jose\Bundle\JoseFramework\DataCollector\JWSCollector" class="Jose\Bundle\JoseFramework\DataCollector\JWSCollector" autowire="true" autoconfigure="true" abstract="true"/>
+    <service id=".instanceof.Jose\Bundle\JoseFramework\DataCollector\Collector.0.Jose\Bundle\JoseFramework\DataCollector\KeyCollector" class="Jose\Bundle\JoseFramework\DataCollector\KeyCollector" autowire="true" abstract="true"/>
+    <service id=".abstract.instanceof.Jose\Bundle\JoseFramework\DataCollector\KeyCollector" class="Jose\Bundle\JoseFramework\DataCollector\KeyCollector" autowire="true" autoconfigure="true" abstract="true"/>
+    <service id=".instanceof.Symfony\Component\Console\Command\Command.0.Jose\Component\Console\AddKeyIntoKeysetCommand" class="Jose\Component\Console\AddKeyIntoKeysetCommand" autowire="true" abstract="true"/>
+    <service id=".abstract.instanceof.Jose\Component\Console\AddKeyIntoKeysetCommand" class="Jose\Component\Console\AddKeyIntoKeysetCommand" autowire="true" autoconfigure="true" abstract="true"/>
+    <service id=".instanceof.Symfony\Component\Console\Command\Command.0.Jose\Component\Console\EcKeyGeneratorCommand" class="Jose\Component\Console\EcKeyGeneratorCommand" autowire="true" abstract="true"/>
+    <service id=".abstract.instanceof.Jose\Component\Console\EcKeyGeneratorCommand" class="Jose\Component\Console\EcKeyGeneratorCommand" autowire="true" autoconfigure="true" abstract="true"/>
+    <service id=".instanceof.Symfony\Component\Console\Command\Command.0.Jose\Component\Console\EcKeysetGeneratorCommand" class="Jose\Component\Console\EcKeysetGeneratorCommand" autowire="true" abstract="true"/>
+    <service id=".abstract.instanceof.Jose\Component\Console\EcKeysetGeneratorCommand" class="Jose\Component\Console\EcKeysetGeneratorCommand" autowire="true" autoconfigure="true" abstract="true"/>
+    <service id=".instanceof.Symfony\Component\Console\Command\Command.0.Jose\Component\Console\GetThumbprintCommand" class="Jose\Component\Console\GetThumbprintCommand" autowire="true" abstract="true"/>
+    <service id=".abstract.instanceof.Jose\Component\Console\GetThumbprintCommand" class="Jose\Component\Console\GetThumbprintCommand" autowire="true" autoconfigure="true" abstract="true"/>
+    <service id=".instanceof.Symfony\Component\Console\Command\Command.0.Jose\Component\Console\OptimizeRsaKeyCommand" class="Jose\Component\Console\OptimizeRsaKeyCommand" autowire="true" abstract="true"/>
+    <service id=".abstract.instanceof.Jose\Component\Console\OptimizeRsaKeyCommand" class="Jose\Component\Console\OptimizeRsaKeyCommand" autowire="true" autoconfigure="true" abstract="true"/>
+    <service id=".instanceof.Symfony\Component\Console\Command\Command.0.Jose\Component\Console\KeyAnalyzerCommand" class="Jose\Component\Console\KeyAnalyzerCommand" autowire="true" abstract="true"/>
+    <service id=".abstract.instanceof.Jose\Component\Console\KeyAnalyzerCommand" class="Jose\Component\Console\KeyAnalyzerCommand" autowire="true" autoconfigure="true" abstract="true"/>
+    <service id=".instanceof.Symfony\Component\Console\Command\Command.0.Jose\Component\Console\KeyFileLoaderCommand" class="Jose\Component\Console\KeyFileLoaderCommand" autowire="true" abstract="true"/>
+    <service id=".abstract.instanceof.Jose\Component\Console\KeyFileLoaderCommand" class="Jose\Component\Console\KeyFileLoaderCommand" autowire="true" autoconfigure="true" abstract="true"/>
+    <service id=".instanceof.Symfony\Component\Console\Command\Command.0.Jose\Component\Console\KeysetAnalyzerCommand" class="Jose\Component\Console\KeysetAnalyzerCommand" autowire="true" abstract="true"/>
+    <service id=".abstract.instanceof.Jose\Component\Console\KeysetAnalyzerCommand" class="Jose\Component\Console\KeysetAnalyzerCommand" autowire="true" autoconfigure="true" abstract="true"/>
+    <service id=".instanceof.Symfony\Component\Console\Command\Command.0.Jose\Component\Console\MergeKeysetCommand" class="Jose\Component\Console\MergeKeysetCommand" autowire="true" abstract="true"/>
+    <service id=".abstract.instanceof.Jose\Component\Console\MergeKeysetCommand" class="Jose\Component\Console\MergeKeysetCommand" autowire="true" autoconfigure="true" abstract="true"/>
+    <service id=".instanceof.Symfony\Component\Console\Command\Command.0.Jose\Component\Console\NoneKeyGeneratorCommand" class="Jose\Component\Console\NoneKeyGeneratorCommand" autowire="true" abstract="true"/>
+    <service id=".abstract.instanceof.Jose\Component\Console\NoneKeyGeneratorCommand" class="Jose\Component\Console\NoneKeyGeneratorCommand" autowire="true" autoconfigure="true" abstract="true"/>
+    <service id=".instanceof.Symfony\Component\Console\Command\Command.0.Jose\Component\Console\OctKeyGeneratorCommand" class="Jose\Component\Console\OctKeyGeneratorCommand" autowire="true" abstract="true"/>
+    <service id=".abstract.instanceof.Jose\Component\Console\OctKeyGeneratorCommand" class="Jose\Component\Console\OctKeyGeneratorCommand" autowire="true" autoconfigure="true" abstract="true"/>
+    <service id=".instanceof.Symfony\Component\Console\Command\Command.0.Jose\Component\Console\OctKeysetGeneratorCommand" class="Jose\Component\Console\OctKeysetGeneratorCommand" autowire="true" abstract="true"/>
+    <service id=".abstract.instanceof.Jose\Component\Console\OctKeysetGeneratorCommand" class="Jose\Component\Console\OctKeysetGeneratorCommand" autowire="true" autoconfigure="true" abstract="true"/>
+    <service id=".instanceof.Symfony\Component\Console\Command\Command.0.Jose\Component\Console\OkpKeyGeneratorCommand" class="Jose\Component\Console\OkpKeyGeneratorCommand" autowire="true" abstract="true"/>
+    <service id=".abstract.instanceof.Jose\Component\Console\OkpKeyGeneratorCommand" class="Jose\Component\Console\OkpKeyGeneratorCommand" autowire="true" autoconfigure="true" abstract="true"/>
+    <service id=".instanceof.Symfony\Component\Console\Command\Command.0.Jose\Component\Console\OkpKeysetGeneratorCommand" class="Jose\Component\Console\OkpKeysetGeneratorCommand" autowire="true" abstract="true"/>
+    <service id=".abstract.instanceof.Jose\Component\Console\OkpKeysetGeneratorCommand" class="Jose\Component\Console\OkpKeysetGeneratorCommand" autowire="true" autoconfigure="true" abstract="true"/>
+    <service id=".instanceof.Symfony\Component\Console\Command\Command.0.Jose\Component\Console\P12CertificateLoaderCommand" class="Jose\Component\Console\P12CertificateLoaderCommand" autowire="true" abstract="true"/>
+    <service id=".abstract.instanceof.Jose\Component\Console\P12CertificateLoaderCommand" class="Jose\Component\Console\P12CertificateLoaderCommand" autowire="true" autoconfigure="true" abstract="true"/>
+    <service id=".instanceof.Symfony\Component\Console\Command\Command.0.Jose\Component\Console\PemConverterCommand" class="Jose\Component\Console\PemConverterCommand" autowire="true" abstract="true"/>
+    <service id=".abstract.instanceof.Jose\Component\Console\PemConverterCommand" class="Jose\Component\Console\PemConverterCommand" autowire="true" autoconfigure="true" abstract="true"/>
+    <service id=".instanceof.Symfony\Component\Console\Command\Command.0.Jose\Component\Console\PublicKeyCommand" class="Jose\Component\Console\PublicKeyCommand" autowire="true" abstract="true"/>
+    <service id=".abstract.instanceof.Jose\Component\Console\PublicKeyCommand" class="Jose\Component\Console\PublicKeyCommand" autowire="true" autoconfigure="true" abstract="true"/>
+    <service id=".instanceof.Symfony\Component\Console\Command\Command.0.Jose\Component\Console\PublicKeysetCommand" class="Jose\Component\Console\PublicKeysetCommand" autowire="true" abstract="true"/>
+    <service id=".abstract.instanceof.Jose\Component\Console\PublicKeysetCommand" class="Jose\Component\Console\PublicKeysetCommand" autowire="true" autoconfigure="true" abstract="true"/>
+    <service id=".instanceof.Symfony\Component\Console\Command\Command.0.Jose\Component\Console\RotateKeysetCommand" class="Jose\Component\Console\RotateKeysetCommand" autowire="true" abstract="true"/>
+    <service id=".abstract.instanceof.Jose\Component\Console\RotateKeysetCommand" class="Jose\Component\Console\RotateKeysetCommand" autowire="true" autoconfigure="true" abstract="true"/>
+    <service id=".instanceof.Symfony\Component\Console\Command\Command.0.Jose\Component\Console\RsaKeyGeneratorCommand" class="Jose\Component\Console\RsaKeyGeneratorCommand" autowire="true" abstract="true"/>
+    <service id=".abstract.instanceof.Jose\Component\Console\RsaKeyGeneratorCommand" class="Jose\Component\Console\RsaKeyGeneratorCommand" autowire="true" autoconfigure="true" abstract="true"/>
+    <service id=".instanceof.Symfony\Component\Console\Command\Command.0.Jose\Component\Console\RsaKeysetGeneratorCommand" class="Jose\Component\Console\RsaKeysetGeneratorCommand" autowire="true" abstract="true"/>
+    <service id=".abstract.instanceof.Jose\Component\Console\RsaKeysetGeneratorCommand" class="Jose\Component\Console\RsaKeysetGeneratorCommand" autowire="true" autoconfigure="true" abstract="true"/>
+    <service id=".instanceof.Symfony\Component\Console\Command\Command.0.Jose\Component\Console\SecretKeyGeneratorCommand" class="Jose\Component\Console\SecretKeyGeneratorCommand" autowire="true" abstract="true"/>
+    <service id=".abstract.instanceof.Jose\Component\Console\SecretKeyGeneratorCommand" class="Jose\Component\Console\SecretKeyGeneratorCommand" autowire="true" autoconfigure="true" abstract="true"/>
+    <service id=".instanceof.Symfony\Component\Console\Command\Command.0.Jose\Component\Console\X509CertificateLoaderCommand" class="Jose\Component\Console\X509CertificateLoaderCommand" autowire="true" abstract="true"/>
+    <service id=".abstract.instanceof.Jose\Component\Console\X509CertificateLoaderCommand" class="Jose\Component\Console\X509CertificateLoaderCommand" autowire="true" autoconfigure="true" abstract="true"/>
+    <service id=".instanceof.Jose\Component\Checker\TokenTypeSupport.0.Jose\Component\Signature\JWSTokenSupport" class="Jose\Component\Signature\JWSTokenSupport" autowire="true" abstract="true"/>
+    <service id=".abstract.instanceof.Jose\Component\Signature\JWSTokenSupport" class="Jose\Component\Signature\JWSTokenSupport" autowire="true" autoconfigure="true" abstract="true"/>
+    <service id=".instanceof.Jose\Component\Signature\Serializer\JWSSerializer.0.Jose\Component\Signature\Serializer\CompactSerializer" class="Jose\Component\Signature\Serializer\CompactSerializer" autowire="true" abstract="true"/>
+    <service id=".abstract.instanceof.Jose\Component\Signature\Serializer\CompactSerializer" class="Jose\Component\Signature\Serializer\CompactSerializer" autowire="true" autoconfigure="true" abstract="true"/>
+    <service id=".instanceof.Jose\Component\Signature\Serializer\JWSSerializer.0.Jose\Component\Signature\Serializer\JSONFlattenedSerializer" class="Jose\Component\Signature\Serializer\JSONFlattenedSerializer" autowire="true" abstract="true"/>
+    <service id=".abstract.instanceof.Jose\Component\Signature\Serializer\JSONFlattenedSerializer" class="Jose\Component\Signature\Serializer\JSONFlattenedSerializer" autowire="true" autoconfigure="true" abstract="true"/>
+    <service id=".instanceof.Jose\Component\Signature\Serializer\JWSSerializer.0.Jose\Component\Signature\Serializer\JSONGeneralSerializer" class="Jose\Component\Signature\Serializer\JSONGeneralSerializer" autowire="true" abstract="true"/>
+    <service id=".abstract.instanceof.Jose\Component\Signature\Serializer\JSONGeneralSerializer" class="Jose\Component\Signature\Serializer\JSONGeneralSerializer" autowire="true" autoconfigure="true" abstract="true"/>
+    <service id=".instanceof.Jose\Component\Checker\TokenTypeSupport.0.Jose\Component\Encryption\JWETokenSupport" class="Jose\Component\Encryption\JWETokenSupport" autowire="true" abstract="true"/>
+    <service id=".abstract.instanceof.Jose\Component\Encryption\JWETokenSupport" class="Jose\Component\Encryption\JWETokenSupport" autowire="true" autoconfigure="true" abstract="true"/>
+    <service id=".instanceof.Jose\Component\Encryption\Serializer\JWESerializer.0.Jose\Component\Encryption\Serializer\CompactSerializer" class="Jose\Component\Encryption\Serializer\CompactSerializer" autowire="true" abstract="true"/>
+    <service id=".abstract.instanceof.Jose\Component\Encryption\Serializer\CompactSerializer" class="Jose\Component\Encryption\Serializer\CompactSerializer" autowire="true" autoconfigure="true" abstract="true"/>
+    <service id=".instanceof.Jose\Component\Encryption\Serializer\JWESerializer.0.Jose\Component\Encryption\Serializer\JSONFlattenedSerializer" class="Jose\Component\Encryption\Serializer\JSONFlattenedSerializer" autowire="true" abstract="true"/>
+    <service id=".abstract.instanceof.Jose\Component\Encryption\Serializer\JSONFlattenedSerializer" class="Jose\Component\Encryption\Serializer\JSONFlattenedSerializer" autowire="true" autoconfigure="true" abstract="true"/>
+    <service id=".instanceof.Jose\Component\Encryption\Serializer\JWESerializer.0.Jose\Component\Encryption\Serializer\JSONGeneralSerializer" class="Jose\Component\Encryption\Serializer\JSONGeneralSerializer" autowire="true" abstract="true"/>
+    <service id=".abstract.instanceof.Jose\Component\Encryption\Serializer\JSONGeneralSerializer" class="Jose\Component\Encryption\Serializer\JSONGeneralSerializer" autowire="true" autoconfigure="true" abstract="true"/>
+    <service id=".instanceof.Jose\Component\KeyManagement\Analyzer\KeyAnalyzer.0.Jose\Component\KeyManagement\Analyzer\AlgorithmAnalyzer" class="Jose\Component\KeyManagement\Analyzer\AlgorithmAnalyzer" autowire="true" abstract="true"/>
+    <service id=".abstract.instanceof.Jose\Component\KeyManagement\Analyzer\AlgorithmAnalyzer" class="Jose\Component\KeyManagement\Analyzer\AlgorithmAnalyzer" autowire="true" autoconfigure="true" abstract="true"/>
+    <service id=".instanceof.Jose\Component\KeyManagement\Analyzer\KeyAnalyzer.0.Jose\Component\KeyManagement\Analyzer\UsageAnalyzer" class="Jose\Component\KeyManagement\Analyzer\UsageAnalyzer" autowire="true" abstract="true"/>
+    <service id=".abstract.instanceof.Jose\Component\KeyManagement\Analyzer\UsageAnalyzer" class="Jose\Component\KeyManagement\Analyzer\UsageAnalyzer" autowire="true" autoconfigure="true" abstract="true"/>
+    <service id=".instanceof.Jose\Component\KeyManagement\Analyzer\KeyAnalyzer.0.Jose\Component\KeyManagement\Analyzer\KeyIdentifierAnalyzer" class="Jose\Component\KeyManagement\Analyzer\KeyIdentifierAnalyzer" autowire="true" abstract="true"/>
+    <service id=".abstract.instanceof.Jose\Component\KeyManagement\Analyzer\KeyIdentifierAnalyzer" class="Jose\Component\KeyManagement\Analyzer\KeyIdentifierAnalyzer" autowire="true" autoconfigure="true" abstract="true"/>
+    <service id=".instanceof.Jose\Component\KeyManagement\Analyzer\KeyAnalyzer.0.Jose\Component\KeyManagement\Analyzer\NoneAnalyzer" class="Jose\Component\KeyManagement\Analyzer\NoneAnalyzer" autowire="true" abstract="true"/>
+    <service id=".abstract.instanceof.Jose\Component\KeyManagement\Analyzer\NoneAnalyzer" class="Jose\Component\KeyManagement\Analyzer\NoneAnalyzer" autowire="true" autoconfigure="true" abstract="true"/>
+    <service id=".instanceof.Jose\Component\KeyManagement\Analyzer\KeyAnalyzer.0.Jose\Component\KeyManagement\Analyzer\OctAnalyzer" class="Jose\Component\KeyManagement\Analyzer\OctAnalyzer" autowire="true" abstract="true"/>
+    <service id=".abstract.instanceof.Jose\Component\KeyManagement\Analyzer\OctAnalyzer" class="Jose\Component\KeyManagement\Analyzer\OctAnalyzer" autowire="true" autoconfigure="true" abstract="true"/>
+    <service id=".instanceof.Jose\Component\KeyManagement\Analyzer\KeysetAnalyzer.0.Jose\Component\KeyManagement\Analyzer\MixedKeyTypes" class="Jose\Component\KeyManagement\Analyzer\MixedKeyTypes" autowire="true" abstract="true"/>
+    <service id=".abstract.instanceof.Jose\Component\KeyManagement\Analyzer\MixedKeyTypes" class="Jose\Component\KeyManagement\Analyzer\MixedKeyTypes" autowire="true" autoconfigure="true" abstract="true"/>
+    <service id=".instanceof.Jose\Component\KeyManagement\Analyzer\KeysetAnalyzer.0.Jose\Component\KeyManagement\Analyzer\MixedPublicAndPrivateKeys" class="Jose\Component\KeyManagement\Analyzer\MixedPublicAndPrivateKeys" autowire="true" abstract="true"/>
+    <service id=".abstract.instanceof.Jose\Component\KeyManagement\Analyzer\MixedPublicAndPrivateKeys" class="Jose\Component\KeyManagement\Analyzer\MixedPublicAndPrivateKeys" autowire="true" autoconfigure="true" abstract="true"/>
+    <service id=".instanceof.Jose\Component\KeyManagement\Analyzer\KeyAnalyzer.0.Jose\Component\KeyManagement\Analyzer\HS256KeyAnalyzer" class="Jose\Component\KeyManagement\Analyzer\HS256KeyAnalyzer" autowire="true" abstract="true"/>
+    <service id=".abstract.instanceof.Jose\Component\KeyManagement\Analyzer\HS256KeyAnalyzer" class="Jose\Component\KeyManagement\Analyzer\HS256KeyAnalyzer" autowire="true" autoconfigure="true" abstract="true"/>
+    <service id=".instanceof.Jose\Component\KeyManagement\Analyzer\KeyAnalyzer.0.Jose\Component\KeyManagement\Analyzer\HS384KeyAnalyzer" class="Jose\Component\KeyManagement\Analyzer\HS384KeyAnalyzer" autowire="true" abstract="true"/>
+    <service id=".abstract.instanceof.Jose\Component\KeyManagement\Analyzer\HS384KeyAnalyzer" class="Jose\Component\KeyManagement\Analyzer\HS384KeyAnalyzer" autowire="true" autoconfigure="true" abstract="true"/>
+    <service id=".instanceof.Jose\Component\KeyManagement\Analyzer\KeyAnalyzer.0.Jose\Component\KeyManagement\Analyzer\HS512KeyAnalyzer" class="Jose\Component\KeyManagement\Analyzer\HS512KeyAnalyzer" autowire="true" abstract="true"/>
+    <service id=".abstract.instanceof.Jose\Component\KeyManagement\Analyzer\HS512KeyAnalyzer" class="Jose\Component\KeyManagement\Analyzer\HS512KeyAnalyzer" autowire="true" autoconfigure="true" abstract="true"/>
+    <service id=".instanceof.Jose\Component\KeyManagement\Analyzer\KeyAnalyzer.0.Jose\Component\KeyManagement\Analyzer\ES256KeyAnalyzer" class="Jose\Component\KeyManagement\Analyzer\ES256KeyAnalyzer" autowire="true" abstract="true"/>
+    <service id=".abstract.instanceof.Jose\Component\KeyManagement\Analyzer\ES256KeyAnalyzer" class="Jose\Component\KeyManagement\Analyzer\ES256KeyAnalyzer" autowire="true" autoconfigure="true" abstract="true"/>
+    <service id=".instanceof.Jose\Component\KeyManagement\Analyzer\KeyAnalyzer.0.Jose\Component\KeyManagement\Analyzer\ES384KeyAnalyzer" class="Jose\Component\KeyManagement\Analyzer\ES384KeyAnalyzer" autowire="true" abstract="true"/>
+    <service id=".abstract.instanceof.Jose\Component\KeyManagement\Analyzer\ES384KeyAnalyzer" class="Jose\Component\KeyManagement\Analyzer\ES384KeyAnalyzer" autowire="true" autoconfigure="true" abstract="true"/>
+    <service id=".instanceof.Jose\Component\KeyManagement\Analyzer\KeyAnalyzer.0.Jose\Component\KeyManagement\Analyzer\ES512KeyAnalyzer" class="Jose\Component\KeyManagement\Analyzer\ES512KeyAnalyzer" autowire="true" abstract="true"/>
+    <service id=".abstract.instanceof.Jose\Component\KeyManagement\Analyzer\ES512KeyAnalyzer" class="Jose\Component\KeyManagement\Analyzer\ES512KeyAnalyzer" autowire="true" autoconfigure="true" abstract="true"/>
+    <service id=".service_locator.HdwwBqs" class="Symfony\Component\DependencyInjection\ServiceLocator">
       <tag name="container.service_locator"/>
       <argument type="collection">
         <argument key="base64" type="service_closure" id="container.env_var_processor"/>
@@ -7127,6 +8370,8 @@
         <argument key="float" type="service_closure" id="container.env_var_processor"/>
         <argument key="int" type="service_closure" id="container.env_var_processor"/>
         <argument key="json" type="service_closure" id="container.env_var_processor"/>
+        <argument key="jwk" type="service_closure" id="Jose\Bundle\JoseFramework\EnvVarProcessor\KeyEnvVarProcessor"/>
+        <argument key="jwkset" type="service_closure" id="Jose\Bundle\JoseFramework\EnvVarProcessor\KeyEnvVarProcessor"/>
         <argument key="key" type="service_closure" id="container.env_var_processor"/>
         <argument key="not" type="service_closure" id="container.env_var_processor"/>
         <argument key="query_string" type="service_closure" id="container.env_var_processor"/>
@@ -7138,6 +8383,88 @@
         <argument key="url" type="service_closure" id="container.env_var_processor"/>
         <argument key="urlencode" type="service_closure" id="container.env_var_processor"/>
       </argument>
+    </service>
+    <service id="debug.security.event_dispatcher.api_login" class="Symfony\Component\EventDispatcher\Debug\TraceableEventDispatcher">
+      <tag name="security.event_dispatcher.api_login">event_dispatcher.dispatcher</tag>
+      <tag name="monolog.logger" channel="event"/>
+      <tag name="kernel.reset" method="reset"/>
+      <tag name="container.decorator" id="security.event_dispatcher.api_login" inner="debug.security.event_dispatcher.api_login.inner"/>
+      <argument type="service" id="debug.security.event_dispatcher.api_login.inner"/>
+      <argument type="service" id="debug.stopwatch"/>
+      <argument type="service" id="monolog.logger.event" on-invalid="null"/>
+      <argument type="service" id="request_stack" on-invalid="null"/>
+      <call method="addListener">
+        <argument>Symfony\Component\Security\Http\Event\CheckPassportEvent</argument>
+        <argument type="collection">
+          <argument type="service_closure" id="security.listener.api_login.user_provider"/>
+          <argument>checkPassport</argument>
+        </argument>
+        <argument>2048</argument>
+      </call>
+      <call method="addListener">
+        <argument>Symfony\Component\Security\Http\Event\LogoutEvent</argument>
+        <argument type="collection">
+          <argument type="service_closure" id="security.logout.listener.default.api_login"/>
+          <argument>onLogout</argument>
+        </argument>
+        <argument>64</argument>
+      </call>
+      <call method="addListener">
+        <argument>Symfony\Component\Security\Http\Event\CheckPassportEvent</argument>
+        <argument type="collection">
+          <argument type="service_closure" id="security.listener.user_checker.api_login"/>
+          <argument>preCheckCredentials</argument>
+        </argument>
+        <argument>256</argument>
+      </call>
+      <call method="addListener">
+        <argument>security.authentication.success</argument>
+        <argument type="collection">
+          <argument type="service_closure" id="security.listener.user_checker.api_login"/>
+          <argument>postCheckCredentials</argument>
+        </argument>
+        <argument>256</argument>
+      </call>
+      <call method="addListener">
+        <argument>Symfony\Component\Security\Http\Event\CheckPassportEvent</argument>
+        <argument type="collection">
+          <argument type="service_closure" id="security.listener.user_provider"/>
+          <argument>checkPassport</argument>
+        </argument>
+        <argument>1024</argument>
+      </call>
+      <call method="addListener">
+        <argument>Symfony\Component\Security\Http\Event\CheckPassportEvent</argument>
+        <argument type="collection">
+          <argument type="service_closure" id="security.listener.check_authenticator_credentials"/>
+          <argument>checkPassport</argument>
+        </argument>
+        <argument>0</argument>
+      </call>
+      <call method="addListener">
+        <argument>Symfony\Component\Security\Http\Event\LoginSuccessEvent</argument>
+        <argument type="collection">
+          <argument type="service_closure" id="security.listener.password_migrating"/>
+          <argument>onLoginSuccess</argument>
+        </argument>
+        <argument>0</argument>
+      </call>
+      <call method="addListener">
+        <argument>Symfony\Component\Security\Http\Event\CheckPassportEvent</argument>
+        <argument type="collection">
+          <argument type="service_closure" id="security.listener.csrf_protection"/>
+          <argument>checkPassport</argument>
+        </argument>
+        <argument>512</argument>
+      </call>
+      <call method="addListener">
+        <argument>Symfony\Component\Security\Http\Event\LogoutEvent</argument>
+        <argument type="collection">
+          <argument type="service_closure" id="security.logout.listener.csrf_token_clearing"/>
+          <argument>onLogout</argument>
+        </argument>
+        <argument>0</argument>
+      </call>
     </service>
     <service id="debug.security.event_dispatcher.main" class="Symfony\Component\EventDispatcher\Debug\TraceableEventDispatcher">
       <tag name="security.event_dispatcher.main">event_dispatcher.dispatcher</tag>
@@ -7613,6 +8940,22 @@
         <argument>Create a new Webhook</argument>
       </call>
     </service>
+    <service id="Jose\Bundle\JoseFramework\Serializer\JWSSerializer" class="Jose\Bundle\JoseFramework\Serializer\JWSSerializer" autowire="true">
+      <tag name="serializer.normalizer"/>
+      <argument type="service" id="Jose\Component\Signature\Serializer\JWSSerializerManagerFactory"/>
+    </service>
+    <service id="Jose\Bundle\JoseFramework\Serializer\JWSEncoder" class="Jose\Bundle\JoseFramework\Serializer\JWSEncoder" autowire="true">
+      <tag name="serializer.encoder"/>
+      <argument type="service" id="Jose\Component\Signature\Serializer\JWSSerializerManagerFactory"/>
+    </service>
+    <service id="Jose\Bundle\JoseFramework\Serializer\JWESerializer" class="Jose\Bundle\JoseFramework\Serializer\JWESerializer" autowire="true">
+      <tag name="serializer.normalizer"/>
+      <argument type="service" id="Jose\Component\Encryption\Serializer\JWESerializerManagerFactory"/>
+    </service>
+    <service id="Jose\Bundle\JoseFramework\Serializer\JWEEncoder" class="Jose\Bundle\JoseFramework\Serializer\JWEEncoder" autowire="true">
+      <tag name="serializer.encoder"/>
+      <argument type="service" id="Jose\Component\Encryption\Serializer\JWESerializerManagerFactory"/>
+    </service>
     <service id=".service_locator.4wc4Ag1" class="Symfony\Component\DependencyInjection\ServiceLocator">
       <tag name="container.service_locator"/>
       <argument type="collection">
@@ -7840,6 +9183,14 @@
       <argument type="service" id="serializer.denormalizer.unwrapping"/>
       <argument type="service" id="serializer.data_collector"/>
     </service>
+    <service id=".debug.serializer.normalizer.Jose\Bundle\JoseFramework\Serializer\JWSSerializer" class="Symfony\Component\Serializer\Debug\TraceableNormalizer">
+      <argument type="service" id="Jose\Bundle\JoseFramework\Serializer\JWSSerializer"/>
+      <argument type="service" id="serializer.data_collector"/>
+    </service>
+    <service id=".debug.serializer.normalizer.Jose\Bundle\JoseFramework\Serializer\JWESerializer" class="Symfony\Component\Serializer\Debug\TraceableNormalizer">
+      <argument type="service" id="Jose\Bundle\JoseFramework\Serializer\JWESerializer"/>
+      <argument type="service" id="serializer.data_collector"/>
+    </service>
     <service id=".debug.serializer.normalizer.serializer.normalizer.flatten_exception" class="Symfony\Component\Serializer\Debug\TraceableNormalizer">
       <argument type="service" id="serializer.normalizer.flatten_exception"/>
       <argument type="service" id="serializer.data_collector"/>
@@ -7914,6 +9265,14 @@
     </service>
     <service id=".debug.serializer.encoder.serializer.encoder.csv" class="Symfony\Component\Serializer\Debug\TraceableEncoder">
       <argument type="service" id="serializer.encoder.csv"/>
+      <argument type="service" id="serializer.data_collector"/>
+    </service>
+    <service id=".debug.serializer.encoder.Jose\Bundle\JoseFramework\Serializer\JWSEncoder" class="Symfony\Component\Serializer\Debug\TraceableEncoder">
+      <argument type="service" id="Jose\Bundle\JoseFramework\Serializer\JWSEncoder"/>
+      <argument type="service" id="serializer.data_collector"/>
+    </service>
+    <service id=".debug.serializer.encoder.Jose\Bundle\JoseFramework\Serializer\JWEEncoder" class="Symfony\Component\Serializer\Debug\TraceableEncoder">
+      <argument type="service" id="Jose\Bundle\JoseFramework\Serializer\JWEEncoder"/>
       <argument type="service" id="serializer.data_collector"/>
     </service>
     <service id=".debug.value_resolver.security.user_value_resolver" class="Symfony\Component\HttpKernel\Controller\ArgumentResolver\TraceableValueResolver">
@@ -8349,6 +9708,12 @@
         <argument key="web_link.http_header_serializer" type="service_closure" id="web_link.http_header_serializer" on-invalid="ignore"/>
       </argument>
     </service>
+    <service id=".service_locator.8FV7jiY.App\Controller\ApiLoginController" class="Symfony\Component\DependencyInjection\ServiceLocator">
+      <tag name="container.service_locator_context" id="App\Controller\ApiLoginController"/>
+      <argument>App\Controller\ApiLoginController</argument>
+      <argument type="service" id="service_container"/>
+      <factory service=".service_locator.8FV7jiY" method="withContext"/>
+    </service>
     <service id=".service_locator.8FV7jiY.App\Controller\AttendanceController" class="Symfony\Component\DependencyInjection\ServiceLocator">
       <tag name="container.service_locator_context" id="App\Controller\AttendanceController"/>
       <argument>App\Controller\AttendanceController</argument>
@@ -8456,10 +9821,11 @@
         <argument key="cache.app" type="service_closure" id="cache.app.taggable"/>
       </argument>
     </service>
-    <service id=".service_locator.YbySDCA" class="Symfony\Component\DependencyInjection\ServiceLocator">
+    <service id=".service_locator.ubTFIF." class="Symfony\Component\DependencyInjection\ServiceLocator">
       <tag name="container.service_locator"/>
       <argument type="collection">
         <argument key="event_dispatcher" type="service_closure" id="debug.event_dispatcher"/>
+        <argument key="security.event_dispatcher.api_login" type="service_closure" id="debug.security.event_dispatcher.api_login"/>
         <argument key="security.event_dispatcher.main" type="service_closure" id="debug.security.event_dispatcher.main"/>
       </argument>
     </service>
@@ -8556,6 +9922,7 @@
       <call method="allowControllers">
         <argument type="collection">
           <argument>App\Kernel</argument>
+          <argument>App\Controller\ApiLoginController</argument>
           <argument>App\Controller\AttendanceController</argument>
           <argument>App\Controller\ReportController</argument>
           <argument>App\Controller\StudentController</argument>
@@ -8587,6 +9954,18 @@
         <argument type="service">
           <service class="Symfony\Component\Serializer\Debug\TraceableNormalizer">
             <argument type="service" id="serializer.denormalizer.unwrapping"/>
+            <argument type="service" id="serializer.data_collector"/>
+          </service>
+        </argument>
+        <argument type="service">
+          <service class="Symfony\Component\Serializer\Debug\TraceableNormalizer">
+            <argument type="service" id="Jose\Bundle\JoseFramework\Serializer\JWSSerializer"/>
+            <argument type="service" id="serializer.data_collector"/>
+          </service>
+        </argument>
+        <argument type="service">
+          <service class="Symfony\Component\Serializer\Debug\TraceableNormalizer">
+            <argument type="service" id="Jose\Bundle\JoseFramework\Serializer\JWESerializer"/>
             <argument type="service" id="serializer.data_collector"/>
           </service>
         </argument>
@@ -8706,6 +10085,18 @@
             <argument type="service" id="serializer.data_collector"/>
           </service>
         </argument>
+        <argument type="service">
+          <service class="Symfony\Component\Serializer\Debug\TraceableEncoder">
+            <argument type="service" id="Jose\Bundle\JoseFramework\Serializer\JWSEncoder"/>
+            <argument type="service" id="serializer.data_collector"/>
+          </service>
+        </argument>
+        <argument type="service">
+          <service class="Symfony\Component\Serializer\Debug\TraceableEncoder">
+            <argument type="service" id="Jose\Bundle\JoseFramework\Serializer\JWEEncoder"/>
+            <argument type="service" id="serializer.data_collector"/>
+          </service>
+        </argument>
       </argument>
     </service>
     <service id="var_dumper.contextualized_cli_dumper.inner" class="Symfony\Component\VarDumper\Dumper\CliDumper">
@@ -8733,9 +10124,13 @@
         </service>
       </argument>
     </service>
+    <service id="debug.security.firewall.authenticator.api_login.inner" class="Symfony\Component\Security\Http\Firewall\AuthenticatorManagerListener">
+      <argument type="service" id="security.authenticator.manager.api_login"/>
+    </service>
     <service id="debug.security.firewall.authenticator.main.inner" class="Symfony\Component\Security\Http\Firewall\AuthenticatorManagerListener">
       <argument type="service" id="security.authenticator.manager.main"/>
     </service>
+    <service id="debug.security.event_dispatcher.api_login.inner" class="Symfony\Component\EventDispatcher\EventDispatcher"/>
     <service id="debug.security.event_dispatcher.main.inner" class="Symfony\Component\EventDispatcher\EventDispatcher"/>
     <service id="debug.traced.messenger.bus.default.inner" class="Symfony\Component\Messenger\MessageBus">
       <argument type="iterator">
@@ -9253,6 +10648,167 @@
       <argument>false</argument>
       <argument type="service_closure" id="security.command.user_password_hash"/>
     </service>
+    <service id=".Jose\Component\Console\AddKeyIntoKeysetCommand.lazy" class="Symfony\Component\Console\Command\LazyCommand">
+      <argument>keyset:add:key</argument>
+      <argument type="collection"/>
+      <argument>Add a key into a key set.</argument>
+      <argument>false</argument>
+      <argument type="service_closure" id="Jose\Component\Console\AddKeyIntoKeysetCommand"/>
+    </service>
+    <service id=".Jose\Component\Console\EcKeyGeneratorCommand.lazy" class="Symfony\Component\Console\Command\LazyCommand">
+      <argument>key:generate:ec</argument>
+      <argument type="collection"/>
+      <argument>Generate an EC key (JWK format)</argument>
+      <argument>false</argument>
+      <argument type="service_closure" id="Jose\Component\Console\EcKeyGeneratorCommand"/>
+    </service>
+    <service id=".Jose\Component\Console\EcKeysetGeneratorCommand.lazy" class="Symfony\Component\Console\Command\LazyCommand">
+      <argument>keyset:generate:ec</argument>
+      <argument type="collection"/>
+      <argument>Generate an EC key set (JWKSet format)</argument>
+      <argument>false</argument>
+      <argument type="service_closure" id="Jose\Component\Console\EcKeysetGeneratorCommand"/>
+    </service>
+    <service id=".Jose\Component\Console\GetThumbprintCommand.lazy" class="Symfony\Component\Console\Command\LazyCommand">
+      <argument>key:thumbprint</argument>
+      <argument type="collection"/>
+      <argument>Get the thumbprint of a JWK key.</argument>
+      <argument>false</argument>
+      <argument type="service_closure" id="Jose\Component\Console\GetThumbprintCommand"/>
+    </service>
+    <service id=".Jose\Component\Console\OptimizeRsaKeyCommand.lazy" class="Symfony\Component\Console\Command\LazyCommand">
+      <argument>key:optimize</argument>
+      <argument type="collection"/>
+      <argument>Optimize a RSA key by calculating additional primes (CRT).</argument>
+      <argument>false</argument>
+      <argument type="service_closure" id="Jose\Component\Console\OptimizeRsaKeyCommand"/>
+    </service>
+    <service id=".Jose\Component\Console\KeyAnalyzerCommand.lazy" class="Symfony\Component\Console\Command\LazyCommand">
+      <argument>key:analyze</argument>
+      <argument type="collection"/>
+      <argument>JWK quality analyzer.</argument>
+      <argument>false</argument>
+      <argument type="service_closure" id="Jose\Component\Console\KeyAnalyzerCommand"/>
+    </service>
+    <service id=".Jose\Component\Console\KeyFileLoaderCommand.lazy" class="Symfony\Component\Console\Command\LazyCommand">
+      <argument>key:load:key</argument>
+      <argument type="collection"/>
+      <argument>Loads a key from a key file (JWK format)</argument>
+      <argument>false</argument>
+      <argument type="service_closure" id="Jose\Component\Console\KeyFileLoaderCommand"/>
+    </service>
+    <service id=".Jose\Component\Console\KeysetAnalyzerCommand.lazy" class="Symfony\Component\Console\Command\LazyCommand">
+      <argument>keyset:analyze</argument>
+      <argument type="collection"/>
+      <argument>JWKSet quality analyzer.</argument>
+      <argument>false</argument>
+      <argument type="service_closure" id="Jose\Component\Console\KeysetAnalyzerCommand"/>
+    </service>
+    <service id=".Jose\Component\Console\MergeKeysetCommand.lazy" class="Symfony\Component\Console\Command\LazyCommand">
+      <argument>keyset:merge</argument>
+      <argument type="collection"/>
+      <argument>Merge several key sets into one.</argument>
+      <argument>false</argument>
+      <argument type="service_closure" id="Jose\Component\Console\MergeKeysetCommand"/>
+    </service>
+    <service id=".Jose\Component\Console\NoneKeyGeneratorCommand.lazy" class="Symfony\Component\Console\Command\LazyCommand">
+      <argument>key:generate:none</argument>
+      <argument type="collection"/>
+      <argument>Generate a none key (JWK format). This key type is only supposed to be used with the "none" algorithm.</argument>
+      <argument>false</argument>
+      <argument type="service_closure" id="Jose\Component\Console\NoneKeyGeneratorCommand"/>
+    </service>
+    <service id=".Jose\Component\Console\OctKeyGeneratorCommand.lazy" class="Symfony\Component\Console\Command\LazyCommand">
+      <argument>key:generate:oct</argument>
+      <argument type="collection"/>
+      <argument>Generate an octet key (JWK format)</argument>
+      <argument>false</argument>
+      <argument type="service_closure" id="Jose\Component\Console\OctKeyGeneratorCommand"/>
+    </service>
+    <service id=".Jose\Component\Console\OctKeysetGeneratorCommand.lazy" class="Symfony\Component\Console\Command\LazyCommand">
+      <argument>keyset:generate:oct</argument>
+      <argument type="collection"/>
+      <argument>Generate a key set with octet keys (JWK format)</argument>
+      <argument>false</argument>
+      <argument type="service_closure" id="Jose\Component\Console\OctKeysetGeneratorCommand"/>
+    </service>
+    <service id=".Jose\Component\Console\OkpKeyGeneratorCommand.lazy" class="Symfony\Component\Console\Command\LazyCommand">
+      <argument>key:generate:okp</argument>
+      <argument type="collection"/>
+      <argument>Generate an Octet Key Pair key (JWK format)</argument>
+      <argument>false</argument>
+      <argument type="service_closure" id="Jose\Component\Console\OkpKeyGeneratorCommand"/>
+    </service>
+    <service id=".Jose\Component\Console\OkpKeysetGeneratorCommand.lazy" class="Symfony\Component\Console\Command\LazyCommand">
+      <argument>keyset:generate:okp</argument>
+      <argument type="collection"/>
+      <argument>Generate a key set with Octet Key Pairs keys (JWKSet format)</argument>
+      <argument>false</argument>
+      <argument type="service_closure" id="Jose\Component\Console\OkpKeysetGeneratorCommand"/>
+    </service>
+    <service id=".Jose\Component\Console\P12CertificateLoaderCommand.lazy" class="Symfony\Component\Console\Command\LazyCommand">
+      <argument>key:load:p12</argument>
+      <argument type="collection"/>
+      <argument>Load a key from a P12 certificate file.</argument>
+      <argument>false</argument>
+      <argument type="service_closure" id="Jose\Component\Console\P12CertificateLoaderCommand"/>
+    </service>
+    <service id=".Jose\Component\Console\PemConverterCommand.lazy" class="Symfony\Component\Console\Command\LazyCommand">
+      <argument>key:convert:pkcs1</argument>
+      <argument type="collection"/>
+      <argument>Converts a RSA or EC key into PKCS#1 key.</argument>
+      <argument>false</argument>
+      <argument type="service_closure" id="Jose\Component\Console\PemConverterCommand"/>
+    </service>
+    <service id=".Jose\Component\Console\PublicKeyCommand.lazy" class="Symfony\Component\Console\Command\LazyCommand">
+      <argument>key:convert:public</argument>
+      <argument type="collection"/>
+      <argument>Convert a private key into public key. Symmetric keys (shared keys) are not changed.</argument>
+      <argument>false</argument>
+      <argument type="service_closure" id="Jose\Component\Console\PublicKeyCommand"/>
+    </service>
+    <service id=".Jose\Component\Console\PublicKeysetCommand.lazy" class="Symfony\Component\Console\Command\LazyCommand">
+      <argument>keyset:convert:public</argument>
+      <argument type="collection"/>
+      <argument>Convert private keys in a key set into public keys. Symmetric keys (shared keys) are not changed.</argument>
+      <argument>false</argument>
+      <argument type="service_closure" id="Jose\Component\Console\PublicKeysetCommand"/>
+    </service>
+    <service id=".Jose\Component\Console\RotateKeysetCommand.lazy" class="Symfony\Component\Console\Command\LazyCommand">
+      <argument>keyset:rotate</argument>
+      <argument type="collection"/>
+      <argument>Rotate a key set.</argument>
+      <argument>false</argument>
+      <argument type="service_closure" id="Jose\Component\Console\RotateKeysetCommand"/>
+    </service>
+    <service id=".Jose\Component\Console\RsaKeyGeneratorCommand.lazy" class="Symfony\Component\Console\Command\LazyCommand">
+      <argument>key:generate:rsa</argument>
+      <argument type="collection"/>
+      <argument>Generate a RSA key (JWK format)</argument>
+      <argument>false</argument>
+      <argument type="service_closure" id="Jose\Component\Console\RsaKeyGeneratorCommand"/>
+    </service>
+    <service id=".Jose\Component\Console\RsaKeysetGeneratorCommand.lazy" class="Symfony\Component\Console\Command\LazyCommand">
+      <argument>keyset:generate:rsa</argument>
+      <argument type="collection"/>
+      <argument>Generate a key set with RSA keys (JWK format)</argument>
+      <argument>false</argument>
+      <argument type="service_closure" id="Jose\Component\Console\RsaKeysetGeneratorCommand"/>
+    </service>
+    <service id=".Jose\Component\Console\SecretKeyGeneratorCommand.lazy" class="Symfony\Component\Console\Command\LazyCommand">
+      <argument>key:generate:from_secret</argument>
+      <argument type="collection"/>
+      <argument>Generate an octet key (JWK format) using an existing secret</argument>
+      <argument>false</argument>
+      <argument type="service_closure" id="Jose\Component\Console\SecretKeyGeneratorCommand"/>
+    </service>
+    <service id=".Jose\Component\Console\X509CertificateLoaderCommand.lazy" class="Symfony\Component\Console\Command\LazyCommand">
+      <argument>key:load:x509</argument>
+      <argument type="collection"/>
+      <argument>Load a key from a X.509 certificate file.</argument>
+      <argument>false</argument>
+      <argument type="service_closure" id="Jose\Component\Console\X509CertificateLoaderCommand"/>
+    </service>
     <service id=".maker.auto_command.make_auth.lazy" class="Symfony\Component\Console\Command\LazyCommand">
       <argument>make:auth</argument>
       <argument type="collection"/>
@@ -9449,7 +11005,7 @@
     </service>
     <service id="console.command_loader" class="Symfony\Component\Console\CommandLoader\ContainerCommandLoader" public="true">
       <tag name="container.no_preload"/>
-      <argument type="service" id=".service_locator.TRqwIn2"/>
+      <argument type="service" id=".service_locator.oIHFbVw"/>
       <argument type="collection">
         <argument key="about">console.command.about</argument>
         <argument key="assets:install">console.command.assets_install</argument>
@@ -9537,6 +11093,29 @@
         <argument key="lint:twig">twig.command.lint</argument>
         <argument key="debug:firewall">security.command.debug_firewall</argument>
         <argument key="security:hash-password">security.command.user_password_hash</argument>
+        <argument key="keyset:add:key">Jose\Component\Console\AddKeyIntoKeysetCommand</argument>
+        <argument key="key:generate:ec">Jose\Component\Console\EcKeyGeneratorCommand</argument>
+        <argument key="keyset:generate:ec">Jose\Component\Console\EcKeysetGeneratorCommand</argument>
+        <argument key="key:thumbprint">Jose\Component\Console\GetThumbprintCommand</argument>
+        <argument key="key:optimize">Jose\Component\Console\OptimizeRsaKeyCommand</argument>
+        <argument key="key:analyze">Jose\Component\Console\KeyAnalyzerCommand</argument>
+        <argument key="key:load:key">Jose\Component\Console\KeyFileLoaderCommand</argument>
+        <argument key="keyset:analyze">Jose\Component\Console\KeysetAnalyzerCommand</argument>
+        <argument key="keyset:merge">Jose\Component\Console\MergeKeysetCommand</argument>
+        <argument key="key:generate:none">Jose\Component\Console\NoneKeyGeneratorCommand</argument>
+        <argument key="key:generate:oct">Jose\Component\Console\OctKeyGeneratorCommand</argument>
+        <argument key="keyset:generate:oct">Jose\Component\Console\OctKeysetGeneratorCommand</argument>
+        <argument key="key:generate:okp">Jose\Component\Console\OkpKeyGeneratorCommand</argument>
+        <argument key="keyset:generate:okp">Jose\Component\Console\OkpKeysetGeneratorCommand</argument>
+        <argument key="key:load:p12">Jose\Component\Console\P12CertificateLoaderCommand</argument>
+        <argument key="key:convert:pkcs1">Jose\Component\Console\PemConverterCommand</argument>
+        <argument key="key:convert:public">Jose\Component\Console\PublicKeyCommand</argument>
+        <argument key="keyset:convert:public">Jose\Component\Console\PublicKeysetCommand</argument>
+        <argument key="keyset:rotate">Jose\Component\Console\RotateKeysetCommand</argument>
+        <argument key="key:generate:rsa">Jose\Component\Console\RsaKeyGeneratorCommand</argument>
+        <argument key="keyset:generate:rsa">Jose\Component\Console\RsaKeysetGeneratorCommand</argument>
+        <argument key="key:generate:from_secret">Jose\Component\Console\SecretKeyGeneratorCommand</argument>
+        <argument key="key:load:x509">Jose\Component\Console\X509CertificateLoaderCommand</argument>
         <argument key="make:auth">maker.auto_command.make_auth</argument>
         <argument key="make:command">maker.auto_command.make_command</argument>
         <argument key="make:twig-component">maker.auto_command.make_twig_component</argument>
@@ -9569,10 +11148,33 @@
         <argument key="make:webhook">maker.auto_command.make_webhook</argument>
       </argument>
     </service>
-    <service id=".service_locator.TRqwIn2" class="Symfony\Component\DependencyInjection\ServiceLocator">
+    <service id=".service_locator.oIHFbVw" class="Symfony\Component\DependencyInjection\ServiceLocator">
       <tag name="container.service_locator"/>
       <argument type="collection">
         <argument key="Doctrine\DBAL\Tools\Console\Command\RunSqlCommand" type="service_closure" id="Doctrine\DBAL\Tools\Console\Command\RunSqlCommand"/>
+        <argument key="Jose\Component\Console\AddKeyIntoKeysetCommand" type="service_closure" id=".Jose\Component\Console\AddKeyIntoKeysetCommand.lazy"/>
+        <argument key="Jose\Component\Console\EcKeyGeneratorCommand" type="service_closure" id=".Jose\Component\Console\EcKeyGeneratorCommand.lazy"/>
+        <argument key="Jose\Component\Console\EcKeysetGeneratorCommand" type="service_closure" id=".Jose\Component\Console\EcKeysetGeneratorCommand.lazy"/>
+        <argument key="Jose\Component\Console\GetThumbprintCommand" type="service_closure" id=".Jose\Component\Console\GetThumbprintCommand.lazy"/>
+        <argument key="Jose\Component\Console\KeyAnalyzerCommand" type="service_closure" id=".Jose\Component\Console\KeyAnalyzerCommand.lazy"/>
+        <argument key="Jose\Component\Console\KeyFileLoaderCommand" type="service_closure" id=".Jose\Component\Console\KeyFileLoaderCommand.lazy"/>
+        <argument key="Jose\Component\Console\KeysetAnalyzerCommand" type="service_closure" id=".Jose\Component\Console\KeysetAnalyzerCommand.lazy"/>
+        <argument key="Jose\Component\Console\MergeKeysetCommand" type="service_closure" id=".Jose\Component\Console\MergeKeysetCommand.lazy"/>
+        <argument key="Jose\Component\Console\NoneKeyGeneratorCommand" type="service_closure" id=".Jose\Component\Console\NoneKeyGeneratorCommand.lazy"/>
+        <argument key="Jose\Component\Console\OctKeyGeneratorCommand" type="service_closure" id=".Jose\Component\Console\OctKeyGeneratorCommand.lazy"/>
+        <argument key="Jose\Component\Console\OctKeysetGeneratorCommand" type="service_closure" id=".Jose\Component\Console\OctKeysetGeneratorCommand.lazy"/>
+        <argument key="Jose\Component\Console\OkpKeyGeneratorCommand" type="service_closure" id=".Jose\Component\Console\OkpKeyGeneratorCommand.lazy"/>
+        <argument key="Jose\Component\Console\OkpKeysetGeneratorCommand" type="service_closure" id=".Jose\Component\Console\OkpKeysetGeneratorCommand.lazy"/>
+        <argument key="Jose\Component\Console\OptimizeRsaKeyCommand" type="service_closure" id=".Jose\Component\Console\OptimizeRsaKeyCommand.lazy"/>
+        <argument key="Jose\Component\Console\P12CertificateLoaderCommand" type="service_closure" id=".Jose\Component\Console\P12CertificateLoaderCommand.lazy"/>
+        <argument key="Jose\Component\Console\PemConverterCommand" type="service_closure" id=".Jose\Component\Console\PemConverterCommand.lazy"/>
+        <argument key="Jose\Component\Console\PublicKeyCommand" type="service_closure" id=".Jose\Component\Console\PublicKeyCommand.lazy"/>
+        <argument key="Jose\Component\Console\PublicKeysetCommand" type="service_closure" id=".Jose\Component\Console\PublicKeysetCommand.lazy"/>
+        <argument key="Jose\Component\Console\RotateKeysetCommand" type="service_closure" id=".Jose\Component\Console\RotateKeysetCommand.lazy"/>
+        <argument key="Jose\Component\Console\RsaKeyGeneratorCommand" type="service_closure" id=".Jose\Component\Console\RsaKeyGeneratorCommand.lazy"/>
+        <argument key="Jose\Component\Console\RsaKeysetGeneratorCommand" type="service_closure" id=".Jose\Component\Console\RsaKeysetGeneratorCommand.lazy"/>
+        <argument key="Jose\Component\Console\SecretKeyGeneratorCommand" type="service_closure" id=".Jose\Component\Console\SecretKeyGeneratorCommand.lazy"/>
+        <argument key="Jose\Component\Console\X509CertificateLoaderCommand" type="service_closure" id=".Jose\Component\Console\X509CertificateLoaderCommand.lazy"/>
         <argument key="asset_mapper.command.compile" type="service_closure" id=".asset_mapper.command.compile.lazy"/>
         <argument key="asset_mapper.command.debug" type="service_closure" id=".asset_mapper.command.debug.lazy"/>
         <argument key="asset_mapper.importmap.command.audit" type="service_closure" id=".asset_mapper.importmap.command.audit.lazy"/>
@@ -9822,6 +11424,7 @@
     <service id="Symfony\Component\AssetMapper\AssetMapperInterface" alias="asset_mapper"/>
     <service id="Symfony\Component\AssetMapper\ImportMap\ImportMapManager" alias="asset_mapper.importmap.manager"/>
     <service id="Symfony\Contracts\HttpClient\HttpClientInterface" alias=".debug.http_client"/>
+    <service id="Psr\Http\Client\ClientInterface" alias="psr18.http_client"/>
     <service id="mailer" alias="mailer.mailer"/>
     <service id="Symfony\Component\Mailer\MailerInterface" alias="mailer.mailer"/>
     <service id="Symfony\Component\Mailer\Transport\TransportInterface" alias="mailer.default_transport"/>
@@ -9916,15 +11519,16 @@
     <service id="Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface" alias="security.user_password_hasher"/>
     <service id="Symfony\Component\Security\Http\Authentication\UserAuthenticatorInterface" alias="security.user_authenticator"/>
     <service id="security.firewall" alias="debug.security.firewall"/>
-    <service id="security.user_providers" alias="security.user.provider.concrete.users_in_memory"/>
-    <service id="Symfony\Component\Security\Core\User\UserProviderInterface" alias="security.user.provider.concrete.users_in_memory"/>
+    <service id="security.authentication.session_strategy.api_login" alias="security.authentication.session_strategy_noop"/>
+    <service id="security.user_checker.api_login" alias="security.user_checker"/>
     <service id="security.authentication.session_strategy.main" alias="security.authentication.session_strategy"/>
     <service id="security.user_checker.main" alias="security.user_checker"/>
-    <service id="security.firewall.context_locator" alias=".service_locator.bsoXAxw"/>
+    <service id="security.firewall.context_locator" alias=".service_locator.oibJEp9"/>
     <service id="Symfony\Component\Security\Core\User\UserCheckerInterface" alias="security.user_checker"/>
     <service id="logger" alias="monolog.logger"/>
     <service id="Psr\Log\LoggerInterface" alias="monolog.logger"/>
-    <service id="container.env_var_processors_locator" alias=".service_locator.1W6W_dF" public="true"/>
+    <service id="jose.clock" alias="jose.internal_clock"/>
+    <service id="container.env_var_processors_locator" alias=".service_locator.HdwwBqs" public="true"/>
     <service id="twig.loader.filesystem" alias="twig.loader.native_filesystem"/>
     <service id="argument_resolver.controller_locator" alias=".service_locator.27YUF68"/>
     <service id="doctrine.id_generator_locator" alias=".service_locator.BxSdgVt"/>
@@ -9964,7 +11568,9 @@
     <service id="twig.error_renderer.html.inner" alias="error_handler.error_renderer.html"/>
     <service id="turbo.broadcaster.imux" alias="turbo.broadcaster.action_renderer"/>
     <service id="security.access.decision_manager" alias="debug.security.access.decision_manager"/>
+    <service id="security.firewall.authenticator.api_login" alias="debug.security.firewall.authenticator.api_login"/>
     <service id="security.firewall.authenticator.main" alias="debug.security.firewall.authenticator.main"/>
+    <service id="security.event_dispatcher.api_login" alias="debug.security.event_dispatcher.api_login"/>
     <service id="security.event_dispatcher.main" alias="debug.security.event_dispatcher.main"/>
     <service id="messenger.bus.default" alias="debug.traced.messenger.bus.default"/>
     <service id="doctrine.orm.default_metadata_driver" alias=".doctrine.orm.default_metadata_driver"/>

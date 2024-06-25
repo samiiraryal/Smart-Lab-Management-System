@@ -6,9 +6,12 @@ use App\Repository\TeacherRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 
 #[ORM\Entity(repositoryClass: TeacherRepository::class)]
-class Teacher
+#[ORM\Table(name: 'teacher ')]
+class Teacher implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -23,6 +26,7 @@ class Teacher
 
     #[ORM\Column(length: 255)]
     private ?string $password = null;
+
 
     /**
      * @var Collection<int, Student>
@@ -99,4 +103,31 @@ class Teacher
 
         return $this;
     }
+
+   public function getRoles(): array
+    {
+        return ['ROLE_USER'];
+    }
+
+    // public function getUsername(): string
+    // {
+    //     return $this->email;
+    // }
+   
+    public function getSalt(): ?string
+    {
+        // Not needed when using the "bcrypt" or "argon2i" algorithm
+        return null;
+    }
+
+    public function eraseCredentials(): void
+    {
+        // If you store any temporary, sensitive data on the user, clear it here
+    }
+
+    public function getUserIdentifier(): string
+    {
+        return $this->email;
+    }
+  
 }
