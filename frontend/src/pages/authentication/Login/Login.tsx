@@ -45,6 +45,9 @@ const Login = () => {
             required
           />
         </div>
+        <a href="#" style={{ float: "right" }}>
+          forgot password?
+        </a>
         <div className={styles.submit_container}>
           <button type="submit" className={styles.button}>
             Login
