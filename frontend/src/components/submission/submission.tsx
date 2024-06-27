@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import styles from './submission.module.css';
+import styles from './submission.module.css'
 
 const initialSubmissionData = [
     {
@@ -108,15 +108,7 @@ const Submission = () => {
                                 </label>
                             </div>
                         </div>
-                        <div className={styles.formGroup}>
-                            <label className={styles.submissionLabel}>Feedback:</label>
-                            <textarea
-                                className={styles.submissionTextarea}
-                                value={submission.feedback}
-                                onChange={(e) => handleFeedbackChange(submission.id, e.target.value)}
-                                placeholder="Enter feedback here"
-                            />
-                        </div>
+                        
                     </li>
                 ))}
             </ul>
