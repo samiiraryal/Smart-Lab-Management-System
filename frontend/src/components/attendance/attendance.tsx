@@ -122,7 +122,6 @@ const Attendance = () => {
         <button onClick={handleSave} style={{ color: "black" }}>
           Save Attendance
         </button>
-      </div>
       <table>
         <thead>
           <tr>
@@ -145,6 +144,7 @@ const Attendance = () => {
           ))}
         </tbody>
       </table>
+      </div>
     </>
   );
 };
