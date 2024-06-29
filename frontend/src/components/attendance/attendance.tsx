@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import styles from "./attendance.module.css";
 import ImportFile from "./csv-reader.js";
+import CsvUpload from "./csv-upload.js";
 
 const Attendance = () => {
   const [attendanceData, setAttendanceData] = useState({
@@ -150,7 +151,8 @@ const Attendance = () => {
           </button>
 
       </div>
-      {/* <ImportFile/> */}
+      <ImportFile/>
+      {/* <CsvUpload/> */}
     </>
   );
 };
