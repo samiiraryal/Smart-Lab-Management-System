@@ -1,6 +1,7 @@
 // src/Attendance.tsx
 import React, { useState } from "react";
 import styles from "./attendance.module.css";
+import ImportFile from "./csv-reader.js";
 
 const Attendance = () => {
   const [attendanceData, setAttendanceData] = useState({
@@ -144,7 +145,12 @@ const Attendance = () => {
           ))}
         </tbody>
       </table>
+      <button type="button" className={styles.button}>
+            upload
+          </button>
+
       </div>
+      <ImportFile/>
     </>
   );
 };
