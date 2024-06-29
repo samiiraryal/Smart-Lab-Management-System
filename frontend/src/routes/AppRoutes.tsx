@@ -10,6 +10,7 @@ import Attendance from "../components/attendance/attendance.js";
 import ComputerCondition from "../components/computerCondition/computerCondition.js";
 import Submission from "../components/submission/submission.js";
 import StudentProgress from "../components/studentProgress/studentProgress.js";
+import StudentDetail from "..//components/studentProgress/student-progress-detail/student-detail.js";
 // import StudentDetail from "../components/studentDetails/studentDetails.js";
 
 const AppRoutes = () => {
@@ -28,6 +29,7 @@ const AppRoutes = () => {
           <Route path="/computer-condition" element={<ComputerCondition />} />
           <Route path="/submission" element={<Submission />} />
           <Route path="/student-progress" element={<StudentProgress />} />
+          <Route path="/student-progress/:student" element={<StudentDetail />} />
           {/* <Route path="/student-detail" element={<StudentDetail />} /> */}
         </Route>
       </Routes>
