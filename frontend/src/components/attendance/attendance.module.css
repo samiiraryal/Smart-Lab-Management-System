@@ -48,15 +48,16 @@
   
   button {
     padding: 10px 20px;
-    background: #007bff;
-    color: rgb(126, 122, 122);
+    background-color: #007bff;
+    color: rgb(56, 116, 228);
     border: none;
     border-radius: 10px;
     cursor: pointer;
+    
   }
   
   button:hover {
-    background: #007bff;
+    background:  #007bff;
   }
   
   .tableContainer {
@@ -88,3 +89,18 @@
     background: #f9f9f9;
   }
   
+
+  .button {
+    background-color: #007bff;
+    color: white;
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+   margin-top: 20px;
+  }
+  
+  .button:hover {
+    background-color: #0056b3;
+  }
