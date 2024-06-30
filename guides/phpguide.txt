@@ -1,0 +1,3 @@
+php -S localhost:8000 -t public 
+
+localhost:8000/api/login   give route as mentioned in code
