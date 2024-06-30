@@ -95,20 +95,20 @@ const ImportFile = () => {
           <div style={{ marginTop: '3rem' }}>
             <table>
               <thead>
-                <th>Course</th>
-                <th>Date</th>
-                <th>Roll</th>
-                <th>Student Name</th>
-                <th>Present/Absent</th>
+              <th>Name</th>
+              <th>Symbol Number</th>
+              <th>Section</th>
+              <th>Semester</th>
+              <th>Present/Absent</th>
               </thead>
               <tbody>
                 {data &&
                   data.map((e, i) => (
                     <tr key={i} className='item'>
-                      <td>{e.course}</td>
-                      <td>{e.date}</td>
-                      <td>{e.roll}</td>
-                      <td>{e.studentName}</td>
+                      <td>{e.name}</td>
+                      <td>{e.symbolNumber}</td>
+                      <td>{e.section}</td>
+                      <td>{e.semester}</td>
                       <td>{e.isPresent}</td>
                       
                     </tr>
