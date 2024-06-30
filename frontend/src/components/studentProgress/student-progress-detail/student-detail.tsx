@@ -1,6 +1,9 @@
 import React, { useState } from "react";
 import { useParams } from "react-router-dom";
-import StudentDetailGraph from "./student-detail-graph.js";
+import BackButton from "../../../utils/back-button.js";
+import StudentDetailGraph, {
+  StudentLabReportDetailGraph,
+} from "./student-detail-graph.js";
 import styles from "./student-detail.module.css";
 
 const studentData = [
@@ -24,27 +27,52 @@ const StudentDetail = () => {
   const attendancePercentage = ((student.attendance / totalDays) * 100).toFixed(
     2
   );
+  const TotalLabReport = 100; // Total number of lab report
+  const LabReportPercentage = (
+    (student.attendance / TotalLabReport) *
+    100
+  ).toFixed(2);
 
   return (
     <div className={styles.studentDetail}>
-      <h2>{student.name}</h2>
-      <div className={styles.detailItem}>
-        <span className={styles.label}>Total Days:</span>
-        <span>{totalDays}</span>
+      <div className={styles.headingContainer}>
+        <BackButton href="/student-progress" />
+        <h2>{student.name}</h2>
+        <div></div>
       </div>
-      <div className={styles.detailItem}>
-        <span className={styles.label}>Present Days:</span>
-        <span>{student.attendance}</span>
+      <div className={styles.attendanceLabContainer}>
+        <aside>
+          <div className={styles.detailItem}>
+            <span className={styles.label}>Total Days:</span>
+            <span>{totalDays}</span>
+          </div>
+          <div className={styles.detailItem}>
+            <span className={styles.label}>Present Days:</span>
+            <span>{student.attendance}</span>
+          </div>
+          <div className={styles.detailItem}>
+            <span className={styles.label}>Attendance Percentage:</span>
+            <span>{attendancePercentage}%</span>
+          </div>
+          <StudentDetailGraph student={student} />
+        </aside>
+        <div className={styles.separator} />
+        <aside>
+          <div className={styles.detailItem}>
+            <span className={styles.label}>Total Lab Report:</span>
+            <span>{TotalLabReport}</span>
+          </div>
+          <div className={styles.detailItem}>
+            <span className={styles.label}>Report Provided:</span>
+            <span>{student.reportDays}</span>
+          </div>
+          <div className={styles.detailItem}>
+            <span className={styles.label}>Lab Report Percentage:</span>
+            <span>{LabReportPercentage}%</span>
+          </div>
+          <StudentLabReportDetailGraph student={student} />
+        </aside>
       </div>
-      <div className={styles.detailItem}>
-        <span className={styles.label}>Attendance Percentage:</span>
-        <span>{attendancePercentage}%</span>
-      </div>
-      <div className={styles.detailItem}>
-        <span className={styles.label}>Report Provided Days:</span>
-        <span>{student.reportDays}</span>
-      </div>
-      <StudentDetailGraph student={student} />
     </div>
   );
 };

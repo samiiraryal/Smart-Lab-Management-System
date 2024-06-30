@@ -32,16 +32,15 @@ const getBgColor = (days: number) => {
 const StudentDetailGraph = ({ student }: { student: any }) => {
   const totalDays = 25;
   const data = {
-    labels: ["Present Days", "Report Provided Days"],
+    labels: ["Present Days"],
     datasets: [
       {
         label: "Days",
-        data: [student.attendance, student.reportDays, totalDays],
+        data: [student.attendance, totalDays],
         backgroundColor: [
           getBgColor(student.attendance),
-          "rgba(153, 102, 255, 0.6)",
         ],
-        borderColor: [getBgColor(student.attendance), "rgba(153, 102, 255, 1)"],
+        borderColor: [getBgColor(student.attendance)],
         borderWidth: 1,
       },
     ],
@@ -68,3 +67,40 @@ const StudentDetailGraph = ({ student }: { student: any }) => {
 };
 
 export default StudentDetailGraph;
+
+export const StudentLabReportDetailGraph = ({ student }: { student: any }) => {
+    const totalDays = 100;
+    const data = {
+      labels: ["Lab Report Days"],
+      datasets: [
+        {
+          label: "Lab Report Days",
+          data: [student.attendance, totalDays],
+          backgroundColor: [
+            getBgColor(student.attendance),
+          ],
+          borderColor: [getBgColor(student.attendance)],
+          borderWidth: 1,
+        },
+      ],
+    };
+  
+    const options = {
+      scales: {
+        y: {
+          beginAtZero: true,
+          min: 0,
+          max: totalDays, // Set max to total number of days in the academic period
+          ticks: {
+            stepSize: 5 // Customize the step size as needed
+          }
+        },
+      },
+    };
+  
+    return (
+      <div>
+        <Bar data={data} options={options} />
+      </div>
+    );
+  };
