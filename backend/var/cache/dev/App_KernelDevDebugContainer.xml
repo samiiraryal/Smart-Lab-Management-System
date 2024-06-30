@@ -83,6 +83,7 @@
     </parameter>
     <parameter key="kernel.charset">UTF-8</parameter>
     <parameter key="kernel.container_class">App_KernelDevDebugContainer</parameter>
+    <parameter key="csv_directory">C:\Users\user\OneDrive\Desktop\finalproject\finalyearproject\backend/public/uploads/csv</parameter>
     <parameter key="event_dispatcher.event_aliases" type="collection">
       <parameter key="Symfony\Component\Console\Event\ConsoleCommandEvent">console.command</parameter>
       <parameter key="Symfony\Component\Console\Event\ConsoleErrorEvent">console.error</parameter>
@@ -388,6 +389,7 @@
     <service id="App\Controller\StudentController" class="App\Controller\StudentController" public="true" autowire="true" autoconfigure="true">
       <tag name="controller.service_arguments"/>
       <tag name="container.service_subscriber"/>
+      <argument type="service" id="parameter_bag"/>
       <call method="setContainer">
         <argument type="service" id=".service_locator.8FV7jiY.App\Controller\StudentController"/>
       </call>
@@ -398,6 +400,9 @@
       <call method="setContainer">
         <argument type="service" id=".service_locator.8FV7jiY.App\Controller\TeacherController"/>
       </call>
+    </service>
+    <service id="App\Form\CsvUploadType" class="App\Form\CsvUploadType" autowire="true" autoconfigure="true">
+      <tag name="form.type"/>
     </service>
     <service id="App\Form\StudentType" class="App\Form\StudentType" autowire="true" autoconfigure="true">
       <tag name="form.type"/>
@@ -1387,6 +1392,7 @@
         <argument>Symfony\Bridge\Doctrine\Form\Type</argument>
       </argument>
       <argument type="collection">
+        <argument>App\Form\CsvUploadType</argument>
         <argument>App\Form\StudentType</argument>
         <argument>App\Form\TeacherType</argument>
         <argument>Symfony\Component\Form\Extension\Core\Type\FormType</argument>
@@ -3980,7 +3986,7 @@
       <argument type="service" id="form.registry"/>
     </service>
     <service id="form.extension" class="Symfony\Component\Form\Extension\DependencyInjection\DependencyInjectionExtension">
-      <argument type="service" id=".service_locator.T9I7qcb"/>
+      <argument type="service" id=".service_locator.P6gyFIJ"/>
       <argument type="collection">
         <argument key="Symfony\Component\Form\Extension\Core\Type\FormType" type="iterator">
           <argument type="service" id="form.type_extension.form.transformation_failure_handling"/>
@@ -8232,6 +8238,8 @@
     <service id=".instanceof.Symfony\Contracts\Service\ServiceSubscriberInterface.0.App\Controller\TeacherController" class="App\Controller\TeacherController" autowire="true" abstract="true"/>
     <service id=".instanceof.Symfony\Bundle\FrameworkBundle\Controller\AbstractController.0.App\Controller\TeacherController" class="App\Controller\TeacherController" autowire="true" abstract="true"/>
     <service id=".abstract.instanceof.App\Controller\TeacherController" class="App\Controller\TeacherController" autowire="true" autoconfigure="true" abstract="true"/>
+    <service id=".instanceof.Symfony\Component\Form\FormTypeInterface.0.App\Form\CsvUploadType" class="App\Form\CsvUploadType" autowire="true" abstract="true"/>
+    <service id=".abstract.instanceof.App\Form\CsvUploadType" class="App\Form\CsvUploadType" autowire="true" autoconfigure="true" abstract="true"/>
     <service id=".instanceof.Symfony\Component\Form\FormTypeInterface.0.App\Form\StudentType" class="App\Form\StudentType" autowire="true" abstract="true"/>
     <service id=".abstract.instanceof.App\Form\StudentType" class="App\Form\StudentType" autowire="true" autoconfigure="true" abstract="true"/>
     <service id=".instanceof.Symfony\Component\Form\FormTypeInterface.0.App\Form\TeacherType" class="App\Form\TeacherType" autowire="true" abstract="true"/>
@@ -9331,9 +9339,10 @@
       <argument type="service" id="argument_resolver.query_parameter_value_resolver"/>
       <argument type="service" id="debug.stopwatch"/>
     </service>
-    <service id=".service_locator.T9I7qcb" class="Symfony\Component\DependencyInjection\ServiceLocator">
+    <service id=".service_locator.P6gyFIJ" class="Symfony\Component\DependencyInjection\ServiceLocator">
       <tag name="container.service_locator"/>
       <argument type="collection">
+        <argument key="App\Form\CsvUploadType" type="service_closure" id="App\Form\CsvUploadType"/>
         <argument key="App\Form\StudentType" type="service_closure" id="App\Form\StudentType"/>
         <argument key="App\Form\TeacherType" type="service_closure" id="App\Form\TeacherType"/>
         <argument key="Symfony\Bridge\Doctrine\Form\Type\EntityType" type="service_closure" id="form.type.entity"/>

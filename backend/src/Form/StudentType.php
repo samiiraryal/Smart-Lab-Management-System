@@ -15,7 +15,7 @@ class StudentType extends AbstractType
     {
         $builder
             ->add('name')
-            ->add('email')
+            ->add('symbolno')
             ->add('teachers', EntityType::class, [
                 'class' => Teacher::class,
                 'choice_label' => 'id',
