@@ -20,6 +20,7 @@ return [
         '/attendance/present' => [[['_route' => 'attendance_present', '_controller' => 'App\\Controller\\AttendanceController::getPresentStudents'], null, ['POST' => 0], null, false, false, null]],
         '/report/add' => [[['_route' => 'report_add', '_controller' => 'App\\Controller\\ReportController::addReport'], null, ['POST' => 0], null, false, false, null]],
         '/student/all' => [[['_route' => 'app_all_student', '_controller' => 'App\\Controller\\StudentController::index'], null, ['GET' => 0], null, false, false, null]],
+        '/student/upload' => [[['_route' => 'student_upload', '_controller' => 'App\\Controller\\StudentController::upload'], null, ['POST' => 0], null, false, false, null]],
         '/teacher' => [[['_route' => 'app_teacher_index', '_controller' => 'App\\Controller\\TeacherController::index'], null, ['GET' => 0], null, true, false, null]],
         '/teacher/new' => [[['_route' => 'app_teacher_new', '_controller' => 'App\\Controller\\TeacherController::new'], null, ['GET' => 0, 'POST' => 1], null, false, false, null]],
     ],
