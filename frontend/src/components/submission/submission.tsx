@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import styles from './submission.module.css'
+import BackButton from "../../utils/back-button.js";
 
 const initialSubmissionData = [
     {
@@ -56,7 +57,12 @@ const Submission = () => {
 
     return (
         <div className={styles.submissionContainer}>
-            <h2 className={styles.submissionHeader}>Submissions</h2>
+            <div className={styles.headingContainer}>
+          <BackButton />
+          <h2 className={styles.submissionHeader}>Submissions</h2>
+          <div></div>
+        </div>
+            
             <ul className={styles.submissionList}>
                 {submissions.map(submission => (
                     <li key={submission.id} className={styles.submissionItem}>

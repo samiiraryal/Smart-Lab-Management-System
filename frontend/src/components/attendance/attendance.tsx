@@ -3,6 +3,9 @@ import React, { useState } from "react";
 import styles from "./attendance.module.css";
 import ImportFile from "./csv-reader.js";
 import CsvUpload from "./csv-upload.js";
+import { IoMdArrowRoundBack } from "react-icons/io";
+import { useNavigate } from "react-router-dom";
+import BackButton from "../../utils/back-button.js";
 
 const Attendance = () => {
   const [attendanceData, setAttendanceData] = useState({
@@ -11,7 +14,6 @@ const Attendance = () => {
     present: false,
     course: "",
     date: "",
-    
   });
 
   const [allData, setAllData] = useState<any[]>([]);
@@ -27,7 +29,8 @@ const Attendance = () => {
   const handleChange = (
     event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
-    const { name, value, type, checked} = event.target;
+    // @ts-ignore
+    const { name, value, type, checked } = event.target;
     setAttendanceData((prevData) => ({
       ...prevData,
       [name]: type === "checkbox" ? checked : value,
@@ -47,12 +50,14 @@ const Attendance = () => {
     });
   };
 
-  console.log("All data", allData);
-
   return (
     <>
       <div className={styles.attendanceContainer}>
-        <h2>Attendance Form</h2>
+        <div className={styles.headingContainer}>
+          <BackButton />
+          <h2>Attendance Form</h2>
+          <div></div>
+        </div>
         <div className={styles.formGroup}>
           <label htmlFor="course">Select Course:</label>
           <select
@@ -68,6 +73,7 @@ const Attendance = () => {
               </option>
             ))}
           </select>
+          <div></div>
         </div>
         <div className={styles.formGroup}>
           <label htmlFor="date">Select Date:</label>
@@ -77,7 +83,8 @@ const Attendance = () => {
             name="date"
             value={attendanceData.date}
             onChange={handleChange}
-          />
+            />
+            <div></div>
         </div>
         <div className={styles.studentGroup}>
           <input
@@ -117,42 +124,40 @@ const Attendance = () => {
                 } as React.ChangeEvent<HTMLInputElement>)
               }
             />
-            Absent 
-            
+            Absent
           </label>
         </div>
-        <button onClick={handleSave} style={{ color: "black" }}>
+        <button onClick={handleSave} className={styles.button}>
           Save Attendance
         </button>
-      <table>
-        <thead>
-          <tr>
-            <th>Course</th>
-            <th>Date</th>
-            <th>Roll</th>
-            <th>Student Name</th>
-            <th>Present/Absent</th>
-          </tr>
-        </thead>
-        <tbody>
-          {allData.map((data, index) => (
-            <tr key={index}>
-              <td>{data.course}</td>
-              <td>{data.date}</td>
-              <td>{data.rollNumber}</td>
-              <td>{data.studentName}</td>
-              <td>{data.present ? "Present" : "Absent"}</td>
+        <table>
+          <thead>
+            <tr>
+              <th>Course</th>
+              <th>Date</th>
+              <th>Roll</th>
+              <th>Student Name</th>
+              <th>Present/Absent</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
-      <button type="button" className={styles.button}>
-            upload
-          </button>
-
+          </thead>
+          <tbody>
+            {allData.map((data, index) => (
+              <tr key={index}>
+                <td>{data.course}</td>
+                <td>{data.date}</td>
+                <td>{data.rollNumber}</td>
+                <td>{data.studentName}</td>
+                <td>{data.present ? "Present" : "Absent"}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+        <button type="button" className={styles.button}>
+          Import From CSV File
+        </button>
       </div>
-      <ImportFile/>
-      {/* <CsvUpload/> */}
+      <ImportFile />
+      
     </>
   );
 };

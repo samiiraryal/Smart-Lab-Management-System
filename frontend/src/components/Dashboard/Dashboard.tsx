@@ -32,6 +32,7 @@ const Dashboard = () => {
    else if (action==="Computer Condition") {
     navigate(`/computer-condition`);
    }
+   
    else {
     navigate(`/student-progress`);
    }
@@ -70,6 +71,12 @@ const Dashboard = () => {
           onClick={() => handleButtonClick("Student Progress")}
         >
           Student Progress
+        </button>
+        <button
+          className={styles.button}
+          onClick={() => handleButtonClick("Password Request")}
+        >
+          Password Request
         </button>
       </div>
       <div className={styles.formContainer}>
