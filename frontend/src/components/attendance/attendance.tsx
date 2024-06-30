@@ -133,20 +133,20 @@ const Attendance = () => {
         <table>
           <thead>
             <tr>
-              <th>Course</th>
-              <th>Date</th>
-              <th>Roll</th>
-              <th>Student Name</th>
+              <th>Name</th>
+              <th>Symbol Number</th>
+              <th>Section</th>
+              <th>Semester</th>
               <th>Present/Absent</th>
             </tr>
           </thead>
           <tbody>
             {allData.map((data, index) => (
               <tr key={index}>
-                <td>{data.course}</td>
-                <td>{data.date}</td>
-                <td>{data.rollNumber}</td>
-                <td>{data.studentName}</td>
+                <td>{data.name}</td>
+                <td>{data.symbolNumber}</td>
+                <td>{data.section}</td>
+                <td>{data.semeste}</td>
                 <td>{data.present ? "Present" : "Absent"}</td>
               </tr>
             ))}
