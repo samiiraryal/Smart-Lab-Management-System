@@ -1,3 +1,7 @@
 php -S localhost:8000 -t public 
 
 localhost:8000/api/login   give route as mentioned in code
+
+transfer the downloaded zip file to localdisk C 
+copy the path to edit environmental variable in system variable
+check version
