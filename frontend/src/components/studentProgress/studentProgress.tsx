@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import BackButton from "../../utils/back-button.js";
 // import './App.css';
 import styles from "./studentProgess.module.css";
 
@@ -37,7 +38,13 @@ const StudentProgress = () => {
 
   return (
     <div className={styles.App}>
-      <h1>Student Progress</h1>
+
+<div className={styles.headingContainer}>
+          <BackButton />
+          <h2>Student Progress</h2>
+          <div></div>
+        </div>
+      
       <div className={styles.controls}>
         <button onClick={() => sortStudents("name")}>Sort by Name</button>
         <button onClick={() => sortStudents("attendance")}>

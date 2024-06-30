@@ -114,3 +114,9 @@
   font-size: 14px;
   color: #7f8c8d;
 }
+.headingContainer {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  width: 100%;
+}
