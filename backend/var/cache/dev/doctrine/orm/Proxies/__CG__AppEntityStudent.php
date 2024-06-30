@@ -17,22 +17,22 @@ class Student extends \App\Entity\Student implements \Doctrine\ORM\Proxy\Interna
 
     private const LAZY_OBJECT_PROPERTY_SCOPES = [
         "\0".parent::class."\0".'attendance' => [parent::class, 'attendance', null],
-        "\0".parent::class."\0".'email' => [parent::class, 'email', null],
         "\0".parent::class."\0".'id' => [parent::class, 'id', null],
         "\0".parent::class."\0".'name' => [parent::class, 'name', null],
         "\0".parent::class."\0".'reports' => [parent::class, 'reports', null],
         "\0".parent::class."\0".'section' => [parent::class, 'section', null],
         "\0".parent::class."\0".'semester' => [parent::class, 'semester', null],
         "\0".parent::class."\0".'subject' => [parent::class, 'subject', null],
+        "\0".parent::class."\0".'symbolno' => [parent::class, 'symbolno', null],
         "\0".parent::class."\0".'teachers' => [parent::class, 'teachers', null],
         'attendance' => [parent::class, 'attendance', null],
-        'email' => [parent::class, 'email', null],
         'id' => [parent::class, 'id', null],
         'name' => [parent::class, 'name', null],
         'reports' => [parent::class, 'reports', null],
         'section' => [parent::class, 'section', null],
         'semester' => [parent::class, 'semester', null],
         'subject' => [parent::class, 'subject', null],
+        'symbolno' => [parent::class, 'symbolno', null],
         'teachers' => [parent::class, 'teachers', null],
     ];
 

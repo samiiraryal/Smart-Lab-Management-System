@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\StudentRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: StudentRepository::class)]
@@ -19,7 +20,7 @@ class Student
     private ?string $name = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $email = null;
+    private ?string $symbolno = null;
 
     /**
      * @var Collection<int, Teacher>
@@ -50,6 +51,8 @@ class Student
      */
     #[ORM\OneToMany(targetEntity: Report::class, mappedBy: 'student')]
     private Collection $reports;
+
+
 //
 //    /**
 //     * @var Collection<int, Attendance>
@@ -82,14 +85,14 @@ $this->reports = new ArrayCollection();
         return $this;
     }
 
-    public function getEmail(): ?string
+    public function getSymbolno(): ?string
     {
-        return $this->email;
+        return $this->symbolno;
     }
 
-    public function setEmail(string $email): static
+    public function setSymbolno(string $symbolno): static
     {
-        $this->email = $email;
+        $this->symbolno = $symbolno;
 
         return $this;
     }
@@ -252,5 +255,6 @@ public function removeReport(Report $report): static
 
     return $this;
 }
+
 
 }
