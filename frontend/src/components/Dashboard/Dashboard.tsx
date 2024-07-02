@@ -18,19 +18,19 @@ const Dashboard = () => {
 
   const refParam = searchParams.get("ref");
 
-  const handleCourseChange = (e) => {
+  const handleCourseChange = (e: any) => {
     setSelectedCourse(e.target.value);
   };
 
-  const handleDateChange = (e) => {
+  const handleDateChange = (e: any) => {
     setDate(e.target.value);
   };
 
-  const handleTimeChange = (e) => {
+  const handleTimeChange = (e: any) => {
     setTime(e.target.value);
   };
 
-  const handleButtonClick = (action) => {
+  const handleButtonClick = (action: any) => {
     console.log(`${action} button clicked`);
     navigate(`/dashboard?ref=${action.toLowerCase().replace(' ', '-')}`);
   };
