@@ -1,7 +1,7 @@
 // src/Attendance.tsx
 import React, { useState } from "react";
 import styles from "./attendance.module.css";
-import ImportFile from "./csv-reader.js";
+import ImportFile from "../csvReader/csv-reader.js";
 import CsvUpload from "./csv-upload.js";
 import { IoMdArrowRoundBack } from "react-icons/io";
 import { useNavigate } from "react-router-dom";
@@ -52,7 +52,7 @@ const Attendance = () => {
 
   return (
     <>
-      <div className={styles.attendanceContainer}>
+      {/* <div className={styles.attendanceContainer}> */}
         <div className={styles.headingContainer}>
           <BackButton />
           <h2>Attendance Form</h2>
@@ -146,7 +146,7 @@ const Attendance = () => {
                 <td>{data.name}</td>
                 <td>{data.symbolNumber}</td>
                 <td>{data.section}</td>
-                <td>{data.semeste}</td>
+                <td>{data.semester}</td>
                 <td>{data.present ? "Present" : "Absent"}</td>
               </tr>
             ))}
@@ -155,7 +155,7 @@ const Attendance = () => {
         <button type="button" className={styles.button}>
           Import From CSV File
         </button>
-      </div>
+      {/* </div> */}
       <ImportFile />
       
     </>
