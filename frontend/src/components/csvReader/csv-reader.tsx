@@ -98,8 +98,8 @@ const ImportFile = () => {
               <thead>
               <th>Name</th>
               <th>Symbol Number</th>
-              <th>Section</th>
               <th>Semester</th>
+              <th>Section</th>
               <th>Present/Absent</th>
               </thead>
               <tbody>
@@ -108,8 +108,8 @@ const ImportFile = () => {
                     <tr key={i} className='item'>
                       <td>{e.name}</td>
                       <td>{e.symbolNumber}</td>
-                      <td>{e.section}</td>
                       <td>{e.semester}</td>
+                      <td>{e.section}</td>
                       <td>{e.isPresent}</td>
                       
                     </tr>

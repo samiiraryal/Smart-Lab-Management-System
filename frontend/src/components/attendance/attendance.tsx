@@ -135,8 +135,8 @@ const Attendance = () => {
             <tr>
               <th>Name</th>
               <th>Symbol Number</th>
-              <th>Section</th>
               <th>Semester</th>
+              <th>Section</th>
               <th>Present/Absent</th>
             </tr>
           </thead>
@@ -145,8 +145,8 @@ const Attendance = () => {
               <tr key={index}>
                 <td>{data.name}</td>
                 <td>{data.symbolNumber}</td>
-                <td>{data.section}</td>
                 <td>{data.semester}</td>
+                <td>{data.section}</td>
                 <td>{data.present ? "Present" : "Absent"}</td>
               </tr>
             ))}
