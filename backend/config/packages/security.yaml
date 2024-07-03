@@ -17,13 +17,6 @@ security:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
 
-        api_login:
-            pattern: ^/api/login
-            stateless: true
-            provider: app_user_provider
-
-            custom_authenticators:
-                - App\Security\TeacherAuthenticator
 
             logout:
                 path: /api/logout
@@ -31,7 +24,10 @@ security:
 
         main:
             lazy: true
-            provider: users_in_memory
+            provider: app_user_provider
+            pattern: ^/api
+            custom_authenticators:
+                - App\Security\TeacherAuthenticator
 
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#the-firewall
