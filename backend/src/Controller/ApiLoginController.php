@@ -15,19 +15,22 @@ use Jose\Component\Core\AlgorithmManager;
 use Jose\Component\KeyManagement\JWKFactory;
 use Jose\Component\Signature\Algorithm\RS256;
 use Jose\Component\Signature\Serializer\CompactSerializer;
+use App\Service\JWTtoken;
 
 class ApiLoginController extends AbstractController
 {
     private $teacherRepository;
     private $passwordHasher;
+    private $jwtToken;
 
-    public function __construct(TeacherRepository $teacherRepository, UserPasswordHasherInterface $passwordHasher)
+    public function __construct(TeacherRepository $teacherRepository, UserPasswordHasherInterface $passwordHasher,JWTtoken $jwtToken)
     {
         $this->teacherRepository = $teacherRepository;
         $this->passwordHasher = $passwordHasher;
+        $this->jwtToken = $jwtToken;
     }
 
-    #[Route('/api/login', name: 'api_login', methods: ['POST'])]
+    #[Route('/login', name: 'api_login', methods: ['POST'])]
     public function login(Request $request): JsonResponse
     {
         $data = json_decode($request->getContent(), true);
@@ -40,20 +43,21 @@ class ApiLoginController extends AbstractController
             return new JsonResponse(['message' => 'Invalid credentials'], Response::HTTP_UNAUTHORIZED);
         }
 
-        // Generate JWT token
-        $algorithmManager = new AlgorithmManager([new RS256()]);
-        $jwk = JWKFactory::createFromKeyFile($this->getParameter('jwt_private_key_path'), $this->getParameter('jwt_passphrase'));
-        $jwsBuilder = new JWSBuilder($algorithmManager);
-        $payload = json_encode(['email' => $teacher->getEmail(), 'roles' => $teacher->getRoles()]);
-        $jws = $jwsBuilder
-            ->create() // We want to create a new JWS
-            ->withPayload($payload) // We set the payload
-            ->addSignature($jwk, ['alg' => 'RS256']) // We add a signature with a key and the RS256 algorithm
-            ->build(); // We build it
+        // Generate JWT token is handled by the success handler
+        // return new JsonResponse(['message' => 'Login successful']);
+        $token = $this->jwtToken->generateToken($teacher->getId(),$teacher->getEmail());
+        // dd($token);
+        return new JsonResponse([
+            'user' => [
+                'id' => $teacher->getId(),
+                'email' => $teacher->getEmail(),
+            ]
+        ], Response::HTTP_OK, ['Authorization' => 'Bearer ' . $token]);
+    }
 
-        $serializer = new CompactSerializer(); // The serializer
-        $token = $serializer->serialize($jws); // We serialize the JWS
-
-        return new JsonResponse(['message' => 'Login successful', 'token' => $token]);
+    #[Route('/api/secure', name: 'secure', methods: ['GET'])]
+    public function secure(): Response
+    {
+        return $this->json(['message' => 'This is a secure endpoint!']);
     }
 }
