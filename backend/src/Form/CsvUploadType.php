@@ -16,7 +16,7 @@ class CsvUploadType extends AbstractType
             'label' => 'CSV File',
             'mapped' => false,
             'required' => true,
-            'constraints' => [
+            'cons  traints' => [
                 new File([
                     'mimeTypes' => [
                         'text/csv',
