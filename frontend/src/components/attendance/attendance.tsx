@@ -1,9 +1,7 @@
 // src/Attendance.tsx
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styles from "./attendance.module.css";
 import ImportFile from "../csvReader/csv-reader.js";
-import CsvUpload from "./csv-upload.js";
-import { IoMdArrowRoundBack } from "react-icons/io";
 import { useNavigate } from "react-router-dom";
 import BackButton from "../../utils/back-button.js";
 
@@ -17,6 +15,8 @@ const Attendance = () => {
   });
 
   const [allData, setAllData] = useState<any[]>([]);
+  const [timer, setTimer] = useState(600); // 10 minutes in seconds
+  const [currentDate, setCurrentDate] = useState(new Date());
 
   const courses = [
     "programming in java",
@@ -29,7 +29,6 @@ const Attendance = () => {
   const handleChange = (
     event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
-    // @ts-ignore
     const { name, value, type, checked } = event.target;
     setAttendanceData((prevData) => ({
       ...prevData,
@@ -38,8 +37,12 @@ const Attendance = () => {
   };
 
   const handleSave = () => {
-    console.log("Attendance Data:", attendanceData);
-    setAllData((prevData) => [...prevData, attendanceData]);
+    const updatedAttendanceData = {
+      ...attendanceData,
+      date: formatDate(new Date()),
+    };
+    console.log("Attendance Data:", updatedAttendanceData);
+    setAllData((prevData) => [...prevData, updatedAttendanceData]);
     // Clear form fields
     setAttendanceData({
       rollNumber: "",
@@ -50,13 +53,52 @@ const Attendance = () => {
     });
   };
 
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      setTimer((prevTimer) => {
+        if (prevTimer > 0) {
+          return prevTimer - 1;
+        } else {
+          clearInterval(intervalId);
+          alert("10 minutes have passed. Marking students as absent.");
+          handleMarkAbsent();
+          return 0;
+        }
+      });
+    }, 1000);
+
+    return () => clearInterval(intervalId);
+  }, []);
+
+  useEffect(() => {
+    const dateIntervalId = setInterval(() => {
+      setCurrentDate(new Date());
+    }, 1000);
+
+    return () => clearInterval(dateIntervalId);
+  }, []);
+
+  const handleMarkAbsent = () => {
+    setAllData((prevData) =>
+      prevData.map((data) => ({
+        ...data,
+        present: false,
+      }))
+    );
+  };
+
+  const formatDate = (date: Date) => {
+    return date.toISOString().split('T')[0];
+  };
+
   return (
     <>
-      {/* <div className={styles.attendanceContainer}> */}
+      <div className={styles.attendanceContainer}>
         <div className={styles.headingContainer}>
           <BackButton />
           <h2>Attendance Form</h2>
-          <div></div>
+          <div>Time Remaining: {Math.floor(timer / 60)}:{('0' + timer % 60).slice(-2)}</div>
+          <div>Current Date: {formatDate(currentDate)}</div>
         </div>
         <div className={styles.formGroup}>
           <label htmlFor="course">Select Course:</label>
@@ -74,17 +116,6 @@ const Attendance = () => {
             ))}
           </select>
           <div></div>
-        </div>
-        <div className={styles.formGroup}>
-          <label htmlFor="date">Select Date:</label>
-          <input
-            type="date"
-            id="date"
-            name="date"
-            value={attendanceData.date}
-            onChange={handleChange}
-            />
-            <div></div>
         </div>
         <div className={styles.studentGroup}>
           <input
@@ -133,20 +164,20 @@ const Attendance = () => {
         <table>
           <thead>
             <tr>
-              <th>Name</th>
-              <th>Symbol Number</th>
-              <th>Semester</th>
-              <th>Section</th>
+              <th>Roll Number</th>
+              <th>Student Name</th>
+              <th>Course</th>
+              <th>Date</th>
               <th>Present/Absent</th>
             </tr>
           </thead>
           <tbody>
             {allData.map((data, index) => (
               <tr key={index}>
-                <td>{data.name}</td>
-                <td>{data.symbolNumber}</td>
-                <td>{data.semester}</td>
-                <td>{data.section}</td>
+                <td>{data.rollNumber}</td>
+                <td>{data.studentName}</td>
+                <td>{data.course}</td>
+                <td>{data.date}</td>
                 <td>{data.present ? "Present" : "Absent"}</td>
               </tr>
             ))}
@@ -155,9 +186,8 @@ const Attendance = () => {
         <button type="button" className={styles.button}>
           Import From CSV File
         </button>
-      {/* </div> */}
+      </div>
       <ImportFile />
-      
     </>
   );
 };
