@@ -15,7 +15,7 @@ const Attendance = () => {
   });
 
   const [allData, setAllData] = useState<any[]>([]);
-  const [timer, setTimer] = useState(600); // 10 minutes in seconds
+  const [timer, setTimer] = useState(900); // 15 minutes in seconds
   const [currentDate, setCurrentDate] = useState(new Date());
 
   const courses = [
@@ -60,7 +60,7 @@ const Attendance = () => {
           return prevTimer - 1;
         } else {
           clearInterval(intervalId);
-          alert("10 minutes have passed. Marking students as absent.");
+          alert("15 minutes have passed. Marking students as absent.");
           handleMarkAbsent();
           return 0;
         }
