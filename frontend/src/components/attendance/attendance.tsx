@@ -79,10 +79,9 @@ const Attendance = () => {
   };
 
   const formatDate = (date: Date) => {
-    return date.toISOString().split("T")[0];
+    return date.toISOString().split('T')[0];
   };
 
-<<<<<<< HEAD
   const handleChange = (
     event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
@@ -110,36 +109,17 @@ const Attendance = () => {
     });
   };
 
-=======
-  
->>>>>>> 2b6f13b88539faf89a6c42d273860a27bf22b345
   return (
     <>
       <div className={styles.attendanceContainer}>
         <div className={styles.headingContainer}>
-<<<<<<< HEAD
+          <BackButton />
           <div className={styles.titleContainer}>
-            <BackButton />
             <h2>Attendance Form</h2>
           </div>
           <div className={styles.dateTimeContainer}>
             <div>Date: {formatDate(currentDate)}</div>
             <div>Time Remaining: {Math.floor(timer / 60)}:{('0' + timer % 60).slice(-2)}</div>
-=======
-          <BackButton />
-          <h2>Attendance Form</h2>
-          <div>
-            <b>
-              <u>Time Remaining:</u>
-            </b>{" "}
-            {Math.floor(timer / 60)}:{("0" + (timer % 60)).slice(-2)}
-          </div>
-          <div>
-            <b>
-              <u>Today's Date:</u>
-            </b>{" "}
-            {formatDate(currentDate)}
->>>>>>> 2b6f13b88539faf89a6c42d273860a27bf22b345
           </div>
         </div>
         <div className={styles.formGroup}>
