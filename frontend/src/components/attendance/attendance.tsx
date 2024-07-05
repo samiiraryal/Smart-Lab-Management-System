@@ -118,12 +118,12 @@ const Attendance = () => {
             <h2>Attendance Form</h2>
           </div>
           <div className={styles.dateTimeContainer}>
-            <div>Date: {formatDate(currentDate)}</div>
-            <div>Time Remaining: {Math.floor(timer / 60)}:{('0' + timer % 60).slice(-2)}</div>
+            <div><b>Date:</b> {formatDate(currentDate)}</div>
+            <div><b>Time Remaining:</b> {Math.floor(timer / 60)}:{('0' + timer % 60).slice(-2)}</div>
           </div>
         </div>
         <div className={styles.formGroup}>
-          <label htmlFor="course">Select Course:</label>
+          <label htmlFor="course"><b>Select Course:</b></label>
           <select
             id="course"
             name="course"
