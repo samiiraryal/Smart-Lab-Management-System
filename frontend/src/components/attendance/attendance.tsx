@@ -1,8 +1,6 @@
-// src/Attendance.tsx
 import React, { useState, useEffect } from "react";
 import styles from "./attendance.module.css";
 import ImportFile from "../csvReader/csv-reader.js";
-import { useNavigate } from "react-router-dom";
 import BackButton from "../../utils/back-button.js";
 
 const Attendance = () => {
@@ -26,42 +24,35 @@ const Attendance = () => {
     "c",
   ];
 
-  const handleChange = (
-    event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
-  ) => {
-    const { name, value, type, checked } = event.target;
-    setAttendanceData((prevData) => ({
-      ...prevData,
-      [name]: type === "checkbox" ? checked : value,
-    }));
-  };
-
-  const handleSave = () => {
-    const updatedAttendanceData = {
-      ...attendanceData,
-      date: formatDate(new Date()),
-    };
-    console.log("Attendance Data:", updatedAttendanceData);
-    setAllData((prevData) => [...prevData, updatedAttendanceData]);
-    // Clear form fields
-    setAttendanceData({
-      rollNumber: "",
-      studentName: "",
-      present: false,
-      course: "",
-      date: "",
-    });
-  };
-
   useEffect(() => {
+    const startTime = localStorage.getItem("attendanceStartTime");
+    const currentTime = new Date().getTime();
+
+    if (startTime) {
+      const elapsedTime = Math.floor((currentTime - parseInt(startTime)) / 1000);
+      const remainingTime = Math.max(900 - elapsedTime, 0);
+      setTimer(remainingTime);
+
+      if (remainingTime === 0) {
+        handleMarkAbsent();
+        localStorage.removeItem("attendanceStartTime");
+      }
+    } else {
+      localStorage.setItem("attendanceStartTime", currentTime.toString());
+    }
+
     const intervalId = setInterval(() => {
       setTimer((prevTimer) => {
         if (prevTimer > 0) {
-          return prevTimer - 1;
+          const newTime = prevTimer - 1;
+          localStorage.setItem("attendanceTimer", newTime.toString());
+          return newTime;
         } else {
           clearInterval(intervalId);
           alert("15 minutes have passed. Marking students as absent.");
           handleMarkAbsent();
+          localStorage.removeItem("attendanceStartTime");
+          localStorage.removeItem("attendanceTimer");
           return 0;
         }
       });
@@ -91,14 +82,45 @@ const Attendance = () => {
     return date.toISOString().split('T')[0];
   };
 
+  const handleChange = (
+    event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
+    const { name, value, type, checked } = event.target;
+    setAttendanceData((prevData) => ({
+      ...prevData,
+      [name]: type === "checkbox" ? checked : value,
+    }));
+  };
+
+  const handleSave = () => {
+    const updatedAttendanceData = {
+      ...attendanceData,
+      date: formatDate(new Date()),
+    };
+    console.log("Attendance Data:", updatedAttendanceData);
+    setAllData((prevData) => [...prevData, updatedAttendanceData]);
+    // Clear form fields
+    setAttendanceData({
+      rollNumber: "",
+      studentName: "",
+      present: false,
+      course: "",
+      date: "",
+    });
+  };
+
   return (
     <>
       <div className={styles.attendanceContainer}>
         <div className={styles.headingContainer}>
-          <BackButton />
-          <h2>Attendance Form</h2>
-          <div>Time Remaining: {Math.floor(timer / 60)}:{('0' + timer % 60).slice(-2)}</div>
-          <div>Current Date: {formatDate(currentDate)}</div>
+          <div className={styles.titleContainer}>
+            <BackButton />
+            <h2>Attendance Form</h2>
+          </div>
+          <div className={styles.dateTimeContainer}>
+            <div>Date: {formatDate(currentDate)}</div>
+            <div>Time Remaining: {Math.floor(timer / 60)}:{('0' + timer % 60).slice(-2)}</div>
+          </div>
         </div>
         <div className={styles.formGroup}>
           <label htmlFor="course">Select Course:</label>
@@ -115,7 +137,6 @@ const Attendance = () => {
               </option>
             ))}
           </select>
-          <div></div>
         </div>
         <div className={styles.studentGroup}>
           <input
