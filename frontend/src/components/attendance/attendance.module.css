@@ -1,115 +1,133 @@
-/* attendance.module.css */
-
 .attendanceContainer {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
-    background: #f5f5f5;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
-    width: 100%;
-    max-width: 600px;
-    margin: 0 auto; /* Center horizontally */
-  }
-  
-  h2 {
-    margin-bottom: 20px;
-    color: #007bff;
-    text-decoration: underline #007bff;
-  }
-  
-  .formGroup {
-    margin-bottom: 20px;
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-  }
-  
-  .studentGroup {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    margin-bottom: 20px;
-    width: 100%;
-  }
-  
-  .studentGroup input[type="text"] {
-    padding: 20px;
-    width: 100%;
-    border: 1px solid rgb(4, 4, 4);
-    border-radius: 10px;
-  }
-  
-  label {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-  
-  button {
-    padding: 10px 20px;
-    background-color: #007bff;
-    color: rgb(56, 116, 228);
-    border: none;
-    border-radius: 10px;
-    cursor: pointer;
-    
-  }
-  
-  button:hover {
-    background:  #007bff;
-  }
-  
-  .tableContainer {
-    width: 100%;
-    max-width: 800px;
-    margin: 20px auto; /* Center horizontally */
-    padding: 0 20px;
-  }
-  
-  table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 40px;
-  }
-  
-  th,
-  td {
-    border: 1px solid #ccc;
-    padding: 10px;
-    text-align: left;
-  }
-  
-  th {
-    background: #007bff;
-    color: #fff;
-  }
-  
-  tr:nth-child(even) {
-    background: #f9f9f9;
-  }
-  
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background: #f5f5f5;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto; /* Center horizontally */
+}
 
-  .button {
-    background-color: #007bff;
-    color: white;
-    padding: 10px 20px;
-    font-size: 16px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-   margin-top: 20px;
-  }
-  
-  .button:hover {
-    background-color: #0056b3;
-  }
-  .headingContainer {
-    display: flex;
-    align-items: baseline;
-    justify-content: space-between;
-    width: 100%;
-  }
-  
+.headingContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.titleContainer {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.titleContainer h2 {
+  margin: 0;
+  color: #007bff;
+  text-decoration: underline #007bff;
+}
+
+.dateTimeContainer {
+  text-align: right;
+  width: 100%;
+}
+
+.dateTimeContainer div {
+  margin-bottom: 5px;
+}
+
+h2 {
+  margin-bottom: 20px;
+  color: #007bff;
+  text-decoration: underline #007bff;
+}
+
+.formGroup {
+  margin-bottom: 20px;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.studentGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 20px;
+  width: 100%;
+}
+
+.studentGroup input[type="text"] {
+  padding: 20px;
+  width: 100%;
+  border: 1px solid rgb(4, 4, 4);
+  border-radius: 10px;
+}
+
+label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+button {
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: rgb(56, 116, 228);
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #007bff;
+}
+
+.tableContainer {
+  width: 100%;
+  max-width: 800px;
+  margin: 20px auto; /* Center horizontally */
+  padding: 0 20px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 40px;
+}
+
+th,
+td {
+  border: 1px solid #ccc;
+  padding: 10px;
+  text-align: left;
+}
+
+th {
+  background: #007bff;
+  color: #fff;
+}
+
+tr:nth-child(even) {
+  background: #f9f9f9;
+}
+
+.button {
+  background-color: #007bff;
+  color: white;
+  padding: 10px 20px;
+  font-size: 16px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 20px;
+}
+
+.button:hover {
+  background-color: #0056b3;
+}

@@ -7,6 +7,7 @@ import Attendance from "../attendance/attendance.js";
 import ComputerCondition from "../computerCondition/computerCondition.js";
 import StudentProgress from "../studentProgress/studentProgress.js";
 import PasswordRequest from "../passwordRequest/passwordRequest.js";
+import CSVReader from "../csvReader/csv-reader.js"
 // clear
 const Dashboard = () => {
   const [selectedCourse, setSelectedCourse] = useState("");
