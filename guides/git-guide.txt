@@ -1,0 +1,13 @@
+1. git clone https://github.com/samiiraryal/major-project.git
+2. cd major-project
+3. git branch rashik(or sandesh or prizina)
+4. git checkout rashik(or sandesh or prizina)
+
+this will create a new branch as per your name
+
+then to add the files or changes made by you;
+1. git add .
+2. git commit -m "k change vayo tyo message(short and descriptive)"
+3. git push -u origin rashik(or sandesh or prizina) 
+
+
