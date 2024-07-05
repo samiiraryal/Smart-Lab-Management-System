@@ -1,0 +1,14 @@
+php -S localhost:8000 -t public 
+
+localhost:8000/api/login   give route as mentioned in code
+
+transfer the downloaded zip file to localdisk C 
+search for edit the environment variable
+you'll find system variable and inside the box there is path select it and click edit
+copy the path to edit environmental variable in system variable
+then save
+check version
+
+check the csv file with http//localhost:8000/api/upload  hit in postman  its in student controller if you wanna check
+remember to put bearer token for authorization which is generate after login to check whether it's an authenticated user
+then add the csv file
