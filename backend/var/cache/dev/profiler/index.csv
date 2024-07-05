@@ -228,3 +228,7 @@ cca87a,::1,POST,http://localhost:8000/api/student/upload,1719984802,,401,request
 22911f,::1,POST,http://localhost:8000/api/student/upload,1719986217,,200,request
 5c5d24,::1,POST,http://localhost:8000/api/student/upload,1719986571,,200,request
 e0f296,::1,GET,http://localhost:8000/api/student/semester/7,1719986841,,200,request
+f3166a,::1,GET,http://localhost:8000/,1720109751,,404,request
+acf245,::1,GET,http://localhost:8000/,1720109941,,404,request
+8c99f9,::1,GET,http://localhost:8000/login,1720109949,0fa597,405,request
+0fa597,::1,GET,http://localhost:8000/login,1720109949,,405,request

@@ -88,17 +88,28 @@ const Attendance = () => {
   };
 
   const formatDate = (date: Date) => {
-    return date.toISOString().split('T')[0];
+    return date.toISOString().split("T")[0];
   };
 
+  
   return (
     <>
       <div className={styles.attendanceContainer}>
         <div className={styles.headingContainer}>
           <BackButton />
           <h2>Attendance Form</h2>
-          <div>Time Remaining: {Math.floor(timer / 60)}:{('0' + timer % 60).slice(-2)}</div>
-          <div>Current Date: {formatDate(currentDate)}</div>
+          <div>
+            <b>
+              <u>Time Remaining:</u>
+            </b>{" "}
+            {Math.floor(timer / 60)}:{("0" + (timer % 60)).slice(-2)}
+          </div>
+          <div>
+            <b>
+              <u>Today's Date:</u>
+            </b>{" "}
+            {formatDate(currentDate)}
+          </div>
         </div>
         <div className={styles.formGroup}>
           <label htmlFor="course">Select Course:</label>
