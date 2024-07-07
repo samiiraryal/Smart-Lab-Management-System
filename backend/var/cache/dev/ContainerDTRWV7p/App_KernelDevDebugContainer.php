@@ -4,7 +4,11 @@
 namespace Container4NiHcCK;
 ========
 namespace ContainerDTRWV7p;
+<<<<<<< HEAD
 >>>>>>>> master:backend/var/cache/dev/ContainerDTRWV7p/App_KernelDevDebugContainer.php
+=======
+>>>>>>>> 880060bb5da0c8eda634d33d133a5000981d034f:backend/var/cache/dev/ContainerDTRWV7p/App_KernelDevDebugContainer.php
+>>>>>>> 30d3579f095403e4b6f449e111a5699e2e871658
 
 
 use Symfony\Component\DependencyInjection\Argument\RewindableGenerator;
@@ -1379,7 +1383,11 @@ class App_KernelDevDebugContainer extends Container
     protected static function get_ServiceLocator_BsoXAxwService($container)
     {
         return $container->privates['.service_locator.bsoXAxw'] = new \Symfony\Component\DependencyInjection\Argument\ServiceLocator($container->getService ??= $container->getService(...), [
+<<<<<<< HEAD
 >>>>>>>> master:backend/var/cache/dev/ContainerDTRWV7p/App_KernelDevDebugContainer.php
+=======
+>>>>>>>> 880060bb5da0c8eda634d33d133a5000981d034f:backend/var/cache/dev/ContainerDTRWV7p/App_KernelDevDebugContainer.php
+>>>>>>> 30d3579f095403e4b6f449e111a5699e2e871658
             'security.firewall.map.context.dev' => ['privates', 'security.firewall.map.context.dev', 'getSecurity_Firewall_Map_Context_DevService', true],
             'security.firewall.map.context.main' => ['privates', 'security.firewall.map.context.main', 'getSecurity_Firewall_Map_Context_MainService', true],
         ], [
@@ -2167,7 +2175,11 @@ class App_KernelDevDebugContainer extends Container
         if (isset($container->privates['security.firewall.map'])) {
             return $container->privates['security.firewall.map'];
         }
+<<<<<<< HEAD
 >>>>>>>> master:backend/var/cache/dev/ContainerDTRWV7p/App_KernelDevDebugContainer.php
+=======
+>>>>>>>> 880060bb5da0c8eda634d33d133a5000981d034f:backend/var/cache/dev/ContainerDTRWV7p/App_KernelDevDebugContainer.php
+>>>>>>> 30d3579f095403e4b6f449e111a5699e2e871658
 
         return $container->privates['security.firewall.map'] = new \Symfony\Bundle\SecurityBundle\Security\FirewallMap($a, new RewindableGenerator(function () use ($container) {
             yield 'security.firewall.map.context.dev' => ($container->privates['.security.request_matcher.gOpgIHx'] ?? $container->load('get_Security_RequestMatcher_GOpgIHxService'));
@@ -2199,7 +2211,11 @@ class App_KernelDevDebugContainer extends Container
     protected static function getSecurity_LogoutUrlGeneratorService($container)
     {
         return $container->privates['security.logout_url_generator'] = new \Symfony\Component\Security\Http\Logout\LogoutUrlGenerator(($container->services['request_stack'] ??= new \Symfony\Component\HttpFoundation\RequestStack()), ($container->services['router'] ?? self::getRouterService($container)), ($container->privates['security.token_storage'] ?? self::getSecurity_TokenStorageService($container)));
+<<<<<<< HEAD
 >>>>>>>> master:backend/var/cache/dev/ContainerDTRWV7p/App_KernelDevDebugContainer.php
+=======
+>>>>>>>> 880060bb5da0c8eda634d33d133a5000981d034f:backend/var/cache/dev/ContainerDTRWV7p/App_KernelDevDebugContainer.php
+>>>>>>> 30d3579f095403e4b6f449e111a5699e2e871658
     }
 
     /**

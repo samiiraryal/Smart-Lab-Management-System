@@ -12,7 +12,11 @@ if (\class_exists(\ContainerDTRWV7p\App_KernelDevDebugContainer::class, false)) 
     // no-op
 } elseif (!include __DIR__.'/ContainerDTRWV7p/App_KernelDevDebugContainer.php') {
     touch(__DIR__.'/ContainerDTRWV7p.legacy');
+<<<<<<< HEAD
 >>>>>>> master
+=======
+>>>>>>> 880060bb5da0c8eda634d33d133a5000981d034f
+>>>>>>> 30d3579f095403e4b6f449e111a5699e2e871658
 
     return;
 }
@@ -38,4 +42,8 @@ return new \ContainerDTRWV7p\App_KernelDevDebugContainer([
     'container.build_time' => 1720109746,
     'container.runtime_mode' => \in_array(\PHP_SAPI, ['cli', 'phpdbg', 'embed'], true) ? 'web=0' : 'web=1',
 ], __DIR__.\DIRECTORY_SEPARATOR.'ContainerDTRWV7p');
+<<<<<<< HEAD
 >>>>>>> master
+=======
+>>>>>>> 880060bb5da0c8eda634d33d133a5000981d034f
+>>>>>>> 30d3579f095403e4b6f449e111a5699e2e871658

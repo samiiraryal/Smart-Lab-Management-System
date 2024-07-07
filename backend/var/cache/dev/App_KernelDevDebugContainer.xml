@@ -2482,7 +2482,11 @@
           <argument>C:\Users\samir\Desktop\finalyearproject\backend\vendor\symfony\monolog-bundle/translations</argument>
           <argument>C:\Users\samir\Desktop\finalyearproject\backend\vendor\symfony\maker-bundle\src/translations</argument>
           <argument>C:\Users\samir\Desktop\finalyearproject\backend\vendor\web-token\jwt-framework\src\Bundle/translations</argument>
+<<<<<<< HEAD
 >>>>>>> master
+=======
+>>>>>>> 880060bb5da0c8eda634d33d133a5000981d034f
+>>>>>>> 30d3579f095403e4b6f449e111a5699e2e871658
         </argument>
         <argument key="cache_vary" type="collection">
           <argument key="scanned_directories" type="collection">
@@ -2519,7 +2523,11 @@
             <argument>C:\Users\samir\Desktop\finalyearproject\backend\vendor\symfony\monolog-bundle/translations</argument>
             <argument>C:\Users\samir\Desktop\finalyearproject\backend\vendor\symfony\maker-bundle\src/translations</argument>
             <argument>C:\Users\samir\Desktop\finalyearproject\backend\vendor\web-token\jwt-framework\src\Bundle/translations</argument>
+<<<<<<< HEAD
 >>>>>>> master
+=======
+>>>>>>> 880060bb5da0c8eda634d33d133a5000981d034f
+>>>>>>> 30d3579f095403e4b6f449e111a5699e2e871658
           </argument>
         </argument>
       </argument>
