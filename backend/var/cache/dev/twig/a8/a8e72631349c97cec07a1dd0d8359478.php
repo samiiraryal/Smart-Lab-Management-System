@@ -90,6 +90,6 @@ class __TwigTemplate_f692c06b0b48895ce93ef983b231936a extends Template
     <input type=\"hidden\" name=\"_token\" value=\"{{ csrf_token('delete' ~ teacher.id) }}\">
     <button class=\"btn\">Delete</button>
 </form>
-", "teacher/_delete_form.html.twig", "D:\\SmartCollege-main\\SmartCollege-main\\templates\\teacher\\_delete_form.html.twig");
+", "teacher/_delete_form.html.twig", "C:\\Users\\user\\OneDrive\\Desktop\\finalproject\\finalyearproject\\backend\\templates\\teacher\\_delete_form.html.twig");
     }
 }

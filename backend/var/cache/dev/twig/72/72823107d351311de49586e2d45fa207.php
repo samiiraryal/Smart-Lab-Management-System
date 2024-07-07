@@ -650,6 +650,6 @@ class __TwigTemplate_63b006d030760c0a30981fac9ad3f2b5 extends Template
         }
     }
 </script>
-", "@WebProfiler/Profiler/base_js.html.twig", "D:\\SmartCollege-main\\SmartCollege-main\\vendor\\symfony\\web-profiler-bundle\\Resources\\views\\Profiler\\base_js.html.twig");
+", "@WebProfiler/Profiler/base_js.html.twig", "C:\\Users\\user\\OneDrive\\Desktop\\finalproject\\finalyearproject\\backend\\vendor\\symfony\\web-profiler-bundle\\Resources\\views\\Profiler\\base_js.html.twig");
     }
 }

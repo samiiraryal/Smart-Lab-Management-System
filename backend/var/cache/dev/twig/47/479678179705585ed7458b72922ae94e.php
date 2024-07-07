@@ -224,6 +224,6 @@ class __TwigTemplate_c56780147673b1dfd9bfa42feef34c1f extends Template
 
     <a href=\"{{ path('app_student_new') }}\">Create new</a>
 {% endblock %}
-", "student/index.html.twig", "D:\\SmartCollege-main\\SmartCollege-main\\templates\\student\\index.html.twig");
+", "student/index.html.twig", "C:\\Users\\user\\OneDrive\\Desktop\\finalproject\\finalyearproject\\backend\\templates\\student\\index.html.twig");
     }
 }
