@@ -2481,6 +2481,7 @@
           <argument>C:\Users\user\OneDrive\Desktop\finalproject\finalyearproject\backend\vendor\web-token\jwt-framework\src\Bundle/translations</argument>
           <argument>C:\Users\user\OneDrive\Desktop\finalproject\finalyearproject\backend\vendor\nelmio\cors-bundle/translations</argument>
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
           <argument>C:\Users\samir\Desktop\finalyearproject\backend\vendor\symfony\validator/Resources/translations</argument>
           <argument>C:\Users\samir\Desktop\finalyearproject\backend\vendor\symfony\form/Resources/translations</argument>
@@ -2506,6 +2507,8 @@
 >>>>>>> 30d3579f095403e4b6f449e111a5699e2e871658
 =======
 >>>>>>> 43717bd8fbd4660ee8dfa0df411eea0544a1c6da
+=======
+>>>>>>> 43717bd8fbd4660ee8dfa0df411eea0544a1c6da
         </argument>
         <argument key="cache_vary" type="collection">
           <argument key="scanned_directories" type="collection">
@@ -2528,6 +2531,7 @@
             <argument>C:\Users\user\OneDrive\Desktop\finalproject\finalyearproject\backend\vendor\web-token\jwt-framework\src\Bundle/translations</argument>
             <argument>C:\Users\user\OneDrive\Desktop\finalproject\finalyearproject\backend\vendor\nelmio\cors-bundle/translations</argument>
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
             <argument>C:\Users\samir\Desktop\finalyearproject\backend\vendor\symfony\framework-bundle/translations</argument>
             <argument>C:\Users\samir\Desktop\finalyearproject\backend\vendor\doctrine\doctrine-bundle/translations</argument>
@@ -2547,6 +2551,8 @@
 =======
 >>>>>>> 880060bb5da0c8eda634d33d133a5000981d034f
 >>>>>>> 30d3579f095403e4b6f449e111a5699e2e871658
+=======
+>>>>>>> 43717bd8fbd4660ee8dfa0df411eea0544a1c6da
 =======
 >>>>>>> 43717bd8fbd4660ee8dfa0df411eea0544a1c6da
           </argument>

@@ -1,5 +1,6 @@
 <?php
 
+<<<<<<< HEAD
 <<<<<<< HEAD:backend/var/cache/dev/ContainerDTRWV7p/removed-ids.php
 <<<<<<<< HEAD:backend/var/cache/dev/ContainerP1c6CIX/removed-ids.php
 namespace ContainerP1c6CIX;
@@ -13,6 +14,9 @@ namespace ContainerDTRWV7p;
 =======
 namespace ContainerBkA9ba0;
 >>>>>>> 43717bd8fbd4660ee8dfa0df411eea0544a1c6da:backend/var/cache/dev/ContainerBkA9ba0/removed-ids.php
+=======
+namespace ContainerBkA9ba0;
+>>>>>>> 43717bd8fbd4660ee8dfa0df411eea0544a1c6da
 
 return [
     'App\\Entity' => true,
