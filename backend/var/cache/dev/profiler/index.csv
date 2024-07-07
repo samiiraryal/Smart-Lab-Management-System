@@ -228,3 +228,13 @@ cca87a,::1,POST,http://localhost:8000/api/student/upload,1719984802,,401,request
 22911f,::1,POST,http://localhost:8000/api/student/upload,1719986217,,200,request
 5c5d24,::1,POST,http://localhost:8000/api/student/upload,1719986571,,200,request
 e0f296,::1,GET,http://localhost:8000/api/student/semester/7,1719986841,,200,request
+87e5ce,::1,POST,http://localhost:8000/login,1720110105,,200,request
+22ce19,::1,POST,http://localhost:8000/api/student/upload,1720110144,,401,request
+aedca6,::1,GET,http://localhost:8000/api/student/upload,1720110180,1f16e3,500,request
+1f16e3,::1,POST,http://localhost:8000/api/student/upload,1720110180,,500,request
+e22f76,::1,POST,http://localhost:8000/api/student/upload,1720110386,,200,request
+381cd1,::1,GET,http://localhost:8000/login,1720110582,253d6f,405,request
+253d6f,::1,GET,http://localhost:8000/login,1720110582,,405,request
+407d77,::1,POST,http://localhost:8000/login,1720190641,,200,request
+33bf66,::1,POST,http://localhost:8000/login,1720190705,,401,request
+9815aa,::1,POST,http://localhost:8000/login,1720190932,,200,request
