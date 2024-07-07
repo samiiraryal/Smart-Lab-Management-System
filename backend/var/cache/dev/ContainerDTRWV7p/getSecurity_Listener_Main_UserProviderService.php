@@ -1,7 +1,11 @@
 <?php
 
+<<<<<<<< HEAD:backend/var/cache/dev/ContainerP1c6CIX/getSecurity_Listener_Main_UserProviderService.php
+namespace ContainerP1c6CIX;
+========
 namespace ContainerDTRWV7p;
 
+>>>>>>>> 880060bb5da0c8eda634d33d133a5000981d034f:backend/var/cache/dev/ContainerDTRWV7p/getSecurity_Listener_Main_UserProviderService.php
 
 use Symfony\Component\DependencyInjection\Argument\RewindableGenerator;
 use Symfony\Component\DependencyInjection\ContainerInterface;

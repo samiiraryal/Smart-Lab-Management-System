@@ -195,6 +195,6 @@ class StudentController extends AbstractController
     //         'semester' => $student->getSemester(),
     //         'section' => $student->getSection(),
     //     ]);
-    // }
+    // } 
 
 }

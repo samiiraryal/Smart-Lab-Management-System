@@ -1,6 +1,10 @@
 <?php
 
+<<<<<<<< HEAD:backend/var/cache/dev/ContainerP1c6CIX/removed-ids.php
+namespace ContainerP1c6CIX;
+========
 namespace ContainerDTRWV7p;
+>>>>>>>> 880060bb5da0c8eda634d33d133a5000981d034f:backend/var/cache/dev/ContainerDTRWV7p/removed-ids.php
 
 return [
     'App\\Entity' => true,
@@ -830,6 +834,10 @@ return [
     'monolog.logger.translation' => true,
     'monolog.logger_prototype' => true,
     'monolog.processor.psr_log_message' => true,
+    'nelmio_cors.cacheable_response_vary_listener' => true,
+    'nelmio_cors.cors_listener' => true,
+    'nelmio_cors.options_provider.config' => true,
+    'nelmio_cors.options_resolver' => true,
     'notifier' => true,
     'notifier.admin_recipient.0' => true,
     'notifier.channel.browser' => true,

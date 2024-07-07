@@ -1,6 +1,10 @@
 <?php
 
+<<<<<<<< HEAD:backend/var/cache/dev/Container4NiHcCK/App_KernelDevDebugContainer.php
+namespace Container4NiHcCK;
+========
 namespace ContainerDTRWV7p;
+>>>>>>>> 880060bb5da0c8eda634d33d133a5000981d034f:backend/var/cache/dev/ContainerDTRWV7p/App_KernelDevDebugContainer.php
 
 
 use Symfony\Component\DependencyInjection\Argument\RewindableGenerator;
@@ -686,8 +690,9 @@ class App_KernelDevDebugContainer extends Container
         $instance->add(new \Symfony\Component\HttpKernel\DataCollector\LoggerDataCollector($a, ($container->targetDir.''.'/App_KernelDevDebugContainer'), $c));
         $instance->add(new \Symfony\Component\HttpKernel\DataCollector\EventDataCollector(new RewindableGenerator(function () use ($container) {
             yield 'event_dispatcher' => ($container->services['event_dispatcher'] ?? self::getEventDispatcherService($container));
+            yield 'security.event_dispatcher.api_login' => ($container->privates['debug.security.event_dispatcher.api_login'] ?? $container->load('getDebug_Security_EventDispatcher_ApiLoginService'));
             yield 'security.event_dispatcher.main' => ($container->privates['debug.security.event_dispatcher.main'] ?? self::getDebug_Security_EventDispatcher_MainService($container));
-        }, 2), $c));
+        }, 3), $c));
         $instance->add(($container->privates['data_collector.router'] ??= new \Symfony\Bundle\FrameworkBundle\DataCollector\RouterDataCollector()));
         $instance->add(($container->services['data_collector.cache'] ?? self::getDataCollector_CacheService($container)));
         $instance->add(new \Symfony\Component\Translation\DataCollector\TranslationDataCollector(($container->services['translator'] ?? self::getTranslatorService($container))));
@@ -1353,6 +1358,18 @@ class App_KernelDevDebugContainer extends Container
     {
         return $container->privates['.debug.http_client'] = new \Symfony\Component\HttpClient\TraceableHttpClient(new \Symfony\Component\HttpClient\UriTemplateHttpClient(($container->privates['http_client.transport'] ?? self::getHttpClient_TransportService($container)), NULL, []), ($container->services['debug.stopwatch'] ??= new \Symfony\Component\Stopwatch\Stopwatch(true)));
     }
+<<<<<<<< HEAD:backend/var/cache/dev/Container4NiHcCK/App_KernelDevDebugContainer.php
+
+    /**
+     * Gets the private '.service_locator.oibJEp9' shared service.
+     *
+     * @return \Symfony\Component\DependencyInjection\ServiceLocator
+     */
+    protected static function get_ServiceLocator_OibJEp9Service($container)
+    {
+        return $container->privates['.service_locator.oibJEp9'] = new \Symfony\Component\DependencyInjection\Argument\ServiceLocator($container->getService ??= $container->getService(...), [
+            'security.firewall.map.context.api_login' => ['privates', 'security.firewall.map.context.api_login', 'getSecurity_Firewall_Map_Context_ApiLoginService', true],
+========
 
     /**
      * Gets the private '.service_locator.bsoXAxw' shared service.
@@ -1362,9 +1379,11 @@ class App_KernelDevDebugContainer extends Container
     protected static function get_ServiceLocator_BsoXAxwService($container)
     {
         return $container->privates['.service_locator.bsoXAxw'] = new \Symfony\Component\DependencyInjection\Argument\ServiceLocator($container->getService ??= $container->getService(...), [
+>>>>>>>> 880060bb5da0c8eda634d33d133a5000981d034f:backend/var/cache/dev/ContainerDTRWV7p/App_KernelDevDebugContainer.php
             'security.firewall.map.context.dev' => ['privates', 'security.firewall.map.context.dev', 'getSecurity_Firewall_Map_Context_DevService', true],
             'security.firewall.map.context.main' => ['privates', 'security.firewall.map.context.main', 'getSecurity_Firewall_Map_Context_MainService', true],
         ], [
+            'security.firewall.map.context.api_login' => '?',
             'security.firewall.map.context.dev' => '?',
             'security.firewall.map.context.main' => '?',
         ]);
@@ -2120,6 +2139,21 @@ class App_KernelDevDebugContainer extends Container
     {
         return $container->privates['security.csrf.token_storage'] = new \Symfony\Component\Security\Csrf\TokenStorage\SessionTokenStorage(($container->services['request_stack'] ??= new \Symfony\Component\HttpFoundation\RequestStack()));
     }
+<<<<<<<< HEAD:backend/var/cache/dev/Container4NiHcCK/App_KernelDevDebugContainer.php
+
+    /**
+     * Gets the private 'security.firewall.map' shared service.
+     *
+     * @return \Symfony\Bundle\SecurityBundle\Security\FirewallMap
+     */
+    protected static function getSecurity_Firewall_MapService($container)
+    {
+        $a = ($container->privates['.service_locator.oibJEp9'] ?? self::get_ServiceLocator_OibJEp9Service($container));
+
+        if (isset($container->privates['security.firewall.map'])) {
+            return $container->privates['security.firewall.map'];
+        }
+========
 
     /**
      * Gets the private 'security.firewall.map' shared service.
@@ -2133,12 +2167,29 @@ class App_KernelDevDebugContainer extends Container
         if (isset($container->privates['security.firewall.map'])) {
             return $container->privates['security.firewall.map'];
         }
+>>>>>>>> 880060bb5da0c8eda634d33d133a5000981d034f:backend/var/cache/dev/ContainerDTRWV7p/App_KernelDevDebugContainer.php
 
         return $container->privates['security.firewall.map'] = new \Symfony\Bundle\SecurityBundle\Security\FirewallMap($a, new RewindableGenerator(function () use ($container) {
             yield 'security.firewall.map.context.dev' => ($container->privates['.security.request_matcher.gOpgIHx'] ?? $container->load('get_Security_RequestMatcher_GOpgIHxService'));
-            yield 'security.firewall.map.context.main' => ($container->privates['.security.request_matcher.NaFk5J1'] ?? $container->load('get_Security_RequestMatcher_NaFk5J1Service'));
-        }, 2));
+            yield 'security.firewall.map.context.api_login' => ($container->privates['.security.request_matcher._7JLSkp'] ?? $container->load('get_Security_RequestMatcher_7JLSkpService'));
+            yield 'security.firewall.map.context.main' => NULL;
+        }, 3));
     }
+<<<<<<<< HEAD:backend/var/cache/dev/Container4NiHcCK/App_KernelDevDebugContainer.php
+
+    /**
+     * Gets the private 'security.logout_url_generator' shared service.
+     *
+     * @return \Symfony\Component\Security\Http\Logout\LogoutUrlGenerator
+     */
+    protected static function getSecurity_LogoutUrlGeneratorService($container)
+    {
+        $container->privates['security.logout_url_generator'] = $instance = new \Symfony\Component\Security\Http\Logout\LogoutUrlGenerator(($container->services['request_stack'] ??= new \Symfony\Component\HttpFoundation\RequestStack()), ($container->services['router'] ?? self::getRouterService($container)), ($container->privates['security.token_storage'] ?? self::getSecurity_TokenStorageService($container)));
+
+        $instance->registerListener('api_login', '/api/logout', 'logout', '_csrf_token', NULL, NULL);
+
+        return $instance;
+========
 
     /**
      * Gets the private 'security.logout_url_generator' shared service.
@@ -2148,6 +2199,7 @@ class App_KernelDevDebugContainer extends Container
     protected static function getSecurity_LogoutUrlGeneratorService($container)
     {
         return $container->privates['security.logout_url_generator'] = new \Symfony\Component\Security\Http\Logout\LogoutUrlGenerator(($container->services['request_stack'] ??= new \Symfony\Component\HttpFoundation\RequestStack()), ($container->services['router'] ?? self::getRouterService($container)), ($container->privates['security.token_storage'] ?? self::getSecurity_TokenStorageService($container)));
+>>>>>>>> 880060bb5da0c8eda634d33d133a5000981d034f:backend/var/cache/dev/ContainerDTRWV7p/App_KernelDevDebugContainer.php
     }
 
     /**
@@ -2785,10 +2837,11 @@ class App_KernelDevDebugContainer extends Container
             'security.authentication.hide_user_not_found' => true,
             'security.firewalls' => [
                 0 => 'dev',
-                1 => 'main',
+                1 => 'api_login',
+                2 => 'main',
             ],
             'security.logout_uris' => [
-                'dev' => '/api/logout',
+                'api_login' => '/api/logout',
             ],
             'monolog.use_microseconds' => true,
             'monolog.swift_mailer.handlers' => [

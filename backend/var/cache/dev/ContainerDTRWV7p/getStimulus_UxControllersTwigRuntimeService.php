@@ -1,7 +1,11 @@
 <?php
 
+<<<<<<<< HEAD:backend/var/cache/dev/ContainerP1c6CIX/getStimulus_UxControllersTwigRuntimeService.php
+namespace ContainerP1c6CIX;
+========
 namespace ContainerDTRWV7p;
 
+>>>>>>>> 880060bb5da0c8eda634d33d133a5000981d034f:backend/var/cache/dev/ContainerDTRWV7p/getStimulus_UxControllersTwigRuntimeService.php
 
 use Symfony\Component\DependencyInjection\Argument\RewindableGenerator;
 use Symfony\Component\DependencyInjection\ContainerInterface;
