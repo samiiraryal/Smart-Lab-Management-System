@@ -152,6 +152,6 @@ class __TwigTemplate_1a3e2d6ce8caf5e697581cbb5a0dabd8 extends Template
 
     {{ include('teacher/_delete_form.html.twig') }}
 {% endblock %}
-", "teacher/edit.html.twig", "D:\\SmartCollege-main\\SmartCollege-main\\templates\\teacher\\edit.html.twig");
+", "teacher/edit.html.twig", "C:\\Users\\user\\OneDrive\\Desktop\\finalproject\\finalyearproject\\backend\\templates\\teacher\\edit.html.twig");
     }
 }

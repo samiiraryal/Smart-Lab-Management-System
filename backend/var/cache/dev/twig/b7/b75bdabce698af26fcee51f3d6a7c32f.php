@@ -145,6 +145,6 @@ class __TwigTemplate_393bab81d26f6fbe7f3e80418fae4372 extends Template
 
     <a href=\"{{ path('app_teacher_index') }}\">back to list</a>
 {% endblock %}
-", "teacher/new.html.twig", "D:\\SmartCollege-main\\SmartCollege-main\\templates\\teacher\\new.html.twig");
+", "teacher/new.html.twig", "C:\\Users\\user\\OneDrive\\Desktop\\finalproject\\finalyearproject\\backend\\templates\\teacher\\new.html.twig");
     }
 }
