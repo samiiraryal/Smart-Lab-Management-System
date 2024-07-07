@@ -90,6 +90,6 @@ class __TwigTemplate_47d80380a28a6357c0f91499076d0036 extends Template
     {
         return new Source("{% for student in students %}
     <p>{{ student.name }}</p>
-{% endfor %}", "index.html.twig", "D:\\SmartCollege-main\\SmartCollege-main\\templates\\index.html.twig");
+{% endfor %}", "index.html.twig", "C:\\Users\\user\\OneDrive\\Desktop\\finalproject\\finalyearproject\\backend\\templates\\index.html.twig");
     }
 }

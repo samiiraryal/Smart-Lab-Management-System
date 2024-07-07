@@ -221,6 +221,6 @@ class __TwigTemplate_597ba6c18024d678b1f36f440a5313d3 extends Template
         {% block body %}{% endblock %}
     </body>
 </html>
-", "base.html.twig", "D:\\SmartCollege-main\\SmartCollege-main\\templates\\base.html.twig");
+", "base.html.twig", "C:\\Users\\user\\OneDrive\\Desktop\\finalproject\\finalyearproject\\backend\\templates\\base.html.twig");
     }
 }
