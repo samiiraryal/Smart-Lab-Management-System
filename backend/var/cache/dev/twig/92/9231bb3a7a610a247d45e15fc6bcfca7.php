@@ -727,6 +727,6 @@ class __TwigTemplate_373fa2e4b31b9caf0bb3af36d5d8fc3c extends Template
     });
 })();
 </script>
-", "@WebProfiler/Profiler/settings.html.twig", "D:\\SmartCollege-main\\SmartCollege-main\\vendor\\symfony\\web-profiler-bundle\\Resources\\views\\Profiler\\settings.html.twig");
+", "@WebProfiler/Profiler/settings.html.twig", "C:\\Users\\user\\OneDrive\\Desktop\\finalproject\\finalyearproject\\backend\\vendor\\symfony\\web-profiler-bundle\\Resources\\views\\Profiler\\settings.html.twig");
     }
 }

@@ -95,6 +95,6 @@ class __TwigTemplate_ae300b83011aae6a90be106fe6a85a99 extends Template
     {{ form_widget(form) }}
     <button class=\"btn\">{{ button_label|default('Save') }}</button>
 {{ form_end(form) }}
-", "student/_form.html.twig", "D:\\SmartCollege-main\\SmartCollege-main\\templates\\student\\_form.html.twig");
+", "student/_form.html.twig", "C:\\Users\\user\\OneDrive\\Desktop\\finalproject\\finalyearproject\\backend\\templates\\student\\_form.html.twig");
     }
 }
