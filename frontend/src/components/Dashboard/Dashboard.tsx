@@ -7,6 +7,7 @@ import Attendance from "../attendance/attendance.js";
 import ComputerCondition from "../computerCondition/computerCondition.js";
 import StudentProgress from "../studentProgress/studentProgress.js";
 import PasswordRequest from "../passwordRequest/passwordRequest.js";
+import CSVReader from "../csvReader/csv-reader.js"
 // clear
 const Dashboard = () => {
   const [selectedCourse, setSelectedCourse] = useState("");
@@ -18,19 +19,19 @@ const Dashboard = () => {
 
   const refParam = searchParams.get("ref");
 
-  const handleCourseChange = (e) => {
+  const handleCourseChange = (e: any) => {
     setSelectedCourse(e.target.value);
   };
 
-  const handleDateChange = (e) => {
+  const handleDateChange = (e: any) => {
     setDate(e.target.value);
   };
 
-  const handleTimeChange = (e) => {
+  const handleTimeChange = (e: any) => {
     setTime(e.target.value);
   };
 
-  const handleButtonClick = (action) => {
+  const handleButtonClick = (action: any) => {
     console.log(`${action} button clicked`);
     navigate(`/dashboard?ref=${action.toLowerCase().replace(' ', '-')}`);
   };
