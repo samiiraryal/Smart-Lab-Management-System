@@ -1,6 +1,11 @@
 <?php
 
+<<<<<<<< HEAD:backend/var/cache/dev/ContainerP1c6CIX/getForm_TypeExtension_Form_TransformationFailureHandlingService.php
 namespace ContainerP1c6CIX;
+========
+namespace ContainerDTRWV7p;
+
+>>>>>>>> 880060bb5da0c8eda634d33d133a5000981d034f:backend/var/cache/dev/ContainerDTRWV7p/getForm_TypeExtension_Form_TransformationFailureHandlingService.php
 
 use Symfony\Component\DependencyInjection\Argument\RewindableGenerator;
 use Symfony\Component\DependencyInjection\ContainerInterface;

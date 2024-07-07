@@ -1,6 +1,11 @@
 <?php
 
+<<<<<<<< HEAD:backend/var/cache/dev/ContainerP1c6CIX/get_Console_Command_SecretsEncryptFromLocal_LazyService.php
 namespace ContainerP1c6CIX;
+========
+namespace ContainerDTRWV7p;
+
+>>>>>>>> 880060bb5da0c8eda634d33d133a5000981d034f:backend/var/cache/dev/ContainerDTRWV7p/get_Console_Command_SecretsEncryptFromLocal_LazyService.php
 
 use Symfony\Component\DependencyInjection\Argument\RewindableGenerator;
 use Symfony\Component\DependencyInjection\ContainerInterface;

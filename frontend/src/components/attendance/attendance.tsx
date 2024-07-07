@@ -1,10 +1,6 @@
-// src/Attendance.tsx
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styles from "./attendance.module.css";
 import ImportFile from "../csvReader/csv-reader.js";
-import CsvUpload from "./csv-upload.js";
-import { IoMdArrowRoundBack } from "react-icons/io";
-import { useNavigate } from "react-router-dom";
 import BackButton from "../../utils/back-button.js";
 
 const Attendance = () => {
@@ -17,6 +13,8 @@ const Attendance = () => {
   });
 
   const [allData, setAllData] = useState<any[]>([]);
+  const [timer, setTimer] = useState(900); // 15 minutes in seconds
+  const [currentDate, setCurrentDate] = useState(new Date());
 
   const courses = [
     "programming in java",
@@ -26,10 +24,67 @@ const Attendance = () => {
     "c",
   ];
 
+  useEffect(() => {
+    const startTime = localStorage.getItem("attendanceStartTime");
+    const currentTime = new Date().getTime();
+
+    if (startTime) {
+      const elapsedTime = Math.floor((currentTime - parseInt(startTime)) / 1000);
+      const remainingTime = Math.max(900 - elapsedTime, 0);
+      setTimer(remainingTime);
+
+      if (remainingTime === 0) {
+        handleMarkAbsent();
+        localStorage.removeItem("attendanceStartTime");
+      }
+    } else {
+      localStorage.setItem("attendanceStartTime", currentTime.toString());
+    }
+
+    const intervalId = setInterval(() => {
+      setTimer((prevTimer) => {
+        if (prevTimer > 0) {
+          const newTime = prevTimer - 1;
+          localStorage.setItem("attendanceTimer", newTime.toString());
+          return newTime;
+        } else {
+          clearInterval(intervalId);
+          alert("15 minutes have passed. Marking students as absent.");
+          handleMarkAbsent();
+          localStorage.removeItem("attendanceStartTime");
+          localStorage.removeItem("attendanceTimer");
+          return 0;
+        }
+      });
+    }, 1000);
+
+    return () => clearInterval(intervalId);
+  }, []);
+
+  useEffect(() => {
+    const dateIntervalId = setInterval(() => {
+      setCurrentDate(new Date());
+    }, 1000);
+
+    return () => clearInterval(dateIntervalId);
+  }, []);
+
+  const handleMarkAbsent = () => {
+    setAllData((prevData) =>
+      prevData.map((data) => ({
+        ...data,
+        present: false,
+      }))
+    );
+  };
+
+  const formatDate = (date: Date) => {
+    return date.toISOString().split('T')[0];
+  };
+
   const handleChange = (
     event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
-    // @ts-ignore
     const { name, value, type, checked } = event.target;
     setAttendanceData((prevData) => ({
       ...prevData,
@@ -38,8 +93,12 @@ const Attendance = () => {
   };
 
   const handleSave = () => {
-    console.log("Attendance Data:", attendanceData);
-    setAllData((prevData) => [...prevData, attendanceData]);
+    const updatedAttendanceData = {
+      ...attendanceData,
+      date: formatDate(new Date()),
+    };
+    console.log("Attendance Data:", updatedAttendanceData);
+    setAllData((prevData) => [...prevData, updatedAttendanceData]);
     // Clear form fields
     setAttendanceData({
       rollNumber: "",
@@ -52,14 +111,19 @@ const Attendance = () => {
 
   return (
     <>
-      {/* <div className={styles.attendanceContainer}> */}
+      <div className={styles.attendanceContainer}>
         <div className={styles.headingContainer}>
           <BackButton />
-          <h2>Attendance Form</h2>
-          <div></div>
+          <div className={styles.titleContainer}>
+            <h2>Attendance Form</h2>
+          </div>
+          <div className={styles.dateTimeContainer}>
+            <div><b>Date:</b> {formatDate(currentDate)}</div>
+            <div><b>Time Remaining:</b> {Math.floor(timer / 60)}:{('0' + timer % 60).slice(-2)}</div>
+          </div>
         </div>
         <div className={styles.formGroup}>
-          <label htmlFor="course">Select Course:</label>
+          <label htmlFor="course"><b>Select Course:</b></label>
           <select
             id="course"
             name="course"
@@ -73,18 +137,6 @@ const Attendance = () => {
               </option>
             ))}
           </select>
-          <div></div>
-        </div>
-        <div className={styles.formGroup}>
-          <label htmlFor="date">Select Date:</label>
-          <input
-            type="date"
-            id="date"
-            name="date"
-            value={attendanceData.date}
-            onChange={handleChange}
-            />
-            <div></div>
         </div>
         <div className={styles.studentGroup}>
           <input
@@ -133,20 +185,20 @@ const Attendance = () => {
         <table>
           <thead>
             <tr>
-              <th>Name</th>
-              <th>Symbol Number</th>
-              <th>Section</th>
-              <th>Semester</th>
+              <th>Roll Number</th>
+              <th>Student Name</th>
+              <th>Course</th>
+              <th>Date</th>
               <th>Present/Absent</th>
             </tr>
           </thead>
           <tbody>
             {allData.map((data, index) => (
               <tr key={index}>
-                <td>{data.name}</td>
-                <td>{data.symbolNumber}</td>
-                <td>{data.section}</td>
-                <td>{data.semester}</td>
+                <td>{data.rollNumber}</td>
+                <td>{data.studentName}</td>
+                <td>{data.course}</td>
+                <td>{data.date}</td>
                 <td>{data.present ? "Present" : "Absent"}</td>
               </tr>
             ))}
@@ -155,9 +207,8 @@ const Attendance = () => {
         <button type="button" className={styles.button}>
           Import From CSV File
         </button>
-      {/* </div> */}
+      </div>
       <ImportFile />
-      
     </>
   );
 };

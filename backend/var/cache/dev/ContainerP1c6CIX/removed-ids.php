@@ -1,6 +1,10 @@
 <?php
 
+<<<<<<<< HEAD:backend/var/cache/dev/ContainerP1c6CIX/removed-ids.php
 namespace ContainerP1c6CIX;
+========
+namespace ContainerDTRWV7p;
+>>>>>>>> 880060bb5da0c8eda634d33d133a5000981d034f:backend/var/cache/dev/ContainerDTRWV7p/removed-ids.php
 
 return [
     'App\\Entity' => true,
@@ -111,7 +115,6 @@ return [
     'Jose\\Component\\Signature\\Algorithm\\ES256' => true,
     'Jose\\Component\\Signature\\Algorithm\\ES384' => true,
     'Jose\\Component\\Signature\\Algorithm\\ES512' => true,
-    'Jose\\Component\\Signature\\Algorithm\\EdDSA' => true,
     'Jose\\Component\\Signature\\Algorithm\\HS256' => true,
     'Jose\\Component\\Signature\\Algorithm\\HS384' => true,
     'Jose\\Component\\Signature\\Algorithm\\HS512' => true,
