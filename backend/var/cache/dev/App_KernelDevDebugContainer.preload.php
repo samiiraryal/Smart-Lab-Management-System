@@ -452,7 +452,11 @@ require __DIR__.'/ContainerDTRWV7p/get_Debug_ValueResolver_ArgumentResolver_Back
 require __DIR__.'/ContainerDTRWV7p/get_Debug_Security_Voter_Security_Access_SimpleRoleVoterService.php';
 require __DIR__.'/ContainerDTRWV7p/get_Debug_Security_Voter_Security_Access_ExpressionVoterService.php';
 require __DIR__.'/ContainerDTRWV7p/get_Debug_Security_Voter_Security_Access_AuthenticatedVoterService.php';
+<<<<<<< HEAD
 >>>>>>> master
+=======
+>>>>>>> 880060bb5da0c8eda634d33d133a5000981d034f
+>>>>>>> 30d3579f095403e4b6f449e111a5699e2e871658
 
 $classes = [];
 $classes[] = 'Symfony\Bundle\FrameworkBundle\FrameworkBundle';
