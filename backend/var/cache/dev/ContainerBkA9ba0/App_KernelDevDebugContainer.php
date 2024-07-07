@@ -1,5 +1,6 @@
 <?php
 
+<<<<<<< HEAD
 <<<<<<< HEAD:backend/var/cache/dev/Container4NiHcCK/App_KernelDevDebugContainer.php
 <<<<<<<< HEAD:backend/var/cache/dev/Container4NiHcCK/App_KernelDevDebugContainer.php
 namespace Container4NiHcCK;
@@ -13,6 +14,9 @@ namespace ContainerDTRWV7p;
 =======
 namespace ContainerBkA9ba0;
 >>>>>>> 43717bd8fbd4660ee8dfa0df411eea0544a1c6da:backend/var/cache/dev/ContainerBkA9ba0/App_KernelDevDebugContainer.php
+=======
+namespace ContainerBkA9ba0;
+>>>>>>> 43717bd8fbd4660ee8dfa0df411eea0544a1c6da
 
 use Symfony\Component\DependencyInjection\Argument\RewindableGenerator;
 use Symfony\Component\DependencyInjection\ContainerInterface;
