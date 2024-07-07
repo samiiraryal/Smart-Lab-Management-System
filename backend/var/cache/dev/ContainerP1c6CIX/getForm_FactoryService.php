@@ -1,6 +1,11 @@
 <?php
 
+<<<<<<<< HEAD:backend/var/cache/dev/ContainerP1c6CIX/getForm_FactoryService.php
 namespace ContainerP1c6CIX;
+========
+namespace ContainerDTRWV7p;
+
+>>>>>>>> master:backend/var/cache/dev/ContainerDTRWV7p/getForm_FactoryService.php
 
 use Symfony\Component\DependencyInjection\Argument\RewindableGenerator;
 use Symfony\Component\DependencyInjection\ContainerInterface;

@@ -1,6 +1,11 @@
 <?php
 
+<<<<<<<< HEAD:backend/var/cache/dev/ContainerP1c6CIX/get_DoctrineMigrations_RollupCommand_LazyService.php
 namespace ContainerP1c6CIX;
+========
+namespace ContainerDTRWV7p;
+
+>>>>>>>> master:backend/var/cache/dev/ContainerDTRWV7p/get_DoctrineMigrations_RollupCommand_LazyService.php
 
 use Symfony\Component\DependencyInjection\Argument\RewindableGenerator;
 use Symfony\Component\DependencyInjection\ContainerInterface;

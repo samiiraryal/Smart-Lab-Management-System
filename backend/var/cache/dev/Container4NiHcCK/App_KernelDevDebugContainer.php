@@ -1,6 +1,11 @@
 <?php
 
+<<<<<<<< HEAD:backend/var/cache/dev/Container4NiHcCK/App_KernelDevDebugContainer.php
 namespace Container4NiHcCK;
+========
+namespace ContainerDTRWV7p;
+>>>>>>>> master:backend/var/cache/dev/ContainerDTRWV7p/App_KernelDevDebugContainer.php
+
 
 use Symfony\Component\DependencyInjection\Argument\RewindableGenerator;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -16,6 +21,8 @@ use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
  */
 class App_KernelDevDebugContainer extends Container
 {
+    private const DEPRECATED_PARAMETERS = [];
+
     protected $targetDir;
     protected $parameters = [];
     protected \Closure $getService;
@@ -470,7 +477,6 @@ class App_KernelDevDebugContainer extends Container
             include_once \dirname(__DIR__, 4).''.\DIRECTORY_SEPARATOR.'vendor'.\DIRECTORY_SEPARATOR.'web-token'.\DIRECTORY_SEPARATOR.'jwt-framework'.\DIRECTORY_SEPARATOR.'src'.\DIRECTORY_SEPARATOR.'Library'.\DIRECTORY_SEPARATOR.'Signature'.\DIRECTORY_SEPARATOR.'Algorithm'.\DIRECTORY_SEPARATOR.'PS256.php';
             include_once \dirname(__DIR__, 4).''.\DIRECTORY_SEPARATOR.'vendor'.\DIRECTORY_SEPARATOR.'web-token'.\DIRECTORY_SEPARATOR.'jwt-framework'.\DIRECTORY_SEPARATOR.'src'.\DIRECTORY_SEPARATOR.'Library'.\DIRECTORY_SEPARATOR.'Signature'.\DIRECTORY_SEPARATOR.'Algorithm'.\DIRECTORY_SEPARATOR.'PS384.php';
             include_once \dirname(__DIR__, 4).''.\DIRECTORY_SEPARATOR.'vendor'.\DIRECTORY_SEPARATOR.'web-token'.\DIRECTORY_SEPARATOR.'jwt-framework'.\DIRECTORY_SEPARATOR.'src'.\DIRECTORY_SEPARATOR.'Library'.\DIRECTORY_SEPARATOR.'Signature'.\DIRECTORY_SEPARATOR.'Algorithm'.\DIRECTORY_SEPARATOR.'PS512.php';
-            include_once \dirname(__DIR__, 4).''.\DIRECTORY_SEPARATOR.'vendor'.\DIRECTORY_SEPARATOR.'web-token'.\DIRECTORY_SEPARATOR.'jwt-framework'.\DIRECTORY_SEPARATOR.'src'.\DIRECTORY_SEPARATOR.'Library'.\DIRECTORY_SEPARATOR.'Signature'.\DIRECTORY_SEPARATOR.'Algorithm'.\DIRECTORY_SEPARATOR.'EdDSA.php';
             include_once \dirname(__DIR__, 4).''.\DIRECTORY_SEPARATOR.'vendor'.\DIRECTORY_SEPARATOR.'web-token'.\DIRECTORY_SEPARATOR.'jwt-framework'.\DIRECTORY_SEPARATOR.'src'.\DIRECTORY_SEPARATOR.'Library'.\DIRECTORY_SEPARATOR.'Encryption'.\DIRECTORY_SEPARATOR.'Algorithm'.\DIRECTORY_SEPARATOR.'ContentEncryptionAlgorithm.php';
             include_once \dirname(__DIR__, 4).''.\DIRECTORY_SEPARATOR.'vendor'.\DIRECTORY_SEPARATOR.'web-token'.\DIRECTORY_SEPARATOR.'jwt-framework'.\DIRECTORY_SEPARATOR.'src'.\DIRECTORY_SEPARATOR.'Library'.\DIRECTORY_SEPARATOR.'Encryption'.\DIRECTORY_SEPARATOR.'Algorithm'.\DIRECTORY_SEPARATOR.'ContentEncryption'.\DIRECTORY_SEPARATOR.'AESCBCHS.php';
             include_once \dirname(__DIR__, 4).''.\DIRECTORY_SEPARATOR.'vendor'.\DIRECTORY_SEPARATOR.'web-token'.\DIRECTORY_SEPARATOR.'jwt-framework'.\DIRECTORY_SEPARATOR.'src'.\DIRECTORY_SEPARATOR.'Library'.\DIRECTORY_SEPARATOR.'Encryption'.\DIRECTORY_SEPARATOR.'Algorithm'.\DIRECTORY_SEPARATOR.'ContentEncryption'.\DIRECTORY_SEPARATOR.'A128CBCHS256.php';
@@ -783,7 +789,6 @@ class App_KernelDevDebugContainer extends Container
         $instance->add('PS256', new \Jose\Component\Signature\Algorithm\PS256());
         $instance->add('PS384', new \Jose\Component\Signature\Algorithm\PS384());
         $instance->add('PS512', new \Jose\Component\Signature\Algorithm\PS512());
-        $instance->add('EdDSA', new \Jose\Component\Signature\Algorithm\EdDSA());
         $instance->add('A128CBC-HS256', new \Jose\Component\Encryption\Algorithm\ContentEncryption\A128CBCHS256());
         $instance->add('A192CBC-HS384', new \Jose\Component\Encryption\Algorithm\ContentEncryption\A192CBCHS384());
         $instance->add('A256CBC-HS512', new \Jose\Component\Encryption\Algorithm\ContentEncryption\A256CBCHS512());
@@ -893,7 +898,7 @@ class App_KernelDevDebugContainer extends Container
      */
     protected static function getCache_AppService($container)
     {
-        $a = new \Symfony\Component\Cache\Adapter\FilesystemAdapter('bAxihoRVo6', 0, ($container->targetDir.''.'/pools/app'), ($container->privates['cache.default_marshaller'] ??= new \Symfony\Component\Cache\Marshaller\DefaultMarshaller(NULL, true)));
+        $a = new \Symfony\Component\Cache\Adapter\FilesystemAdapter('WqZLNPxC6W', 0, ($container->targetDir.''.'/pools/app'), ($container->privates['cache.default_marshaller'] ??= new \Symfony\Component\Cache\Marshaller\DefaultMarshaller(NULL, true)));
         $a->setLogger(($container->privates['monolog.logger.cache'] ?? self::getMonolog_Logger_CacheService($container)));
 
         return $container->services['cache.app'] = new \Symfony\Component\Cache\Adapter\TraceableAdapter($a);
@@ -906,7 +911,7 @@ class App_KernelDevDebugContainer extends Container
      */
     protected static function getCache_SecurityIsCsrfTokenValidAttributeExpressionLanguageService($container)
     {
-        return $container->services['cache.security_is_csrf_token_valid_attribute_expression_language'] = new \Symfony\Component\Cache\Adapter\TraceableAdapter(\Symfony\Component\Cache\Adapter\AbstractAdapter::createSystemCache('JtHe+whbCR', 0, $container->getParameter('container.build_id'), ($container->targetDir.''.'/pools/system'), ($container->privates['monolog.logger.cache'] ?? self::getMonolog_Logger_CacheService($container))));
+        return $container->services['cache.security_is_csrf_token_valid_attribute_expression_language'] = new \Symfony\Component\Cache\Adapter\TraceableAdapter(\Symfony\Component\Cache\Adapter\AbstractAdapter::createSystemCache('NZv-+YjEwN', 0, $container->getParameter('container.build_id'), ($container->targetDir.''.'/pools/system'), ($container->privates['monolog.logger.cache'] ?? self::getMonolog_Logger_CacheService($container))));
     }
 
     /**
@@ -916,7 +921,7 @@ class App_KernelDevDebugContainer extends Container
      */
     protected static function getCache_SecurityIsGrantedAttributeExpressionLanguageService($container)
     {
-        return $container->services['cache.security_is_granted_attribute_expression_language'] = new \Symfony\Component\Cache\Adapter\TraceableAdapter(\Symfony\Component\Cache\Adapter\AbstractAdapter::createSystemCache('G-IQG44QGh', 0, $container->getParameter('container.build_id'), ($container->targetDir.''.'/pools/system'), ($container->privates['monolog.logger.cache'] ?? self::getMonolog_Logger_CacheService($container))));
+        return $container->services['cache.security_is_granted_attribute_expression_language'] = new \Symfony\Component\Cache\Adapter\TraceableAdapter(\Symfony\Component\Cache\Adapter\AbstractAdapter::createSystemCache('-vK7QeXEiR', 0, $container->getParameter('container.build_id'), ($container->targetDir.''.'/pools/system'), ($container->privates['monolog.logger.cache'] ?? self::getMonolog_Logger_CacheService($container))));
     }
 
     /**
@@ -926,7 +931,7 @@ class App_KernelDevDebugContainer extends Container
      */
     protected static function getCache_SystemService($container)
     {
-        return $container->services['cache.system'] = new \Symfony\Component\Cache\Adapter\TraceableAdapter(\Symfony\Component\Cache\Adapter\AbstractAdapter::createSystemCache('mKs5Lo94y9', 0, $container->getParameter('container.build_id'), ($container->targetDir.''.'/pools/system'), ($container->privates['monolog.logger.cache'] ?? self::getMonolog_Logger_CacheService($container))));
+        return $container->services['cache.system'] = new \Symfony\Component\Cache\Adapter\TraceableAdapter(\Symfony\Component\Cache\Adapter\AbstractAdapter::createSystemCache('CiAu53P0EM', 0, $container->getParameter('container.build_id'), ($container->targetDir.''.'/pools/system'), ($container->privates['monolog.logger.cache'] ?? self::getMonolog_Logger_CacheService($container))));
     }
 
     /**
@@ -936,7 +941,7 @@ class App_KernelDevDebugContainer extends Container
      */
     protected static function getCache_ValidatorExpressionLanguageService($container)
     {
-        return $container->services['cache.validator_expression_language'] = new \Symfony\Component\Cache\Adapter\TraceableAdapter(\Symfony\Component\Cache\Adapter\AbstractAdapter::createSystemCache('n4mkiV2Mmd', 0, $container->getParameter('container.build_id'), ($container->targetDir.''.'/pools/system'), ($container->privates['monolog.logger.cache'] ?? self::getMonolog_Logger_CacheService($container))));
+        return $container->services['cache.validator_expression_language'] = new \Symfony\Component\Cache\Adapter\TraceableAdapter(\Symfony\Component\Cache\Adapter\AbstractAdapter::createSystemCache('c9vaTdOl07', 0, $container->getParameter('container.build_id'), ($container->targetDir.''.'/pools/system'), ($container->privates['monolog.logger.cache'] ?? self::getMonolog_Logger_CacheService($container))));
     }
 
     /**
@@ -1353,6 +1358,7 @@ class App_KernelDevDebugContainer extends Container
     {
         return $container->privates['.debug.http_client'] = new \Symfony\Component\HttpClient\TraceableHttpClient(new \Symfony\Component\HttpClient\UriTemplateHttpClient(($container->privates['http_client.transport'] ?? self::getHttpClient_TransportService($container)), NULL, []), ($container->services['debug.stopwatch'] ??= new \Symfony\Component\Stopwatch\Stopwatch(true)));
     }
+<<<<<<<< HEAD:backend/var/cache/dev/Container4NiHcCK/App_KernelDevDebugContainer.php
 
     /**
      * Gets the private '.service_locator.oibJEp9' shared service.
@@ -1363,6 +1369,17 @@ class App_KernelDevDebugContainer extends Container
     {
         return $container->privates['.service_locator.oibJEp9'] = new \Symfony\Component\DependencyInjection\Argument\ServiceLocator($container->getService ??= $container->getService(...), [
             'security.firewall.map.context.api_login' => ['privates', 'security.firewall.map.context.api_login', 'getSecurity_Firewall_Map_Context_ApiLoginService', true],
+========
+
+    /**
+     * Gets the private '.service_locator.bsoXAxw' shared service.
+     *
+     * @return \Symfony\Component\DependencyInjection\ServiceLocator
+     */
+    protected static function get_ServiceLocator_BsoXAxwService($container)
+    {
+        return $container->privates['.service_locator.bsoXAxw'] = new \Symfony\Component\DependencyInjection\Argument\ServiceLocator($container->getService ??= $container->getService(...), [
+>>>>>>>> master:backend/var/cache/dev/ContainerDTRWV7p/App_KernelDevDebugContainer.php
             'security.firewall.map.context.dev' => ['privates', 'security.firewall.map.context.dev', 'getSecurity_Firewall_Map_Context_DevService', true],
             'security.firewall.map.context.main' => ['privates', 'security.firewall.map.context.main', 'getSecurity_Firewall_Map_Context_MainService', true],
         ], [
@@ -1538,7 +1555,7 @@ class App_KernelDevDebugContainer extends Container
      */
     protected static function getCache_AssetMapperService($container)
     {
-        return $container->privates['cache.asset_mapper'] = new \Symfony\Component\Cache\Adapter\TraceableAdapter(\Symfony\Component\Cache\Adapter\AbstractAdapter::createSystemCache('vfM9NNZwI2', 0, $container->getParameter('container.build_id'), ($container->targetDir.''.'/pools/system'), ($container->privates['monolog.logger.cache'] ?? self::getMonolog_Logger_CacheService($container))));
+        return $container->privates['cache.asset_mapper'] = new \Symfony\Component\Cache\Adapter\TraceableAdapter(\Symfony\Component\Cache\Adapter\AbstractAdapter::createSystemCache('Yo5mTD+eLw', 0, $container->getParameter('container.build_id'), ($container->targetDir.''.'/pools/system'), ($container->privates['monolog.logger.cache'] ?? self::getMonolog_Logger_CacheService($container))));
     }
 
     /**
@@ -1568,7 +1585,7 @@ class App_KernelDevDebugContainer extends Container
      */
     protected static function getCache_Messenger_RestartWorkersSignalService($container)
     {
-        $a = new \Symfony\Component\Cache\Adapter\FilesystemAdapter('eKnGMwapOp', 0, ($container->targetDir.''.'/pools/app'), ($container->privates['cache.default_marshaller'] ??= new \Symfony\Component\Cache\Marshaller\DefaultMarshaller(NULL, true)));
+        $a = new \Symfony\Component\Cache\Adapter\FilesystemAdapter('TQuu5wFMSp', 0, ($container->targetDir.''.'/pools/app'), ($container->privates['cache.default_marshaller'] ??= new \Symfony\Component\Cache\Marshaller\DefaultMarshaller(NULL, true)));
         $a->setLogger(($container->privates['monolog.logger.cache'] ?? self::getMonolog_Logger_CacheService($container)));
 
         return $container->privates['cache.messenger.restart_workers_signal'] = new \Symfony\Component\Cache\Adapter\TraceableAdapter($a);
@@ -1581,7 +1598,7 @@ class App_KernelDevDebugContainer extends Container
      */
     protected static function getCache_PropertyInfoService($container)
     {
-        return $container->privates['cache.property_info'] = new \Symfony\Component\Cache\Adapter\TraceableAdapter(\Symfony\Component\Cache\Adapter\AbstractAdapter::createSystemCache('rJoQvCtRUP', 0, $container->getParameter('container.build_id'), ($container->targetDir.''.'/pools/system'), ($container->privates['monolog.logger.cache'] ?? self::getMonolog_Logger_CacheService($container))));
+        return $container->privates['cache.property_info'] = new \Symfony\Component\Cache\Adapter\TraceableAdapter(\Symfony\Component\Cache\Adapter\AbstractAdapter::createSystemCache('viF1uy18vK', 0, $container->getParameter('container.build_id'), ($container->targetDir.''.'/pools/system'), ($container->privates['monolog.logger.cache'] ?? self::getMonolog_Logger_CacheService($container))));
     }
 
     /**
@@ -1591,7 +1608,7 @@ class App_KernelDevDebugContainer extends Container
      */
     protected static function getCache_SecurityExpressionLanguageService($container)
     {
-        return $container->privates['cache.security_expression_language'] = new \Symfony\Component\Cache\Adapter\TraceableAdapter(\Symfony\Component\Cache\Adapter\AbstractAdapter::createSystemCache('RnyJkdn2xe', 0, $container->getParameter('container.build_id'), ($container->targetDir.''.'/pools/system'), ($container->privates['monolog.logger.cache'] ?? self::getMonolog_Logger_CacheService($container))));
+        return $container->privates['cache.security_expression_language'] = new \Symfony\Component\Cache\Adapter\TraceableAdapter(\Symfony\Component\Cache\Adapter\AbstractAdapter::createSystemCache('jJptnvrHYB', 0, $container->getParameter('container.build_id'), ($container->targetDir.''.'/pools/system'), ($container->privates['monolog.logger.cache'] ?? self::getMonolog_Logger_CacheService($container))));
     }
 
     /**
@@ -1601,7 +1618,7 @@ class App_KernelDevDebugContainer extends Container
      */
     protected static function getCache_SerializerService($container)
     {
-        return $container->privates['cache.serializer'] = new \Symfony\Component\Cache\Adapter\TraceableAdapter(\Symfony\Component\Cache\Adapter\AbstractAdapter::createSystemCache('vSD-Un+lrP', 0, $container->getParameter('container.build_id'), ($container->targetDir.''.'/pools/system'), ($container->privates['monolog.logger.cache'] ?? self::getMonolog_Logger_CacheService($container))));
+        return $container->privates['cache.serializer'] = new \Symfony\Component\Cache\Adapter\TraceableAdapter(\Symfony\Component\Cache\Adapter\AbstractAdapter::createSystemCache('yEJvY3ZXQA', 0, $container->getParameter('container.build_id'), ($container->targetDir.''.'/pools/system'), ($container->privates['monolog.logger.cache'] ?? self::getMonolog_Logger_CacheService($container))));
     }
 
     /**
@@ -1611,7 +1628,7 @@ class App_KernelDevDebugContainer extends Container
      */
     protected static function getCache_ValidatorService($container)
     {
-        return $container->privates['cache.validator'] = new \Symfony\Component\Cache\Adapter\TraceableAdapter(\Symfony\Component\Cache\Adapter\AbstractAdapter::createSystemCache('KFIo81uSGH', 0, $container->getParameter('container.build_id'), ($container->targetDir.''.'/pools/system'), ($container->privates['monolog.logger.cache'] ?? self::getMonolog_Logger_CacheService($container))));
+        return $container->privates['cache.validator'] = new \Symfony\Component\Cache\Adapter\TraceableAdapter(\Symfony\Component\Cache\Adapter\AbstractAdapter::createSystemCache('x-pZQq-izc', 0, $container->getParameter('container.build_id'), ($container->targetDir.''.'/pools/system'), ($container->privates['monolog.logger.cache'] ?? self::getMonolog_Logger_CacheService($container))));
     }
 
     /**
@@ -2122,6 +2139,7 @@ class App_KernelDevDebugContainer extends Container
     {
         return $container->privates['security.csrf.token_storage'] = new \Symfony\Component\Security\Csrf\TokenStorage\SessionTokenStorage(($container->services['request_stack'] ??= new \Symfony\Component\HttpFoundation\RequestStack()));
     }
+<<<<<<<< HEAD:backend/var/cache/dev/Container4NiHcCK/App_KernelDevDebugContainer.php
 
     /**
      * Gets the private 'security.firewall.map' shared service.
@@ -2135,6 +2153,21 @@ class App_KernelDevDebugContainer extends Container
         if (isset($container->privates['security.firewall.map'])) {
             return $container->privates['security.firewall.map'];
         }
+========
+
+    /**
+     * Gets the private 'security.firewall.map' shared service.
+     *
+     * @return \Symfony\Bundle\SecurityBundle\Security\FirewallMap
+     */
+    protected static function getSecurity_Firewall_MapService($container)
+    {
+        $a = ($container->privates['.service_locator.bsoXAxw'] ?? self::get_ServiceLocator_BsoXAxwService($container));
+
+        if (isset($container->privates['security.firewall.map'])) {
+            return $container->privates['security.firewall.map'];
+        }
+>>>>>>>> master:backend/var/cache/dev/ContainerDTRWV7p/App_KernelDevDebugContainer.php
 
         return $container->privates['security.firewall.map'] = new \Symfony\Bundle\SecurityBundle\Security\FirewallMap($a, new RewindableGenerator(function () use ($container) {
             yield 'security.firewall.map.context.dev' => ($container->privates['.security.request_matcher.gOpgIHx'] ?? $container->load('get_Security_RequestMatcher_GOpgIHxService'));
@@ -2142,6 +2175,7 @@ class App_KernelDevDebugContainer extends Container
             yield 'security.firewall.map.context.main' => NULL;
         }, 3));
     }
+<<<<<<<< HEAD:backend/var/cache/dev/Container4NiHcCK/App_KernelDevDebugContainer.php
 
     /**
      * Gets the private 'security.logout_url_generator' shared service.
@@ -2155,6 +2189,17 @@ class App_KernelDevDebugContainer extends Container
         $instance->registerListener('api_login', '/api/logout', 'logout', '_csrf_token', NULL, NULL);
 
         return $instance;
+========
+
+    /**
+     * Gets the private 'security.logout_url_generator' shared service.
+     *
+     * @return \Symfony\Component\Security\Http\Logout\LogoutUrlGenerator
+     */
+    protected static function getSecurity_LogoutUrlGeneratorService($container)
+    {
+        return $container->privates['security.logout_url_generator'] = new \Symfony\Component\Security\Http\Logout\LogoutUrlGenerator(($container->services['request_stack'] ??= new \Symfony\Component\HttpFoundation\RequestStack()), ($container->services['router'] ?? self::getRouterService($container)), ($container->privates['security.token_storage'] ?? self::getSecurity_TokenStorageService($container)));
+>>>>>>>> master:backend/var/cache/dev/ContainerDTRWV7p/App_KernelDevDebugContainer.php
     }
 
     /**
@@ -2478,7 +2523,7 @@ class App_KernelDevDebugContainer extends Container
     }
 
     public function getParameter(string $name): array|bool|string|int|float|\UnitEnum|null
-    {
+    {
         if (isset($this->buildParameters[$name])) {
             return $this->buildParameters[$name];
         }
