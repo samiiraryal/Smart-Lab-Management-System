@@ -1,7 +1,11 @@
 <?php
 
+<<<<<<<< HEAD:backend/var/cache/dev/ContainerMJS7eCs/getMaker_AutoCommand_MakeTestService.php
 namespace ContainerMJS7eCs;
 
+========
+namespace ContainerOsaKUrs;
+>>>>>>>> origin/prizina:backend/var/cache/dev/ContainerOsaKUrs/getMaker_AutoCommand_MakeTestService.php
 
 use Symfony\Component\DependencyInjection\Argument\RewindableGenerator;
 use Symfony\Component\DependencyInjection\ContainerInterface;

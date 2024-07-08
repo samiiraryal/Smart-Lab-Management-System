@@ -1,7 +1,11 @@
 <?php
 
+<<<<<<<< HEAD:backend/var/cache/dev/ContainerMJS7eCs/get_ServiceLocator_Y_RDPi2Service.php
 namespace ContainerMJS7eCs;
 
+========
+namespace ContainerOsaKUrs;
+>>>>>>>> origin/prizina:backend/var/cache/dev/ContainerOsaKUrs/get_ServiceLocator_Y_RDPi2Service.php
 
 use Symfony\Component\DependencyInjection\Argument\RewindableGenerator;
 use Symfony\Component\DependencyInjection\ContainerInterface;

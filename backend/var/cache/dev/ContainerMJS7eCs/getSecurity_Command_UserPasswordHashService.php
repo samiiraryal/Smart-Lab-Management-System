@@ -1,7 +1,11 @@
 <?php
 
+<<<<<<<< HEAD:backend/var/cache/dev/ContainerMJS7eCs/getSecurity_Command_UserPasswordHashService.php
 namespace ContainerMJS7eCs;
 
+========
+namespace ContainerOsaKUrs;
+>>>>>>>> origin/prizina:backend/var/cache/dev/ContainerOsaKUrs/getSecurity_Command_UserPasswordHashService.php
 
 use Symfony\Component\DependencyInjection\Argument\RewindableGenerator;
 use Symfony\Component\DependencyInjection\ContainerInterface;

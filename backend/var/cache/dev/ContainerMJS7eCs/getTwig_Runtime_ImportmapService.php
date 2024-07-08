@@ -1,7 +1,11 @@
 <?php
 
+<<<<<<<< HEAD:backend/var/cache/dev/ContainerMJS7eCs/getTwig_Runtime_ImportmapService.php
 namespace ContainerMJS7eCs;
 
+========
+namespace ContainerOsaKUrs;
+>>>>>>>> origin/prizina:backend/var/cache/dev/ContainerOsaKUrs/getTwig_Runtime_ImportmapService.php
 
 use Symfony\Component\DependencyInjection\Argument\RewindableGenerator;
 use Symfony\Component\DependencyInjection\ContainerInterface;

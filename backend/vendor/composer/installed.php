@@ -3,7 +3,11 @@
         'name' => '__root__',
         'pretty_version' => 'dev-master',
         'version' => 'dev-master',
+<<<<<<< HEAD
         'reference' => '2405fd0d945764251ba97067c0e81e0d924ebe8e',
+=======
+        'reference' => '2ba4ab724150fdd7875bd70ee855ac518deffab5',
+>>>>>>> origin/prizina
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -13,7 +17,11 @@
         '__root__' => array(
             'pretty_version' => 'dev-master',
             'version' => 'dev-master',
+<<<<<<< HEAD
             'reference' => '2405fd0d945764251ba97067c0e81e0d924ebe8e',
+=======
+            'reference' => '2ba4ab724150fdd7875bd70ee855ac518deffab5',
+>>>>>>> origin/prizina
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),

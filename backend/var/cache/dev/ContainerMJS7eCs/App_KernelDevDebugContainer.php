@@ -1,6 +1,10 @@
 <?php
 
+<<<<<<<< HEAD:backend/var/cache/dev/ContainerMJS7eCs/App_KernelDevDebugContainer.php
 namespace ContainerMJS7eCs;
+========
+namespace ContainerBkA9ba0;
+>>>>>>>> origin/prizina:backend/var/cache/dev/ContainerBkA9ba0/App_KernelDevDebugContainer.php
 
 
 use Symfony\Component\DependencyInjection\Argument\RewindableGenerator;
@@ -1942,6 +1946,7 @@ class App_KernelDevDebugContainer extends Container
 
         return $instance;
     }
+<<<<<<<< HEAD:backend/var/cache/dev/ContainerMJS7eCs/App_KernelDevDebugContainer.php
 
     /**
      * Gets the private 'nelmio_cors.cors_listener' shared service.
@@ -1960,6 +1965,26 @@ class App_KernelDevDebugContainer extends Container
      */
     protected static function getParameterBagService($container)
     {
+========
+
+    /**
+     * Gets the private 'nelmio_cors.cors_listener' shared service.
+     *
+     * @return \Nelmio\CorsBundle\EventListener\CorsListener
+     */
+    protected static function getNelmioCors_CorsListenerService($container)
+    {
+        return $container->privates['nelmio_cors.cors_listener'] = new \Nelmio\CorsBundle\EventListener\CorsListener(new \Nelmio\CorsBundle\Options\Resolver([new \Nelmio\CorsBundle\Options\ConfigProvider($container->getParameter('nelmio_cors.map'), $container->getParameter('nelmio_cors.defaults'))]));
+    }
+
+    /**
+     * Gets the private 'parameter_bag' shared service.
+     *
+     * @return \Symfony\Component\DependencyInjection\ParameterBag\ContainerBag
+     */
+    protected static function getParameterBagService($container)
+    {
+>>>>>>>> origin/prizina:backend/var/cache/dev/ContainerBkA9ba0/App_KernelDevDebugContainer.php
         return $container->privates['parameter_bag'] = new \Symfony\Component\DependencyInjection\ParameterBag\ContainerBag($container);
     }
 
@@ -2519,6 +2544,7 @@ class App_KernelDevDebugContainer extends Container
         'doctrine.orm.proxy_dir' => false,
         'nelmio_cors.map' => false,
         'nelmio_cors.defaults' => false,
+<<<<<<<< HEAD:backend/var/cache/dev/ContainerMJS7eCs/App_KernelDevDebugContainer.php
     ];
     private $dynamicParameters = [];
 
@@ -2526,6 +2552,15 @@ class App_KernelDevDebugContainer extends Container
     {
         $container = $this;
         $value = match ($name) {
+========
+    ];
+    private $dynamicParameters = [];
+
+    private function getDynamicParameter(string $name)
+    {
+        $container = $this;
+        $value = match ($name) {
+>>>>>>>> origin/prizina:backend/var/cache/dev/ContainerBkA9ba0/App_KernelDevDebugContainer.php
             'kernel.runtime_environment' => $container->getEnv('default:kernel.environment:APP_RUNTIME_ENV'),
             'kernel.runtime_mode' => $container->getEnv('query_string:default:container.runtime_mode:APP_RUNTIME_MODE'),
             'kernel.runtime_mode.web' => $container->getEnv('bool:default::key:web:default:kernel.runtime_mode:'),
@@ -2542,7 +2577,11 @@ class App_KernelDevDebugContainer extends Container
             'profiler.storage.dsn' => ('file:'.$container->targetDir.''.'/profiler'),
             'doctrine.orm.proxy_dir' => ($container->targetDir.''.'/doctrine/orm/Proxies'),
             'nelmio_cors.map' => [
+<<<<<<<< HEAD:backend/var/cache/dev/ContainerMJS7eCs/App_KernelDevDebugContainer.php
                 '^/api/' => [
+========
+                '^/api' => [
+>>>>>>>> origin/prizina:backend/var/cache/dev/ContainerBkA9ba0/App_KernelDevDebugContainer.php
                     'allow_origin' => [
                         0 => $container->getEnv('CORS_ALLOW_ORIGIN'),
                     ],
@@ -2584,6 +2623,18 @@ class App_KernelDevDebugContainer extends Container
                 ],
                 'max_age' => 3600,
                 'hosts' => [
+<<<<<<<< HEAD:backend/var/cache/dev/ContainerMJS7eCs/App_KernelDevDebugContainer.php
+========
+
+                ],
+                'origin_regex' => true,
+                'forced_allow_origin_value' => NULL,
+                'skip_same_as_origin' => true,
+            ],
+            default => throw new ParameterNotFoundException($name),
+        };
+        $this->loadedDynamicParameters[$name] = true;
+>>>>>>>> origin/prizina:backend/var/cache/dev/ContainerBkA9ba0/App_KernelDevDebugContainer.php
 
                 ],
                 'origin_regex' => true,

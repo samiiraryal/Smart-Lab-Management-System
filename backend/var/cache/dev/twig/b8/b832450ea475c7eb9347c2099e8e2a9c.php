@@ -226,6 +226,10 @@ class __TwigTemplate_2960a018e517e6fd43858eb2865ee5db extends Template
     word-wrap: break-word;
     word-break: break-all;
 }
+<<<<<<< HEAD:backend/var/cache/dev/twig/b8/b832450ea475c7eb9347c2099e8e2a9c.php
 ", "@WebProfiler/Profiler/open.css.twig", "C:\\Users\\sandesh\\OneDrive\\Desktop\\finalyearproject\\backend\\vendor\\symfony\\web-profiler-bundle\\Resources\\views\\Profiler\\open.css.twig");
+=======
+", "@WebProfiler/Profiler/open.css.twig", "C:\\Users\\user\\OneDrive\\Desktop\\finalproject\\finalyearproject\\backend\\vendor\\symfony\\web-profiler-bundle\\Resources\\views\\Profiler\\open.css.twig");
+>>>>>>> origin/prizina:backend/var/cache/dev/twig/d8/d8b7751090ad16421a8286bb7dfa8ad8.php
     }
 }

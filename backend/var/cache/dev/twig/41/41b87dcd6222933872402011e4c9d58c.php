@@ -211,6 +211,10 @@ Exception stack trace attached.
 {{ exception }}
 {% endif %}
 {% endblock %}
+<<<<<<< HEAD:backend/var/cache/dev/twig/41/41b87dcd6222933872402011e4c9d58c.php
 ", "@email/zurb_2/notification/body.txt.twig", "C:\\Users\\sandesh\\OneDrive\\Desktop\\finalyearproject\\backend\\vendor\\symfony\\twig-bridge\\Resources\\views\\Email\\zurb_2\\notification\\body.txt.twig");
+=======
+", "@email/zurb_2/notification/body.txt.twig", "C:\\Users\\user\\OneDrive\\Desktop\\finalproject\\finalyearproject\\backend\\vendor\\symfony\\twig-bridge\\Resources\\views\\Email\\zurb_2\\notification\\body.txt.twig");
+>>>>>>> origin/prizina:backend/var/cache/dev/twig/be/bec09aabbe9e5e2e9ea8f00b1d924aa3.php
     }
 }

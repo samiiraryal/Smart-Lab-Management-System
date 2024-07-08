@@ -90,6 +90,10 @@ class __TwigTemplate_b374094dea0b81266ca066908c20a053 extends Template
     {
         return new Source("{% for student in students %}
     <p>{{ student.name }}</p>
+<<<<<<< HEAD:backend/var/cache/dev/twig/da/dac5d5f7e6426847fff4280011304db0.php
 {% endfor %}", "index.html.twig", "C:\\Users\\sandesh\\OneDrive\\Desktop\\finalyearproject\\backend\\templates\\index.html.twig");
+=======
+{% endfor %}", "index.html.twig", "C:\\Users\\user\\OneDrive\\Desktop\\finalproject\\finalyearproject\\backend\\templates\\index.html.twig");
+>>>>>>> origin/prizina:backend/var/cache/dev/twig/82/8244e449ff61b531f3e6b0b56090e765.php
     }
 }

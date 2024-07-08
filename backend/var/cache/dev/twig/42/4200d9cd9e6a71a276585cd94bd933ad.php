@@ -224,6 +224,10 @@ class __TwigTemplate_9d96df0b3fbe7298b607496af3967ec2 extends Template
 
     <a href=\"{{ path('app_student_new') }}\">Create new</a>
 {% endblock %}
+<<<<<<< HEAD:backend/var/cache/dev/twig/42/4200d9cd9e6a71a276585cd94bd933ad.php
 ", "student/index.html.twig", "C:\\Users\\sandesh\\OneDrive\\Desktop\\finalyearproject\\backend\\templates\\student\\index.html.twig");
+=======
+", "student/index.html.twig", "C:\\Users\\user\\OneDrive\\Desktop\\finalproject\\finalyearproject\\backend\\templates\\student\\index.html.twig");
+>>>>>>> origin/prizina:backend/var/cache/dev/twig/47/479678179705585ed7458b72922ae94e.php
     }
 }

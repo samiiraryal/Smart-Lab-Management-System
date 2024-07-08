@@ -202,6 +202,10 @@ class __TwigTemplate_3c3fa6342571550323aed7447f421b0f extends Template
 .timeline-graph .timeline-period {
     stroke-width: 0;
 }
+<<<<<<< HEAD:backend/var/cache/dev/twig/b4/b45a2d94c4ca6b867a4c4dfc66c1fee3.php
 ", "@WebProfiler/Collector/time.css.twig", "C:\\Users\\sandesh\\OneDrive\\Desktop\\finalyearproject\\backend\\vendor\\symfony\\web-profiler-bundle\\Resources\\views\\Collector\\time.css.twig");
+=======
+", "@WebProfiler/Collector/time.css.twig", "C:\\Users\\user\\OneDrive\\Desktop\\finalproject\\finalyearproject\\backend\\vendor\\symfony\\web-profiler-bundle\\Resources\\views\\Collector\\time.css.twig");
+>>>>>>> origin/prizina:backend/var/cache/dev/twig/82/829b7007b64dc8f836c0d6f01a8016b1.php
     }
 }

@@ -195,6 +195,10 @@ class __TwigTemplate_f2605b5418f2d03f17c72b2b4b5cddd3 extends Template
 
     {{ include('student/_delete_form.html.twig') }}
 {% endblock %}
+<<<<<<< HEAD:backend/var/cache/dev/twig/92/92cc11e39c5e5775062b747bdb04e540.php
 ", "student/show.html.twig", "C:\\Users\\sandesh\\OneDrive\\Desktop\\finalyearproject\\backend\\templates\\student\\show.html.twig");
+=======
+", "student/show.html.twig", "C:\\Users\\user\\OneDrive\\Desktop\\finalproject\\finalyearproject\\backend\\templates\\student\\show.html.twig");
+>>>>>>> origin/prizina:backend/var/cache/dev/twig/1a/1a70c2b51e24ef0a284e4e96189f3aab.php
     }
 }

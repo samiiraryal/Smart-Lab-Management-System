@@ -557,6 +557,10 @@ col-sm-10
         </div>{#--#}
     </div>
 {%- endblock checkbox_row %}
+<<<<<<< HEAD:backend/var/cache/dev/twig/b9/b9300537a97a6f72b4c2dde6fcd26679.php
 ", "bootstrap_4_horizontal_layout.html.twig", "C:\\Users\\sandesh\\OneDrive\\Desktop\\finalyearproject\\backend\\vendor\\symfony\\twig-bridge\\Resources\\views\\Form\\bootstrap_4_horizontal_layout.html.twig");
+=======
+", "bootstrap_4_horizontal_layout.html.twig", "C:\\Users\\user\\OneDrive\\Desktop\\finalproject\\finalyearproject\\backend\\vendor\\symfony\\twig-bridge\\Resources\\views\\Form\\bootstrap_4_horizontal_layout.html.twig");
+>>>>>>> origin/prizina:backend/var/cache/dev/twig/28/28cc667d9efb304e7f0865bcd78af2b5.php
     }
 }

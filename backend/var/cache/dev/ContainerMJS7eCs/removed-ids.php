@@ -1,6 +1,10 @@
 <?php
 
+<<<<<<<< HEAD:backend/var/cache/dev/ContainerMJS7eCs/removed-ids.php
 namespace ContainerMJS7eCs;
+========
+namespace ContainerOsaKUrs;
+>>>>>>>> origin/prizina:backend/var/cache/dev/ContainerOsaKUrs/removed-ids.php
 
 return [
     'App\\Entity' => true,
@@ -96,6 +100,7 @@ return [
     'Jose\\Component\\Signature\\Algorithm\\ES256' => true,
     'Jose\\Component\\Signature\\Algorithm\\ES384' => true,
     'Jose\\Component\\Signature\\Algorithm\\ES512' => true,
+    'Jose\\Component\\Signature\\Algorithm\\EdDSA' => true,
     'Jose\\Component\\Signature\\Algorithm\\HS256' => true,
     'Jose\\Component\\Signature\\Algorithm\\HS384' => true,
     'Jose\\Component\\Signature\\Algorithm\\HS512' => true,

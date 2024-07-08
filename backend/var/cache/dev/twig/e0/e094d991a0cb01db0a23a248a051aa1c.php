@@ -650,6 +650,10 @@ class __TwigTemplate_fa5918a6c2257d12517dfa85f8598b45 extends Template
         }
     }
 </script>
+<<<<<<< HEAD:backend/var/cache/dev/twig/e0/e094d991a0cb01db0a23a248a051aa1c.php
 ", "@WebProfiler/Profiler/base_js.html.twig", "C:\\Users\\sandesh\\OneDrive\\Desktop\\finalyearproject\\backend\\vendor\\symfony\\web-profiler-bundle\\Resources\\views\\Profiler\\base_js.html.twig");
+=======
+", "@WebProfiler/Profiler/base_js.html.twig", "C:\\Users\\user\\OneDrive\\Desktop\\finalproject\\finalyearproject\\backend\\vendor\\symfony\\web-profiler-bundle\\Resources\\views\\Profiler\\base_js.html.twig");
+>>>>>>> origin/prizina:backend/var/cache/dev/twig/72/72823107d351311de49586e2d45fa207.php
     }
 }

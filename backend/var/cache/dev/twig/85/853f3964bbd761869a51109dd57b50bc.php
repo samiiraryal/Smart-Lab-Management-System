@@ -230,6 +230,10 @@ class __TwigTemplate_670573fae46853cf96608d3b7afdc149 extends Template
         </dl>
     </div>
 </div>
+<<<<<<< HEAD:backend/var/cache/dev/twig/85/853f3964bbd761869a51109dd57b50bc.php
 ", "@WebProfiler/Profiler/_command_summary.html.twig", "C:\\Users\\sandesh\\OneDrive\\Desktop\\finalyearproject\\backend\\vendor\\symfony\\web-profiler-bundle\\Resources\\views\\Profiler\\_command_summary.html.twig");
+=======
+", "@WebProfiler/Profiler/_command_summary.html.twig", "C:\\Users\\user\\OneDrive\\Desktop\\finalproject\\finalyearproject\\backend\\vendor\\symfony\\web-profiler-bundle\\Resources\\views\\Profiler\\_command_summary.html.twig");
+>>>>>>> origin/prizina:backend/var/cache/dev/twig/a4/a4828f6dc85aa4472cff8a4728db2401.php
     }
 }
