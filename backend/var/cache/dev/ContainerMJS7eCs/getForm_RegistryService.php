@@ -1,11 +1,24 @@
 <?php
 
 <<<<<<<< HEAD:backend/var/cache/dev/ContainerMJS7eCs/getForm_RegistryService.php
+<<<<<<<< HEAD:backend/var/cache/dev/ContainerMJS7eCs/getForm_RegistryService.php
 namespace ContainerMJS7eCs;
 
 ========
 namespace ContainerOsaKUrs;
 >>>>>>>> origin/prizina:backend/var/cache/dev/ContainerOsaKUrs/getForm_RegistryService.php
+========
+<<<<<<<< HEAD:backend/var/cache/dev/ContainerP1c6CIX/getForm_RegistryService.php
+namespace ContainerP1c6CIX;
+========
+namespace ContainerDTRWV7p;
+
+<<<<<<< HEAD
+>>>>>>>> master:backend/var/cache/dev/ContainerDTRWV7p/getForm_RegistryService.php
+=======
+>>>>>>>> 880060bb5da0c8eda634d33d133a5000981d034f:backend/var/cache/dev/ContainerDTRWV7p/getForm_RegistryService.php
+>>>>>>> 30d3579f095403e4b6f449e111a5699e2e871658
+>>>>>>>> 081930ac77502788e8c5bf70fc329cbfccb254a4:backend/var/cache/dev/ContainerDTRWV7p/getForm_RegistryService.php
 
 use Symfony\Component\DependencyInjection\Argument\RewindableGenerator;
 use Symfony\Component\DependencyInjection\ContainerInterface;

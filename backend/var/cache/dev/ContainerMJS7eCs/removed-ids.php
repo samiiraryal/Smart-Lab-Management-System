@@ -1,10 +1,22 @@
 <?php
 
 <<<<<<<< HEAD:backend/var/cache/dev/ContainerMJS7eCs/removed-ids.php
+<<<<<<<< HEAD:backend/var/cache/dev/ContainerMJS7eCs/removed-ids.php
 namespace ContainerMJS7eCs;
 ========
 namespace ContainerOsaKUrs;
 >>>>>>>> origin/prizina:backend/var/cache/dev/ContainerOsaKUrs/removed-ids.php
+========
+<<<<<<<< HEAD:backend/var/cache/dev/ContainerP1c6CIX/removed-ids.php
+namespace ContainerP1c6CIX;
+========
+namespace ContainerDTRWV7p;
+<<<<<<< HEAD
+>>>>>>>> master:backend/var/cache/dev/ContainerDTRWV7p/removed-ids.php
+=======
+>>>>>>>> 880060bb5da0c8eda634d33d133a5000981d034f:backend/var/cache/dev/ContainerDTRWV7p/removed-ids.php
+>>>>>>> 30d3579f095403e4b6f449e111a5699e2e871658
+>>>>>>>> 081930ac77502788e8c5bf70fc329cbfccb254a4:backend/var/cache/dev/ContainerP1c6CIX/removed-ids.php
 
 return [
     'App\\Entity' => true,
@@ -73,12 +85,28 @@ return [
     'Jose\\Component\\Encryption\\Algorithm\\ContentEncryption\\A192GCM' => true,
     'Jose\\Component\\Encryption\\Algorithm\\ContentEncryption\\A256CBCHS512' => true,
     'Jose\\Component\\Encryption\\Algorithm\\ContentEncryption\\A256GCM' => true,
+    'Jose\\Component\\Encryption\\Algorithm\\KeyEncryption\\A128GCMKW' => true,
+    'Jose\\Component\\Encryption\\Algorithm\\KeyEncryption\\A128KW' => true,
+    'Jose\\Component\\Encryption\\Algorithm\\KeyEncryption\\A192GCMKW' => true,
+    'Jose\\Component\\Encryption\\Algorithm\\KeyEncryption\\A192KW' => true,
+    'Jose\\Component\\Encryption\\Algorithm\\KeyEncryption\\A256GCMKW' => true,
+    'Jose\\Component\\Encryption\\Algorithm\\KeyEncryption\\A256KW' => true,
     'Jose\\Component\\Encryption\\Algorithm\\KeyEncryption\\Dir' => true,
     'Jose\\Component\\Encryption\\Algorithm\\KeyEncryption\\ECDHES' => true,
+    'Jose\\Component\\Encryption\\Algorithm\\KeyEncryption\\ECDHESA128KW' => true,
+    'Jose\\Component\\Encryption\\Algorithm\\KeyEncryption\\ECDHESA192KW' => true,
+    'Jose\\Component\\Encryption\\Algorithm\\KeyEncryption\\ECDHESA256KW' => true,
     'Jose\\Component\\Encryption\\Algorithm\\KeyEncryption\\ECDHSS' => true,
+    'Jose\\Component\\Encryption\\Algorithm\\KeyEncryption\\ECDHSSA128KW' => true,
+    'Jose\\Component\\Encryption\\Algorithm\\KeyEncryption\\ECDHSSA192KW' => true,
+    'Jose\\Component\\Encryption\\Algorithm\\KeyEncryption\\ECDHSSA256KW' => true,
+    'Jose\\Component\\Encryption\\Algorithm\\KeyEncryption\\PBES2HS256A128KW' => true,
+    'Jose\\Component\\Encryption\\Algorithm\\KeyEncryption\\PBES2HS384A192KW' => true,
+    'Jose\\Component\\Encryption\\Algorithm\\KeyEncryption\\PBES2HS512A256KW' => true,
     'Jose\\Component\\Encryption\\Algorithm\\KeyEncryption\\RSA15' => true,
     'Jose\\Component\\Encryption\\Algorithm\\KeyEncryption\\RSAOAEP' => true,
     'Jose\\Component\\Encryption\\Algorithm\\KeyEncryption\\RSAOAEP256' => true,
+    'Jose\\Component\\Encryption\\Compression\\Deflate' => true,
     'Jose\\Component\\Encryption\\JWETokenSupport' => true,
     'Jose\\Component\\Encryption\\Serializer\\CompactSerializer' => true,
     'Jose\\Component\\Encryption\\Serializer\\JSONFlattenedSerializer' => true,
@@ -96,11 +124,9 @@ return [
     'Jose\\Component\\KeyManagement\\Analyzer\\NoneAnalyzer' => true,
     'Jose\\Component\\KeyManagement\\Analyzer\\OctAnalyzer' => true,
     'Jose\\Component\\KeyManagement\\Analyzer\\UsageAnalyzer' => true,
-    'Jose\\Component\\KeyManagement\\Analyzer\\ZxcvbnKeyAnalyzer' => true,
     'Jose\\Component\\Signature\\Algorithm\\ES256' => true,
     'Jose\\Component\\Signature\\Algorithm\\ES384' => true,
     'Jose\\Component\\Signature\\Algorithm\\ES512' => true,
-    'Jose\\Component\\Signature\\Algorithm\\EdDSA' => true,
     'Jose\\Component\\Signature\\Algorithm\\HS256' => true,
     'Jose\\Component\\Signature\\Algorithm\\HS384' => true,
     'Jose\\Component\\Signature\\Algorithm\\HS512' => true,
@@ -119,6 +145,7 @@ return [
     'Psr\\Clock\\ClockInterface' => true,
     'Psr\\Container\\ContainerInterface $parameterBag' => true,
     'Psr\\EventDispatcher\\EventDispatcherInterface' => true,
+    'Psr\\Http\\Client\\ClientInterface' => true,
     'Psr\\Log\\LoggerInterface' => true,
     'Psr\\Log\\LoggerInterface $assetMapperLogger' => true,
     'Psr\\Log\\LoggerInterface $cacheLogger' => true,
@@ -642,6 +669,7 @@ return [
     'http_client.uri_template_expander.rize' => true,
     'identity_translator' => true,
     'jose.clock' => true,
+    'jose.internal_clock' => true,
     'locale_aware_listener' => true,
     'locale_listener' => true,
     'logger' => true,
@@ -847,6 +875,7 @@ return [
     'property_info.phpstan_extractor' => true,
     'property_info.reflection_extractor' => true,
     'property_info.serializer_extractor' => true,
+    'psr18.http_client' => true,
     'response_listener' => true,
     'reverse_container' => true,
     'router.cache_warmer' => true,
