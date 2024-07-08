@@ -15,7 +15,7 @@ class X5uConfig
     private $url;
     private $headers;
     private $_usedProperties = [];
-
+    
     /**
      * If true, the service will be public, else private.
      * @default true
@@ -26,10 +26,10 @@ class X5uConfig
     {
         $this->_usedProperties['isPublic'] = true;
         $this->isPublic = $value;
-
+    
         return $this;
     }
-
+    
     /**
      * @return $this
      */
@@ -37,10 +37,10 @@ class X5uConfig
     {
         $this->_usedProperties['tags'] = true;
         $this->tags[$name] = $value;
-
+    
         return $this;
     }
-
+    
     /**
      * URL of the key set.
      * @default null
@@ -51,10 +51,10 @@ class X5uConfig
     {
         $this->_usedProperties['url'] = true;
         $this->url = $value;
-
+    
         return $this;
     }
-
+    
     /**
      * @return $this
      */
@@ -62,10 +62,10 @@ class X5uConfig
     {
         $this->_usedProperties['headers'] = true;
         $this->headers[$name] = $value;
-
+    
         return $this;
     }
-
+    
     public function __construct(array $value = [])
     {
         if (array_key_exists('is_public', $value)) {
@@ -73,30 +73,30 @@ class X5uConfig
             $this->isPublic = $value['is_public'];
             unset($value['is_public']);
         }
-
+    
         if (array_key_exists('tags', $value)) {
             $this->_usedProperties['tags'] = true;
             $this->tags = $value['tags'];
             unset($value['tags']);
         }
-
+    
         if (array_key_exists('url', $value)) {
             $this->_usedProperties['url'] = true;
             $this->url = $value['url'];
             unset($value['url']);
         }
-
+    
         if (array_key_exists('headers', $value)) {
             $this->_usedProperties['headers'] = true;
             $this->headers = $value['headers'];
             unset($value['headers']);
         }
-
+    
         if ([] !== $value) {
             throw new InvalidConfigurationException(sprintf('The following keys are not supported by "%s": ', __CLASS__).implode(', ', array_keys($value)));
         }
     }
-
+    
     public function toArray(): array
     {
         $output = [];
@@ -112,7 +112,7 @@ class X5uConfig
         if (isset($this->_usedProperties['headers'])) {
             $output['headers'] = $this->headers;
         }
-
+    
         return $output;
     }
 

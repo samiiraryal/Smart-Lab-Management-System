@@ -16,7 +16,7 @@ class P12Config
     private $password;
     private $additionalValues;
     private $_usedProperties = [];
-
+    
     /**
      * If true, the service will be public, else private.
      * @default true
@@ -27,10 +27,10 @@ class P12Config
     {
         $this->_usedProperties['isPublic'] = true;
         $this->isPublic = $value;
-
+    
         return $this;
     }
-
+    
     /**
      * @return $this
      */
@@ -38,10 +38,10 @@ class P12Config
     {
         $this->_usedProperties['tags'] = true;
         $this->tags[$name] = $value;
-
+    
         return $this;
     }
-
+    
     /**
      * Path of the key file.
      * @default null
@@ -52,10 +52,10 @@ class P12Config
     {
         $this->_usedProperties['path'] = true;
         $this->path = $value;
-
+    
         return $this;
     }
-
+    
     /**
      * Password used to decrypt the key (optional).
      * @default null
@@ -66,10 +66,10 @@ class P12Config
     {
         $this->_usedProperties['password'] = true;
         $this->password = $value;
-
+    
         return $this;
     }
-
+    
     /**
      * @return $this
      */
@@ -77,10 +77,10 @@ class P12Config
     {
         $this->_usedProperties['additionalValues'] = true;
         $this->additionalValues[$key] = $value;
-
+    
         return $this;
     }
-
+    
     public function __construct(array $value = [])
     {
         if (array_key_exists('is_public', $value)) {
@@ -88,36 +88,36 @@ class P12Config
             $this->isPublic = $value['is_public'];
             unset($value['is_public']);
         }
-
+    
         if (array_key_exists('tags', $value)) {
             $this->_usedProperties['tags'] = true;
             $this->tags = $value['tags'];
             unset($value['tags']);
         }
-
+    
         if (array_key_exists('path', $value)) {
             $this->_usedProperties['path'] = true;
             $this->path = $value['path'];
             unset($value['path']);
         }
-
+    
         if (array_key_exists('password', $value)) {
             $this->_usedProperties['password'] = true;
             $this->password = $value['password'];
             unset($value['password']);
         }
-
+    
         if (array_key_exists('additional_values', $value)) {
             $this->_usedProperties['additionalValues'] = true;
             $this->additionalValues = $value['additional_values'];
             unset($value['additional_values']);
         }
-
+    
         if ([] !== $value) {
             throw new InvalidConfigurationException(sprintf('The following keys are not supported by "%s": ', __CLASS__).implode(', ', array_keys($value)));
         }
     }
-
+    
     public function toArray(): array
     {
         $output = [];
@@ -136,7 +136,7 @@ class P12Config
         if (isset($this->_usedProperties['additionalValues'])) {
             $output['additional_values'] = $this->additionalValues;
         }
-
+    
         return $output;
     }
 

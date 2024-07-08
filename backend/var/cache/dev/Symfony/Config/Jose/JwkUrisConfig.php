@@ -15,7 +15,7 @@ class JwkUrisConfig
     private $tags;
     private $isPublic;
     private $_usedProperties = [];
-
+    
     /**
      * The service ID of the Key Set to share.
      * @default null
@@ -26,10 +26,10 @@ class JwkUrisConfig
     {
         $this->_usedProperties['id'] = true;
         $this->id = $value;
-
+    
         return $this;
     }
-
+    
     /**
      * To share the JWKSet, then set a valid path (e.g. "/jwkset.json").
      * @default null
@@ -40,10 +40,10 @@ class JwkUrisConfig
     {
         $this->_usedProperties['path'] = true;
         $this->path = $value;
-
+    
         return $this;
     }
-
+    
     /**
      * @return $this
      */
@@ -51,10 +51,10 @@ class JwkUrisConfig
     {
         $this->_usedProperties['tags'] = true;
         $this->tags[$name] = $value;
-
+    
         return $this;
     }
-
+    
     /**
      * If true, the service will be public, else private.
      * @default true
@@ -65,10 +65,10 @@ class JwkUrisConfig
     {
         $this->_usedProperties['isPublic'] = true;
         $this->isPublic = $value;
-
+    
         return $this;
     }
-
+    
     public function __construct(array $value = [])
     {
         if (array_key_exists('id', $value)) {
@@ -76,30 +76,30 @@ class JwkUrisConfig
             $this->id = $value['id'];
             unset($value['id']);
         }
-
+    
         if (array_key_exists('path', $value)) {
             $this->_usedProperties['path'] = true;
             $this->path = $value['path'];
             unset($value['path']);
         }
-
+    
         if (array_key_exists('tags', $value)) {
             $this->_usedProperties['tags'] = true;
             $this->tags = $value['tags'];
             unset($value['tags']);
         }
-
+    
         if (array_key_exists('is_public', $value)) {
             $this->_usedProperties['isPublic'] = true;
             $this->isPublic = $value['is_public'];
             unset($value['is_public']);
         }
-
+    
         if ([] !== $value) {
             throw new InvalidConfigurationException(sprintf('The following keys are not supported by "%s": ', __CLASS__).implode(', ', array_keys($value)));
         }
     }
-
+    
     public function toArray(): array
     {
         $output = [];
@@ -115,7 +115,7 @@ class JwkUrisConfig
         if (isset($this->_usedProperties['isPublic'])) {
             $output['is_public'] = $this->isPublic;
         }
-
+    
         return $output;
     }
 

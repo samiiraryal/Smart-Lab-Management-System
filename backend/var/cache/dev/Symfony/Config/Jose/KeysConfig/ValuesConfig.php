@@ -14,7 +14,7 @@ class ValuesConfig
     private $tags;
     private $values;
     private $_usedProperties = [];
-
+    
     /**
      * If true, the service will be public, else private.
      * @default true
@@ -25,10 +25,10 @@ class ValuesConfig
     {
         $this->_usedProperties['isPublic'] = true;
         $this->isPublic = $value;
-
+    
         return $this;
     }
-
+    
     /**
      * @return $this
      */
@@ -36,10 +36,10 @@ class ValuesConfig
     {
         $this->_usedProperties['tags'] = true;
         $this->tags[$name] = $value;
-
+    
         return $this;
     }
-
+    
     /**
      * @return $this
      */
@@ -47,10 +47,10 @@ class ValuesConfig
     {
         $this->_usedProperties['values'] = true;
         $this->values[$key] = $value;
-
+    
         return $this;
     }
-
+    
     public function __construct(array $value = [])
     {
         if (array_key_exists('is_public', $value)) {
@@ -58,24 +58,24 @@ class ValuesConfig
             $this->isPublic = $value['is_public'];
             unset($value['is_public']);
         }
-
+    
         if (array_key_exists('tags', $value)) {
             $this->_usedProperties['tags'] = true;
             $this->tags = $value['tags'];
             unset($value['tags']);
         }
-
+    
         if (array_key_exists('values', $value)) {
             $this->_usedProperties['values'] = true;
             $this->values = $value['values'];
             unset($value['values']);
         }
-
+    
         if ([] !== $value) {
             throw new InvalidConfigurationException(sprintf('The following keys are not supported by "%s": ', __CLASS__).implode(', ', array_keys($value)));
         }
     }
-
+    
     public function toArray(): array
     {
         $output = [];
@@ -88,7 +88,7 @@ class ValuesConfig
         if (isset($this->_usedProperties['values'])) {
             $output['values'] = $this->values;
         }
-
+    
         return $output;
     }
 

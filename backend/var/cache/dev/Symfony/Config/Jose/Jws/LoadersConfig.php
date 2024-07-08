@@ -16,7 +16,7 @@ class LoadersConfig
     private $headerCheckers;
     private $tags;
     private $_usedProperties = [];
-
+    
     /**
      * If true, the service will be public, else private.
      * @default true
@@ -27,10 +27,10 @@ class LoadersConfig
     {
         $this->_usedProperties['isPublic'] = true;
         $this->isPublic = $value;
-
+    
         return $this;
     }
-
+    
     /**
      * @return $this
      */
@@ -38,10 +38,10 @@ class LoadersConfig
     {
         $this->_usedProperties['signatureAlgorithms'] = true;
         $this->signatureAlgorithms[$name] = $value;
-
+    
         return $this;
     }
-
+    
     /**
      * @return $this
      */
@@ -49,10 +49,10 @@ class LoadersConfig
     {
         $this->_usedProperties['serializers'] = true;
         $this->serializers[$name] = $value;
-
+    
         return $this;
     }
-
+    
     /**
      * @return $this
      */
@@ -60,10 +60,10 @@ class LoadersConfig
     {
         $this->_usedProperties['headerCheckers'] = true;
         $this->headerCheckers[$name] = $value;
-
+    
         return $this;
     }
-
+    
     /**
      * @return $this
      */
@@ -71,10 +71,10 @@ class LoadersConfig
     {
         $this->_usedProperties['tags'] = true;
         $this->tags[$name] = $value;
-
+    
         return $this;
     }
-
+    
     public function __construct(array $value = [])
     {
         if (array_key_exists('is_public', $value)) {
@@ -82,36 +82,36 @@ class LoadersConfig
             $this->isPublic = $value['is_public'];
             unset($value['is_public']);
         }
-
+    
         if (array_key_exists('signature_algorithms', $value)) {
             $this->_usedProperties['signatureAlgorithms'] = true;
             $this->signatureAlgorithms = $value['signature_algorithms'];
             unset($value['signature_algorithms']);
         }
-
+    
         if (array_key_exists('serializers', $value)) {
             $this->_usedProperties['serializers'] = true;
             $this->serializers = $value['serializers'];
             unset($value['serializers']);
         }
-
+    
         if (array_key_exists('header_checkers', $value)) {
             $this->_usedProperties['headerCheckers'] = true;
             $this->headerCheckers = $value['header_checkers'];
             unset($value['header_checkers']);
         }
-
+    
         if (array_key_exists('tags', $value)) {
             $this->_usedProperties['tags'] = true;
             $this->tags = $value['tags'];
             unset($value['tags']);
         }
-
+    
         if ([] !== $value) {
             throw new InvalidConfigurationException(sprintf('The following keys are not supported by "%s": ', __CLASS__).implode(', ', array_keys($value)));
         }
     }
-
+    
     public function toArray(): array
     {
         $output = [];
@@ -130,7 +130,7 @@ class LoadersConfig
         if (isset($this->_usedProperties['tags'])) {
             $output['tags'] = $this->tags;
         }
-
+    
         return $output;
     }
 
