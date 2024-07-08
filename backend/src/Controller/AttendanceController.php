@@ -117,6 +117,7 @@ class AttendanceController extends AbstractController
     }
 //    getting attendance of a given student on a given date
     #[Route("/attendance/student/{id}/date  ", name:"attendance_student_date", methods:["GET"])]
+    
 
     public function getStudentAttendanceByDate(int $id, Request $request, AttendanceRepository $attendanceRepository): JsonResponse
     {
