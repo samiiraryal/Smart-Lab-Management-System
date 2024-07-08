@@ -364,6 +364,6 @@ class __TwigTemplate_586485722b606573dc954ca41b59e474 extends Template
         }
     </style>
 {% endblock %}
-", "@JoseFramework/data_collector/template.html.twig", "C:\\Users\\samir\\Desktop\\finalyearproject\\backend\\vendor\\web-token\\jwt-framework\\src\\Bundle\\Resources\\views\\data_collector\\template.html.twig");
+", "@JoseFramework/data_collector/template.html.twig", "C:\\Users\\sandesh\\OneDrive\\Desktop\\finalyearproject\\backend\\vendor\\web-token\\jwt-framework\\src\\Bundle\\Resources\\views\\data_collector\\template.html.twig");
     }
 }
