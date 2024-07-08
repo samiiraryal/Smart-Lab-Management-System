@@ -14,7 +14,7 @@ class JwksetConfig
     private $tags;
     private $value;
     private $_usedProperties = [];
-
+    
     /**
      * If true, the service will be public, else private.
      * @default true
@@ -25,10 +25,10 @@ class JwksetConfig
     {
         $this->_usedProperties['isPublic'] = true;
         $this->isPublic = $value;
-
+    
         return $this;
     }
-
+    
     /**
      * @return $this
      */
@@ -36,10 +36,10 @@ class JwksetConfig
     {
         $this->_usedProperties['tags'] = true;
         $this->tags[$name] = $value;
-
+    
         return $this;
     }
-
+    
     /**
      * The JWKSet object.
      * @default null
@@ -50,10 +50,10 @@ class JwksetConfig
     {
         $this->_usedProperties['value'] = true;
         $this->value = $value;
-
+    
         return $this;
     }
-
+    
     public function __construct(array $value = [])
     {
         if (array_key_exists('is_public', $value)) {
@@ -61,24 +61,24 @@ class JwksetConfig
             $this->isPublic = $value['is_public'];
             unset($value['is_public']);
         }
-
+    
         if (array_key_exists('tags', $value)) {
             $this->_usedProperties['tags'] = true;
             $this->tags = $value['tags'];
             unset($value['tags']);
         }
-
+    
         if (array_key_exists('value', $value)) {
             $this->_usedProperties['value'] = true;
             $this->value = $value['value'];
             unset($value['value']);
         }
-
+    
         if ([] !== $value) {
             throw new InvalidConfigurationException(sprintf('The following keys are not supported by "%s": ', __CLASS__).implode(', ', array_keys($value)));
         }
     }
-
+    
     public function toArray(): array
     {
         $output = [];
@@ -91,7 +91,7 @@ class JwksetConfig
         if (isset($this->_usedProperties['value'])) {
             $output['value'] = $this->value;
         }
-
+    
         return $output;
     }
 

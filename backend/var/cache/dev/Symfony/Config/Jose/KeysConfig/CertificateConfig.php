@@ -15,7 +15,7 @@ class CertificateConfig
     private $path;
     private $additionalValues;
     private $_usedProperties = [];
-
+    
     /**
      * If true, the service will be public, else private.
      * @default true
@@ -26,10 +26,10 @@ class CertificateConfig
     {
         $this->_usedProperties['isPublic'] = true;
         $this->isPublic = $value;
-
+    
         return $this;
     }
-
+    
     /**
      * @return $this
      */
@@ -37,10 +37,10 @@ class CertificateConfig
     {
         $this->_usedProperties['tags'] = true;
         $this->tags[$name] = $value;
-
+    
         return $this;
     }
-
+    
     /**
      * Path of the certificate file.
      * @default null
@@ -51,10 +51,10 @@ class CertificateConfig
     {
         $this->_usedProperties['path'] = true;
         $this->path = $value;
-
+    
         return $this;
     }
-
+    
     /**
      * @return $this
      */
@@ -62,10 +62,10 @@ class CertificateConfig
     {
         $this->_usedProperties['additionalValues'] = true;
         $this->additionalValues[$key] = $value;
-
+    
         return $this;
     }
-
+    
     public function __construct(array $value = [])
     {
         if (array_key_exists('is_public', $value)) {
@@ -73,30 +73,30 @@ class CertificateConfig
             $this->isPublic = $value['is_public'];
             unset($value['is_public']);
         }
-
+    
         if (array_key_exists('tags', $value)) {
             $this->_usedProperties['tags'] = true;
             $this->tags = $value['tags'];
             unset($value['tags']);
         }
-
+    
         if (array_key_exists('path', $value)) {
             $this->_usedProperties['path'] = true;
             $this->path = $value['path'];
             unset($value['path']);
         }
-
+    
         if (array_key_exists('additional_values', $value)) {
             $this->_usedProperties['additionalValues'] = true;
             $this->additionalValues = $value['additional_values'];
             unset($value['additional_values']);
         }
-
+    
         if ([] !== $value) {
             throw new InvalidConfigurationException(sprintf('The following keys are not supported by "%s": ', __CLASS__).implode(', ', array_keys($value)));
         }
     }
-
+    
     public function toArray(): array
     {
         $output = [];
@@ -112,7 +112,7 @@ class CertificateConfig
         if (isset($this->_usedProperties['additionalValues'])) {
             $output['additional_values'] = $this->additionalValues;
         }
-
+    
         return $output;
     }
 
