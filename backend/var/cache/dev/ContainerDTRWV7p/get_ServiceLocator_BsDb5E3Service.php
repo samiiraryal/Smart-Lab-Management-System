@@ -1,5 +1,13 @@
 <?php
 
+<<<<<<< HEAD:backend/var/cache/dev/ContainerOsaKUrs/get_ServiceLocator_BsDb5E3Service.php
+<<<<<<<< HEAD:backend/var/cache/dev/ContainerMJS7eCs/get_ServiceLocator_BsDb5E3Service.php
+namespace ContainerMJS7eCs;
+
+========
+namespace ContainerOsaKUrs;
+>>>>>>>> origin/prizina:backend/var/cache/dev/ContainerOsaKUrs/get_ServiceLocator_BsDb5E3Service.php
+=======
 <<<<<<<< HEAD:backend/var/cache/dev/ContainerP1c6CIX/get_ServiceLocator_BsDb5E3Service.php
 namespace ContainerP1c6CIX;
 ========
@@ -10,6 +18,7 @@ namespace ContainerDTRWV7p;
 =======
 >>>>>>>> 880060bb5da0c8eda634d33d133a5000981d034f:backend/var/cache/dev/ContainerDTRWV7p/get_ServiceLocator_BsDb5E3Service.php
 >>>>>>> 30d3579f095403e4b6f449e111a5699e2e871658
+>>>>>>> 081930ac77502788e8c5bf70fc329cbfccb254a4:backend/var/cache/dev/ContainerDTRWV7p/get_ServiceLocator_BsDb5E3Service.php
 
 use Symfony\Component\DependencyInjection\Argument\RewindableGenerator;
 use Symfony\Component\DependencyInjection\ContainerInterface;
