@@ -11,7 +11,7 @@ async def send_data():
     data['status'] = computer_expert_system.status
 
     async with aiohttp.ClientSession() as session:
-        async with session.post('http://<server-ip>:5000/receive_data', json=data) as response:
+        async with session.post('http://18.234.133.60:5000/receive_data', json=data) as response:
             if response.status == 200:
                 print("Data sent successfully.")
             else:
