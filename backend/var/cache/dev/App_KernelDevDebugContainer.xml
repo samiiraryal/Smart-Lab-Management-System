@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <container xmlns="http://symfony.com/schema/dic/services" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://symfony.com/schema/dic/services https://symfony.com/schema/dic/services/services-1.0.xsd">
   <parameters>
+<<<<<<< HEAD
     <parameter key="kernel.project_dir">C:\Users\user\OneDrive\Desktop\finalproject\finalyearproject\backend</parameter>
+=======
+    <parameter key="kernel.project_dir">C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend</parameter>
+>>>>>>> origin/sandesh
     <parameter key="kernel.environment">dev</parameter>
     <parameter key="kernel.runtime_environment">%env(default:kernel.environment:APP_RUNTIME_ENV)%</parameter>
     <parameter key="kernel.runtime_mode">%env(query_string:default:container.runtime_mode:APP_RUNTIME_MODE)%</parameter>
@@ -9,9 +13,15 @@
     <parameter key="kernel.runtime_mode.cli">%env(not:default:kernel.runtime_mode.web:)%</parameter>
     <parameter key="kernel.runtime_mode.worker">%env(bool:default::key:worker:default:kernel.runtime_mode:)%</parameter>
     <parameter key="kernel.debug">true</parameter>
+<<<<<<< HEAD
     <parameter key="kernel.build_dir">C:\Users\user\OneDrive\Desktop\finalproject\finalyearproject\backend\var\cache\dev</parameter>
     <parameter key="kernel.cache_dir">C:\Users\user\OneDrive\Desktop\finalproject\finalyearproject\backend\var\cache\dev</parameter>
     <parameter key="kernel.logs_dir">C:\Users\user\OneDrive\Desktop\finalproject\finalyearproject\backend\var\log</parameter>
+=======
+    <parameter key="kernel.build_dir">C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\var\cache\dev</parameter>
+    <parameter key="kernel.cache_dir">C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\var\cache\dev</parameter>
+    <parameter key="kernel.logs_dir">C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\var\log</parameter>
+>>>>>>> origin/sandesh
     <parameter key="kernel.bundles" type="collection">
       <parameter key="FrameworkBundle">Symfony\Bundle\FrameworkBundle\FrameworkBundle</parameter>
       <parameter key="DoctrineBundle">Doctrine\Bundle\DoctrineBundle\DoctrineBundle</parameter>
@@ -30,6 +40,7 @@
     </parameter>
     <parameter key="kernel.bundles_metadata" type="collection">
       <parameter key="FrameworkBundle" type="collection">
+<<<<<<< HEAD
         <parameter key="path">C:\Users\user\OneDrive\Desktop\finalproject\finalyearproject\backend\vendor\symfony\framework-bundle</parameter>
         <parameter key="namespace">Symfony\Bundle\FrameworkBundle</parameter>
       </parameter>
@@ -83,12 +94,71 @@
       </parameter>
       <parameter key="NelmioCorsBundle" type="collection">
         <parameter key="path">C:\Users\user\OneDrive\Desktop\finalproject\finalyearproject\backend\vendor\nelmio\cors-bundle</parameter>
+=======
+        <parameter key="path">C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\framework-bundle</parameter>
+        <parameter key="namespace">Symfony\Bundle\FrameworkBundle</parameter>
+      </parameter>
+      <parameter key="DoctrineBundle" type="collection">
+        <parameter key="path">C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\doctrine\doctrine-bundle</parameter>
+        <parameter key="namespace">Doctrine\Bundle\DoctrineBundle</parameter>
+      </parameter>
+      <parameter key="DoctrineMigrationsBundle" type="collection">
+        <parameter key="path">C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\doctrine\doctrine-migrations-bundle</parameter>
+        <parameter key="namespace">Doctrine\Bundle\MigrationsBundle</parameter>
+      </parameter>
+      <parameter key="DebugBundle" type="collection">
+        <parameter key="path">C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\debug-bundle</parameter>
+        <parameter key="namespace">Symfony\Bundle\DebugBundle</parameter>
+      </parameter>
+      <parameter key="TwigBundle" type="collection">
+        <parameter key="path">C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\twig-bundle</parameter>
+        <parameter key="namespace">Symfony\Bundle\TwigBundle</parameter>
+      </parameter>
+      <parameter key="WebProfilerBundle" type="collection">
+        <parameter key="path">C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\web-profiler-bundle</parameter>
+        <parameter key="namespace">Symfony\Bundle\WebProfilerBundle</parameter>
+      </parameter>
+      <parameter key="StimulusBundle" type="collection">
+        <parameter key="path">C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\stimulus-bundle</parameter>
+        <parameter key="namespace">Symfony\UX\StimulusBundle</parameter>
+      </parameter>
+      <parameter key="TurboBundle" type="collection">
+        <parameter key="path">C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\ux-turbo</parameter>
+        <parameter key="namespace">Symfony\UX\Turbo</parameter>
+      </parameter>
+      <parameter key="TwigExtraBundle" type="collection">
+        <parameter key="path">C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\twig\extra-bundle</parameter>
+        <parameter key="namespace">Twig\Extra\TwigExtraBundle</parameter>
+      </parameter>
+      <parameter key="SecurityBundle" type="collection">
+        <parameter key="path">C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\security-bundle</parameter>
+        <parameter key="namespace">Symfony\Bundle\SecurityBundle</parameter>
+      </parameter>
+      <parameter key="MonologBundle" type="collection">
+        <parameter key="path">C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\monolog-bundle</parameter>
+        <parameter key="namespace">Symfony\Bundle\MonologBundle</parameter>
+      </parameter>
+      <parameter key="MakerBundle" type="collection">
+        <parameter key="path">C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\maker-bundle\src</parameter>
+        <parameter key="namespace">Symfony\Bundle\MakerBundle</parameter>
+      </parameter>
+      <parameter key="JoseFrameworkBundle" type="collection">
+        <parameter key="path">C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\web-token\jwt-framework\src\Bundle</parameter>
+        <parameter key="namespace">Jose\Bundle\JoseFramework</parameter>
+      </parameter>
+      <parameter key="NelmioCorsBundle" type="collection">
+        <parameter key="path">C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\nelmio\cors-bundle</parameter>
+>>>>>>> origin/sandesh
         <parameter key="namespace">Nelmio\CorsBundle</parameter>
       </parameter>
     </parameter>
     <parameter key="kernel.charset">UTF-8</parameter>
     <parameter key="kernel.container_class">App_KernelDevDebugContainer</parameter>
+<<<<<<< HEAD
     <parameter key="csv_directory">C:\Users\user\OneDrive\Desktop\finalproject\finalyearproject\backend/public/uploads/csv</parameter>
+=======
+    <parameter key="csv_directory">C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend/public/uploads/csv</parameter>
+>>>>>>> origin/sandesh
     <parameter key="event_dispatcher.event_aliases" type="collection">
       <parameter key="Symfony\Component\Console\Event\ConsoleCommandEvent">console.command</parameter>
       <parameter key="Symfony\Component\Console\Event\ConsoleErrorEvent">console.error</parameter>
@@ -124,18 +194,32 @@
     <parameter key="asset.request_context.base_path">null</parameter>
     <parameter key="asset.request_context.secure">null</parameter>
     <parameter key="translator.logging">false</parameter>
+<<<<<<< HEAD
     <parameter key="translator.default_path">C:\Users\user\OneDrive\Desktop\finalproject\finalyearproject\backend/translations</parameter>
     <parameter key="debug.error_handler.throw_at">-1</parameter>
     <parameter key="debug.container.dump">C:\Users\user\OneDrive\Desktop\finalproject\finalyearproject\backend\var\cache\dev/App_KernelDevDebugContainer.xml</parameter>
+=======
+    <parameter key="translator.default_path">C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend/translations</parameter>
+    <parameter key="debug.error_handler.throw_at">-1</parameter>
+    <parameter key="debug.container.dump">C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\var\cache\dev/App_KernelDevDebugContainer.xml</parameter>
+>>>>>>> origin/sandesh
     <parameter key="router.request_context.host">localhost</parameter>
     <parameter key="router.request_context.scheme">http</parameter>
     <parameter key="router.request_context.base_url"></parameter>
     <parameter key="router.resource">kernel::loadRoutes</parameter>
+<<<<<<< HEAD
     <parameter key="router.cache_dir">C:\Users\user\OneDrive\Desktop\finalproject\finalyearproject\backend\var\cache\dev</parameter>
     <parameter key="request_listener.http_port">80</parameter>
     <parameter key="request_listener.https_port">443</parameter>
     <parameter key="serializer.mapping.cache.file">C:\Users\user\OneDrive\Desktop\finalproject\finalyearproject\backend\var\cache\dev/serialization.php</parameter>
     <parameter key="cache.prefix.seed">_C:\Users\user\OneDrive\Desktop\finalproject\finalyearproject\backend.App_KernelDevDebugContainer</parameter>
+=======
+    <parameter key="router.cache_dir">C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\var\cache\dev</parameter>
+    <parameter key="request_listener.http_port">80</parameter>
+    <parameter key="request_listener.https_port">443</parameter>
+    <parameter key="serializer.mapping.cache.file">C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\var\cache\dev/serialization.php</parameter>
+    <parameter key="cache.prefix.seed">_C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend.App_KernelDevDebugContainer</parameter>
+>>>>>>> origin/sandesh
     <parameter key="session.metadata.storage_key">_sf2_meta</parameter>
     <parameter key="session.storage.options" type="collection">
       <parameter key="cache_limiter" type="string">0</parameter>
@@ -148,11 +232,19 @@
     <parameter key="session.metadata.update_threshold">0</parameter>
     <parameter key="form.type_extension.csrf.enabled">true</parameter>
     <parameter key="form.type_extension.csrf.field_name">_token</parameter>
+<<<<<<< HEAD
     <parameter key="validator.mapping.cache.file">C:\Users\user\OneDrive\Desktop\finalproject\finalyearproject\backend\var\cache\dev/validation.php</parameter>
     <parameter key="validator.translation_domain">validators</parameter>
     <parameter key="profiler_listener.only_exceptions">false</parameter>
     <parameter key="profiler_listener.only_main_requests">false</parameter>
     <parameter key="profiler.storage.dsn">file:C:\Users\user\OneDrive\Desktop\finalproject\finalyearproject\backend\var\cache\dev/profiler</parameter>
+=======
+    <parameter key="validator.mapping.cache.file">C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\var\cache\dev/validation.php</parameter>
+    <parameter key="validator.translation_domain">validators</parameter>
+    <parameter key="profiler_listener.only_exceptions">false</parameter>
+    <parameter key="profiler_listener.only_main_requests">false</parameter>
+    <parameter key="profiler.storage.dsn">file:C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\var\cache\dev/profiler</parameter>
+>>>>>>> origin/sandesh
     <parameter key="doctrine.dbal.configuration.class">Doctrine\DBAL\Configuration</parameter>
     <parameter key="doctrine.data_collector.class">Doctrine\Bundle\DoctrineBundle\DataCollector\DoctrineDataCollector</parameter>
     <parameter key="doctrine.dbal.connection.event_manager.class">Symfony\Bridge\Doctrine\ContainerAwareEventManager</parameter>
@@ -217,7 +309,11 @@
     <parameter key="doctrine.orm.second_level_cache.regions_configuration.class">Doctrine\ORM\Cache\RegionsConfiguration</parameter>
     <parameter key="doctrine.orm.auto_generate_proxy_classes">true</parameter>
     <parameter key="doctrine.orm.enable_lazy_ghost_objects">true</parameter>
+<<<<<<< HEAD
     <parameter key="doctrine.orm.proxy_dir">C:\Users\user\OneDrive\Desktop\finalproject\finalyearproject\backend\var\cache\dev/doctrine/orm/Proxies</parameter>
+=======
+    <parameter key="doctrine.orm.proxy_dir">C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\var\cache\dev/doctrine/orm/Proxies</parameter>
+>>>>>>> origin/sandesh
     <parameter key="doctrine.orm.proxy_namespace">Proxies</parameter>
     <parameter key="doctrine.migrations.preferred_em">null</parameter>
     <parameter key="doctrine.migrations.preferred_connection">null</parameter>
@@ -225,7 +321,11 @@
     <parameter key="twig.form.resources" type="collection">
       <parameter>form_div_layout.html.twig</parameter>
     </parameter>
+<<<<<<< HEAD
     <parameter key="twig.default_path">C:\Users\user\OneDrive\Desktop\finalproject\finalyearproject\backend/templates</parameter>
+=======
+    <parameter key="twig.default_path">C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend/templates</parameter>
+>>>>>>> origin/sandesh
     <parameter key="web_profiler.debug_toolbar.intercept_redirects">false</parameter>
     <parameter key="web_profiler.debug_toolbar.mode">2</parameter>
     <parameter key="security.role_hierarchy.roles" type="collection"/>
@@ -259,6 +359,7 @@
       </parameter>
     </parameter>
     <parameter key="nelmio_cors.map" type="collection">
+<<<<<<< HEAD
       <parameter key="^/api/" type="collection">
         <parameter key="allow_origin" type="collection">
           <parameter>%env(CORS_ALLOW_ORIGIN)%</parameter>
@@ -277,6 +378,9 @@
         </parameter>
         <parameter key="max_age">3600</parameter>
       </parameter>
+=======
+      <parameter key="^/api/" type="collection"/>
+>>>>>>> origin/sandesh
     </parameter>
     <parameter key="nelmio_cors.defaults" type="collection">
       <parameter key="allow_origin" type="collection">
@@ -603,7 +707,11 @@
       </argument>
     </service>
     <service id="http_cache.store" class="Symfony\Component\HttpKernel\HttpCache\Store">
+<<<<<<< HEAD
       <argument>C:\Users\user\OneDrive\Desktop\finalproject\finalyearproject\backend\var\cache\dev/http_cache</argument>
+=======
+      <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\var\cache\dev/http_cache</argument>
+>>>>>>> origin/sandesh
     </service>
     <service id="url_helper" class="Symfony\Component\HttpFoundation\UrlHelper">
       <argument type="service" id="request_stack"/>
@@ -613,7 +721,11 @@
       <tag name="container.no_preload"/>
       <argument type="tagged_iterator" tag="kernel.cache_warmer"/>
       <argument>true</argument>
+<<<<<<< HEAD
       <argument>C:\Users\user\OneDrive\Desktop\finalproject\finalyearproject\backend\var\cache\dev/App_KernelDevDebugContainerDeprecations.log</argument>
+=======
+      <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\var\cache\dev/App_KernelDevDebugContainerDeprecations.log</argument>
+>>>>>>> origin/sandesh
     </service>
     <service id="cache_clearer" class="Symfony\Component\HttpKernel\CacheClearer\ChainCacheClearer">
       <argument type="tagged_iterator" tag="kernel.cache_clearer"/>
@@ -867,7 +979,11 @@
       </argument>
       <argument>UTF-8</argument>
       <argument type="service" id="debug.file_link_formatter" on-invalid="null"/>
+<<<<<<< HEAD
       <argument>C:\Users\user\OneDrive\Desktop\finalproject\finalyearproject\backend</argument>
+=======
+      <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend</argument>
+>>>>>>> origin/sandesh
       <argument type="service">
         <service>
           <argument type="service" id="request_stack"/>
@@ -903,7 +1019,11 @@
       <tag name="console.command"/>
       <tag name="container.no_preload"/>
       <argument type="service" id="filesystem"/>
+<<<<<<< HEAD
       <argument>C:\Users\user\OneDrive\Desktop\finalproject\finalyearproject\backend</argument>
+=======
+      <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend</argument>
+>>>>>>> origin/sandesh
       <call method="setName">
         <argument>assets:install</argument>
       </call>
@@ -1089,7 +1209,11 @@
       <tag name="console.command"/>
       <tag name="container.no_preload"/>
       <argument>dev</argument>
+<<<<<<< HEAD
       <argument>C:\Users\user\OneDrive\Desktop\finalproject\finalyearproject\backend</argument>
+=======
+      <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend</argument>
+>>>>>>> origin/sandesh
       <call method="setName">
         <argument>debug:dotenv</argument>
       </call>
@@ -1321,6 +1445,7 @@
       <argument type="service" id="translator.data_collector"/>
       <argument type="service" id="translation.reader"/>
       <argument type="service" id="translation.extractor"/>
+<<<<<<< HEAD
       <argument>C:\Users\user\OneDrive\Desktop\finalproject\finalyearproject\backend/translations</argument>
       <argument>C:\Users\user\OneDrive\Desktop\finalproject\finalyearproject\backend/templates</argument>
       <argument type="collection">
@@ -1331,6 +1456,18 @@
       <argument type="collection">
         <argument>C:\Users\user\OneDrive\Desktop\finalproject\finalyearproject\backend\vendor\symfony\twig-bridge/Resources/views/Email</argument>
         <argument>C:\Users\user\OneDrive\Desktop\finalproject\finalyearproject\backend\vendor\symfony\twig-bridge/Resources/views/Form</argument>
+=======
+      <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend/translations</argument>
+      <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend/templates</argument>
+      <argument type="collection">
+        <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\validator/Resources/translations</argument>
+        <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\form/Resources/translations</argument>
+        <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\security-core/Resources/translations</argument>
+      </argument>
+      <argument type="collection">
+        <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\twig-bridge/Resources/views/Email</argument>
+        <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\twig-bridge/Resources/views/Form</argument>
+>>>>>>> origin/sandesh
       </argument>
       <argument type="collection"/>
       <call method="setName">
@@ -1347,6 +1484,7 @@
       <argument type="service" id="translation.reader"/>
       <argument type="service" id="translation.extractor"/>
       <argument>en</argument>
+<<<<<<< HEAD
       <argument>C:\Users\user\OneDrive\Desktop\finalproject\finalyearproject\backend/translations</argument>
       <argument>C:\Users\user\OneDrive\Desktop\finalproject\finalyearproject\backend/templates</argument>
       <argument type="collection">
@@ -1357,6 +1495,18 @@
       <argument type="collection">
         <argument>C:\Users\user\OneDrive\Desktop\finalproject\finalyearproject\backend\vendor\symfony\twig-bridge/Resources/views/Email</argument>
         <argument>C:\Users\user\OneDrive\Desktop\finalproject\finalyearproject\backend\vendor\symfony\twig-bridge/Resources/views/Form</argument>
+=======
+      <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend/translations</argument>
+      <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend/templates</argument>
+      <argument type="collection">
+        <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\validator/Resources/translations</argument>
+        <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\form/Resources/translations</argument>
+        <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\security-core/Resources/translations</argument>
+      </argument>
+      <argument type="collection">
+        <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\twig-bridge/Resources/views/Email</argument>
+        <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\twig-bridge/Resources/views/Form</argument>
+>>>>>>> origin/sandesh
       </argument>
       <argument type="collection"/>
       <call method="setName">
@@ -1609,7 +1759,11 @@
       <argument></argument>
       <argument>0</argument>
       <argument>%container.build_id%</argument>
+<<<<<<< HEAD
       <argument>C:\Users\user\OneDrive\Desktop\finalproject\finalyearproject\backend\var\cache\dev/pools/system</argument>
+=======
+      <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\var\cache\dev/pools/system</argument>
+>>>>>>> origin/sandesh
       <argument type="service" id="monolog.logger.cache" on-invalid="ignore"/>
       <factory class="Symfony\Component\Cache\Adapter\AbstractAdapter" method="createSystemCache"/>
     </service>
@@ -1628,7 +1782,11 @@
       <tag name="monolog.logger" channel="cache"/>
       <argument></argument>
       <argument>0</argument>
+<<<<<<< HEAD
       <argument>C:\Users\user\OneDrive\Desktop\finalproject\finalyearproject\backend\var\cache\dev/pools/app</argument>
+=======
+      <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\var\cache\dev/pools/app</argument>
+>>>>>>> origin/sandesh
       <argument type="service" id="cache.default_marshaller" on-invalid="ignore"/>
       <call method="setLogger">
         <argument type="service" id="monolog.logger.cache" on-invalid="ignore"/>
@@ -1798,16 +1956,28 @@
     <service id="asset_mapper.cached_mapped_asset_factory" class="Symfony\Component\AssetMapper\Factory\CachedMappedAssetFactory">
       <tag name="container.decorator" id="asset_mapper.mapped_asset_factory" inner="asset_mapper.cached_mapped_asset_factory.inner"/>
       <argument type="service" id="asset_mapper.cached_mapped_asset_factory.inner"/>
+<<<<<<< HEAD
       <argument>C:\Users\user\OneDrive\Desktop\finalproject\finalyearproject\backend\var\cache\dev/asset_mapper</argument>
+=======
+      <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\var\cache\dev/asset_mapper</argument>
+>>>>>>> origin/sandesh
       <argument>true</argument>
     </service>
     <service id="asset_mapper.repository" class="Symfony\Component\AssetMapper\AssetMapperRepository">
       <argument type="collection">
+<<<<<<< HEAD
         <argument key="C:\Users\user\OneDrive\Desktop\finalproject\finalyearproject\backend\vendor\symfony\ux-turbo\src\DependencyInjection/../../assets/dist">@symfony/ux-turbo</argument>
         <argument key="C:\Users\user\OneDrive\Desktop\finalproject\finalyearproject\backend\vendor\symfony\stimulus-bundle\src\DependencyInjection/../../assets/dist">@symfony/stimulus-bundle</argument>
         <argument key="assets/"></argument>
       </argument>
       <argument>C:\Users\user\OneDrive\Desktop\finalproject\finalyearproject\backend</argument>
+=======
+        <argument key="C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\ux-turbo\src\DependencyInjection/../../assets/dist">@symfony/ux-turbo</argument>
+        <argument key="C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\stimulus-bundle\src\DependencyInjection/../../assets/dist">@symfony/stimulus-bundle</argument>
+        <argument key="assets/"></argument>
+      </argument>
+      <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend</argument>
+>>>>>>> origin/sandesh
       <argument type="collection">
         <argument>#^(?=[^\.]).*\.d\.ts$#</argument>
         <argument>#^(?=[^\.]).*.*/(?=[^\.])controllers\.json$#</argument>
@@ -1819,10 +1989,17 @@
       <argument>/assets/</argument>
     </service>
     <service id="asset_mapper.local_public_assets_filesystem" class="Symfony\Component\AssetMapper\Path\LocalPublicAssetsFilesystem">
+<<<<<<< HEAD
       <argument>C:\Users\user\OneDrive\Desktop\finalproject\finalyearproject\backend/public</argument>
     </service>
     <service id="asset_mapper.compiled_asset_mapper_config_reader" class="Symfony\Component\AssetMapper\CompiledAssetMapperConfigReader">
       <argument>C:\Users\user\OneDrive\Desktop\finalproject\finalyearproject\backend/public/assets</argument>
+=======
+      <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend/public</argument>
+    </service>
+    <service id="asset_mapper.compiled_asset_mapper_config_reader" class="Symfony\Component\AssetMapper\CompiledAssetMapperConfigReader">
+      <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend/public/assets</argument>
+>>>>>>> origin/sandesh
     </service>
     <service id="asset_mapper.asset_package" class="Symfony\Component\AssetMapper\MapperAwareAssetPackage">
       <tag name="container.decorator" id="assets._default_package" inner="asset_mapper.asset_package.inner"/>
@@ -1846,7 +2023,11 @@
       <argument type="service" id="asset_mapper"/>
       <argument type="service" id="asset_mapper.importmap.generator"/>
       <argument type="service" id="asset_mapper.local_public_assets_filesystem"/>
+<<<<<<< HEAD
       <argument>C:\Users\user\OneDrive\Desktop\finalproject\finalyearproject\backend</argument>
+=======
+      <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend</argument>
+>>>>>>> origin/sandesh
       <argument>true</argument>
       <argument type="service" id="debug.event_dispatcher" on-invalid="null"/>
       <call method="setName">
@@ -1861,7 +2042,11 @@
       <tag name="container.no_preload"/>
       <argument type="service" id="asset_mapper"/>
       <argument type="service" id="asset_mapper.repository"/>
+<<<<<<< HEAD
       <argument>C:\Users\user\OneDrive\Desktop\finalproject\finalyearproject\backend</argument>
+=======
+      <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend</argument>
+>>>>>>> origin/sandesh
       <call method="setName">
         <argument>debug:asset-map</argument>
       </call>
@@ -1890,7 +2075,11 @@
       <argument type="service" id="monolog.logger.asset_mapper"/>
     </service>
     <service id="asset_mapper.importmap.config_reader" class="Symfony\Component\AssetMapper\ImportMap\ImportMapConfigReader">
+<<<<<<< HEAD
       <argument>C:\Users\user\OneDrive\Desktop\finalproject\finalyearproject\backend/importmap.php</argument>
+=======
+      <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend/importmap.php</argument>
+>>>>>>> origin/sandesh
       <argument type="service" id="asset_mapper.importmap.remote_package_storage"/>
     </service>
     <service id="asset_mapper.importmap.manager" class="Symfony\Component\AssetMapper\ImportMap\ImportMapManager">
@@ -1905,7 +2094,11 @@
       <argument type="service" id="asset_mapper.importmap.config_reader"/>
     </service>
     <service id="asset_mapper.importmap.remote_package_storage" class="Symfony\Component\AssetMapper\ImportMap\RemotePackageStorage">
+<<<<<<< HEAD
       <argument>C:\Users\user\OneDrive\Desktop\finalproject\finalyearproject\backend/assets/vendor</argument>
+=======
+      <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend/assets/vendor</argument>
+>>>>>>> origin/sandesh
     </service>
     <service id="asset_mapper.importmap.remote_package_downloader" class="Symfony\Component\AssetMapper\ImportMap\RemotePackageDownloader">
       <argument type="service" id="asset_mapper.importmap.remote_package_storage"/>
@@ -1976,7 +2169,11 @@
       <tag name="console.command"/>
       <tag name="container.no_preload"/>
       <argument type="service" id="asset_mapper.importmap.remote_package_downloader"/>
+<<<<<<< HEAD
       <argument>C:\Users\user\OneDrive\Desktop\finalproject\finalyearproject\backend</argument>
+=======
+      <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend</argument>
+>>>>>>> origin/sandesh
       <call method="setName">
         <argument>importmap:install</argument>
       </call>
@@ -2015,11 +2212,6 @@
         <argument type="service" id="monolog.logger.http_client" on-invalid="ignore"/>
       </call>
       <factory class="Symfony\Component\HttpClient\HttpClient" method="create"/>
-    </service>
-    <service id="psr18.http_client" class="Symfony\Component\HttpClient\Psr18Client">
-      <argument type="service" id=".debug.http_client"/>
-      <argument>null</argument>
-      <argument>null</argument>
     </service>
     <service id="http_client.abstract_retry_strategy" class="Symfony\Component\HttpClient\Retry\GenericRetryStrategy" abstract="true">
       <argument type="abstract">http codes</argument>
@@ -2172,6 +2364,7 @@
         </argument>
       </argument>
       <argument type="collection">
+<<<<<<< HEAD
         <argument key="cache_dir">C:\Users\user\OneDrive\Desktop\finalproject\finalyearproject\backend\var\cache\dev/translations</argument>
         <argument key="debug">true</argument>
         <argument key="resource_files" type="collection">
@@ -2501,6 +2694,337 @@
             <argument>C:\Users\user\OneDrive\Desktop\finalproject\finalyearproject\backend\vendor\symfony\maker-bundle\src/translations</argument>
             <argument>C:\Users\user\OneDrive\Desktop\finalproject\finalyearproject\backend\vendor\web-token\jwt-framework\src\Bundle/translations</argument>
             <argument>C:\Users\user\OneDrive\Desktop\finalproject\finalyearproject\backend\vendor\nelmio\cors-bundle/translations</argument>
+=======
+        <argument key="cache_dir">C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\var\cache\dev/translations</argument>
+        <argument key="debug">true</argument>
+        <argument key="resource_files" type="collection">
+          <argument key="af" type="collection">
+            <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\validator/Resources/translations\validators.af.xlf</argument>
+            <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\form/Resources/translations\validators.af.xlf</argument>
+            <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\security-core/Resources/translations\security.af.xlf</argument>
+          </argument>
+          <argument key="ar" type="collection">
+            <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\validator/Resources/translations\validators.ar.xlf</argument>
+            <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\form/Resources/translations\validators.ar.xlf</argument>
+            <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\security-core/Resources/translations\security.ar.xlf</argument>
+          </argument>
+          <argument key="az" type="collection">
+            <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\validator/Resources/translations\validators.az.xlf</argument>
+            <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\form/Resources/translations\validators.az.xlf</argument>
+            <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\security-core/Resources/translations\security.az.xlf</argument>
+          </argument>
+          <argument key="be" type="collection">
+            <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\validator/Resources/translations\validators.be.xlf</argument>
+            <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\form/Resources/translations\validators.be.xlf</argument>
+            <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\security-core/Resources/translations\security.be.xlf</argument>
+          </argument>
+          <argument key="bg" type="collection">
+            <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\validator/Resources/translations\validators.bg.xlf</argument>
+            <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\form/Resources/translations\validators.bg.xlf</argument>
+            <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\security-core/Resources/translations\security.bg.xlf</argument>
+          </argument>
+          <argument key="bs" type="collection">
+            <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\validator/Resources/translations\validators.bs.xlf</argument>
+            <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\form/Resources/translations\validators.bs.xlf</argument>
+            <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\security-core/Resources/translations\security.bs.xlf</argument>
+          </argument>
+          <argument key="ca" type="collection">
+            <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\validator/Resources/translations\validators.ca.xlf</argument>
+            <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\form/Resources/translations\validators.ca.xlf</argument>
+            <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\security-core/Resources/translations\security.ca.xlf</argument>
+          </argument>
+          <argument key="cs" type="collection">
+            <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\validator/Resources/translations\validators.cs.xlf</argument>
+            <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\form/Resources/translations\validators.cs.xlf</argument>
+            <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\security-core/Resources/translations\security.cs.xlf</argument>
+          </argument>
+          <argument key="cy" type="collection">
+            <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\validator/Resources/translations\validators.cy.xlf</argument>
+            <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\form/Resources/translations\validators.cy.xlf</argument>
+            <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\security-core/Resources/translations\security.cy.xlf</argument>
+          </argument>
+          <argument key="da" type="collection">
+            <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\validator/Resources/translations\validators.da.xlf</argument>
+            <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\form/Resources/translations\validators.da.xlf</argument>
+            <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\security-core/Resources/translations\security.da.xlf</argument>
+          </argument>
+          <argument key="de" type="collection">
+            <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\validator/Resources/translations\validators.de.xlf</argument>
+            <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\form/Resources/translations\validators.de.xlf</argument>
+            <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\security-core/Resources/translations\security.de.xlf</argument>
+          </argument>
+          <argument key="el" type="collection">
+            <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\validator/Resources/translations\validators.el.xlf</argument>
+            <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\form/Resources/translations\validators.el.xlf</argument>
+            <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\security-core/Resources/translations\security.el.xlf</argument>
+          </argument>
+          <argument key="en" type="collection">
+            <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\validator/Resources/translations\validators.en.xlf</argument>
+            <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\form/Resources/translations\validators.en.xlf</argument>
+            <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\security-core/Resources/translations\security.en.xlf</argument>
+          </argument>
+          <argument key="es" type="collection">
+            <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\validator/Resources/translations\validators.es.xlf</argument>
+            <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\form/Resources/translations\validators.es.xlf</argument>
+            <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\security-core/Resources/translations\security.es.xlf</argument>
+          </argument>
+          <argument key="et" type="collection">
+            <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\validator/Resources/translations\validators.et.xlf</argument>
+            <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\form/Resources/translations\validators.et.xlf</argument>
+            <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\security-core/Resources/translations\security.et.xlf</argument>
+          </argument>
+          <argument key="eu" type="collection">
+            <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\validator/Resources/translations\validators.eu.xlf</argument>
+            <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\form/Resources/translations\validators.eu.xlf</argument>
+            <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\security-core/Resources/translations\security.eu.xlf</argument>
+          </argument>
+          <argument key="fa" type="collection">
+            <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\validator/Resources/translations\validators.fa.xlf</argument>
+            <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\form/Resources/translations\validators.fa.xlf</argument>
+            <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\security-core/Resources/translations\security.fa.xlf</argument>
+          </argument>
+          <argument key="fi" type="collection">
+            <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\validator/Resources/translations\validators.fi.xlf</argument>
+            <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\form/Resources/translations\validators.fi.xlf</argument>
+            <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\security-core/Resources/translations\security.fi.xlf</argument>
+          </argument>
+          <argument key="fr" type="collection">
+            <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\validator/Resources/translations\validators.fr.xlf</argument>
+            <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\form/Resources/translations\validators.fr.xlf</argument>
+            <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\security-core/Resources/translations\security.fr.xlf</argument>
+          </argument>
+          <argument key="gl" type="collection">
+            <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\validator/Resources/translations\validators.gl.xlf</argument>
+            <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\form/Resources/translations\validators.gl.xlf</argument>
+            <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\security-core/Resources/translations\security.gl.xlf</argument>
+          </argument>
+          <argument key="he" type="collection">
+            <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\validator/Resources/translations\validators.he.xlf</argument>
+            <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\form/Resources/translations\validators.he.xlf</argument>
+            <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\security-core/Resources/translations\security.he.xlf</argument>
+          </argument>
+          <argument key="hr" type="collection">
+            <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\validator/Resources/translations\validators.hr.xlf</argument>
+            <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\form/Resources/translations\validators.hr.xlf</argument>
+            <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\security-core/Resources/translations\security.hr.xlf</argument>
+          </argument>
+          <argument key="hu" type="collection">
+            <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\validator/Resources/translations\validators.hu.xlf</argument>
+            <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\form/Resources/translations\validators.hu.xlf</argument>
+            <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\security-core/Resources/translations\security.hu.xlf</argument>
+          </argument>
+          <argument key="hy" type="collection">
+            <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\validator/Resources/translations\validators.hy.xlf</argument>
+            <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\form/Resources/translations\validators.hy.xlf</argument>
+            <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\security-core/Resources/translations\security.hy.xlf</argument>
+          </argument>
+          <argument key="id" type="collection">
+            <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\validator/Resources/translations\validators.id.xlf</argument>
+            <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\form/Resources/translations\validators.id.xlf</argument>
+            <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\security-core/Resources/translations\security.id.xlf</argument>
+          </argument>
+          <argument key="it" type="collection">
+            <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\validator/Resources/translations\validators.it.xlf</argument>
+            <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\form/Resources/translations\validators.it.xlf</argument>
+            <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\security-core/Resources/translations\security.it.xlf</argument>
+          </argument>
+          <argument key="ja" type="collection">
+            <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\validator/Resources/translations\validators.ja.xlf</argument>
+            <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\form/Resources/translations\validators.ja.xlf</argument>
+            <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\security-core/Resources/translations\security.ja.xlf</argument>
+          </argument>
+          <argument key="lb" type="collection">
+            <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\validator/Resources/translations\validators.lb.xlf</argument>
+            <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\form/Resources/translations\validators.lb.xlf</argument>
+            <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\security-core/Resources/translations\security.lb.xlf</argument>
+          </argument>
+          <argument key="lt" type="collection">
+            <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\validator/Resources/translations\validators.lt.xlf</argument>
+            <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\form/Resources/translations\validators.lt.xlf</argument>
+            <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\security-core/Resources/translations\security.lt.xlf</argument>
+          </argument>
+          <argument key="lv" type="collection">
+            <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\validator/Resources/translations\validators.lv.xlf</argument>
+            <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\form/Resources/translations\validators.lv.xlf</argument>
+            <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\security-core/Resources/translations\security.lv.xlf</argument>
+          </argument>
+          <argument key="mk" type="collection">
+            <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\validator/Resources/translations\validators.mk.xlf</argument>
+            <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\form/Resources/translations\validators.mk.xlf</argument>
+            <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\security-core/Resources/translations\security.mk.xlf</argument>
+          </argument>
+          <argument key="mn" type="collection">
+            <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\validator/Resources/translations\validators.mn.xlf</argument>
+            <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\form/Resources/translations\validators.mn.xlf</argument>
+            <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\security-core/Resources/translations\security.mn.xlf</argument>
+          </argument>
+          <argument key="my" type="collection">
+            <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\validator/Resources/translations\validators.my.xlf</argument>
+            <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\form/Resources/translations\validators.my.xlf</argument>
+            <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\security-core/Resources/translations\security.my.xlf</argument>
+          </argument>
+          <argument key="nb" type="collection">
+            <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\validator/Resources/translations\validators.nb.xlf</argument>
+            <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\form/Resources/translations\validators.nb.xlf</argument>
+            <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\security-core/Resources/translations\security.nb.xlf</argument>
+          </argument>
+          <argument key="nl" type="collection">
+            <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\validator/Resources/translations\validators.nl.xlf</argument>
+            <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\form/Resources/translations\validators.nl.xlf</argument>
+            <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\security-core/Resources/translations\security.nl.xlf</argument>
+          </argument>
+          <argument key="nn" type="collection">
+            <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\validator/Resources/translations\validators.nn.xlf</argument>
+            <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\form/Resources/translations\validators.nn.xlf</argument>
+            <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\security-core/Resources/translations\security.nn.xlf</argument>
+          </argument>
+          <argument key="no" type="collection">
+            <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\validator/Resources/translations\validators.no.xlf</argument>
+            <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\form/Resources/translations\validators.no.xlf</argument>
+            <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\security-core/Resources/translations\security.no.xlf</argument>
+          </argument>
+          <argument key="pl" type="collection">
+            <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\validator/Resources/translations\validators.pl.xlf</argument>
+            <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\form/Resources/translations\validators.pl.xlf</argument>
+            <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\security-core/Resources/translations\security.pl.xlf</argument>
+          </argument>
+          <argument key="pt" type="collection">
+            <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\validator/Resources/translations\validators.pt.xlf</argument>
+            <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\form/Resources/translations\validators.pt.xlf</argument>
+            <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\security-core/Resources/translations\security.pt.xlf</argument>
+          </argument>
+          <argument key="pt_BR" type="collection">
+            <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\validator/Resources/translations\validators.pt_BR.xlf</argument>
+            <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\form/Resources/translations\validators.pt_BR.xlf</argument>
+            <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\security-core/Resources/translations\security.pt_BR.xlf</argument>
+          </argument>
+          <argument key="ro" type="collection">
+            <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\validator/Resources/translations\validators.ro.xlf</argument>
+            <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\form/Resources/translations\validators.ro.xlf</argument>
+            <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\security-core/Resources/translations\security.ro.xlf</argument>
+          </argument>
+          <argument key="ru" type="collection">
+            <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\validator/Resources/translations\validators.ru.xlf</argument>
+            <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\form/Resources/translations\validators.ru.xlf</argument>
+            <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\security-core/Resources/translations\security.ru.xlf</argument>
+          </argument>
+          <argument key="sk" type="collection">
+            <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\validator/Resources/translations\validators.sk.xlf</argument>
+            <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\form/Resources/translations\validators.sk.xlf</argument>
+            <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\security-core/Resources/translations\security.sk.xlf</argument>
+          </argument>
+          <argument key="sl" type="collection">
+            <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\validator/Resources/translations\validators.sl.xlf</argument>
+            <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\form/Resources/translations\validators.sl.xlf</argument>
+            <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\security-core/Resources/translations\security.sl.xlf</argument>
+          </argument>
+          <argument key="sq" type="collection">
+            <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\validator/Resources/translations\validators.sq.xlf</argument>
+            <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\form/Resources/translations\validators.sq.xlf</argument>
+            <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\security-core/Resources/translations\security.sq.xlf</argument>
+          </argument>
+          <argument key="sr_Cyrl" type="collection">
+            <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\validator/Resources/translations\validators.sr_Cyrl.xlf</argument>
+            <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\form/Resources/translations\validators.sr_Cyrl.xlf</argument>
+            <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\security-core/Resources/translations\security.sr_Cyrl.xlf</argument>
+          </argument>
+          <argument key="sr_Latn" type="collection">
+            <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\validator/Resources/translations\validators.sr_Latn.xlf</argument>
+            <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\form/Resources/translations\validators.sr_Latn.xlf</argument>
+            <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\security-core/Resources/translations\security.sr_Latn.xlf</argument>
+          </argument>
+          <argument key="sv" type="collection">
+            <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\validator/Resources/translations\validators.sv.xlf</argument>
+            <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\form/Resources/translations\validators.sv.xlf</argument>
+            <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\security-core/Resources/translations\security.sv.xlf</argument>
+          </argument>
+          <argument key="th" type="collection">
+            <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\validator/Resources/translations\validators.th.xlf</argument>
+            <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\form/Resources/translations\validators.th.xlf</argument>
+            <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\security-core/Resources/translations\security.th.xlf</argument>
+          </argument>
+          <argument key="tl" type="collection">
+            <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\validator/Resources/translations\validators.tl.xlf</argument>
+            <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\form/Resources/translations\validators.tl.xlf</argument>
+            <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\security-core/Resources/translations\security.tl.xlf</argument>
+          </argument>
+          <argument key="tr" type="collection">
+            <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\validator/Resources/translations\validators.tr.xlf</argument>
+            <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\form/Resources/translations\validators.tr.xlf</argument>
+            <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\security-core/Resources/translations\security.tr.xlf</argument>
+          </argument>
+          <argument key="uk" type="collection">
+            <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\validator/Resources/translations\validators.uk.xlf</argument>
+            <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\form/Resources/translations\validators.uk.xlf</argument>
+            <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\security-core/Resources/translations\security.uk.xlf</argument>
+          </argument>
+          <argument key="ur" type="collection">
+            <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\validator/Resources/translations\validators.ur.xlf</argument>
+            <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\form/Resources/translations\validators.ur.xlf</argument>
+            <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\security-core/Resources/translations\security.ur.xlf</argument>
+          </argument>
+          <argument key="uz" type="collection">
+            <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\validator/Resources/translations\validators.uz.xlf</argument>
+            <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\form/Resources/translations\validators.uz.xlf</argument>
+            <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\security-core/Resources/translations\security.uz.xlf</argument>
+          </argument>
+          <argument key="vi" type="collection">
+            <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\validator/Resources/translations\validators.vi.xlf</argument>
+            <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\form/Resources/translations\validators.vi.xlf</argument>
+            <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\security-core/Resources/translations\security.vi.xlf</argument>
+          </argument>
+          <argument key="zh_CN" type="collection">
+            <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\validator/Resources/translations\validators.zh_CN.xlf</argument>
+            <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\form/Resources/translations\validators.zh_CN.xlf</argument>
+            <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\security-core/Resources/translations\security.zh_CN.xlf</argument>
+          </argument>
+          <argument key="zh_TW" type="collection">
+            <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\validator/Resources/translations\validators.zh_TW.xlf</argument>
+            <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\form/Resources/translations\validators.zh_TW.xlf</argument>
+            <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\security-core/Resources/translations\security.zh_TW.xlf</argument>
+          </argument>
+        </argument>
+        <argument key="scanned_directories" type="collection">
+          <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\validator/Resources/translations</argument>
+          <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\form/Resources/translations</argument>
+          <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\security-core/Resources/translations</argument>
+          <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend/translations</argument>
+          <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\framework-bundle/translations</argument>
+          <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\doctrine\doctrine-bundle/translations</argument>
+          <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\doctrine\doctrine-migrations-bundle/translations</argument>
+          <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\debug-bundle/translations</argument>
+          <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\twig-bundle/translations</argument>
+          <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\web-profiler-bundle/translations</argument>
+          <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\stimulus-bundle/translations</argument>
+          <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\ux-turbo/translations</argument>
+          <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\twig\extra-bundle/translations</argument>
+          <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\security-bundle/translations</argument>
+          <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\monolog-bundle/translations</argument>
+          <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\maker-bundle\src/translations</argument>
+          <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\web-token\jwt-framework\src\Bundle/translations</argument>
+          <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\nelmio\cors-bundle/translations</argument>
+        </argument>
+        <argument key="cache_vary" type="collection">
+          <argument key="scanned_directories" type="collection">
+            <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\validator/Resources/translations</argument>
+            <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\form/Resources/translations</argument>
+            <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\security-core/Resources/translations</argument>
+            <argument>translations</argument>
+            <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\framework-bundle/translations</argument>
+            <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\doctrine\doctrine-bundle/translations</argument>
+            <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\doctrine\doctrine-migrations-bundle/translations</argument>
+            <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\debug-bundle/translations</argument>
+            <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\twig-bundle/translations</argument>
+            <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\web-profiler-bundle/translations</argument>
+            <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\stimulus-bundle/translations</argument>
+            <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\ux-turbo/translations</argument>
+            <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\twig\extra-bundle/translations</argument>
+            <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\security-bundle/translations</argument>
+            <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\monolog-bundle/translations</argument>
+            <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\maker-bundle\src/translations</argument>
+            <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\web-token\jwt-framework\src\Bundle/translations</argument>
+            <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\nelmio\cors-bundle/translations</argument>
+>>>>>>> origin/sandesh
           </argument>
         </argument>
       </argument>
@@ -2833,7 +3357,11 @@
     <service id="debug.file_link_formatter" class="Symfony\Component\ErrorHandler\ErrorRenderer\FileLinkFormatter">
       <argument>%env(default::SYMFONY_IDE)%</argument>
       <argument type="service" id="request_stack" on-invalid="ignore"/>
+<<<<<<< HEAD
       <argument>C:\Users\user\OneDrive\Desktop\finalproject\finalyearproject\backend</argument>
+=======
+      <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend</argument>
+>>>>>>> origin/sandesh
       <argument type="service_closure" id="debug.file_link_formatter.url_format"/>
     </service>
     <service id="debug.stopwatch" class="Symfony\Component\Stopwatch\Stopwatch" public="true">
@@ -3650,7 +4178,11 @@
       <argument type="service" id=".service_locator.zAVTS8N.router.default"/>
       <argument>kernel::loadRoutes</argument>
       <argument type="collection">
+<<<<<<< HEAD
         <argument key="cache_dir">C:\Users\user\OneDrive\Desktop\finalproject\finalyearproject\backend\var\cache\dev</argument>
+=======
+        <argument key="cache_dir">C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\var\cache\dev</argument>
+>>>>>>> origin/sandesh
         <argument key="debug">true</argument>
         <argument key="generator_class">Symfony\Component\Routing\Generator\CompiledUrlGenerator</argument>
         <argument key="generator_dumper_class">Symfony\Component\Routing\Generator\Dumper\CompiledUrlGeneratorDumper</argument>
@@ -3699,7 +4231,11 @@
       <argument type="service" id="request_stack"/>
       <argument type="service" id="router.request_context" on-invalid="ignore"/>
       <argument type="service" id="monolog.logger.request" on-invalid="ignore"/>
+<<<<<<< HEAD
       <argument>C:\Users\user\OneDrive\Desktop\finalproject\finalyearproject\backend</argument>
+=======
+      <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend</argument>
+>>>>>>> origin/sandesh
       <argument>true</argument>
     </service>
     <service id="Symfony\Bundle\FrameworkBundle\Controller\RedirectController" class="Symfony\Bundle\FrameworkBundle\Controller\RedirectController" public="true">
@@ -3726,7 +4262,11 @@
       <argument type="service" id="property_info.reflection_extractor" on-invalid="null"/>
     </service>
     <service id="secrets.vault" class="Symfony\Bundle\FrameworkBundle\Secrets\SodiumVault">
+<<<<<<< HEAD
       <argument>C:\Users\user\OneDrive\Desktop\finalproject\finalyearproject\backend/config/secrets/%env(default:kernel.environment:APP_RUNTIME_ENV)%</argument>
+=======
+      <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend/config/secrets/%env(default:kernel.environment:APP_RUNTIME_ENV)%</argument>
+>>>>>>> origin/sandesh
       <argument type="service" id="secrets.decryption_key" on-invalid="ignore"/>
     </service>
     <service id="secrets.env_var_loader" class="Symfony\Component\DependencyInjection\StaticEnvVarLoader">
@@ -3738,7 +4278,11 @@
       <argument>base64:default::SYMFONY_DECRYPTION_SECRET</argument>
     </service>
     <service id="secrets.local_vault" class="Symfony\Bundle\FrameworkBundle\Secrets\DotenvVault">
+<<<<<<< HEAD
       <argument>C:\Users\user\OneDrive\Desktop\finalproject\finalyearproject\backend/.env.dev.local</argument>
+=======
+      <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend/.env.dev.local</argument>
+>>>>>>> origin/sandesh
     </service>
     <service id="serializer.mapping.class_discriminator_resolver" class="Symfony\Component\Serializer\Mapping\ClassDiscriminatorFromClassMetadata">
       <argument type="service" id="serializer.mapping.class_metadata_factory"/>
@@ -3828,10 +4372,17 @@
           <service class="Symfony\Component\Serializer\Mapping\Loader\AttributeLoader"/>
         </argument>
       </argument>
+<<<<<<< HEAD
       <argument>C:\Users\user\OneDrive\Desktop\finalproject\finalyearproject\backend\var\cache\dev/serialization.php</argument>
     </service>
     <service id="serializer.mapping.cache.symfony" class="Psr\Cache\CacheItemPoolInterface">
       <argument>C:\Users\user\OneDrive\Desktop\finalproject\finalyearproject\backend\var\cache\dev/serialization.php</argument>
+=======
+      <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\var\cache\dev/serialization.php</argument>
+    </service>
+    <service id="serializer.mapping.cache.symfony" class="Psr\Cache\CacheItemPoolInterface">
+      <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\var\cache\dev/serialization.php</argument>
+>>>>>>> origin/sandesh
       <argument type="service" id="cache.serializer"/>
       <factory class="Symfony\Component\Cache\Adapter\PhpArrayAdapter" method="create"/>
     </service>
@@ -3989,7 +4540,11 @@
       <argument>true</argument>
     </service>
     <service id="session.storage.factory.mock_file" class="Symfony\Component\HttpFoundation\Session\Storage\MockFileSessionStorageFactory">
+<<<<<<< HEAD
       <argument>C:\Users\user\OneDrive\Desktop\finalproject\finalyearproject\backend\var\cache\dev/sessions</argument>
+=======
+      <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\var\cache\dev/sessions</argument>
+>>>>>>> origin/sandesh
       <argument>MOCKSESSID</argument>
       <argument type="service">
         <service class="Symfony\Component\HttpFoundation\Session\Storage\MetadataBag">
@@ -4169,7 +4724,11 @@
       </call>
       <call method="addXmlMappings">
         <argument type="collection">
+<<<<<<< HEAD
           <argument>C:\Users\user\OneDrive\Desktop\finalproject\finalyearproject\backend\vendor\symfony\form/Resources/config/validation.xml</argument>
+=======
+          <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\form/Resources/config/validation.xml</argument>
+>>>>>>> origin/sandesh
         </argument>
       </call>
       <call method="enableAttributeMapping"/>
@@ -4192,10 +4751,17 @@
     <service id="validator.mapping.cache_warmer" class="Symfony\Bundle\FrameworkBundle\CacheWarmer\ValidatorCacheWarmer">
       <tag name="kernel.cache_warmer"/>
       <argument type="service" id="validator.builder"/>
+<<<<<<< HEAD
       <argument>C:\Users\user\OneDrive\Desktop\finalproject\finalyearproject\backend\var\cache\dev/validation.php</argument>
     </service>
     <service id="validator.mapping.cache.adapter" class="Symfony\Component\Cache\Adapter\PhpArrayAdapter" constructor="create">
       <argument>C:\Users\user\OneDrive\Desktop\finalproject\finalyearproject\backend\var\cache\dev/validation.php</argument>
+=======
+      <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\var\cache\dev/validation.php</argument>
+    </service>
+    <service id="validator.mapping.cache.adapter" class="Symfony\Component\Cache\Adapter\PhpArrayAdapter" constructor="create">
+      <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\var\cache\dev/validation.php</argument>
+>>>>>>> origin/sandesh
       <argument type="service" id="cache.validator"/>
     </service>
     <service id="validator.validator_factory" class="Symfony\Component\Validator\ContainerConstraintValidatorFactory">
@@ -4861,7 +5427,11 @@
       </call>
     </service>
     <service id="profiler.storage" class="Symfony\Component\HttpKernel\Profiler\FileProfilerStorage">
+<<<<<<< HEAD
       <argument>file:C:\Users\user\OneDrive\Desktop\finalproject\finalyearproject\backend\var\cache\dev/profiler</argument>
+=======
+      <argument>file:C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\var\cache\dev/profiler</argument>
+>>>>>>> origin/sandesh
     </service>
     <service id="profiler_listener" class="Symfony\Component\HttpKernel\EventListener\ProfilerListener">
       <tag name="kernel.event_subscriber"/>
@@ -4920,7 +5490,11 @@
       <tag name="monolog.logger" channel="profiler"/>
       <tag name="data_collector" template="@WebProfiler/Collector/logger.html.twig" id="logger" priority="300"/>
       <argument type="service" id="monolog.logger.profiler" on-invalid="ignore"/>
+<<<<<<< HEAD
       <argument>C:\Users\user\OneDrive\Desktop\finalproject\finalyearproject\backend\var\cache\dev/App_KernelDevDebugContainer</argument>
+=======
+      <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\var\cache\dev/App_KernelDevDebugContainer</argument>
+>>>>>>> origin/sandesh
       <argument type="service" id=".virtual_request_stack" on-invalid="ignore"/>
     </service>
     <service id="data_collector.time" class="Symfony\Component\HttpKernel\DataCollector\TimeDataCollector">
@@ -5304,7 +5878,11 @@
       <tag name="doctrine.event_listener" event="onSchemaCreateTable"/>
       <argument type="tagged_iterator" tag="messenger.receiver"/>
     </service>
+<<<<<<< HEAD
     <service id=".1_ServiceLocator~dC64zox" class="Symfony\Component\DependencyInjection\ServiceLocator">
+=======
+    <service id=".1_ServiceLocator~WUavcoA" class="Symfony\Component\DependencyInjection\ServiceLocator">
+>>>>>>> origin/sandesh
       <argument type="collection"/>
     </service>
     <service id="doctrine.orm.proxy_cache_warmer" class="Symfony\Bridge\Doctrine\CacheWarmer\ProxyCacheWarmer">
@@ -5511,7 +6089,11 @@
         <argument type="service" id=".doctrine.orm.default_metadata_driver"/>
       </call>
       <call method="setProxyDir">
+<<<<<<< HEAD
         <argument>C:\Users\user\OneDrive\Desktop\finalproject\finalyearproject\backend\var\cache\dev/doctrine/orm/Proxies</argument>
+=======
+        <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\var\cache\dev/doctrine/orm/Proxies</argument>
+>>>>>>> origin/sandesh
       </call>
       <call method="setProxyNamespace">
         <argument>Proxies</argument>
@@ -5546,7 +6128,11 @@
     </service>
     <service id="doctrine.orm.default_attribute_metadata_driver" class="Doctrine\ORM\Mapping\Driver\AttributeDriver">
       <argument type="collection">
+<<<<<<< HEAD
         <argument>C:\Users\user\OneDrive\Desktop\finalproject\finalyearproject\backend\src\Entity</argument>
+=======
+        <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\src\Entity</argument>
+>>>>>>> origin/sandesh
       </argument>
       <argument>true</argument>
     </service>
@@ -5610,7 +6196,11 @@
     <service id="doctrine.migrations.configuration" class="Doctrine\Migrations\Configuration\Configuration">
       <call method="addMigrationsDirectory">
         <argument>DoctrineMigrations</argument>
+<<<<<<< HEAD
         <argument>C:\Users\user\OneDrive\Desktop\finalproject\finalyearproject\backend/migrations</argument>
+=======
+        <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend/migrations</argument>
+>>>>>>> origin/sandesh
       </call>
       <call method="setAllOrNothing">
         <argument>false</argument>
@@ -5828,7 +6418,11 @@
         <argument key="source" type="service">
           <service class="Symfony\Component\VarDumper\Dumper\ContextProvider\SourceContextProvider">
             <argument>UTF-8</argument>
+<<<<<<< HEAD
             <argument>C:\Users\user\OneDrive\Desktop\finalproject\finalyearproject\backend</argument>
+=======
+            <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend</argument>
+>>>>>>> origin/sandesh
             <argument type="service" id="debug.file_link_formatter" on-invalid="null"/>
           </service>
         </argument>
@@ -5850,7 +6444,11 @@
         <argument key="source" type="service">
           <service class="Symfony\Component\VarDumper\Dumper\ContextProvider\SourceContextProvider">
             <argument>UTF-8</argument>
+<<<<<<< HEAD
             <argument>C:\Users\user\OneDrive\Desktop\finalproject\finalyearproject\backend</argument>
+=======
+            <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend</argument>
+>>>>>>> origin/sandesh
             <argument type="service" id="debug.file_link_formatter" on-invalid="null"/>
           </service>
         </argument>
@@ -5913,7 +6511,11 @@
       <tag name="container.preload" class="Twig\TemplateWrapper"/>
       <argument type="service" id="twig.loader.native_filesystem"/>
       <argument type="collection">
+<<<<<<< HEAD
         <argument key="cache">C:\Users\user\OneDrive\Desktop\finalproject\finalyearproject\backend\var\cache\dev/twig</argument>
+=======
+        <argument key="cache">C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\var\cache\dev/twig</argument>
+>>>>>>> origin/sandesh
         <argument key="charset">UTF-8</argument>
         <argument key="debug">true</argument>
         <argument key="strict_variables">true</argument>
@@ -6038,10 +6640,17 @@
     <service id="twig.template_iterator" class="Symfony\Bundle\TwigBundle\TemplateIterator">
       <argument type="service" id="kernel"/>
       <argument type="collection">
+<<<<<<< HEAD
         <argument key="C:\Users\user\OneDrive\Desktop\finalproject\finalyearproject\backend\vendor\symfony\twig-bridge/Resources/views/Email">email</argument>
         <argument key="C:\Users\user\OneDrive\Desktop\finalproject\finalyearproject\backend\vendor\symfony\twig-bridge/Resources/views/Form">null</argument>
       </argument>
       <argument>C:\Users\user\OneDrive\Desktop\finalproject\finalyearproject\backend/templates</argument>
+=======
+        <argument key="C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\twig-bridge/Resources/views/Email">email</argument>
+        <argument key="C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\twig-bridge/Resources/views/Form">null</argument>
+      </argument>
+      <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend/templates</argument>
+>>>>>>> origin/sandesh
       <argument type="collection">
         <argument>*.twig</argument>
       </argument>
@@ -6055,6 +6664,7 @@
     <service id="twig.loader.native_filesystem" class="Twig\Loader\FilesystemLoader">
       <tag name="twig.loader"/>
       <argument type="collection"/>
+<<<<<<< HEAD
       <argument>C:\Users\user\OneDrive\Desktop\finalproject\finalyearproject\backend</argument>
       <call method="addPath">
         <argument>C:\Users\user\OneDrive\Desktop\finalproject\finalyearproject\backend\vendor\doctrine\doctrine-bundle/templates</argument>
@@ -6117,6 +6727,70 @@
       </call>
       <call method="addPath">
         <argument>C:\Users\user\OneDrive\Desktop\finalproject\finalyearproject\backend\vendor\symfony\twig-bridge/Resources/views/Form</argument>
+=======
+      <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend</argument>
+      <call method="addPath">
+        <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\doctrine\doctrine-bundle/templates</argument>
+        <argument>Doctrine</argument>
+      </call>
+      <call method="addPath">
+        <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\doctrine\doctrine-bundle/templates</argument>
+        <argument>!Doctrine</argument>
+      </call>
+      <call method="addPath">
+        <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\doctrine\doctrine-migrations-bundle/Resources/views</argument>
+        <argument>DoctrineMigrations</argument>
+      </call>
+      <call method="addPath">
+        <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\doctrine\doctrine-migrations-bundle/Resources/views</argument>
+        <argument>!DoctrineMigrations</argument>
+      </call>
+      <call method="addPath">
+        <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\debug-bundle/Resources/views</argument>
+        <argument>Debug</argument>
+      </call>
+      <call method="addPath">
+        <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\debug-bundle/Resources/views</argument>
+        <argument>!Debug</argument>
+      </call>
+      <call method="addPath">
+        <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\web-profiler-bundle/Resources/views</argument>
+        <argument>WebProfiler</argument>
+      </call>
+      <call method="addPath">
+        <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\web-profiler-bundle/Resources/views</argument>
+        <argument>!WebProfiler</argument>
+      </call>
+      <call method="addPath">
+        <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\security-bundle/Resources/views</argument>
+        <argument>Security</argument>
+      </call>
+      <call method="addPath">
+        <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\security-bundle/Resources/views</argument>
+        <argument>!Security</argument>
+      </call>
+      <call method="addPath">
+        <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\web-token\jwt-framework\src\Bundle/Resources/views</argument>
+        <argument>JoseFramework</argument>
+      </call>
+      <call method="addPath">
+        <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\web-token\jwt-framework\src\Bundle/Resources/views</argument>
+        <argument>!JoseFramework</argument>
+      </call>
+      <call method="addPath">
+        <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend/templates</argument>
+      </call>
+      <call method="addPath">
+        <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\twig-bridge/Resources/views/Email</argument>
+        <argument>email</argument>
+      </call>
+      <call method="addPath">
+        <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\twig-bridge/Resources/views/Email</argument>
+        <argument>!email</argument>
+      </call>
+      <call method="addPath">
+        <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\vendor\symfony\twig-bridge/Resources/views/Form</argument>
+>>>>>>> origin/sandesh
       </call>
     </service>
     <service id="twig.loader.chain" class="Twig\Loader\ChainLoader"/>
@@ -6229,9 +6903,15 @@
       <tag name="console.command"/>
       <tag name="container.no_preload"/>
       <argument type="service" id="twig"/>
+<<<<<<< HEAD
       <argument>C:\Users\user\OneDrive\Desktop\finalproject\finalyearproject\backend</argument>
       <argument>%kernel.bundles_metadata%</argument>
       <argument>C:\Users\user\OneDrive\Desktop\finalproject\finalyearproject\backend/templates</argument>
+=======
+      <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend</argument>
+      <argument>%kernel.bundles_metadata%</argument>
+      <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend/templates</argument>
+>>>>>>> origin/sandesh
       <argument type="service" id="debug.file_link_formatter" on-invalid="null"/>
       <call method="setName">
         <argument>debug:twig</argument>
@@ -6276,7 +6956,11 @@
       <argument type="service" id="twig"/>
       <argument>%data_collector.templates%</argument>
       <argument type="service" id="web_profiler.csp.handler"/>
+<<<<<<< HEAD
       <argument>C:\Users\user\OneDrive\Desktop\finalproject\finalyearproject\backend</argument>
+=======
+      <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend</argument>
+>>>>>>> origin/sandesh
     </service>
     <service id="web_profiler.controller.router" class="Symfony\Bundle\WebProfilerBundle\Controller\RouterController" public="true">
       <argument type="service" id="profiler" on-invalid="null"/>
@@ -6319,7 +7003,11 @@
     <service id="twig.extension.code" class="Symfony\Bundle\WebProfilerBundle\Profiler\CodeExtension">
       <tag name="twig.extension"/>
       <argument type="service" id="debug.file_link_formatter"/>
+<<<<<<< HEAD
       <argument>C:\Users\user\OneDrive\Desktop\finalproject\finalyearproject\backend</argument>
+=======
+      <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend</argument>
+>>>>>>> origin/sandesh
       <argument>UTF-8</argument>
     </service>
     <service id="web_profiler.debug_toolbar" class="Symfony\Bundle\WebProfilerBundle\EventListener\WebDebugToolbarListener">
@@ -6341,7 +7029,11 @@
       <argument type="service" id="stimulus.helper"/>
     </service>
     <service id="stimulus.asset_mapper.ux_package_reader" class="Symfony\UX\StimulusBundle\Ux\UxPackageReader">
+<<<<<<< HEAD
       <argument>C:\Users\user\OneDrive\Desktop\finalproject\finalyearproject\backend</argument>
+=======
+      <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend</argument>
+>>>>>>> origin/sandesh
     </service>
     <service id="stimulus.ux_controllers_twig_extension" class="Symfony\UX\StimulusBundle\Twig\UxControllersTwigExtension">
       <tag name="twig.extension"/>
@@ -6351,15 +7043,25 @@
       <argument type="service" id="stimulus.asset_mapper.controllers_map_generator"/>
       <argument type="service" id="asset_mapper"/>
       <argument type="service" id="stimulus.asset_mapper.ux_package_reader"/>
+<<<<<<< HEAD
       <argument>C:\Users\user\OneDrive\Desktop\finalproject\finalyearproject\backend</argument>
+=======
+      <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend</argument>
+>>>>>>> origin/sandesh
     </service>
     <service id="stimulus.asset_mapper.controllers_map_generator" class="Symfony\UX\StimulusBundle\AssetMapper\ControllersMapGenerator">
       <argument type="service" id="asset_mapper"/>
       <argument type="service" id="stimulus.asset_mapper.ux_package_reader"/>
       <argument type="collection">
+<<<<<<< HEAD
         <argument>C:\Users\user\OneDrive\Desktop\finalproject\finalyearproject\backend/assets/controllers</argument>
       </argument>
       <argument>C:\Users\user\OneDrive\Desktop\finalproject\finalyearproject\backend/assets/controllers.json</argument>
+=======
+        <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend/assets/controllers</argument>
+      </argument>
+      <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend/assets/controllers.json</argument>
+>>>>>>> origin/sandesh
       <argument type="service" id="stimulus.asset_mapper.auto_import_locator" on-invalid="null"/>
     </service>
     <service id="stimulus.asset_mapper.auto_import_locator" class="Symfony\UX\StimulusBundle\AssetMapper\AutoImportLocator">
@@ -7162,7 +7864,11 @@
     <service id="monolog.processor.psr_log_message" class="Monolog\Processor\PsrLogMessageProcessor"/>
     <service id="monolog.handler.main" class="Monolog\Handler\StreamHandler">
       <tag name="kernel.reset" method="reset"/>
+<<<<<<< HEAD
       <argument>C:\Users\user\OneDrive\Desktop\finalproject\finalyearproject\backend\var\log/dev.log</argument>
+=======
+      <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\var\log/dev.log</argument>
+>>>>>>> origin/sandesh
       <argument>debug</argument>
       <argument>true</argument>
       <argument>null</argument>
@@ -7184,8 +7890,13 @@
       <argument type="service" id="filesystem"/>
       <argument type="service" id="maker.autoloader_util"/>
       <argument type="service" id="maker.file_link_formatter"/>
+<<<<<<< HEAD
       <argument>C:\Users\user\OneDrive\Desktop\finalproject\finalyearproject\backend</argument>
       <argument>C:\Users\user\OneDrive\Desktop\finalproject\finalyearproject\backend/templates</argument>
+=======
+      <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend</argument>
+      <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend/templates</argument>
+>>>>>>> origin/sandesh
     </service>
     <service id="maker.autoloader_finder" class="Symfony\Bundle\MakerBundle\Util\ComposerAutoloaderFinder">
       <argument>App</argument>
@@ -7357,7 +8068,11 @@
     </service>
     <service id="maker.maker.make_migration" class="Symfony\Bundle\MakerBundle\Maker\MakeMigration">
       <tag name="maker.command"/>
+<<<<<<< HEAD
       <argument>C:\Users\user\OneDrive\Desktop\finalproject\finalyearproject\backend</argument>
+=======
+      <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend</argument>
+>>>>>>> origin/sandesh
       <argument type="service" id="maker.file_link_formatter"/>
     </service>
     <service id="maker.maker.make_stimulus_controller" class="Symfony\Bundle\MakerBundle\Maker\MakeStimulusController">
@@ -7461,30 +8176,6 @@
         <argument type="service" id="Jose\Component\Encryption\Algorithm\ContentEncryption\A256GCM"/>
       </call>
       <call method="add">
-        <argument>A128GCMKW</argument>
-        <argument type="service" id="Jose\Component\Encryption\Algorithm\KeyEncryption\A128GCMKW"/>
-      </call>
-      <call method="add">
-        <argument>A192GCMKW</argument>
-        <argument type="service" id="Jose\Component\Encryption\Algorithm\KeyEncryption\A192GCMKW"/>
-      </call>
-      <call method="add">
-        <argument>A256GCMKW</argument>
-        <argument type="service" id="Jose\Component\Encryption\Algorithm\KeyEncryption\A256GCMKW"/>
-      </call>
-      <call method="add">
-        <argument>A128KW</argument>
-        <argument type="service" id="Jose\Component\Encryption\Algorithm\KeyEncryption\A128KW"/>
-      </call>
-      <call method="add">
-        <argument>A192KW</argument>
-        <argument type="service" id="Jose\Component\Encryption\Algorithm\KeyEncryption\A192KW"/>
-      </call>
-      <call method="add">
-        <argument>A256KW</argument>
-        <argument type="service" id="Jose\Component\Encryption\Algorithm\KeyEncryption\A256KW"/>
-      </call>
-      <call method="add">
         <argument>dir</argument>
         <argument type="service" id="Jose\Component\Encryption\Algorithm\KeyEncryption\Dir"/>
       </call>
@@ -7495,42 +8186,6 @@
       <call method="add">
         <argument>ECDH-SS</argument>
         <argument type="service" id="Jose\Component\Encryption\Algorithm\KeyEncryption\ECDHSS"/>
-      </call>
-      <call method="add">
-        <argument>ECDH-ES+A128KW</argument>
-        <argument type="service" id="Jose\Component\Encryption\Algorithm\KeyEncryption\ECDHESA128KW"/>
-      </call>
-      <call method="add">
-        <argument>ECDH-ES+A192KW</argument>
-        <argument type="service" id="Jose\Component\Encryption\Algorithm\KeyEncryption\ECDHESA192KW"/>
-      </call>
-      <call method="add">
-        <argument>ECDH-ES+A256KW</argument>
-        <argument type="service" id="Jose\Component\Encryption\Algorithm\KeyEncryption\ECDHESA256KW"/>
-      </call>
-      <call method="add">
-        <argument>ECDH-SS+A128KW</argument>
-        <argument type="service" id="Jose\Component\Encryption\Algorithm\KeyEncryption\ECDHSSA128KW"/>
-      </call>
-      <call method="add">
-        <argument>ECDH-SS+A192KW</argument>
-        <argument type="service" id="Jose\Component\Encryption\Algorithm\KeyEncryption\ECDHSSA192KW"/>
-      </call>
-      <call method="add">
-        <argument>ECDH-SS+A256KW</argument>
-        <argument type="service" id="Jose\Component\Encryption\Algorithm\KeyEncryption\ECDHSSA256KW"/>
-      </call>
-      <call method="add">
-        <argument>PBES2-HS256+A128KW</argument>
-        <argument type="service" id="Jose\Component\Encryption\Algorithm\KeyEncryption\PBES2HS256A128KW"/>
-      </call>
-      <call method="add">
-        <argument>PBES2-HS384+A192KW</argument>
-        <argument type="service" id="Jose\Component\Encryption\Algorithm\KeyEncryption\PBES2HS384A192KW"/>
-      </call>
-      <call method="add">
-        <argument>PBES2-HS512+A256KW</argument>
-        <argument type="service" id="Jose\Component\Encryption\Algorithm\KeyEncryption\PBES2HS512A256KW"/>
       </call>
       <call method="add">
         <argument>RSA1_5</argument>
@@ -7581,7 +8236,6 @@
     <service id="Jose\Bundle\JoseFramework\DataCollector\JWECollector" class="Jose\Bundle\JoseFramework\DataCollector\JWECollector" autowire="true" autoconfigure="true">
       <tag name="jose.data_collector"/>
       <tag name="kernel.event_subscriber"/>
-      <argument type="service" id="Jose\Component\Encryption\Compression\CompressionMethodManagerFactory"/>
       <argument type="service" id="Jose\Component\Encryption\Serializer\JWESerializerManagerFactory"/>
     </service>
     <service id="Jose\Bundle\JoseFramework\DataCollector\JWSCollector" class="Jose\Bundle\JoseFramework\DataCollector\JWSCollector" autowire="true" autoconfigure="true">
@@ -7633,26 +8287,17 @@
     <service id="Jose\Component\Checker\ExpirationTimeChecker" class="Jose\Component\Checker\ExpirationTimeChecker" autowire="true" autoconfigure="true">
       <tag name="jose.checker.claim" alias="exp"/>
       <tag name="jose.checker.header" alias="exp"/>
-      <argument>0</argument>
-      <argument>false</argument>
-      <argument type="service" id="jose.internal_clock"/>
+      <argument type="service" id="clock"/>
     </service>
     <service id="Jose\Component\Checker\IssuedAtChecker" class="Jose\Component\Checker\IssuedAtChecker" autowire="true" autoconfigure="true">
       <tag name="jose.checker.claim" alias="iat"/>
       <tag name="jose.checker.header" alias="iat"/>
-      <argument>0</argument>
-      <argument>false</argument>
-      <argument type="service" id="jose.internal_clock"/>
+      <argument type="service" id="clock"/>
     </service>
     <service id="Jose\Component\Checker\NotBeforeChecker" class="Jose\Component\Checker\NotBeforeChecker" autowire="true" autoconfigure="true">
       <tag name="jose.checker.claim" alias="nbf"/>
       <tag name="jose.checker.header" alias="nbf"/>
-      <argument>0</argument>
-      <argument>false</argument>
-      <argument type="service" id="jose.internal_clock"/>
-    </service>
-    <service id="jose.internal_clock" class="Jose\Component\Checker\InternalClock" autowire="true" autoconfigure="true">
-      <deprecated package="web-token/jwt-bundle" version="3.2.0">The service "%service_id%" is an internal service that will be removed in 4.0.0. Please use a PSR-20 compatible service as clock.</deprecated>
+      <argument type="service" id="clock"/>
     </service>
     <service id="Jose\Component\Console\AddKeyIntoKeysetCommand" class="Jose\Component\Console\AddKeyIntoKeysetCommand" autowire="true" autoconfigure="true">
       <tag name="console.command"/>
@@ -7968,12 +8613,10 @@
     </service>
     <service id="Jose\Bundle\JoseFramework\Services\JWEBuilderFactory" class="Jose\Bundle\JoseFramework\Services\JWEBuilderFactory" public="true" autowire="true" autoconfigure="true">
       <argument type="service" id="Jose\Component\Core\AlgorithmManagerFactory"/>
-      <argument type="service" id="Jose\Component\Encryption\Compression\CompressionMethodManagerFactory"/>
       <argument type="service" id="debug.event_dispatcher"/>
     </service>
     <service id="Jose\Bundle\JoseFramework\Services\JWEDecrypterFactory" class="Jose\Bundle\JoseFramework\Services\JWEDecrypterFactory" public="true" autowire="true" autoconfigure="true">
       <argument type="service" id="Jose\Component\Core\AlgorithmManagerFactory"/>
-      <argument type="service" id="Jose\Component\Encryption\Compression\CompressionMethodManagerFactory"/>
       <argument type="service" id="debug.event_dispatcher"/>
     </service>
     <service id="Jose\Bundle\JoseFramework\Services\JWELoaderFactory" class="Jose\Bundle\JoseFramework\Services\JWELoaderFactory" public="true" autowire="true" autoconfigure="true">
@@ -8005,17 +8648,6 @@
     <service id="Jose\Component\Encryption\Serializer\JSONGeneralSerializer" class="Jose\Component\Encryption\Serializer\JSONGeneralSerializer" autowire="true" autoconfigure="true">
       <tag name="jose.jwe.serializer"/>
     </service>
-    <service id="Jose\Component\Encryption\Compression\CompressionMethodManagerFactory" class="Jose\Component\Encryption\Compression\CompressionMethodManagerFactory" public="true" autowire="true" autoconfigure="true">
-      <call method="add">
-        <argument>DEF</argument>
-        <argument type="service" id="Jose\Component\Encryption\Compression\Deflate"/>
-      </call>
-      <deprecated package="web-token/jwt-bundle" version="3.3.0">The "%service_id%" service is deprecated and will be removed in version 4.0. Compression is not recommended for the JWE.</deprecated>
-    </service>
-    <service id="Jose\Component\Encryption\Compression\Deflate" class="Jose\Component\Encryption\Compression\Deflate" autowire="true" autoconfigure="true">
-      <tag name="jose.compression_method" alias="DEF"/>
-      <deprecated package="web-token/jwt-bundle" version="3.3.0">The "%service_id%" service is deprecated and will be removed in version 4.0. Compression is not recommended for the JWE.</deprecated>
-    </service>
     <service id="Jose\Component\Encryption\Algorithm\ContentEncryption\A128CBCHS256" class="Jose\Component\Encryption\Algorithm\ContentEncryption\A128CBCHS256" autowire="true" autoconfigure="true">
       <tag name="jose.algorithm" alias="A128CBC-HS256"/>
     </service>
@@ -8034,24 +8666,6 @@
     <service id="Jose\Component\Encryption\Algorithm\ContentEncryption\A256GCM" class="Jose\Component\Encryption\Algorithm\ContentEncryption\A256GCM" autowire="true" autoconfigure="true">
       <tag name="jose.algorithm" alias="A256GCM"/>
     </service>
-    <service id="Jose\Component\Encryption\Algorithm\KeyEncryption\A128GCMKW" class="Jose\Component\Encryption\Algorithm\KeyEncryption\A128GCMKW" autowire="true" autoconfigure="true">
-      <tag name="jose.algorithm" alias="A128GCMKW"/>
-    </service>
-    <service id="Jose\Component\Encryption\Algorithm\KeyEncryption\A192GCMKW" class="Jose\Component\Encryption\Algorithm\KeyEncryption\A192GCMKW" autowire="true" autoconfigure="true">
-      <tag name="jose.algorithm" alias="A192GCMKW"/>
-    </service>
-    <service id="Jose\Component\Encryption\Algorithm\KeyEncryption\A256GCMKW" class="Jose\Component\Encryption\Algorithm\KeyEncryption\A256GCMKW" autowire="true" autoconfigure="true">
-      <tag name="jose.algorithm" alias="A256GCMKW"/>
-    </service>
-    <service id="Jose\Component\Encryption\Algorithm\KeyEncryption\A128KW" class="Jose\Component\Encryption\Algorithm\KeyEncryption\A128KW" autowire="true" autoconfigure="true">
-      <tag name="jose.algorithm" alias="A128KW"/>
-    </service>
-    <service id="Jose\Component\Encryption\Algorithm\KeyEncryption\A192KW" class="Jose\Component\Encryption\Algorithm\KeyEncryption\A192KW" autowire="true" autoconfigure="true">
-      <tag name="jose.algorithm" alias="A192KW"/>
-    </service>
-    <service id="Jose\Component\Encryption\Algorithm\KeyEncryption\A256KW" class="Jose\Component\Encryption\Algorithm\KeyEncryption\A256KW" autowire="true" autoconfigure="true">
-      <tag name="jose.algorithm" alias="A256KW"/>
-    </service>
     <service id="Jose\Component\Encryption\Algorithm\KeyEncryption\Dir" class="Jose\Component\Encryption\Algorithm\KeyEncryption\Dir" autowire="true" autoconfigure="true">
       <tag name="jose.algorithm" alias="dir"/>
     </service>
@@ -8060,33 +8674,6 @@
     </service>
     <service id="Jose\Component\Encryption\Algorithm\KeyEncryption\ECDHSS" class="Jose\Component\Encryption\Algorithm\KeyEncryption\ECDHSS" autowire="true" autoconfigure="true">
       <tag name="jose.algorithm" alias="ECDH-SS"/>
-    </service>
-    <service id="Jose\Component\Encryption\Algorithm\KeyEncryption\ECDHESA128KW" class="Jose\Component\Encryption\Algorithm\KeyEncryption\ECDHESA128KW" autowire="true" autoconfigure="true">
-      <tag name="jose.algorithm" alias="ECDH-ES+A128KW"/>
-    </service>
-    <service id="Jose\Component\Encryption\Algorithm\KeyEncryption\ECDHESA192KW" class="Jose\Component\Encryption\Algorithm\KeyEncryption\ECDHESA192KW" autowire="true" autoconfigure="true">
-      <tag name="jose.algorithm" alias="ECDH-ES+A192KW"/>
-    </service>
-    <service id="Jose\Component\Encryption\Algorithm\KeyEncryption\ECDHESA256KW" class="Jose\Component\Encryption\Algorithm\KeyEncryption\ECDHESA256KW" autowire="true" autoconfigure="true">
-      <tag name="jose.algorithm" alias="ECDH-ES+A256KW"/>
-    </service>
-    <service id="Jose\Component\Encryption\Algorithm\KeyEncryption\ECDHSSA128KW" class="Jose\Component\Encryption\Algorithm\KeyEncryption\ECDHSSA128KW" autowire="true" autoconfigure="true">
-      <tag name="jose.algorithm" alias="ECDH-SS+A128KW"/>
-    </service>
-    <service id="Jose\Component\Encryption\Algorithm\KeyEncryption\ECDHSSA192KW" class="Jose\Component\Encryption\Algorithm\KeyEncryption\ECDHSSA192KW" autowire="true" autoconfigure="true">
-      <tag name="jose.algorithm" alias="ECDH-SS+A192KW"/>
-    </service>
-    <service id="Jose\Component\Encryption\Algorithm\KeyEncryption\ECDHSSA256KW" class="Jose\Component\Encryption\Algorithm\KeyEncryption\ECDHSSA256KW" autowire="true" autoconfigure="true">
-      <tag name="jose.algorithm" alias="ECDH-SS+A256KW"/>
-    </service>
-    <service id="Jose\Component\Encryption\Algorithm\KeyEncryption\PBES2HS256A128KW" class="Jose\Component\Encryption\Algorithm\KeyEncryption\PBES2HS256A128KW" autowire="true" autoconfigure="true">
-      <tag name="jose.algorithm" alias="PBES2-HS256+A128KW"/>
-    </service>
-    <service id="Jose\Component\Encryption\Algorithm\KeyEncryption\PBES2HS384A192KW" class="Jose\Component\Encryption\Algorithm\KeyEncryption\PBES2HS384A192KW" autowire="true" autoconfigure="true">
-      <tag name="jose.algorithm" alias="PBES2-HS384+A192KW"/>
-    </service>
-    <service id="Jose\Component\Encryption\Algorithm\KeyEncryption\PBES2HS512A256KW" class="Jose\Component\Encryption\Algorithm\KeyEncryption\PBES2HS512A256KW" autowire="true" autoconfigure="true">
-      <tag name="jose.algorithm" alias="PBES2-HS512+A256KW"/>
     </service>
     <service id="Jose\Component\Encryption\Algorithm\KeyEncryption\RSA15" class="Jose\Component\Encryption\Algorithm\KeyEncryption\RSA15" autowire="true" autoconfigure="true">
       <tag name="jose.algorithm" alias="RSA1_5"/>
@@ -8143,6 +8730,9 @@
       <call method="add">
         <argument type="service" id="Jose\Component\KeyManagement\Analyzer\ES512KeyAnalyzer"/>
       </call>
+      <call method="add">
+        <argument type="service" id="Jose\Component\KeyManagement\Analyzer\ZxcvbnKeyAnalyzer"/>
+      </call>
     </service>
     <service id="Jose\Component\KeyManagement\Analyzer\KeysetAnalyzerManager" class="Jose\Component\KeyManagement\Analyzer\KeysetAnalyzerManager" public="true" autowire="true" autoconfigure="true">
       <call method="add">
@@ -8189,6 +8779,9 @@
       <tag name="jose.key_analyzer"/>
     </service>
     <service id="Jose\Component\KeyManagement\Analyzer\ES512KeyAnalyzer" class="Jose\Component\KeyManagement\Analyzer\ES512KeyAnalyzer" autowire="true" autoconfigure="true">
+      <tag name="jose.key_analyzer"/>
+    </service>
+    <service id="Jose\Component\KeyManagement\Analyzer\ZxcvbnKeyAnalyzer" class="Jose\Component\KeyManagement\Analyzer\ZxcvbnKeyAnalyzer" autowire="true" autoconfigure="true">
       <tag name="jose.key_analyzer"/>
     </service>
     <service id="Jose\Component\KeyManagement\JWKFactory" class="Jose\Component\KeyManagement\JWKFactory" public="true" autowire="true" autoconfigure="true"/>
@@ -8358,6 +8951,8 @@
     <service id=".abstract.instanceof.Jose\Component\KeyManagement\Analyzer\ES384KeyAnalyzer" class="Jose\Component\KeyManagement\Analyzer\ES384KeyAnalyzer" autowire="true" autoconfigure="true" abstract="true"/>
     <service id=".instanceof.Jose\Component\KeyManagement\Analyzer\KeyAnalyzer.0.Jose\Component\KeyManagement\Analyzer\ES512KeyAnalyzer" class="Jose\Component\KeyManagement\Analyzer\ES512KeyAnalyzer" autowire="true" abstract="true"/>
     <service id=".abstract.instanceof.Jose\Component\KeyManagement\Analyzer\ES512KeyAnalyzer" class="Jose\Component\KeyManagement\Analyzer\ES512KeyAnalyzer" autowire="true" autoconfigure="true" abstract="true"/>
+    <service id=".instanceof.Jose\Component\KeyManagement\Analyzer\KeyAnalyzer.0.Jose\Component\KeyManagement\Analyzer\ZxcvbnKeyAnalyzer" class="Jose\Component\KeyManagement\Analyzer\ZxcvbnKeyAnalyzer" autowire="true" abstract="true"/>
+    <service id=".abstract.instanceof.Jose\Component\KeyManagement\Analyzer\ZxcvbnKeyAnalyzer" class="Jose\Component\KeyManagement\Analyzer\ZxcvbnKeyAnalyzer" autowire="true" autoconfigure="true" abstract="true"/>
     <service id=".service_locator.HdwwBqs" class="Symfony\Component\DependencyInjection\ServiceLocator">
       <tag name="container.service_locator"/>
       <argument type="collection">
@@ -9836,7 +10431,11 @@
     <service id="asset_mapper.cached_mapped_asset_factory.inner" class="Symfony\Component\AssetMapper\Factory\MappedAssetFactory">
       <argument type="service" id="asset_mapper.public_assets_path_resolver"/>
       <argument type="service" id="asset_mapper_compiler"/>
+<<<<<<< HEAD
       <argument>C:\Users\user\OneDrive\Desktop\finalproject\finalyearproject\backend/assets/vendor</argument>
+=======
+      <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend/assets/vendor</argument>
+>>>>>>> origin/sandesh
     </service>
     <service id="asset_mapper.asset_package.inner" class="Symfony\Component\Asset\PathPackage">
       <argument></argument>
@@ -11220,94 +11819,169 @@
       </argument>
     </service>
     <service id="cache.app.recorder_inner" class="Symfony\Component\Cache\Adapter\FilesystemAdapter">
+<<<<<<< HEAD
       <argument>bAxihoRVo6</argument>
       <argument>0</argument>
       <argument>C:\Users\user\OneDrive\Desktop\finalproject\finalyearproject\backend\var\cache\dev/pools/app</argument>
+=======
+      <argument>O55afoYbQ+</argument>
+      <argument>0</argument>
+      <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\var\cache\dev/pools/app</argument>
+>>>>>>> origin/sandesh
       <argument type="service" id="cache.default_marshaller" on-invalid="ignore"/>
       <call method="setLogger">
         <argument type="service" id="monolog.logger.cache" on-invalid="ignore"/>
       </call>
     </service>
     <service id="cache.system.recorder_inner" class="Symfony\Component\Cache\Adapter\AdapterInterface">
+<<<<<<< HEAD
       <argument>mKs5Lo94y9</argument>
       <argument>0</argument>
       <argument>%container.build_id%</argument>
       <argument>C:\Users\user\OneDrive\Desktop\finalproject\finalyearproject\backend\var\cache\dev/pools/system</argument>
+=======
+      <argument>WHD8MuGXb3</argument>
+      <argument>0</argument>
+      <argument>%container.build_id%</argument>
+      <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\var\cache\dev/pools/system</argument>
+>>>>>>> origin/sandesh
       <argument type="service" id="monolog.logger.cache" on-invalid="ignore"/>
       <factory class="Symfony\Component\Cache\Adapter\AbstractAdapter" method="createSystemCache"/>
     </service>
     <service id="cache.validator.recorder_inner" class="Symfony\Component\Cache\Adapter\AdapterInterface">
+<<<<<<< HEAD
       <argument>KFIo81uSGH</argument>
       <argument>0</argument>
       <argument>%container.build_id%</argument>
       <argument>C:\Users\user\OneDrive\Desktop\finalproject\finalyearproject\backend\var\cache\dev/pools/system</argument>
+=======
+      <argument>0qrT0rHCii</argument>
+      <argument>0</argument>
+      <argument>%container.build_id%</argument>
+      <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\var\cache\dev/pools/system</argument>
+>>>>>>> origin/sandesh
       <argument type="service" id="monolog.logger.cache" on-invalid="ignore"/>
       <factory class="Symfony\Component\Cache\Adapter\AbstractAdapter" method="createSystemCache"/>
     </service>
     <service id="cache.serializer.recorder_inner" class="Symfony\Component\Cache\Adapter\AdapterInterface">
+<<<<<<< HEAD
       <argument>vSD-Un+lrP</argument>
       <argument>0</argument>
       <argument>%container.build_id%</argument>
       <argument>C:\Users\user\OneDrive\Desktop\finalproject\finalyearproject\backend\var\cache\dev/pools/system</argument>
+=======
+      <argument>iPzx9OcuGQ</argument>
+      <argument>0</argument>
+      <argument>%container.build_id%</argument>
+      <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\var\cache\dev/pools/system</argument>
+>>>>>>> origin/sandesh
       <argument type="service" id="monolog.logger.cache" on-invalid="ignore"/>
       <factory class="Symfony\Component\Cache\Adapter\AbstractAdapter" method="createSystemCache"/>
     </service>
     <service id="cache.property_info.recorder_inner" class="Symfony\Component\Cache\Adapter\AdapterInterface">
+<<<<<<< HEAD
       <argument>rJoQvCtRUP</argument>
       <argument>0</argument>
       <argument>%container.build_id%</argument>
       <argument>C:\Users\user\OneDrive\Desktop\finalproject\finalyearproject\backend\var\cache\dev/pools/system</argument>
+=======
+      <argument>DGHjRYnCTd</argument>
+      <argument>0</argument>
+      <argument>%container.build_id%</argument>
+      <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\var\cache\dev/pools/system</argument>
+>>>>>>> origin/sandesh
       <argument type="service" id="monolog.logger.cache" on-invalid="ignore"/>
       <factory class="Symfony\Component\Cache\Adapter\AbstractAdapter" method="createSystemCache"/>
     </service>
     <service id="cache.asset_mapper.recorder_inner" class="Symfony\Component\Cache\Adapter\AdapterInterface">
+<<<<<<< HEAD
       <argument>vfM9NNZwI2</argument>
       <argument>0</argument>
       <argument>%container.build_id%</argument>
       <argument>C:\Users\user\OneDrive\Desktop\finalproject\finalyearproject\backend\var\cache\dev/pools/system</argument>
+=======
+      <argument>-qvdn4JesU</argument>
+      <argument>0</argument>
+      <argument>%container.build_id%</argument>
+      <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\var\cache\dev/pools/system</argument>
+>>>>>>> origin/sandesh
       <argument type="service" id="monolog.logger.cache" on-invalid="ignore"/>
       <factory class="Symfony\Component\Cache\Adapter\AbstractAdapter" method="createSystemCache"/>
     </service>
     <service id="cache.messenger.restart_workers_signal.recorder_inner" class="Symfony\Component\Cache\Adapter\FilesystemAdapter">
+<<<<<<< HEAD
       <argument>eKnGMwapOp</argument>
       <argument>0</argument>
       <argument>C:\Users\user\OneDrive\Desktop\finalproject\finalyearproject\backend\var\cache\dev/pools/app</argument>
+=======
+      <argument>5g29Vd+A7r</argument>
+      <argument>0</argument>
+      <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\var\cache\dev/pools/app</argument>
+>>>>>>> origin/sandesh
       <argument type="service" id="cache.default_marshaller" on-invalid="ignore"/>
       <call method="setLogger">
         <argument type="service" id="monolog.logger.cache" on-invalid="ignore"/>
       </call>
     </service>
     <service id="cache.validator_expression_language.recorder_inner" class="Symfony\Component\Cache\Adapter\AdapterInterface">
+<<<<<<< HEAD
       <argument>n4mkiV2Mmd</argument>
       <argument>0</argument>
       <argument>%container.build_id%</argument>
       <argument>C:\Users\user\OneDrive\Desktop\finalproject\finalyearproject\backend\var\cache\dev/pools/system</argument>
+=======
+      <argument>u5+2KV5SNm</argument>
+      <argument>0</argument>
+      <argument>%container.build_id%</argument>
+      <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\var\cache\dev/pools/system</argument>
+>>>>>>> origin/sandesh
       <argument type="service" id="monolog.logger.cache" on-invalid="ignore"/>
       <factory class="Symfony\Component\Cache\Adapter\AbstractAdapter" method="createSystemCache"/>
     </service>
     <service id="cache.doctrine.orm.default.result.recorder_inner" class="Symfony\Component\Cache\Adapter\ArrayAdapter"/>
     <service id="cache.doctrine.orm.default.query.recorder_inner" class="Symfony\Component\Cache\Adapter\ArrayAdapter"/>
     <service id="cache.security_expression_language.recorder_inner" class="Symfony\Component\Cache\Adapter\AdapterInterface">
+<<<<<<< HEAD
       <argument>RnyJkdn2xe</argument>
       <argument>0</argument>
       <argument>%container.build_id%</argument>
       <argument>C:\Users\user\OneDrive\Desktop\finalproject\finalyearproject\backend\var\cache\dev/pools/system</argument>
+=======
+      <argument>-7RuF2DyqE</argument>
+      <argument>0</argument>
+      <argument>%container.build_id%</argument>
+      <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\var\cache\dev/pools/system</argument>
+>>>>>>> origin/sandesh
       <argument type="service" id="monolog.logger.cache" on-invalid="ignore"/>
       <factory class="Symfony\Component\Cache\Adapter\AbstractAdapter" method="createSystemCache"/>
     </service>
     <service id="cache.security_is_granted_attribute_expression_language.recorder_inner" class="Symfony\Component\Cache\Adapter\AdapterInterface">
+<<<<<<< HEAD
       <argument>G-IQG44QGh</argument>
       <argument>0</argument>
       <argument>%container.build_id%</argument>
       <argument>C:\Users\user\OneDrive\Desktop\finalproject\finalyearproject\backend\var\cache\dev/pools/system</argument>
+=======
+      <argument>MU7BYkbxKb</argument>
+      <argument>0</argument>
+      <argument>%container.build_id%</argument>
+      <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\var\cache\dev/pools/system</argument>
+>>>>>>> origin/sandesh
       <argument type="service" id="monolog.logger.cache" on-invalid="ignore"/>
       <factory class="Symfony\Component\Cache\Adapter\AbstractAdapter" method="createSystemCache"/>
     </service>
     <service id="cache.security_is_csrf_token_valid_attribute_expression_language.recorder_inner" class="Symfony\Component\Cache\Adapter\AdapterInterface">
+<<<<<<< HEAD
       <argument>JtHe+whbCR</argument>
       <argument>0</argument>
       <argument>%container.build_id%</argument>
       <argument>C:\Users\user\OneDrive\Desktop\finalproject\finalyearproject\backend\var\cache\dev/pools/system</argument>
+=======
+      <argument>E9wGCvkei8</argument>
+      <argument>0</argument>
+      <argument>%container.build_id%</argument>
+      <argument>C:\Users\sandesh\OneDrive\Desktop\finalyearproject\backend\var\cache\dev/pools/system</argument>
+>>>>>>> origin/sandesh
       <argument type="service" id="monolog.logger.cache" on-invalid="ignore"/>
       <factory class="Symfony\Component\Cache\Adapter\AbstractAdapter" method="createSystemCache"/>
     </service>
@@ -11354,7 +12028,6 @@
     <service id="Symfony\Component\AssetMapper\AssetMapperInterface" alias="asset_mapper"/>
     <service id="Symfony\Component\AssetMapper\ImportMap\ImportMapManager" alias="asset_mapper.importmap.manager"/>
     <service id="Symfony\Contracts\HttpClient\HttpClientInterface" alias=".debug.http_client"/>
-    <service id="Psr\Http\Client\ClientInterface" alias="psr18.http_client"/>
     <service id="mailer" alias="mailer.mailer"/>
     <service id="Symfony\Component\Mailer\MailerInterface" alias="mailer.mailer"/>
     <service id="Symfony\Component\Mailer\Transport\TransportInterface" alias="mailer.default_transport"/>
