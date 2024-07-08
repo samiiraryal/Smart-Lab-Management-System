@@ -5,10 +5,17 @@
         "This file is @generated automatically"
     ],
 <<<<<<< HEAD
+<<<<<<< HEAD
     "content-hash": "d125dbf5623435f898388a0fc5280790",
 =======
     "content-hash": "5d46808f6b392e09d72e8abfe5f989e6",
 >>>>>>> origin/prizina
+=======
+    "content-hash": "5d46808f6b392e09d72e8abfe5f989e6",
+=======
+    "content-hash": "d125dbf5623435f898388a0fc5280790",
+>>>>>>> origin/sandesh
+>>>>>>> 081930ac77502788e8c5bf70fc329cbfccb254a4
     "packages": [
         {
             "name": "brick/math",
@@ -1546,7 +1553,10 @@
             "name": "nelmio/cors-bundle",
             "version": "2.5.0",
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> 081930ac77502788e8c5bf70fc329cbfccb254a4
             "source": {
                 "type": "git",
                 "url": "https://github.com/nelmio/NelmioCorsBundle.git",
@@ -1609,7 +1619,12 @@
         {
             "name": "paragonie/constant_time_encoding",
             "version": "v3.0.0",
+<<<<<<< HEAD
 >>>>>>> origin/prizina
+=======
+=======
+>>>>>>> origin/sandesh
+>>>>>>> 081930ac77502788e8c5bf70fc329cbfccb254a4
             "source": {
                 "type": "git",
                 "url": "https://github.com/nelmio/NelmioCorsBundle.git",
