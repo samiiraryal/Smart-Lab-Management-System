@@ -3,7 +3,11 @@
         'name' => '__root__',
         'pretty_version' => 'dev-master',
         'version' => 'dev-master',
+<<<<<<< HEAD
         'reference' => '2ba4ab724150fdd7875bd70ee855ac518deffab5',
+=======
+        'reference' => '2405fd0d945764251ba97067c0e81e0d924ebe8e',
+>>>>>>> origin/sandesh
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -13,7 +17,11 @@
         '__root__' => array(
             'pretty_version' => 'dev-master',
             'version' => 'dev-master',
+<<<<<<< HEAD
             'reference' => '2ba4ab724150fdd7875bd70ee855ac518deffab5',
+=======
+            'reference' => '2405fd0d945764251ba97067c0e81e0d924ebe8e',
+>>>>>>> origin/sandesh
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
@@ -217,24 +225,6 @@
             'aliases' => array(),
             'dev_requirement' => true,
         ),
-        'paragonie/constant_time_encoding' => array(
-            'pretty_version' => 'v3.0.0',
-            'version' => '3.0.0.0',
-            'reference' => 'df1e7fde177501eee2037dd159cf04f5f301a512',
-            'type' => 'library',
-            'install_path' => __DIR__ . '/../paragonie/constant_time_encoding',
-            'aliases' => array(),
-            'dev_requirement' => false,
-        ),
-        'paragonie/sodium_compat' => array(
-            'pretty_version' => 'v2.0.1',
-            'version' => '2.0.1.0',
-            'reference' => 'f65c82939ab17aeff538f9bf6d582f65cc7f255e',
-            'type' => 'library',
-            'install_path' => __DIR__ . '/../paragonie/sodium_compat',
-            'aliases' => array(),
-            'dev_requirement' => false,
-        ),
         'phar-io/manifest' => array(
             'pretty_version' => '2.0.4',
             'version' => '2.0.4.0',
@@ -415,38 +405,11 @@
                 0 => '1.0',
             ),
         ),
-        'psr/http-client' => array(
-            'pretty_version' => '1.0.3',
-            'version' => '1.0.3.0',
-            'reference' => 'bb5906edc1c324c9a05aa0873d40117941e5fa90',
-            'type' => 'library',
-            'install_path' => __DIR__ . '/../psr/http-client',
-            'aliases' => array(),
-            'dev_requirement' => false,
-        ),
         'psr/http-client-implementation' => array(
             'dev_requirement' => false,
             'provided' => array(
                 0 => '1.0',
             ),
-        ),
-        'psr/http-factory' => array(
-            'pretty_version' => '1.1.0',
-            'version' => '1.1.0.0',
-            'reference' => '2b4765fddfe3b508ac62f829e852b1501d3f6e8a',
-            'type' => 'library',
-            'install_path' => __DIR__ . '/../psr/http-factory',
-            'aliases' => array(),
-            'dev_requirement' => false,
-        ),
-        'psr/http-message' => array(
-            'pretty_version' => '2.0',
-            'version' => '2.0.0.0',
-            'reference' => '402d35bcb92c70c026d1a6a9883f06b2ead23d71',
-            'type' => 'library',
-            'install_path' => __DIR__ . '/../psr/http-message',
-            'aliases' => array(),
-            'dev_requirement' => false,
         ),
         'psr/link' => array(
             'pretty_version' => '2.0.1',
@@ -628,15 +591,6 @@
             'install_path' => __DIR__ . '/../sebastian/version',
             'aliases' => array(),
             'dev_requirement' => true,
-        ),
-        'spomky-labs/aes-key-wrap' => array(
-            'pretty_version' => 'v7.0.0',
-            'version' => '7.0.0.0',
-            'reference' => 'fbeb834b1f83aa8fbdfbd4c12124f71d4c1606ae',
-            'type' => 'library',
-            'install_path' => __DIR__ . '/../spomky-labs/aes-key-wrap',
-            'aliases' => array(),
-            'dev_requirement' => false,
         ),
         'spomky-labs/pki-framework' => array(
             'pretty_version' => '1.2.1',
@@ -1400,187 +1354,31 @@
             'aliases' => array(),
             'dev_requirement' => false,
         ),
-        'web-token/encryption-pack' => array(
-            'dev_requirement' => false,
-            'replaced' => array(
-                0 => '3.4.4',
-            ),
-        ),
         'web-token/jwt-bundle' => array(
             'dev_requirement' => false,
             'replaced' => array(
-                0 => '3.4.4',
-            ),
-        ),
-        'web-token/jwt-checker' => array(
-            'dev_requirement' => false,
-            'replaced' => array(
-                0 => '3.4.4',
-            ),
-        ),
-        'web-token/jwt-console' => array(
-            'dev_requirement' => false,
-            'replaced' => array(
-                0 => '3.4.4',
-            ),
-        ),
-        'web-token/jwt-core' => array(
-            'dev_requirement' => false,
-            'replaced' => array(
-                0 => '3.4.4',
-            ),
-        ),
-        'web-token/jwt-encryption' => array(
-            'dev_requirement' => false,
-            'replaced' => array(
-                0 => '3.4.4',
-            ),
-        ),
-        'web-token/jwt-encryption-algorithm-aescbc' => array(
-            'dev_requirement' => false,
-            'replaced' => array(
-                0 => '3.4.4',
-            ),
-        ),
-        'web-token/jwt-encryption-algorithm-aesgcm' => array(
-            'dev_requirement' => false,
-            'replaced' => array(
-                0 => '3.4.4',
-            ),
-        ),
-        'web-token/jwt-encryption-algorithm-aesgcmkw' => array(
-            'dev_requirement' => false,
-            'replaced' => array(
-                0 => '3.4.4',
-            ),
-        ),
-        'web-token/jwt-encryption-algorithm-aeskw' => array(
-            'dev_requirement' => false,
-            'replaced' => array(
-                0 => '3.4.4',
-            ),
-        ),
-        'web-token/jwt-encryption-algorithm-dir' => array(
-            'dev_requirement' => false,
-            'replaced' => array(
-                0 => '3.4.4',
-            ),
-        ),
-        'web-token/jwt-encryption-algorithm-ecdh-es' => array(
-            'dev_requirement' => false,
-            'replaced' => array(
-                0 => '3.4.4',
-            ),
-        ),
-        'web-token/jwt-encryption-algorithm-experimental' => array(
-            'dev_requirement' => false,
-            'replaced' => array(
-                0 => '3.4.4',
-            ),
-        ),
-        'web-token/jwt-encryption-algorithm-pbes2' => array(
-            'dev_requirement' => false,
-            'replaced' => array(
-                0 => '3.4.4',
-            ),
-        ),
-        'web-token/jwt-encryption-algorithm-rsa' => array(
-            'dev_requirement' => false,
-            'replaced' => array(
-                0 => '3.4.4',
+                0 => '4.0.0',
             ),
         ),
         'web-token/jwt-experimental' => array(
             'dev_requirement' => false,
             'replaced' => array(
-                0 => '3.4.4',
+                0 => '4.0.0',
             ),
         ),
         'web-token/jwt-framework' => array(
-            'pretty_version' => '3.4.4',
-            'version' => '3.4.4.0',
-            'reference' => '4a05eb08cf6e387ba4f24994b7b7e99da0514a15',
+            'pretty_version' => '4.0.0',
+            'version' => '4.0.0.0',
+            'reference' => '4a382fcc7e749dc72edf4d2fcedf0ff18efa15b1',
             'type' => 'symfony-bundle',
             'install_path' => __DIR__ . '/../web-token/jwt-framework',
             'aliases' => array(),
             'dev_requirement' => false,
         ),
-        'web-token/jwt-key-mgmt' => array(
-            'dev_requirement' => false,
-            'replaced' => array(
-                0 => '3.4.4',
-            ),
-        ),
         'web-token/jwt-library' => array(
             'dev_requirement' => false,
             'replaced' => array(
-                0 => '3.4.4',
-            ),
-        ),
-        'web-token/jwt-nested-token' => array(
-            'dev_requirement' => false,
-            'replaced' => array(
-                0 => '3.4.4',
-            ),
-        ),
-        'web-token/jwt-signature' => array(
-            'dev_requirement' => false,
-            'replaced' => array(
-                0 => '3.4.4',
-            ),
-        ),
-        'web-token/jwt-signature-algorithm-ecdsa' => array(
-            'dev_requirement' => false,
-            'replaced' => array(
-                0 => '3.4.4',
-            ),
-        ),
-        'web-token/jwt-signature-algorithm-eddsa' => array(
-            'dev_requirement' => false,
-            'replaced' => array(
-                0 => '3.4.4',
-            ),
-        ),
-        'web-token/jwt-signature-algorithm-experimental' => array(
-            'dev_requirement' => false,
-            'replaced' => array(
-                0 => '3.4.4',
-            ),
-        ),
-        'web-token/jwt-signature-algorithm-hmac' => array(
-            'dev_requirement' => false,
-            'replaced' => array(
-                0 => '3.4.4',
-            ),
-        ),
-        'web-token/jwt-signature-algorithm-none' => array(
-            'dev_requirement' => false,
-            'replaced' => array(
-                0 => '3.4.4',
-            ),
-        ),
-        'web-token/jwt-signature-algorithm-rsa' => array(
-            'dev_requirement' => false,
-            'replaced' => array(
-                0 => '3.4.4',
-            ),
-        ),
-        'web-token/jwt-signature-pack' => array(
-            'dev_requirement' => false,
-            'replaced' => array(
-                0 => '3.4.4',
-            ),
-        ),
-        'web-token/jwt-util-ecc' => array(
-            'dev_requirement' => false,
-            'replaced' => array(
-                0 => '3.4.4',
-            ),
-        ),
-        'web-token/signature-pack' => array(
-            'dev_requirement' => false,
-            'replaced' => array(
-                0 => '3.4.4',
+                0 => '4.0.0',
             ),
         ),
         'webmozart/assert' => array(
