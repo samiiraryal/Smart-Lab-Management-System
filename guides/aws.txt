@@ -1,0 +1,22 @@
+sudo su -    :for grating super user
+yum update -y  :to update the system
+yum install -y httpd :download packages and install server
+systemctl status httpd :check the status of httpd (server)
+mkdir temp: create a directory called temp
+cd temp: to go into that directory
+in cosole:
+wget address-of-zip-file: to download the zip file to be hosted(must be a zip file)
+ls -lrt: checks if the file is downloaded and present or not
+unzip file-name.zip: to unzip
+cd folder-name: to go inside the folder
+mv * /var/www/html/ :to move *(entire) files to destination directory(var/www/html)
+cd /var/www/html/: to go inside the directory
+
+
+to view the content copy the public ip of the instance and paste in the browser;
+systemctl enable httpd: to enable the httpd server
+systemctl start https: to staat the httpd server
+
+if the site keeps loading forever then we have to check the Security groups;
+then edit the inbound rules
+add http and https [under source choose anywhere and give description as web-port or any name(doesn't matter)]
