@@ -259,7 +259,7 @@
       </parameter>
     </parameter>
     <parameter key="nelmio_cors.map" type="collection">
-      <parameter key="^/api" type="collection">
+      <parameter key="^/api/" type="collection">
         <parameter key="allow_origin" type="collection">
           <parameter>%env(CORS_ALLOW_ORIGIN)%</parameter>
         </parameter>
