@@ -21,7 +21,6 @@ class ComposerStaticInit3aa6efbb754ccfee8f386f7b0ee73bb4
         'f598d06aa772fa33d905e87be6398fb1' => __DIR__ . '/..' . '/symfony/polyfill-intl-idn/bootstrap.php',
         '2203a247e6fda86070a5e4e07aed533a' => __DIR__ . '/..' . '/symfony/clock/Resources/now.php',
         '6124b4c8570aa390c21fafd04a26c69f' => __DIR__ . '/..' . '/myclabs/deep-copy/src/DeepCopy/deep_copy.php',
-        '3109cb1a231dcd04bee1f9f620d46975' => __DIR__ . '/..' . '/paragonie/sodium_compat/autoload.php',
         '6a47392539ca2329373e0d33e1dba053' => __DIR__ . '/..' . '/symfony/polyfill-intl-icu/bootstrap.php',
         'ec07570ca5a812141189b1fa81503674' => __DIR__ . '/..' . '/phpunit/phpunit/src/Framework/Assert/Functions.php',
         '92c8763cd6170fce6fcfe7e26b4e8c10' => __DIR__ . '/..' . '/symfony/phpunit-bridge/bootstrap.php',
@@ -122,14 +121,11 @@ class ComposerStaticInit3aa6efbb754ccfee8f386f7b0ee73bb4
         array (
             'Psr\\Log\\' => 8,
             'Psr\\Link\\' => 9,
-            'Psr\\Http\\Message\\' => 17,
-            'Psr\\Http\\Client\\' => 16,
             'Psr\\EventDispatcher\\' => 20,
             'Psr\\Container\\' => 14,
             'Psr\\Clock\\' => 10,
             'Psr\\Cache\\' => 10,
             'PhpParser\\' => 10,
-            'ParagonIE\\ConstantTime\\' => 23,
             'PHPStan\\PhpDocParser\\' => 21,
         ),
         'N' => 
@@ -146,7 +142,6 @@ class ComposerStaticInit3aa6efbb754ccfee8f386f7b0ee73bb4
             'Jose\\Experimental\\' => 18,
             'Jose\\Component\\' => 15,
             'Jose\\Bundle\\JoseFramework\\' => 26,
-            'Jose\\' => 5,
         ),
         'E' => 
         array (
@@ -182,7 +177,6 @@ class ComposerStaticInit3aa6efbb754ccfee8f386f7b0ee73bb4
         array (
             'App\\Tests\\' => 10,
             'App\\' => 4,
-            'AESKW\\' => 6,
         ),
     );
 
@@ -505,15 +499,6 @@ class ComposerStaticInit3aa6efbb754ccfee8f386f7b0ee73bb4
         array (
             0 => __DIR__ . '/..' . '/psr/link/src',
         ),
-        'Psr\\Http\\Message\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/psr/http-factory/src',
-            1 => __DIR__ . '/..' . '/psr/http-message/src',
-        ),
-        'Psr\\Http\\Client\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/psr/http-client/src',
-        ),
         'Psr\\EventDispatcher\\' => 
         array (
             0 => __DIR__ . '/..' . '/psr/event-dispatcher/src',
@@ -533,10 +518,6 @@ class ComposerStaticInit3aa6efbb754ccfee8f386f7b0ee73bb4
         'PhpParser\\' => 
         array (
             0 => __DIR__ . '/..' . '/nikic/php-parser/lib/PhpParser',
-        ),
-        'ParagonIE\\ConstantTime\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/paragonie/constant_time_encoding/src',
         ),
         'PHPStan\\PhpDocParser\\' => 
         array (
@@ -565,10 +546,6 @@ class ComposerStaticInit3aa6efbb754ccfee8f386f7b0ee73bb4
         'Jose\\Bundle\\JoseFramework\\' => 
         array (
             0 => __DIR__ . '/..' . '/web-token/jwt-framework/src/Bundle',
-        ),
-        'Jose\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/web-token/jwt-framework/src',
         ),
         'Egulias\\EmailValidator\\' => 
         array (
@@ -649,10 +626,6 @@ class ComposerStaticInit3aa6efbb754ccfee8f386f7b0ee73bb4
         'App\\' => 
         array (
             0 => __DIR__ . '/../..' . '/src',
-        ),
-        'AESKW\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/spomky-labs/aes-key-wrap/src',
         ),
     );
 
