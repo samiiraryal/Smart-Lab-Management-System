@@ -4,10 +4,17 @@
         'pretty_version' => 'dev-master',
         'version' => 'dev-master',
 <<<<<<< HEAD
+<<<<<<< HEAD
+        'reference' => '2405fd0d945764251ba97067c0e81e0d924ebe8e',
+=======
+        'reference' => '2ba4ab724150fdd7875bd70ee855ac518deffab5',
+>>>>>>> origin/prizina
+=======
         'reference' => '2ba4ab724150fdd7875bd70ee855ac518deffab5',
 =======
         'reference' => '2405fd0d945764251ba97067c0e81e0d924ebe8e',
 >>>>>>> origin/sandesh
+>>>>>>> 081930ac77502788e8c5bf70fc329cbfccb254a4
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -18,10 +25,17 @@
             'pretty_version' => 'dev-master',
             'version' => 'dev-master',
 <<<<<<< HEAD
+<<<<<<< HEAD
+            'reference' => '2405fd0d945764251ba97067c0e81e0d924ebe8e',
+=======
+            'reference' => '2ba4ab724150fdd7875bd70ee855ac518deffab5',
+>>>>>>> origin/prizina
+=======
             'reference' => '2ba4ab724150fdd7875bd70ee855ac518deffab5',
 =======
             'reference' => '2405fd0d945764251ba97067c0e81e0d924ebe8e',
 >>>>>>> origin/sandesh
+>>>>>>> 081930ac77502788e8c5bf70fc329cbfccb254a4
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),

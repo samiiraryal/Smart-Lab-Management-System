@@ -1,5 +1,13 @@
 <?php
 
+<<<<<<< HEAD:backend/var/cache/dev/ContainerOsaKUrs/getConsole_Command_TranslationPullService.php
+<<<<<<<< HEAD:backend/var/cache/dev/ContainerMJS7eCs/getConsole_Command_TranslationPullService.php
+namespace ContainerMJS7eCs;
+
+========
+namespace ContainerOsaKUrs;
+>>>>>>>> origin/prizina:backend/var/cache/dev/ContainerOsaKUrs/getConsole_Command_TranslationPullService.php
+=======
 <<<<<<<< HEAD:backend/var/cache/dev/ContainerP1c6CIX/getConsole_Command_TranslationPullService.php
 namespace ContainerP1c6CIX;
 ========
@@ -10,6 +18,7 @@ namespace ContainerDTRWV7p;
 =======
 >>>>>>>> 880060bb5da0c8eda634d33d133a5000981d034f:backend/var/cache/dev/ContainerDTRWV7p/getConsole_Command_TranslationPullService.php
 >>>>>>> 30d3579f095403e4b6f449e111a5699e2e871658
+>>>>>>> 081930ac77502788e8c5bf70fc329cbfccb254a4:backend/var/cache/dev/ContainerP1c6CIX/getConsole_Command_TranslationPullService.php
 
 use Symfony\Component\DependencyInjection\Argument\RewindableGenerator;
 use Symfony\Component\DependencyInjection\ContainerInterface;
