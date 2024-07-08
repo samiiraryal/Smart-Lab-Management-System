@@ -1,6 +1,11 @@
 <?php
 
+<<<<<<<< HEAD:backend/var/cache/dev/ContainerOsaKUrs/getDataCollector_Request_SessionCollectorService.php
 namespace ContainerOsaKUrs;
+========
+namespace ContainerZEEF3bZ;
+
+>>>>>>>> origin/sandesh:backend/var/cache/dev/ContainerZEEF3bZ/getDataCollector_Request_SessionCollectorService.php
 
 use Symfony\Component\DependencyInjection\Argument\RewindableGenerator;
 use Symfony\Component\DependencyInjection\ContainerInterface;

@@ -1,6 +1,11 @@
 <?php
 
+<<<<<<<< HEAD:backend/var/cache/dev/ContainerBkA9ba0/getJWEBuilderFactoryService.php
 namespace ContainerBkA9ba0;
+========
+namespace ContainerDQ5ka7F;
+
+>>>>>>>> origin/sandesh:backend/var/cache/dev/ContainerDQ5ka7F/getJWEBuilderFactoryService.php
 
 use Symfony\Component\DependencyInjection\Argument\RewindableGenerator;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -20,6 +25,6 @@ class getJWEBuilderFactoryService extends App_KernelDevDebugContainer
     {
         include_once \dirname(__DIR__, 4).''.\DIRECTORY_SEPARATOR.'vendor'.\DIRECTORY_SEPARATOR.'web-token'.\DIRECTORY_SEPARATOR.'jwt-framework'.\DIRECTORY_SEPARATOR.'src'.\DIRECTORY_SEPARATOR.'Bundle'.\DIRECTORY_SEPARATOR.'Services'.\DIRECTORY_SEPARATOR.'JWEBuilderFactory.php';
 
-        return $container->services['Jose\\Bundle\\JoseFramework\\Services\\JWEBuilderFactory'] = new \Jose\Bundle\JoseFramework\Services\JWEBuilderFactory(($container->services['Jose\\Component\\Core\\AlgorithmManagerFactory'] ?? self::getAlgorithmManagerFactoryService($container)), ($container->services['Jose\\Component\\Encryption\\Compression\\CompressionMethodManagerFactory'] ?? $container->load('getCompressionMethodManagerFactoryService')), ($container->services['event_dispatcher'] ?? self::getEventDispatcherService($container)));
+        return $container->services['Jose\\Bundle\\JoseFramework\\Services\\JWEBuilderFactory'] = new \Jose\Bundle\JoseFramework\Services\JWEBuilderFactory(($container->services['Jose\\Component\\Core\\AlgorithmManagerFactory'] ?? self::getAlgorithmManagerFactoryService($container)), ($container->services['event_dispatcher'] ?? self::getEventDispatcherService($container)));
     }
 }

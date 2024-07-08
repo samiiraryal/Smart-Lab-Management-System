@@ -1,6 +1,11 @@
 <?php
 
+<<<<<<<< HEAD:backend/var/cache/dev/ContainerOsaKUrs/getTranslation_ProviderCollectionService.php
 namespace ContainerOsaKUrs;
+========
+namespace ContainerZEEF3bZ;
+
+>>>>>>>> origin/sandesh:backend/var/cache/dev/ContainerZEEF3bZ/getTranslation_ProviderCollectionService.php
 
 use Symfony\Component\DependencyInjection\Argument\RewindableGenerator;
 use Symfony\Component\DependencyInjection\ContainerInterface;

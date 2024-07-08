@@ -1,6 +1,11 @@
 <?php
 
+<<<<<<<< HEAD:backend/var/cache/dev/ContainerOsaKUrs/get_Security_RequestMatcher_NaFk5J1Service.php
 namespace ContainerOsaKUrs;
+========
+namespace ContainerZEEF3bZ;
+
+>>>>>>>> origin/sandesh:backend/var/cache/dev/ContainerZEEF3bZ/get_Security_RequestMatcher_NaFk5J1Service.php
 
 use Symfony\Component\DependencyInjection\Argument\RewindableGenerator;
 use Symfony\Component\DependencyInjection\ContainerInterface;

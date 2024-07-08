@@ -183,6 +183,8 @@ Symfony\Component\DependencyInjection\Compiler\ResolveChildDefinitionsPass: Reso
 Symfony\Component\DependencyInjection\Compiler\ResolveChildDefinitionsPass: Resolving inheritance for "Jose\Component\KeyManagement\Analyzer\ES384KeyAnalyzer" (parent: .instanceof.Jose\Component\KeyManagement\Analyzer\KeyAnalyzer.0.Jose\Component\KeyManagement\Analyzer\ES384KeyAnalyzer).
 Symfony\Component\DependencyInjection\Compiler\ResolveChildDefinitionsPass: Resolving inheritance for ".instanceof.Jose\Component\KeyManagement\Analyzer\KeyAnalyzer.0.Jose\Component\KeyManagement\Analyzer\ES512KeyAnalyzer" (parent: .abstract.instanceof.Jose\Component\KeyManagement\Analyzer\ES512KeyAnalyzer).
 Symfony\Component\DependencyInjection\Compiler\ResolveChildDefinitionsPass: Resolving inheritance for "Jose\Component\KeyManagement\Analyzer\ES512KeyAnalyzer" (parent: .instanceof.Jose\Component\KeyManagement\Analyzer\KeyAnalyzer.0.Jose\Component\KeyManagement\Analyzer\ES512KeyAnalyzer).
+Symfony\Component\DependencyInjection\Compiler\ResolveChildDefinitionsPass: Resolving inheritance for ".instanceof.Jose\Component\KeyManagement\Analyzer\KeyAnalyzer.0.Jose\Component\KeyManagement\Analyzer\ZxcvbnKeyAnalyzer" (parent: .abstract.instanceof.Jose\Component\KeyManagement\Analyzer\ZxcvbnKeyAnalyzer).
+Symfony\Component\DependencyInjection\Compiler\ResolveChildDefinitionsPass: Resolving inheritance for "Jose\Component\KeyManagement\Analyzer\ZxcvbnKeyAnalyzer" (parent: .instanceof.Jose\Component\KeyManagement\Analyzer\KeyAnalyzer.0.Jose\Component\KeyManagement\Analyzer\ZxcvbnKeyAnalyzer).
 Symfony\Component\DependencyInjection\Compiler\ResolveChildDefinitionsPass: Resolving inheritance for "maker.auto_command.make_auth" (parent: maker.auto_command.abstract).
 Symfony\Component\DependencyInjection\Compiler\ResolveChildDefinitionsPass: Resolving inheritance for "maker.auto_command.make_command" (parent: maker.auto_command.abstract).
 Symfony\Component\DependencyInjection\Compiler\ResolveChildDefinitionsPass: Resolving inheritance for "maker.auto_command.make_twig_component" (parent: maker.auto_command.abstract).
@@ -262,7 +264,6 @@ Symfony\Component\DependencyInjection\Compiler\RemovePrivateAliasesPass: Removed
 Symfony\Component\DependencyInjection\Compiler\RemovePrivateAliasesPass: Removed service "Symfony\Component\AssetMapper\AssetMapperInterface"; reason: private alias.
 Symfony\Component\DependencyInjection\Compiler\RemovePrivateAliasesPass: Removed service "Symfony\Component\AssetMapper\ImportMap\ImportMapManager"; reason: private alias.
 Symfony\Component\DependencyInjection\Compiler\RemovePrivateAliasesPass: Removed service "Symfony\Contracts\HttpClient\HttpClientInterface"; reason: private alias.
-Symfony\Component\DependencyInjection\Compiler\RemovePrivateAliasesPass: Removed service "Psr\Http\Client\ClientInterface"; reason: private alias.
 Symfony\Component\DependencyInjection\Compiler\RemovePrivateAliasesPass: Removed service "mailer"; reason: private alias.
 Symfony\Component\DependencyInjection\Compiler\RemovePrivateAliasesPass: Removed service "Symfony\Component\Mailer\MailerInterface"; reason: private alias.
 Symfony\Component\DependencyInjection\Compiler\RemovePrivateAliasesPass: Removed service "Symfony\Component\Mailer\Transport\TransportInterface"; reason: private alias.
@@ -783,11 +784,12 @@ Symfony\Component\DependencyInjection\Compiler\RemoveAbstractDefinitionsPass: Re
 Symfony\Component\DependencyInjection\Compiler\RemoveAbstractDefinitionsPass: Removed service ".abstract.instanceof.Jose\Component\KeyManagement\Analyzer\ES384KeyAnalyzer"; reason: abstract.
 Symfony\Component\DependencyInjection\Compiler\RemoveAbstractDefinitionsPass: Removed service ".instanceof.Jose\Component\KeyManagement\Analyzer\KeyAnalyzer.0.Jose\Component\KeyManagement\Analyzer\ES512KeyAnalyzer"; reason: abstract.
 Symfony\Component\DependencyInjection\Compiler\RemoveAbstractDefinitionsPass: Removed service ".abstract.instanceof.Jose\Component\KeyManagement\Analyzer\ES512KeyAnalyzer"; reason: abstract.
+Symfony\Component\DependencyInjection\Compiler\RemoveAbstractDefinitionsPass: Removed service ".instanceof.Jose\Component\KeyManagement\Analyzer\KeyAnalyzer.0.Jose\Component\KeyManagement\Analyzer\ZxcvbnKeyAnalyzer"; reason: abstract.
+Symfony\Component\DependencyInjection\Compiler\RemoveAbstractDefinitionsPass: Removed service ".abstract.instanceof.Jose\Component\KeyManagement\Analyzer\ZxcvbnKeyAnalyzer"; reason: abstract.
 Symfony\Component\DependencyInjection\Compiler\RemoveUnusedDefinitionsPass: Removed service "http_cache"; reason: unused.
 Symfony\Component\DependencyInjection\Compiler\RemoveUnusedDefinitionsPass: Removed service "http_cache.store"; reason: unused.
 Symfony\Component\DependencyInjection\Compiler\RemoveUnusedDefinitionsPass: Removed service "reverse_container"; reason: unused.
 Symfony\Component\DependencyInjection\Compiler\RemoveUnusedDefinitionsPass: Removed service "assets.empty_package"; reason: unused.
-Symfony\Component\DependencyInjection\Compiler\RemoveUnusedDefinitionsPass: Removed service "psr18.http_client"; reason: unused.
 Symfony\Component\DependencyInjection\Compiler\RemoveUnusedDefinitionsPass: Removed service "http_client.uri_template_expander.guzzle"; reason: unused.
 Symfony\Component\DependencyInjection\Compiler\RemoveUnusedDefinitionsPass: Removed service "http_client.uri_template_expander.rize"; reason: unused.
 Symfony\Component\DependencyInjection\Compiler\RemoveUnusedDefinitionsPass: Removed service "mailer.mailer"; reason: unused.
@@ -831,7 +833,11 @@ Symfony\Component\DependencyInjection\Compiler\RemoveUnusedDefinitionsPass: Remo
 Symfony\Component\DependencyInjection\Compiler\RemoveUnusedDefinitionsPass: Removed service "notifier.admin_recipient.0"; reason: unused.
 Symfony\Component\DependencyInjection\Compiler\RemoveUnusedDefinitionsPass: Removed service "doctrine.dbal.well_known_schema_asset_filter"; reason: unused.
 Symfony\Component\DependencyInjection\Compiler\RemoveUnusedDefinitionsPass: Removed service "doctrine.dbal.default_schema_manager_factory"; reason: unused.
+<<<<<<< HEAD
 Symfony\Component\DependencyInjection\Compiler\RemoveUnusedDefinitionsPass: Removed service ".1_ServiceLocator~dC64zox"; reason: unused.
+=======
+Symfony\Component\DependencyInjection\Compiler\RemoveUnusedDefinitionsPass: Removed service ".1_ServiceLocator~WUavcoA"; reason: unused.
+>>>>>>> origin/sandesh
 Symfony\Component\DependencyInjection\Compiler\RemoveUnusedDefinitionsPass: Removed service "doctrine.orm.listeners.resolve_target_entity"; reason: unused.
 Symfony\Component\DependencyInjection\Compiler\RemoveUnusedDefinitionsPass: Removed service "doctrine.orm.naming_strategy.default"; reason: unused.
 Symfony\Component\DependencyInjection\Compiler\RemoveUnusedDefinitionsPass: Removed service "doctrine.orm.naming_strategy.underscore"; reason: unused.
@@ -1145,24 +1151,9 @@ Symfony\Component\DependencyInjection\Compiler\InlineServiceDefinitionsPass: Inl
 Symfony\Component\DependencyInjection\Compiler\InlineServiceDefinitionsPass: Inlined service "Jose\Component\Encryption\Algorithm\ContentEncryption\A128GCM" to "Jose\Component\Core\AlgorithmManagerFactory".
 Symfony\Component\DependencyInjection\Compiler\InlineServiceDefinitionsPass: Inlined service "Jose\Component\Encryption\Algorithm\ContentEncryption\A192GCM" to "Jose\Component\Core\AlgorithmManagerFactory".
 Symfony\Component\DependencyInjection\Compiler\InlineServiceDefinitionsPass: Inlined service "Jose\Component\Encryption\Algorithm\ContentEncryption\A256GCM" to "Jose\Component\Core\AlgorithmManagerFactory".
-Symfony\Component\DependencyInjection\Compiler\InlineServiceDefinitionsPass: Inlined service "Jose\Component\Encryption\Algorithm\KeyEncryption\A128GCMKW" to "Jose\Component\Core\AlgorithmManagerFactory".
-Symfony\Component\DependencyInjection\Compiler\InlineServiceDefinitionsPass: Inlined service "Jose\Component\Encryption\Algorithm\KeyEncryption\A192GCMKW" to "Jose\Component\Core\AlgorithmManagerFactory".
-Symfony\Component\DependencyInjection\Compiler\InlineServiceDefinitionsPass: Inlined service "Jose\Component\Encryption\Algorithm\KeyEncryption\A256GCMKW" to "Jose\Component\Core\AlgorithmManagerFactory".
-Symfony\Component\DependencyInjection\Compiler\InlineServiceDefinitionsPass: Inlined service "Jose\Component\Encryption\Algorithm\KeyEncryption\A128KW" to "Jose\Component\Core\AlgorithmManagerFactory".
-Symfony\Component\DependencyInjection\Compiler\InlineServiceDefinitionsPass: Inlined service "Jose\Component\Encryption\Algorithm\KeyEncryption\A192KW" to "Jose\Component\Core\AlgorithmManagerFactory".
-Symfony\Component\DependencyInjection\Compiler\InlineServiceDefinitionsPass: Inlined service "Jose\Component\Encryption\Algorithm\KeyEncryption\A256KW" to "Jose\Component\Core\AlgorithmManagerFactory".
 Symfony\Component\DependencyInjection\Compiler\InlineServiceDefinitionsPass: Inlined service "Jose\Component\Encryption\Algorithm\KeyEncryption\Dir" to "Jose\Component\Core\AlgorithmManagerFactory".
 Symfony\Component\DependencyInjection\Compiler\InlineServiceDefinitionsPass: Inlined service "Jose\Component\Encryption\Algorithm\KeyEncryption\ECDHES" to "Jose\Component\Core\AlgorithmManagerFactory".
 Symfony\Component\DependencyInjection\Compiler\InlineServiceDefinitionsPass: Inlined service "Jose\Component\Encryption\Algorithm\KeyEncryption\ECDHSS" to "Jose\Component\Core\AlgorithmManagerFactory".
-Symfony\Component\DependencyInjection\Compiler\InlineServiceDefinitionsPass: Inlined service "Jose\Component\Encryption\Algorithm\KeyEncryption\ECDHESA128KW" to "Jose\Component\Core\AlgorithmManagerFactory".
-Symfony\Component\DependencyInjection\Compiler\InlineServiceDefinitionsPass: Inlined service "Jose\Component\Encryption\Algorithm\KeyEncryption\ECDHESA192KW" to "Jose\Component\Core\AlgorithmManagerFactory".
-Symfony\Component\DependencyInjection\Compiler\InlineServiceDefinitionsPass: Inlined service "Jose\Component\Encryption\Algorithm\KeyEncryption\ECDHESA256KW" to "Jose\Component\Core\AlgorithmManagerFactory".
-Symfony\Component\DependencyInjection\Compiler\InlineServiceDefinitionsPass: Inlined service "Jose\Component\Encryption\Algorithm\KeyEncryption\ECDHSSA128KW" to "Jose\Component\Core\AlgorithmManagerFactory".
-Symfony\Component\DependencyInjection\Compiler\InlineServiceDefinitionsPass: Inlined service "Jose\Component\Encryption\Algorithm\KeyEncryption\ECDHSSA192KW" to "Jose\Component\Core\AlgorithmManagerFactory".
-Symfony\Component\DependencyInjection\Compiler\InlineServiceDefinitionsPass: Inlined service "Jose\Component\Encryption\Algorithm\KeyEncryption\ECDHSSA256KW" to "Jose\Component\Core\AlgorithmManagerFactory".
-Symfony\Component\DependencyInjection\Compiler\InlineServiceDefinitionsPass: Inlined service "Jose\Component\Encryption\Algorithm\KeyEncryption\PBES2HS256A128KW" to "Jose\Component\Core\AlgorithmManagerFactory".
-Symfony\Component\DependencyInjection\Compiler\InlineServiceDefinitionsPass: Inlined service "Jose\Component\Encryption\Algorithm\KeyEncryption\PBES2HS384A192KW" to "Jose\Component\Core\AlgorithmManagerFactory".
-Symfony\Component\DependencyInjection\Compiler\InlineServiceDefinitionsPass: Inlined service "Jose\Component\Encryption\Algorithm\KeyEncryption\PBES2HS512A256KW" to "Jose\Component\Core\AlgorithmManagerFactory".
 Symfony\Component\DependencyInjection\Compiler\InlineServiceDefinitionsPass: Inlined service "Jose\Component\Encryption\Algorithm\KeyEncryption\RSA15" to "Jose\Component\Core\AlgorithmManagerFactory".
 Symfony\Component\DependencyInjection\Compiler\InlineServiceDefinitionsPass: Inlined service "Jose\Component\Encryption\Algorithm\KeyEncryption\RSAOAEP" to "Jose\Component\Core\AlgorithmManagerFactory".
 Symfony\Component\DependencyInjection\Compiler\InlineServiceDefinitionsPass: Inlined service "Jose\Component\Encryption\Algorithm\KeyEncryption\RSAOAEP256" to "Jose\Component\Core\AlgorithmManagerFactory".
@@ -1187,6 +1178,7 @@ Symfony\Component\DependencyInjection\Compiler\InlineServiceDefinitionsPass: Inl
 Symfony\Component\DependencyInjection\Compiler\InlineServiceDefinitionsPass: Inlined service "Jose\Component\KeyManagement\Analyzer\ES256KeyAnalyzer" to "Jose\Component\KeyManagement\Analyzer\KeyAnalyzerManager".
 Symfony\Component\DependencyInjection\Compiler\InlineServiceDefinitionsPass: Inlined service "Jose\Component\KeyManagement\Analyzer\ES384KeyAnalyzer" to "Jose\Component\KeyManagement\Analyzer\KeyAnalyzerManager".
 Symfony\Component\DependencyInjection\Compiler\InlineServiceDefinitionsPass: Inlined service "Jose\Component\KeyManagement\Analyzer\ES512KeyAnalyzer" to "Jose\Component\KeyManagement\Analyzer\KeyAnalyzerManager".
+Symfony\Component\DependencyInjection\Compiler\InlineServiceDefinitionsPass: Inlined service "Jose\Component\KeyManagement\Analyzer\ZxcvbnKeyAnalyzer" to "Jose\Component\KeyManagement\Analyzer\KeyAnalyzerManager".
 Symfony\Component\DependencyInjection\Compiler\InlineServiceDefinitionsPass: Inlined service "Jose\Component\KeyManagement\Analyzer\MixedKeyTypes" to "Jose\Component\KeyManagement\Analyzer\KeysetAnalyzerManager".
 Symfony\Component\DependencyInjection\Compiler\InlineServiceDefinitionsPass: Inlined service "Jose\Component\KeyManagement\Analyzer\MixedPublicAndPrivateKeys" to "Jose\Component\KeyManagement\Analyzer\KeysetAnalyzerManager".
 Symfony\Component\DependencyInjection\Compiler\InlineServiceDefinitionsPass: Inlined service "nelmio_cors.options_resolver" to "nelmio_cors.cors_listener".

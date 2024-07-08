@@ -1,6 +1,11 @@
 <?php
 
+<<<<<<<< HEAD:backend/var/cache/dev/ContainerBkA9ba0/App_KernelDevDebugContainer.php
 namespace ContainerBkA9ba0;
+========
+namespace ContainerZEEF3bZ;
+>>>>>>>> origin/sandesh:backend/var/cache/dev/ContainerZEEF3bZ/App_KernelDevDebugContainer.php
+
 
 use Symfony\Component\DependencyInjection\Argument\RewindableGenerator;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -16,6 +21,8 @@ use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
  */
 class App_KernelDevDebugContainer extends Container
 {
+    private const DEPRECATED_PARAMETERS = [];
+
     protected $targetDir;
     protected $parameters = [];
     protected \Closure $getService;
@@ -74,7 +81,6 @@ class App_KernelDevDebugContainer extends Container
             'Jose\\Bundle\\JoseFramework\\Services\\JWSVerifierFactory' => 'getJWSVerifierFactoryService',
             'Jose\\Bundle\\JoseFramework\\Services\\NestedTokenBuilderFactory' => 'getNestedTokenBuilderFactoryService',
             'Jose\\Bundle\\JoseFramework\\Services\\NestedTokenLoaderFactory' => 'getNestedTokenLoaderFactoryService',
-            'Jose\\Component\\Encryption\\Compression\\CompressionMethodManagerFactory' => 'getCompressionMethodManagerFactoryService',
             'Jose\\Component\\KeyManagement\\JWKFactory' => 'getJWKFactoryService',
             'Symfony\\Bundle\\FrameworkBundle\\Controller\\RedirectController' => 'getRedirectControllerService',
             'Symfony\\Bundle\\FrameworkBundle\\Controller\\TemplateController' => 'getTemplateControllerService',
@@ -146,6 +152,9 @@ class App_KernelDevDebugContainer extends Container
             include_once \dirname(__DIR__, 4).''.\DIRECTORY_SEPARATOR.'vendor'.\DIRECTORY_SEPARATOR.'symfony'.\DIRECTORY_SEPARATOR.'config'.\DIRECTORY_SEPARATOR.'ConfigCacheFactoryInterface.php';
             include_once \dirname(__DIR__, 4).''.\DIRECTORY_SEPARATOR.'vendor'.\DIRECTORY_SEPARATOR.'symfony'.\DIRECTORY_SEPARATOR.'config'.\DIRECTORY_SEPARATOR.'ResourceCheckerConfigCacheFactory.php';
             include_once \dirname(__DIR__, 4).''.\DIRECTORY_SEPARATOR.'vendor'.\DIRECTORY_SEPARATOR.'symfony'.\DIRECTORY_SEPARATOR.'http-kernel'.\DIRECTORY_SEPARATOR.'EventListener'.\DIRECTORY_SEPARATOR.'LocaleAwareListener.php';
+            include_once \dirname(__DIR__, 4).''.\DIRECTORY_SEPARATOR.'vendor'.\DIRECTORY_SEPARATOR.'psr'.\DIRECTORY_SEPARATOR.'clock'.\DIRECTORY_SEPARATOR.'src'.\DIRECTORY_SEPARATOR.'ClockInterface.php';
+            include_once \dirname(__DIR__, 4).''.\DIRECTORY_SEPARATOR.'vendor'.\DIRECTORY_SEPARATOR.'symfony'.\DIRECTORY_SEPARATOR.'clock'.\DIRECTORY_SEPARATOR.'ClockInterface.php';
+            include_once \dirname(__DIR__, 4).''.\DIRECTORY_SEPARATOR.'vendor'.\DIRECTORY_SEPARATOR.'symfony'.\DIRECTORY_SEPARATOR.'clock'.\DIRECTORY_SEPARATOR.'Clock.php';
             include_once \dirname(__DIR__, 4).''.\DIRECTORY_SEPARATOR.'vendor'.\DIRECTORY_SEPARATOR.'psr'.\DIRECTORY_SEPARATOR.'cache'.\DIRECTORY_SEPARATOR.'src'.\DIRECTORY_SEPARATOR.'CacheItemPoolInterface.php';
             include_once \dirname(__DIR__, 4).''.\DIRECTORY_SEPARATOR.'vendor'.\DIRECTORY_SEPARATOR.'symfony'.\DIRECTORY_SEPARATOR.'cache'.\DIRECTORY_SEPARATOR.'Adapter'.\DIRECTORY_SEPARATOR.'AdapterInterface.php';
             include_once \dirname(__DIR__, 4).''.\DIRECTORY_SEPARATOR.'vendor'.\DIRECTORY_SEPARATOR.'symfony'.\DIRECTORY_SEPARATOR.'cache-contracts'.\DIRECTORY_SEPARATOR.'CacheInterface.php';
@@ -470,7 +479,6 @@ class App_KernelDevDebugContainer extends Container
             include_once \dirname(__DIR__, 4).''.\DIRECTORY_SEPARATOR.'vendor'.\DIRECTORY_SEPARATOR.'web-token'.\DIRECTORY_SEPARATOR.'jwt-framework'.\DIRECTORY_SEPARATOR.'src'.\DIRECTORY_SEPARATOR.'Library'.\DIRECTORY_SEPARATOR.'Signature'.\DIRECTORY_SEPARATOR.'Algorithm'.\DIRECTORY_SEPARATOR.'PS256.php';
             include_once \dirname(__DIR__, 4).''.\DIRECTORY_SEPARATOR.'vendor'.\DIRECTORY_SEPARATOR.'web-token'.\DIRECTORY_SEPARATOR.'jwt-framework'.\DIRECTORY_SEPARATOR.'src'.\DIRECTORY_SEPARATOR.'Library'.\DIRECTORY_SEPARATOR.'Signature'.\DIRECTORY_SEPARATOR.'Algorithm'.\DIRECTORY_SEPARATOR.'PS384.php';
             include_once \dirname(__DIR__, 4).''.\DIRECTORY_SEPARATOR.'vendor'.\DIRECTORY_SEPARATOR.'web-token'.\DIRECTORY_SEPARATOR.'jwt-framework'.\DIRECTORY_SEPARATOR.'src'.\DIRECTORY_SEPARATOR.'Library'.\DIRECTORY_SEPARATOR.'Signature'.\DIRECTORY_SEPARATOR.'Algorithm'.\DIRECTORY_SEPARATOR.'PS512.php';
-            include_once \dirname(__DIR__, 4).''.\DIRECTORY_SEPARATOR.'vendor'.\DIRECTORY_SEPARATOR.'web-token'.\DIRECTORY_SEPARATOR.'jwt-framework'.\DIRECTORY_SEPARATOR.'src'.\DIRECTORY_SEPARATOR.'Library'.\DIRECTORY_SEPARATOR.'Signature'.\DIRECTORY_SEPARATOR.'Algorithm'.\DIRECTORY_SEPARATOR.'EdDSA.php';
             include_once \dirname(__DIR__, 4).''.\DIRECTORY_SEPARATOR.'vendor'.\DIRECTORY_SEPARATOR.'web-token'.\DIRECTORY_SEPARATOR.'jwt-framework'.\DIRECTORY_SEPARATOR.'src'.\DIRECTORY_SEPARATOR.'Library'.\DIRECTORY_SEPARATOR.'Encryption'.\DIRECTORY_SEPARATOR.'Algorithm'.\DIRECTORY_SEPARATOR.'ContentEncryptionAlgorithm.php';
             include_once \dirname(__DIR__, 4).''.\DIRECTORY_SEPARATOR.'vendor'.\DIRECTORY_SEPARATOR.'web-token'.\DIRECTORY_SEPARATOR.'jwt-framework'.\DIRECTORY_SEPARATOR.'src'.\DIRECTORY_SEPARATOR.'Library'.\DIRECTORY_SEPARATOR.'Encryption'.\DIRECTORY_SEPARATOR.'Algorithm'.\DIRECTORY_SEPARATOR.'ContentEncryption'.\DIRECTORY_SEPARATOR.'AESCBCHS.php';
             include_once \dirname(__DIR__, 4).''.\DIRECTORY_SEPARATOR.'vendor'.\DIRECTORY_SEPARATOR.'web-token'.\DIRECTORY_SEPARATOR.'jwt-framework'.\DIRECTORY_SEPARATOR.'src'.\DIRECTORY_SEPARATOR.'Library'.\DIRECTORY_SEPARATOR.'Encryption'.\DIRECTORY_SEPARATOR.'Algorithm'.\DIRECTORY_SEPARATOR.'ContentEncryption'.\DIRECTORY_SEPARATOR.'A128CBCHS256.php';
@@ -481,35 +489,12 @@ class App_KernelDevDebugContainer extends Container
             include_once \dirname(__DIR__, 4).''.\DIRECTORY_SEPARATOR.'vendor'.\DIRECTORY_SEPARATOR.'web-token'.\DIRECTORY_SEPARATOR.'jwt-framework'.\DIRECTORY_SEPARATOR.'src'.\DIRECTORY_SEPARATOR.'Library'.\DIRECTORY_SEPARATOR.'Encryption'.\DIRECTORY_SEPARATOR.'Algorithm'.\DIRECTORY_SEPARATOR.'ContentEncryption'.\DIRECTORY_SEPARATOR.'A192GCM.php';
             include_once \dirname(__DIR__, 4).''.\DIRECTORY_SEPARATOR.'vendor'.\DIRECTORY_SEPARATOR.'web-token'.\DIRECTORY_SEPARATOR.'jwt-framework'.\DIRECTORY_SEPARATOR.'src'.\DIRECTORY_SEPARATOR.'Library'.\DIRECTORY_SEPARATOR.'Encryption'.\DIRECTORY_SEPARATOR.'Algorithm'.\DIRECTORY_SEPARATOR.'ContentEncryption'.\DIRECTORY_SEPARATOR.'A256GCM.php';
             include_once \dirname(__DIR__, 4).''.\DIRECTORY_SEPARATOR.'vendor'.\DIRECTORY_SEPARATOR.'web-token'.\DIRECTORY_SEPARATOR.'jwt-framework'.\DIRECTORY_SEPARATOR.'src'.\DIRECTORY_SEPARATOR.'Library'.\DIRECTORY_SEPARATOR.'Encryption'.\DIRECTORY_SEPARATOR.'Algorithm'.\DIRECTORY_SEPARATOR.'KeyEncryptionAlgorithm.php';
-            include_once \dirname(__DIR__, 4).''.\DIRECTORY_SEPARATOR.'vendor'.\DIRECTORY_SEPARATOR.'web-token'.\DIRECTORY_SEPARATOR.'jwt-framework'.\DIRECTORY_SEPARATOR.'src'.\DIRECTORY_SEPARATOR.'Library'.\DIRECTORY_SEPARATOR.'Encryption'.\DIRECTORY_SEPARATOR.'Algorithm'.\DIRECTORY_SEPARATOR.'KeyEncryption'.\DIRECTORY_SEPARATOR.'KeyWrapping.php';
-            include_once \dirname(__DIR__, 4).''.\DIRECTORY_SEPARATOR.'vendor'.\DIRECTORY_SEPARATOR.'web-token'.\DIRECTORY_SEPARATOR.'jwt-framework'.\DIRECTORY_SEPARATOR.'src'.\DIRECTORY_SEPARATOR.'Library'.\DIRECTORY_SEPARATOR.'Encryption'.\DIRECTORY_SEPARATOR.'Algorithm'.\DIRECTORY_SEPARATOR.'KeyEncryption'.\DIRECTORY_SEPARATOR.'AESGCMKW.php';
-            include_once \dirname(__DIR__, 4).''.\DIRECTORY_SEPARATOR.'vendor'.\DIRECTORY_SEPARATOR.'web-token'.\DIRECTORY_SEPARATOR.'jwt-framework'.\DIRECTORY_SEPARATOR.'src'.\DIRECTORY_SEPARATOR.'Library'.\DIRECTORY_SEPARATOR.'Encryption'.\DIRECTORY_SEPARATOR.'Algorithm'.\DIRECTORY_SEPARATOR.'KeyEncryption'.\DIRECTORY_SEPARATOR.'A128GCMKW.php';
-            include_once \dirname(__DIR__, 4).''.\DIRECTORY_SEPARATOR.'vendor'.\DIRECTORY_SEPARATOR.'web-token'.\DIRECTORY_SEPARATOR.'jwt-framework'.\DIRECTORY_SEPARATOR.'src'.\DIRECTORY_SEPARATOR.'Library'.\DIRECTORY_SEPARATOR.'Encryption'.\DIRECTORY_SEPARATOR.'Algorithm'.\DIRECTORY_SEPARATOR.'KeyEncryption'.\DIRECTORY_SEPARATOR.'A192GCMKW.php';
-            include_once \dirname(__DIR__, 4).''.\DIRECTORY_SEPARATOR.'vendor'.\DIRECTORY_SEPARATOR.'web-token'.\DIRECTORY_SEPARATOR.'jwt-framework'.\DIRECTORY_SEPARATOR.'src'.\DIRECTORY_SEPARATOR.'Library'.\DIRECTORY_SEPARATOR.'Encryption'.\DIRECTORY_SEPARATOR.'Algorithm'.\DIRECTORY_SEPARATOR.'KeyEncryption'.\DIRECTORY_SEPARATOR.'A256GCMKW.php';
-            include_once \dirname(__DIR__, 4).''.\DIRECTORY_SEPARATOR.'vendor'.\DIRECTORY_SEPARATOR.'web-token'.\DIRECTORY_SEPARATOR.'jwt-framework'.\DIRECTORY_SEPARATOR.'src'.\DIRECTORY_SEPARATOR.'Library'.\DIRECTORY_SEPARATOR.'Encryption'.\DIRECTORY_SEPARATOR.'Algorithm'.\DIRECTORY_SEPARATOR.'KeyEncryption'.\DIRECTORY_SEPARATOR.'AESKW.php';
-            include_once \dirname(__DIR__, 4).''.\DIRECTORY_SEPARATOR.'vendor'.\DIRECTORY_SEPARATOR.'web-token'.\DIRECTORY_SEPARATOR.'jwt-framework'.\DIRECTORY_SEPARATOR.'src'.\DIRECTORY_SEPARATOR.'Library'.\DIRECTORY_SEPARATOR.'Encryption'.\DIRECTORY_SEPARATOR.'Algorithm'.\DIRECTORY_SEPARATOR.'KeyEncryption'.\DIRECTORY_SEPARATOR.'A128KW.php';
-            include_once \dirname(__DIR__, 4).''.\DIRECTORY_SEPARATOR.'vendor'.\DIRECTORY_SEPARATOR.'web-token'.\DIRECTORY_SEPARATOR.'jwt-framework'.\DIRECTORY_SEPARATOR.'src'.\DIRECTORY_SEPARATOR.'Library'.\DIRECTORY_SEPARATOR.'Encryption'.\DIRECTORY_SEPARATOR.'Algorithm'.\DIRECTORY_SEPARATOR.'KeyEncryption'.\DIRECTORY_SEPARATOR.'A192KW.php';
-            include_once \dirname(__DIR__, 4).''.\DIRECTORY_SEPARATOR.'vendor'.\DIRECTORY_SEPARATOR.'web-token'.\DIRECTORY_SEPARATOR.'jwt-framework'.\DIRECTORY_SEPARATOR.'src'.\DIRECTORY_SEPARATOR.'Library'.\DIRECTORY_SEPARATOR.'Encryption'.\DIRECTORY_SEPARATOR.'Algorithm'.\DIRECTORY_SEPARATOR.'KeyEncryption'.\DIRECTORY_SEPARATOR.'A256KW.php';
             include_once \dirname(__DIR__, 4).''.\DIRECTORY_SEPARATOR.'vendor'.\DIRECTORY_SEPARATOR.'web-token'.\DIRECTORY_SEPARATOR.'jwt-framework'.\DIRECTORY_SEPARATOR.'src'.\DIRECTORY_SEPARATOR.'Library'.\DIRECTORY_SEPARATOR.'Encryption'.\DIRECTORY_SEPARATOR.'Algorithm'.\DIRECTORY_SEPARATOR.'KeyEncryption'.\DIRECTORY_SEPARATOR.'DirectEncryption.php';
             include_once \dirname(__DIR__, 4).''.\DIRECTORY_SEPARATOR.'vendor'.\DIRECTORY_SEPARATOR.'web-token'.\DIRECTORY_SEPARATOR.'jwt-framework'.\DIRECTORY_SEPARATOR.'src'.\DIRECTORY_SEPARATOR.'Library'.\DIRECTORY_SEPARATOR.'Encryption'.\DIRECTORY_SEPARATOR.'Algorithm'.\DIRECTORY_SEPARATOR.'KeyEncryption'.\DIRECTORY_SEPARATOR.'Dir.php';
             include_once \dirname(__DIR__, 4).''.\DIRECTORY_SEPARATOR.'vendor'.\DIRECTORY_SEPARATOR.'web-token'.\DIRECTORY_SEPARATOR.'jwt-framework'.\DIRECTORY_SEPARATOR.'src'.\DIRECTORY_SEPARATOR.'Library'.\DIRECTORY_SEPARATOR.'Encryption'.\DIRECTORY_SEPARATOR.'Algorithm'.\DIRECTORY_SEPARATOR.'KeyEncryption'.\DIRECTORY_SEPARATOR.'KeyAgreement.php';
             include_once \dirname(__DIR__, 4).''.\DIRECTORY_SEPARATOR.'vendor'.\DIRECTORY_SEPARATOR.'web-token'.\DIRECTORY_SEPARATOR.'jwt-framework'.\DIRECTORY_SEPARATOR.'src'.\DIRECTORY_SEPARATOR.'Library'.\DIRECTORY_SEPARATOR.'Encryption'.\DIRECTORY_SEPARATOR.'Algorithm'.\DIRECTORY_SEPARATOR.'KeyEncryption'.\DIRECTORY_SEPARATOR.'AbstractECDH.php';
             include_once \dirname(__DIR__, 4).''.\DIRECTORY_SEPARATOR.'vendor'.\DIRECTORY_SEPARATOR.'web-token'.\DIRECTORY_SEPARATOR.'jwt-framework'.\DIRECTORY_SEPARATOR.'src'.\DIRECTORY_SEPARATOR.'Library'.\DIRECTORY_SEPARATOR.'Encryption'.\DIRECTORY_SEPARATOR.'Algorithm'.\DIRECTORY_SEPARATOR.'KeyEncryption'.\DIRECTORY_SEPARATOR.'ECDHES.php';
             include_once \dirname(__DIR__, 4).''.\DIRECTORY_SEPARATOR.'vendor'.\DIRECTORY_SEPARATOR.'web-token'.\DIRECTORY_SEPARATOR.'jwt-framework'.\DIRECTORY_SEPARATOR.'src'.\DIRECTORY_SEPARATOR.'Library'.\DIRECTORY_SEPARATOR.'Encryption'.\DIRECTORY_SEPARATOR.'Algorithm'.\DIRECTORY_SEPARATOR.'KeyEncryption'.\DIRECTORY_SEPARATOR.'ECDHSS.php';
-            include_once \dirname(__DIR__, 4).''.\DIRECTORY_SEPARATOR.'vendor'.\DIRECTORY_SEPARATOR.'web-token'.\DIRECTORY_SEPARATOR.'jwt-framework'.\DIRECTORY_SEPARATOR.'src'.\DIRECTORY_SEPARATOR.'Library'.\DIRECTORY_SEPARATOR.'Encryption'.\DIRECTORY_SEPARATOR.'Algorithm'.\DIRECTORY_SEPARATOR.'KeyEncryption'.\DIRECTORY_SEPARATOR.'KeyAgreementWithKeyWrapping.php';
-            include_once \dirname(__DIR__, 4).''.\DIRECTORY_SEPARATOR.'vendor'.\DIRECTORY_SEPARATOR.'web-token'.\DIRECTORY_SEPARATOR.'jwt-framework'.\DIRECTORY_SEPARATOR.'src'.\DIRECTORY_SEPARATOR.'Library'.\DIRECTORY_SEPARATOR.'Encryption'.\DIRECTORY_SEPARATOR.'Algorithm'.\DIRECTORY_SEPARATOR.'KeyEncryption'.\DIRECTORY_SEPARATOR.'AbstractECDHAESKW.php';
-            include_once \dirname(__DIR__, 4).''.\DIRECTORY_SEPARATOR.'vendor'.\DIRECTORY_SEPARATOR.'web-token'.\DIRECTORY_SEPARATOR.'jwt-framework'.\DIRECTORY_SEPARATOR.'src'.\DIRECTORY_SEPARATOR.'Library'.\DIRECTORY_SEPARATOR.'Encryption'.\DIRECTORY_SEPARATOR.'Algorithm'.\DIRECTORY_SEPARATOR.'KeyEncryption'.\DIRECTORY_SEPARATOR.'ECDHESAESKW.php';
-            include_once \dirname(__DIR__, 4).''.\DIRECTORY_SEPARATOR.'vendor'.\DIRECTORY_SEPARATOR.'web-token'.\DIRECTORY_SEPARATOR.'jwt-framework'.\DIRECTORY_SEPARATOR.'src'.\DIRECTORY_SEPARATOR.'Library'.\DIRECTORY_SEPARATOR.'Encryption'.\DIRECTORY_SEPARATOR.'Algorithm'.\DIRECTORY_SEPARATOR.'KeyEncryption'.\DIRECTORY_SEPARATOR.'ECDHESA128KW.php';
-            include_once \dirname(__DIR__, 4).''.\DIRECTORY_SEPARATOR.'vendor'.\DIRECTORY_SEPARATOR.'web-token'.\DIRECTORY_SEPARATOR.'jwt-framework'.\DIRECTORY_SEPARATOR.'src'.\DIRECTORY_SEPARATOR.'Library'.\DIRECTORY_SEPARATOR.'Encryption'.\DIRECTORY_SEPARATOR.'Algorithm'.\DIRECTORY_SEPARATOR.'KeyEncryption'.\DIRECTORY_SEPARATOR.'ECDHESA192KW.php';
-            include_once \dirname(__DIR__, 4).''.\DIRECTORY_SEPARATOR.'vendor'.\DIRECTORY_SEPARATOR.'web-token'.\DIRECTORY_SEPARATOR.'jwt-framework'.\DIRECTORY_SEPARATOR.'src'.\DIRECTORY_SEPARATOR.'Library'.\DIRECTORY_SEPARATOR.'Encryption'.\DIRECTORY_SEPARATOR.'Algorithm'.\DIRECTORY_SEPARATOR.'KeyEncryption'.\DIRECTORY_SEPARATOR.'ECDHESA256KW.php';
-            include_once \dirname(__DIR__, 4).''.\DIRECTORY_SEPARATOR.'vendor'.\DIRECTORY_SEPARATOR.'web-token'.\DIRECTORY_SEPARATOR.'jwt-framework'.\DIRECTORY_SEPARATOR.'src'.\DIRECTORY_SEPARATOR.'Library'.\DIRECTORY_SEPARATOR.'Encryption'.\DIRECTORY_SEPARATOR.'Algorithm'.\DIRECTORY_SEPARATOR.'KeyEncryption'.\DIRECTORY_SEPARATOR.'ECDHSSAESKW.php';
-            include_once \dirname(__DIR__, 4).''.\DIRECTORY_SEPARATOR.'vendor'.\DIRECTORY_SEPARATOR.'web-token'.\DIRECTORY_SEPARATOR.'jwt-framework'.\DIRECTORY_SEPARATOR.'src'.\DIRECTORY_SEPARATOR.'Library'.\DIRECTORY_SEPARATOR.'Encryption'.\DIRECTORY_SEPARATOR.'Algorithm'.\DIRECTORY_SEPARATOR.'KeyEncryption'.\DIRECTORY_SEPARATOR.'ECDHSSA128KW.php';
-            include_once \dirname(__DIR__, 4).''.\DIRECTORY_SEPARATOR.'vendor'.\DIRECTORY_SEPARATOR.'web-token'.\DIRECTORY_SEPARATOR.'jwt-framework'.\DIRECTORY_SEPARATOR.'src'.\DIRECTORY_SEPARATOR.'Library'.\DIRECTORY_SEPARATOR.'Encryption'.\DIRECTORY_SEPARATOR.'Algorithm'.\DIRECTORY_SEPARATOR.'KeyEncryption'.\DIRECTORY_SEPARATOR.'ECDHSSA192KW.php';
-            include_once \dirname(__DIR__, 4).''.\DIRECTORY_SEPARATOR.'vendor'.\DIRECTORY_SEPARATOR.'web-token'.\DIRECTORY_SEPARATOR.'jwt-framework'.\DIRECTORY_SEPARATOR.'src'.\DIRECTORY_SEPARATOR.'Library'.\DIRECTORY_SEPARATOR.'Encryption'.\DIRECTORY_SEPARATOR.'Algorithm'.\DIRECTORY_SEPARATOR.'KeyEncryption'.\DIRECTORY_SEPARATOR.'ECDHSSA256KW.php';
-            include_once \dirname(__DIR__, 4).''.\DIRECTORY_SEPARATOR.'vendor'.\DIRECTORY_SEPARATOR.'web-token'.\DIRECTORY_SEPARATOR.'jwt-framework'.\DIRECTORY_SEPARATOR.'src'.\DIRECTORY_SEPARATOR.'Library'.\DIRECTORY_SEPARATOR.'Encryption'.\DIRECTORY_SEPARATOR.'Algorithm'.\DIRECTORY_SEPARATOR.'KeyEncryption'.\DIRECTORY_SEPARATOR.'PBES2AESKW.php';
-            include_once \dirname(__DIR__, 4).''.\DIRECTORY_SEPARATOR.'vendor'.\DIRECTORY_SEPARATOR.'web-token'.\DIRECTORY_SEPARATOR.'jwt-framework'.\DIRECTORY_SEPARATOR.'src'.\DIRECTORY_SEPARATOR.'Library'.\DIRECTORY_SEPARATOR.'Encryption'.\DIRECTORY_SEPARATOR.'Algorithm'.\DIRECTORY_SEPARATOR.'KeyEncryption'.\DIRECTORY_SEPARATOR.'PBES2HS256A128KW.php';
-            include_once \dirname(__DIR__, 4).''.\DIRECTORY_SEPARATOR.'vendor'.\DIRECTORY_SEPARATOR.'web-token'.\DIRECTORY_SEPARATOR.'jwt-framework'.\DIRECTORY_SEPARATOR.'src'.\DIRECTORY_SEPARATOR.'Library'.\DIRECTORY_SEPARATOR.'Encryption'.\DIRECTORY_SEPARATOR.'Algorithm'.\DIRECTORY_SEPARATOR.'KeyEncryption'.\DIRECTORY_SEPARATOR.'PBES2HS384A192KW.php';
-            include_once \dirname(__DIR__, 4).''.\DIRECTORY_SEPARATOR.'vendor'.\DIRECTORY_SEPARATOR.'web-token'.\DIRECTORY_SEPARATOR.'jwt-framework'.\DIRECTORY_SEPARATOR.'src'.\DIRECTORY_SEPARATOR.'Library'.\DIRECTORY_SEPARATOR.'Encryption'.\DIRECTORY_SEPARATOR.'Algorithm'.\DIRECTORY_SEPARATOR.'KeyEncryption'.\DIRECTORY_SEPARATOR.'PBES2HS512A256KW.php';
             include_once \dirname(__DIR__, 4).''.\DIRECTORY_SEPARATOR.'vendor'.\DIRECTORY_SEPARATOR.'web-token'.\DIRECTORY_SEPARATOR.'jwt-framework'.\DIRECTORY_SEPARATOR.'src'.\DIRECTORY_SEPARATOR.'Library'.\DIRECTORY_SEPARATOR.'Encryption'.\DIRECTORY_SEPARATOR.'Algorithm'.\DIRECTORY_SEPARATOR.'KeyEncryption'.\DIRECTORY_SEPARATOR.'KeyEncryption.php';
             include_once \dirname(__DIR__, 4).''.\DIRECTORY_SEPARATOR.'vendor'.\DIRECTORY_SEPARATOR.'web-token'.\DIRECTORY_SEPARATOR.'jwt-framework'.\DIRECTORY_SEPARATOR.'src'.\DIRECTORY_SEPARATOR.'Library'.\DIRECTORY_SEPARATOR.'Encryption'.\DIRECTORY_SEPARATOR.'Algorithm'.\DIRECTORY_SEPARATOR.'KeyEncryption'.\DIRECTORY_SEPARATOR.'RSA.php';
             include_once \dirname(__DIR__, 4).''.\DIRECTORY_SEPARATOR.'vendor'.\DIRECTORY_SEPARATOR.'web-token'.\DIRECTORY_SEPARATOR.'jwt-framework'.\DIRECTORY_SEPARATOR.'src'.\DIRECTORY_SEPARATOR.'Library'.\DIRECTORY_SEPARATOR.'Encryption'.\DIRECTORY_SEPARATOR.'Algorithm'.\DIRECTORY_SEPARATOR.'KeyEncryption'.\DIRECTORY_SEPARATOR.'RSA15.php';
@@ -558,6 +543,7 @@ class App_KernelDevDebugContainer extends Container
             include_once \dirname(__DIR__, 4).''.\DIRECTORY_SEPARATOR.'vendor'.\DIRECTORY_SEPARATOR.'web-token'.\DIRECTORY_SEPARATOR.'jwt-framework'.\DIRECTORY_SEPARATOR.'src'.\DIRECTORY_SEPARATOR.'Library'.\DIRECTORY_SEPARATOR.'KeyManagement'.\DIRECTORY_SEPARATOR.'Analyzer'.\DIRECTORY_SEPARATOR.'ES256KeyAnalyzer.php';
             include_once \dirname(__DIR__, 4).''.\DIRECTORY_SEPARATOR.'vendor'.\DIRECTORY_SEPARATOR.'web-token'.\DIRECTORY_SEPARATOR.'jwt-framework'.\DIRECTORY_SEPARATOR.'src'.\DIRECTORY_SEPARATOR.'Library'.\DIRECTORY_SEPARATOR.'KeyManagement'.\DIRECTORY_SEPARATOR.'Analyzer'.\DIRECTORY_SEPARATOR.'ES384KeyAnalyzer.php';
             include_once \dirname(__DIR__, 4).''.\DIRECTORY_SEPARATOR.'vendor'.\DIRECTORY_SEPARATOR.'web-token'.\DIRECTORY_SEPARATOR.'jwt-framework'.\DIRECTORY_SEPARATOR.'src'.\DIRECTORY_SEPARATOR.'Library'.\DIRECTORY_SEPARATOR.'KeyManagement'.\DIRECTORY_SEPARATOR.'Analyzer'.\DIRECTORY_SEPARATOR.'ES512KeyAnalyzer.php';
+            include_once \dirname(__DIR__, 4).''.\DIRECTORY_SEPARATOR.'vendor'.\DIRECTORY_SEPARATOR.'web-token'.\DIRECTORY_SEPARATOR.'jwt-framework'.\DIRECTORY_SEPARATOR.'src'.\DIRECTORY_SEPARATOR.'Library'.\DIRECTORY_SEPARATOR.'KeyManagement'.\DIRECTORY_SEPARATOR.'Analyzer'.\DIRECTORY_SEPARATOR.'ZxcvbnKeyAnalyzer.php';
             include_once \dirname(__DIR__, 4).''.\DIRECTORY_SEPARATOR.'vendor'.\DIRECTORY_SEPARATOR.'web-token'.\DIRECTORY_SEPARATOR.'jwt-framework'.\DIRECTORY_SEPARATOR.'src'.\DIRECTORY_SEPARATOR.'Library'.\DIRECTORY_SEPARATOR.'KeyManagement'.\DIRECTORY_SEPARATOR.'Analyzer'.\DIRECTORY_SEPARATOR.'KeysetAnalyzerManager.php';
             include_once \dirname(__DIR__, 4).''.\DIRECTORY_SEPARATOR.'vendor'.\DIRECTORY_SEPARATOR.'web-token'.\DIRECTORY_SEPARATOR.'jwt-framework'.\DIRECTORY_SEPARATOR.'src'.\DIRECTORY_SEPARATOR.'Library'.\DIRECTORY_SEPARATOR.'KeyManagement'.\DIRECTORY_SEPARATOR.'Analyzer'.\DIRECTORY_SEPARATOR.'KeysetAnalyzer.php';
             include_once \dirname(__DIR__, 4).''.\DIRECTORY_SEPARATOR.'vendor'.\DIRECTORY_SEPARATOR.'web-token'.\DIRECTORY_SEPARATOR.'jwt-framework'.\DIRECTORY_SEPARATOR.'src'.\DIRECTORY_SEPARATOR.'Library'.\DIRECTORY_SEPARATOR.'KeyManagement'.\DIRECTORY_SEPARATOR.'Analyzer'.\DIRECTORY_SEPARATOR.'MixedKeyTypes.php';
@@ -788,31 +774,15 @@ class App_KernelDevDebugContainer extends Container
         $instance->add('PS256', new \Jose\Component\Signature\Algorithm\PS256());
         $instance->add('PS384', new \Jose\Component\Signature\Algorithm\PS384());
         $instance->add('PS512', new \Jose\Component\Signature\Algorithm\PS512());
-        $instance->add('EdDSA', new \Jose\Component\Signature\Algorithm\EdDSA());
         $instance->add('A128CBC-HS256', new \Jose\Component\Encryption\Algorithm\ContentEncryption\A128CBCHS256());
         $instance->add('A192CBC-HS384', new \Jose\Component\Encryption\Algorithm\ContentEncryption\A192CBCHS384());
         $instance->add('A256CBC-HS512', new \Jose\Component\Encryption\Algorithm\ContentEncryption\A256CBCHS512());
         $instance->add('A128GCM', new \Jose\Component\Encryption\Algorithm\ContentEncryption\A128GCM());
         $instance->add('A192GCM', new \Jose\Component\Encryption\Algorithm\ContentEncryption\A192GCM());
         $instance->add('A256GCM', new \Jose\Component\Encryption\Algorithm\ContentEncryption\A256GCM());
-        $instance->add('A128GCMKW', new \Jose\Component\Encryption\Algorithm\KeyEncryption\A128GCMKW());
-        $instance->add('A192GCMKW', new \Jose\Component\Encryption\Algorithm\KeyEncryption\A192GCMKW());
-        $instance->add('A256GCMKW', new \Jose\Component\Encryption\Algorithm\KeyEncryption\A256GCMKW());
-        $instance->add('A128KW', new \Jose\Component\Encryption\Algorithm\KeyEncryption\A128KW());
-        $instance->add('A192KW', new \Jose\Component\Encryption\Algorithm\KeyEncryption\A192KW());
-        $instance->add('A256KW', new \Jose\Component\Encryption\Algorithm\KeyEncryption\A256KW());
         $instance->add('dir', new \Jose\Component\Encryption\Algorithm\KeyEncryption\Dir());
         $instance->add('ECDH-ES', new \Jose\Component\Encryption\Algorithm\KeyEncryption\ECDHES());
         $instance->add('ECDH-SS', new \Jose\Component\Encryption\Algorithm\KeyEncryption\ECDHSS());
-        $instance->add('ECDH-ES+A128KW', new \Jose\Component\Encryption\Algorithm\KeyEncryption\ECDHESA128KW());
-        $instance->add('ECDH-ES+A192KW', new \Jose\Component\Encryption\Algorithm\KeyEncryption\ECDHESA192KW());
-        $instance->add('ECDH-ES+A256KW', new \Jose\Component\Encryption\Algorithm\KeyEncryption\ECDHESA256KW());
-        $instance->add('ECDH-SS+A128KW', new \Jose\Component\Encryption\Algorithm\KeyEncryption\ECDHSSA128KW());
-        $instance->add('ECDH-SS+A192KW', new \Jose\Component\Encryption\Algorithm\KeyEncryption\ECDHSSA192KW());
-        $instance->add('ECDH-SS+A256KW', new \Jose\Component\Encryption\Algorithm\KeyEncryption\ECDHSSA256KW());
-        $instance->add('PBES2-HS256+A128KW', new \Jose\Component\Encryption\Algorithm\KeyEncryption\PBES2HS256A128KW());
-        $instance->add('PBES2-HS384+A192KW', new \Jose\Component\Encryption\Algorithm\KeyEncryption\PBES2HS384A192KW());
-        $instance->add('PBES2-HS512+A256KW', new \Jose\Component\Encryption\Algorithm\KeyEncryption\PBES2HS512A256KW());
         $instance->add('RSA1_5', new \Jose\Component\Encryption\Algorithm\KeyEncryption\RSA15());
         $instance->add('RSA-OAEP', new \Jose\Component\Encryption\Algorithm\KeyEncryption\RSAOAEP());
         $instance->add('RSA-OAEP-256', new \Jose\Component\Encryption\Algorithm\KeyEncryption\RSAOAEP256());
@@ -856,6 +826,7 @@ class App_KernelDevDebugContainer extends Container
         $instance->add(new \Jose\Component\KeyManagement\Analyzer\ES256KeyAnalyzer());
         $instance->add(new \Jose\Component\KeyManagement\Analyzer\ES384KeyAnalyzer());
         $instance->add(new \Jose\Component\KeyManagement\Analyzer\ES512KeyAnalyzer());
+        $instance->add(new \Jose\Component\KeyManagement\Analyzer\ZxcvbnKeyAnalyzer());
 
         return $instance;
     }
@@ -898,7 +869,7 @@ class App_KernelDevDebugContainer extends Container
      */
     protected static function getCache_AppService($container)
     {
-        $a = new \Symfony\Component\Cache\Adapter\FilesystemAdapter('bAxihoRVo6', 0, ($container->targetDir.''.'/pools/app'), ($container->privates['cache.default_marshaller'] ??= new \Symfony\Component\Cache\Marshaller\DefaultMarshaller(NULL, true)));
+        $a = new \Symfony\Component\Cache\Adapter\FilesystemAdapter('O55afoYbQ+', 0, ($container->targetDir.''.'/pools/app'), ($container->privates['cache.default_marshaller'] ??= new \Symfony\Component\Cache\Marshaller\DefaultMarshaller(NULL, true)));
         $a->setLogger(($container->privates['monolog.logger.cache'] ?? self::getMonolog_Logger_CacheService($container)));
 
         return $container->services['cache.app'] = new \Symfony\Component\Cache\Adapter\TraceableAdapter($a);
@@ -911,7 +882,7 @@ class App_KernelDevDebugContainer extends Container
      */
     protected static function getCache_SecurityIsCsrfTokenValidAttributeExpressionLanguageService($container)
     {
-        return $container->services['cache.security_is_csrf_token_valid_attribute_expression_language'] = new \Symfony\Component\Cache\Adapter\TraceableAdapter(\Symfony\Component\Cache\Adapter\AbstractAdapter::createSystemCache('JtHe+whbCR', 0, $container->getParameter('container.build_id'), ($container->targetDir.''.'/pools/system'), ($container->privates['monolog.logger.cache'] ?? self::getMonolog_Logger_CacheService($container))));
+        return $container->services['cache.security_is_csrf_token_valid_attribute_expression_language'] = new \Symfony\Component\Cache\Adapter\TraceableAdapter(\Symfony\Component\Cache\Adapter\AbstractAdapter::createSystemCache('E9wGCvkei8', 0, $container->getParameter('container.build_id'), ($container->targetDir.''.'/pools/system'), ($container->privates['monolog.logger.cache'] ?? self::getMonolog_Logger_CacheService($container))));
     }
 
     /**
@@ -921,7 +892,7 @@ class App_KernelDevDebugContainer extends Container
      */
     protected static function getCache_SecurityIsGrantedAttributeExpressionLanguageService($container)
     {
-        return $container->services['cache.security_is_granted_attribute_expression_language'] = new \Symfony\Component\Cache\Adapter\TraceableAdapter(\Symfony\Component\Cache\Adapter\AbstractAdapter::createSystemCache('G-IQG44QGh', 0, $container->getParameter('container.build_id'), ($container->targetDir.''.'/pools/system'), ($container->privates['monolog.logger.cache'] ?? self::getMonolog_Logger_CacheService($container))));
+        return $container->services['cache.security_is_granted_attribute_expression_language'] = new \Symfony\Component\Cache\Adapter\TraceableAdapter(\Symfony\Component\Cache\Adapter\AbstractAdapter::createSystemCache('MU7BYkbxKb', 0, $container->getParameter('container.build_id'), ($container->targetDir.''.'/pools/system'), ($container->privates['monolog.logger.cache'] ?? self::getMonolog_Logger_CacheService($container))));
     }
 
     /**
@@ -931,7 +902,7 @@ class App_KernelDevDebugContainer extends Container
      */
     protected static function getCache_SystemService($container)
     {
-        return $container->services['cache.system'] = new \Symfony\Component\Cache\Adapter\TraceableAdapter(\Symfony\Component\Cache\Adapter\AbstractAdapter::createSystemCache('mKs5Lo94y9', 0, $container->getParameter('container.build_id'), ($container->targetDir.''.'/pools/system'), ($container->privates['monolog.logger.cache'] ?? self::getMonolog_Logger_CacheService($container))));
+        return $container->services['cache.system'] = new \Symfony\Component\Cache\Adapter\TraceableAdapter(\Symfony\Component\Cache\Adapter\AbstractAdapter::createSystemCache('WHD8MuGXb3', 0, $container->getParameter('container.build_id'), ($container->targetDir.''.'/pools/system'), ($container->privates['monolog.logger.cache'] ?? self::getMonolog_Logger_CacheService($container))));
     }
 
     /**
@@ -941,7 +912,7 @@ class App_KernelDevDebugContainer extends Container
      */
     protected static function getCache_ValidatorExpressionLanguageService($container)
     {
-        return $container->services['cache.validator_expression_language'] = new \Symfony\Component\Cache\Adapter\TraceableAdapter(\Symfony\Component\Cache\Adapter\AbstractAdapter::createSystemCache('n4mkiV2Mmd', 0, $container->getParameter('container.build_id'), ($container->targetDir.''.'/pools/system'), ($container->privates['monolog.logger.cache'] ?? self::getMonolog_Logger_CacheService($container))));
+        return $container->services['cache.validator_expression_language'] = new \Symfony\Component\Cache\Adapter\TraceableAdapter(\Symfony\Component\Cache\Adapter\AbstractAdapter::createSystemCache('u5+2KV5SNm', 0, $container->getParameter('container.build_id'), ($container->targetDir.''.'/pools/system'), ($container->privates['monolog.logger.cache'] ?? self::getMonolog_Logger_CacheService($container))));
     }
 
     /**
@@ -1406,7 +1377,7 @@ class App_KernelDevDebugContainer extends Container
      */
     protected static function getJWECollectorService($container)
     {
-        return $container->privates['Jose\\Bundle\\JoseFramework\\DataCollector\\JWECollector'] = new \Jose\Bundle\JoseFramework\DataCollector\JWECollector(($container->services['Jose\\Component\\Encryption\\Compression\\CompressionMethodManagerFactory'] ?? $container->load('getCompressionMethodManagerFactoryService')), ($container->services['Jose\\Component\\Encryption\\Serializer\\JWESerializerManagerFactory'] ?? self::getJWESerializerManagerFactoryService($container)));
+        return $container->privates['Jose\\Bundle\\JoseFramework\\DataCollector\\JWECollector'] = new \Jose\Bundle\JoseFramework\DataCollector\JWECollector(($container->services['Jose\\Component\\Encryption\\Serializer\\JWESerializerManagerFactory'] ?? self::getJWESerializerManagerFactoryService($container)));
     }
 
     /**
@@ -1444,7 +1415,7 @@ class App_KernelDevDebugContainer extends Container
      */
     protected static function getExpirationTimeCheckerService($container)
     {
-        return $container->privates['Jose\\Component\\Checker\\ExpirationTimeChecker'] = new \Jose\Component\Checker\ExpirationTimeChecker(0, false, ($container->privates['jose.internal_clock'] ?? $container->load('getJose_InternalClockService')));
+        return $container->privates['Jose\\Component\\Checker\\ExpirationTimeChecker'] = new \Jose\Component\Checker\ExpirationTimeChecker(($container->privates['clock'] ??= new \Symfony\Component\Clock\Clock()));
     }
 
     /**
@@ -1454,7 +1425,7 @@ class App_KernelDevDebugContainer extends Container
      */
     protected static function getIssuedAtCheckerService($container)
     {
-        return $container->privates['Jose\\Component\\Checker\\IssuedAtChecker'] = new \Jose\Component\Checker\IssuedAtChecker(0, false, ($container->privates['jose.internal_clock'] ?? $container->load('getJose_InternalClockService')));
+        return $container->privates['Jose\\Component\\Checker\\IssuedAtChecker'] = new \Jose\Component\Checker\IssuedAtChecker(($container->privates['clock'] ??= new \Symfony\Component\Clock\Clock()));
     }
 
     /**
@@ -1464,7 +1435,7 @@ class App_KernelDevDebugContainer extends Container
      */
     protected static function getNotBeforeCheckerService($container)
     {
-        return $container->privates['Jose\\Component\\Checker\\NotBeforeChecker'] = new \Jose\Component\Checker\NotBeforeChecker(0, false, ($container->privates['jose.internal_clock'] ?? $container->load('getJose_InternalClockService')));
+        return $container->privates['Jose\\Component\\Checker\\NotBeforeChecker'] = new \Jose\Component\Checker\NotBeforeChecker(($container->privates['clock'] ??= new \Symfony\Component\Clock\Clock()));
     }
 
     /**
@@ -1544,7 +1515,7 @@ class App_KernelDevDebugContainer extends Container
      */
     protected static function getCache_AssetMapperService($container)
     {
-        return $container->privates['cache.asset_mapper'] = new \Symfony\Component\Cache\Adapter\TraceableAdapter(\Symfony\Component\Cache\Adapter\AbstractAdapter::createSystemCache('vfM9NNZwI2', 0, $container->getParameter('container.build_id'), ($container->targetDir.''.'/pools/system'), ($container->privates['monolog.logger.cache'] ?? self::getMonolog_Logger_CacheService($container))));
+        return $container->privates['cache.asset_mapper'] = new \Symfony\Component\Cache\Adapter\TraceableAdapter(\Symfony\Component\Cache\Adapter\AbstractAdapter::createSystemCache('-qvdn4JesU', 0, $container->getParameter('container.build_id'), ($container->targetDir.''.'/pools/system'), ($container->privates['monolog.logger.cache'] ?? self::getMonolog_Logger_CacheService($container))));
     }
 
     /**
@@ -1574,7 +1545,7 @@ class App_KernelDevDebugContainer extends Container
      */
     protected static function getCache_Messenger_RestartWorkersSignalService($container)
     {
-        $a = new \Symfony\Component\Cache\Adapter\FilesystemAdapter('eKnGMwapOp', 0, ($container->targetDir.''.'/pools/app'), ($container->privates['cache.default_marshaller'] ??= new \Symfony\Component\Cache\Marshaller\DefaultMarshaller(NULL, true)));
+        $a = new \Symfony\Component\Cache\Adapter\FilesystemAdapter('5g29Vd+A7r', 0, ($container->targetDir.''.'/pools/app'), ($container->privates['cache.default_marshaller'] ??= new \Symfony\Component\Cache\Marshaller\DefaultMarshaller(NULL, true)));
         $a->setLogger(($container->privates['monolog.logger.cache'] ?? self::getMonolog_Logger_CacheService($container)));
 
         return $container->privates['cache.messenger.restart_workers_signal'] = new \Symfony\Component\Cache\Adapter\TraceableAdapter($a);
@@ -1587,7 +1558,7 @@ class App_KernelDevDebugContainer extends Container
      */
     protected static function getCache_PropertyInfoService($container)
     {
-        return $container->privates['cache.property_info'] = new \Symfony\Component\Cache\Adapter\TraceableAdapter(\Symfony\Component\Cache\Adapter\AbstractAdapter::createSystemCache('rJoQvCtRUP', 0, $container->getParameter('container.build_id'), ($container->targetDir.''.'/pools/system'), ($container->privates['monolog.logger.cache'] ?? self::getMonolog_Logger_CacheService($container))));
+        return $container->privates['cache.property_info'] = new \Symfony\Component\Cache\Adapter\TraceableAdapter(\Symfony\Component\Cache\Adapter\AbstractAdapter::createSystemCache('DGHjRYnCTd', 0, $container->getParameter('container.build_id'), ($container->targetDir.''.'/pools/system'), ($container->privates['monolog.logger.cache'] ?? self::getMonolog_Logger_CacheService($container))));
     }
 
     /**
@@ -1597,7 +1568,7 @@ class App_KernelDevDebugContainer extends Container
      */
     protected static function getCache_SecurityExpressionLanguageService($container)
     {
-        return $container->privates['cache.security_expression_language'] = new \Symfony\Component\Cache\Adapter\TraceableAdapter(\Symfony\Component\Cache\Adapter\AbstractAdapter::createSystemCache('RnyJkdn2xe', 0, $container->getParameter('container.build_id'), ($container->targetDir.''.'/pools/system'), ($container->privates['monolog.logger.cache'] ?? self::getMonolog_Logger_CacheService($container))));
+        return $container->privates['cache.security_expression_language'] = new \Symfony\Component\Cache\Adapter\TraceableAdapter(\Symfony\Component\Cache\Adapter\AbstractAdapter::createSystemCache('-7RuF2DyqE', 0, $container->getParameter('container.build_id'), ($container->targetDir.''.'/pools/system'), ($container->privates['monolog.logger.cache'] ?? self::getMonolog_Logger_CacheService($container))));
     }
 
     /**
@@ -1607,7 +1578,7 @@ class App_KernelDevDebugContainer extends Container
      */
     protected static function getCache_SerializerService($container)
     {
-        return $container->privates['cache.serializer'] = new \Symfony\Component\Cache\Adapter\TraceableAdapter(\Symfony\Component\Cache\Adapter\AbstractAdapter::createSystemCache('vSD-Un+lrP', 0, $container->getParameter('container.build_id'), ($container->targetDir.''.'/pools/system'), ($container->privates['monolog.logger.cache'] ?? self::getMonolog_Logger_CacheService($container))));
+        return $container->privates['cache.serializer'] = new \Symfony\Component\Cache\Adapter\TraceableAdapter(\Symfony\Component\Cache\Adapter\AbstractAdapter::createSystemCache('iPzx9OcuGQ', 0, $container->getParameter('container.build_id'), ($container->targetDir.''.'/pools/system'), ($container->privates['monolog.logger.cache'] ?? self::getMonolog_Logger_CacheService($container))));
     }
 
     /**
@@ -1617,7 +1588,7 @@ class App_KernelDevDebugContainer extends Container
      */
     protected static function getCache_ValidatorService($container)
     {
-        return $container->privates['cache.validator'] = new \Symfony\Component\Cache\Adapter\TraceableAdapter(\Symfony\Component\Cache\Adapter\AbstractAdapter::createSystemCache('KFIo81uSGH', 0, $container->getParameter('container.build_id'), ($container->targetDir.''.'/pools/system'), ($container->privates['monolog.logger.cache'] ?? self::getMonolog_Logger_CacheService($container))));
+        return $container->privates['cache.validator'] = new \Symfony\Component\Cache\Adapter\TraceableAdapter(\Symfony\Component\Cache\Adapter\AbstractAdapter::createSystemCache('0qrT0rHCii', 0, $container->getParameter('container.build_id'), ($container->targetDir.''.'/pools/system'), ($container->privates['monolog.logger.cache'] ?? self::getMonolog_Logger_CacheService($container))));
     }
 
     /**
@@ -1975,6 +1946,7 @@ class App_KernelDevDebugContainer extends Container
 
         return $instance;
     }
+<<<<<<<< HEAD:backend/var/cache/dev/ContainerBkA9ba0/App_KernelDevDebugContainer.php
 
     /**
      * Gets the private 'nelmio_cors.cors_listener' shared service.
@@ -1993,6 +1965,26 @@ class App_KernelDevDebugContainer extends Container
      */
     protected static function getParameterBagService($container)
     {
+========
+
+    /**
+     * Gets the private 'nelmio_cors.cors_listener' shared service.
+     *
+     * @return \Nelmio\CorsBundle\EventListener\CorsListener
+     */
+    protected static function getNelmioCors_CorsListenerService($container)
+    {
+        return $container->privates['nelmio_cors.cors_listener'] = new \Nelmio\CorsBundle\EventListener\CorsListener(new \Nelmio\CorsBundle\Options\Resolver([new \Nelmio\CorsBundle\Options\ConfigProvider($container->parameters['nelmio_cors.map'], $container->getParameter('nelmio_cors.defaults'))]));
+    }
+
+    /**
+     * Gets the private 'parameter_bag' shared service.
+     *
+     * @return \Symfony\Component\DependencyInjection\ParameterBag\ContainerBag
+     */
+    protected static function getParameterBagService($container)
+    {
+>>>>>>>> origin/sandesh:backend/var/cache/dev/ContainerZEEF3bZ/App_KernelDevDebugContainer.php
         return $container->privates['parameter_bag'] = new \Symfony\Component\DependencyInjection\ParameterBag\ContainerBag($container);
     }
 
@@ -2489,7 +2481,7 @@ class App_KernelDevDebugContainer extends Container
     }
 
     public function getParameter(string $name): array|bool|string|int|float|\UnitEnum|null
-    {
+    {
         if (isset($this->buildParameters[$name])) {
             return $this->buildParameters[$name];
         }
@@ -2550,6 +2542,7 @@ class App_KernelDevDebugContainer extends Container
         'validator.mapping.cache.file' => false,
         'profiler.storage.dsn' => false,
         'doctrine.orm.proxy_dir' => false,
+<<<<<<<< HEAD:backend/var/cache/dev/ContainerBkA9ba0/App_KernelDevDebugContainer.php
         'nelmio_cors.map' => false,
         'nelmio_cors.defaults' => false,
     ];
@@ -2559,6 +2552,16 @@ class App_KernelDevDebugContainer extends Container
     {
         $container = $this;
         $value = match ($name) {
+========
+        'nelmio_cors.defaults' => false,
+    ];
+    private $dynamicParameters = [];
+
+    private function getDynamicParameter(string $name)
+    {
+        $container = $this;
+        $value = match ($name) {
+>>>>>>>> origin/sandesh:backend/var/cache/dev/ContainerZEEF3bZ/App_KernelDevDebugContainer.php
             'kernel.runtime_environment' => $container->getEnv('default:kernel.environment:APP_RUNTIME_ENV'),
             'kernel.runtime_mode' => $container->getEnv('query_string:default:container.runtime_mode:APP_RUNTIME_MODE'),
             'kernel.runtime_mode.web' => $container->getEnv('bool:default::key:web:default:kernel.runtime_mode:'),
@@ -2574,6 +2577,7 @@ class App_KernelDevDebugContainer extends Container
             'validator.mapping.cache.file' => ($container->targetDir.''.'/validation.php'),
             'profiler.storage.dsn' => ('file:'.$container->targetDir.''.'/profiler'),
             'doctrine.orm.proxy_dir' => ($container->targetDir.''.'/doctrine/orm/Proxies'),
+<<<<<<<< HEAD:backend/var/cache/dev/ContainerBkA9ba0/App_KernelDevDebugContainer.php
             'nelmio_cors.map' => [
                 '^/api' => [
                     'allow_origin' => [
@@ -2594,6 +2598,8 @@ class App_KernelDevDebugContainer extends Container
                     'max_age' => 3600,
                 ],
             ],
+========
+>>>>>>>> origin/sandesh:backend/var/cache/dev/ContainerZEEF3bZ/App_KernelDevDebugContainer.php
             'nelmio_cors.defaults' => [
                 'allow_origin' => [
                     0 => $container->getEnv('CORS_ALLOW_ORIGIN'),
@@ -2617,6 +2623,18 @@ class App_KernelDevDebugContainer extends Container
                 ],
                 'max_age' => 3600,
                 'hosts' => [
+<<<<<<<< HEAD:backend/var/cache/dev/ContainerBkA9ba0/App_KernelDevDebugContainer.php
+
+                ],
+                'origin_regex' => true,
+                'forced_allow_origin_value' => NULL,
+                'skip_same_as_origin' => true,
+            ],
+            default => throw new ParameterNotFoundException($name),
+        };
+        $this->loadedDynamicParameters[$name] = true;
+========
+>>>>>>>> origin/sandesh:backend/var/cache/dev/ContainerZEEF3bZ/App_KernelDevDebugContainer.php
 
                 ],
                 'origin_regex' => true,
@@ -2884,6 +2902,14 @@ class App_KernelDevDebugContainer extends Container
                     ],
                 ],
             ],
+<<<<<<<< HEAD:backend/var/cache/dev/ContainerBkA9ba0/App_KernelDevDebugContainer.php
+========
+            'nelmio_cors.map' => [
+                '^/api/' => [
+
+                ],
+            ],
+>>>>>>>> origin/sandesh:backend/var/cache/dev/ContainerZEEF3bZ/App_KernelDevDebugContainer.php
             'nelmio_cors.cors_listener.class' => 'Nelmio\\CorsBundle\\EventListener\\CorsListener',
             'nelmio_cors.options_resolver.class' => 'Nelmio\\CorsBundle\\Options\\Resolver',
             'nelmio_cors.options_provider.config.class' => 'Nelmio\\CorsBundle\\Options\\ConfigProvider',

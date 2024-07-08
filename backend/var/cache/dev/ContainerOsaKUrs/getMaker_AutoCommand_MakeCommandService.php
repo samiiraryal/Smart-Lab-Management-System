@@ -1,6 +1,11 @@
 <?php
 
+<<<<<<<< HEAD:backend/var/cache/dev/ContainerOsaKUrs/getMaker_AutoCommand_MakeCommandService.php
 namespace ContainerOsaKUrs;
+========
+namespace ContainerZEEF3bZ;
+
+>>>>>>>> origin/sandesh:backend/var/cache/dev/ContainerZEEF3bZ/getMaker_AutoCommand_MakeCommandService.php
 
 use Symfony\Component\DependencyInjection\Argument\RewindableGenerator;
 use Symfony\Component\DependencyInjection\ContainerInterface;

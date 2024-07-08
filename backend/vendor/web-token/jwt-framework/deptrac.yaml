@@ -1,0 +1,34 @@
+parameters:
+  paths:
+    - './src'
+  layers:
+    - name: 'Library'
+      collectors:
+        - { type: classLike, value: '^Jose\\Component\\' }
+    - name: 'Experimental'
+      collectors:
+        - { type: classLike, value: '^Jose\\Experimental\\' }
+    - name: 'Bundle'
+      collectors:
+        - { type: classLike, value: '^Jose\\Bundle\\' }
+    - name: 'Vendors'
+      collectors:
+        - { type: classLike, value: '^Symfony\\' }
+        - { type: classLike, value: '^SpomkyLabs\\Pki\\' }
+        - { type: classLike, value: '^ParagonIE\\Sodium\\' }
+        - { type: classLike, value: '^Psr\\EventDispatcher\\' }
+        - { type: classLike, value: '^Psr\\Clock\\' }
+        - { type: classLike, value: '^Brick\\Math\\' }
+        - { type: classLike, value: '^AESKW\\' }
+        - { type: classLike, value: '^ZxcvbnPhp\\' }
+        - { type: classLike, value: '^Psr\\' }
+  ruleset:
+    Library:
+      - 'Vendors'
+    Experimental:
+      - 'Library'
+      - 'Vendors'
+    Bundle:
+      - 'Library'
+      - 'Experimental'
+      - 'Vendors'
