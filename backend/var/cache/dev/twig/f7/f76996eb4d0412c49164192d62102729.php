@@ -221,6 +221,10 @@ class __TwigTemplate_81bac20f377576baad19fc47aad14f8c extends Template
         {% block body %}{% endblock %}
     </body>
 </html>
+<<<<<<< HEAD:backend/var/cache/dev/twig/f7/f76996eb4d0412c49164192d62102729.php
 ", "base.html.twig", "C:\\Users\\sandesh\\OneDrive\\Desktop\\finalyearproject\\backend\\templates\\base.html.twig");
+=======
+", "base.html.twig", "C:\\Users\\user\\OneDrive\\Desktop\\finalproject\\finalyearproject\\backend\\templates\\base.html.twig");
+>>>>>>> origin/prizina:backend/var/cache/dev/twig/24/24fba1b60aa599de4c2b89b2a09e922d.php
     }
 }

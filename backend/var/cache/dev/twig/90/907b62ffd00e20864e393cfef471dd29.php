@@ -138,6 +138,10 @@ class __TwigTemplate_5424b0f1ff7b05f936e4e6a22b472b1e extends Template
     </tbody>
 </table>
 </div>
+<<<<<<< HEAD:backend/var/cache/dev/twig/90/907b62ffd00e20864e393cfef471dd29.php
 ", "@WebProfiler/Profiler/table.html.twig", "C:\\Users\\sandesh\\OneDrive\\Desktop\\finalyearproject\\backend\\vendor\\symfony\\web-profiler-bundle\\Resources\\views\\Profiler\\table.html.twig");
+=======
+", "@WebProfiler/Profiler/table.html.twig", "C:\\Users\\user\\OneDrive\\Desktop\\finalproject\\finalyearproject\\backend\\vendor\\symfony\\web-profiler-bundle\\Resources\\views\\Profiler\\table.html.twig");
+>>>>>>> origin/prizina:backend/var/cache/dev/twig/6c/6c95938e328b1dead9ed622e891f57b9.php
     }
 }

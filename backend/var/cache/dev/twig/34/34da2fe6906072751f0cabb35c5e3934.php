@@ -81,6 +81,10 @@ class __TwigTemplate_7eabfcbec2f13380d27eeb8b76b3ae36 extends Template
     public function getSourceContext()
     {
         return new Source("{% extends \"@email/zurb_2/notification/body.html.twig\" %}
+<<<<<<< HEAD:backend/var/cache/dev/twig/34/34da2fe6906072751f0cabb35c5e3934.php
 ", "@email/default/notification/body.html.twig", "C:\\Users\\sandesh\\OneDrive\\Desktop\\finalyearproject\\backend\\vendor\\symfony\\twig-bridge\\Resources\\views\\Email\\default\\notification\\body.html.twig");
+=======
+", "@email/default/notification/body.html.twig", "C:\\Users\\user\\OneDrive\\Desktop\\finalproject\\finalyearproject\\backend\\vendor\\symfony\\twig-bridge\\Resources\\views\\Email\\default\\notification\\body.html.twig");
+>>>>>>> origin/prizina:backend/var/cache/dev/twig/22/22b58fc441e90e10d568c0109dc6ab17.php
     }
 }

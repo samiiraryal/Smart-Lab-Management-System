@@ -311,6 +311,10 @@ class __TwigTemplate_66eab66422a996b4d90ee3d1d9a06b18 extends Template
         {{- form_rest(form) -}}
     </table>
 {%- endblock form_widget_compound -%}
+<<<<<<< HEAD:backend/var/cache/dev/twig/73/73542b5cddbda2b01241bd6945d7058a.php
 ", "form_table_layout.html.twig", "C:\\Users\\sandesh\\OneDrive\\Desktop\\finalyearproject\\backend\\vendor\\symfony\\twig-bridge\\Resources\\views\\Form\\form_table_layout.html.twig");
+=======
+", "form_table_layout.html.twig", "C:\\Users\\user\\OneDrive\\Desktop\\finalproject\\finalyearproject\\backend\\vendor\\symfony\\twig-bridge\\Resources\\views\\Form\\form_table_layout.html.twig");
+>>>>>>> origin/prizina:backend/var/cache/dev/twig/db/db2cae524818cc0d257b9c53df76366b.php
     }
 }

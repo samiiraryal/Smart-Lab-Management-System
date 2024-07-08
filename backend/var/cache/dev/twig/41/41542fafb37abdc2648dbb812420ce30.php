@@ -145,6 +145,10 @@ class __TwigTemplate_f88078b09e16986d80e15516a458ced6 extends Template
 
     <a href=\"{{ path('app_teacher_index') }}\">back to list</a>
 {% endblock %}
+<<<<<<< HEAD:backend/var/cache/dev/twig/41/41542fafb37abdc2648dbb812420ce30.php
 ", "teacher/new.html.twig", "C:\\Users\\sandesh\\OneDrive\\Desktop\\finalyearproject\\backend\\templates\\teacher\\new.html.twig");
+=======
+", "teacher/new.html.twig", "C:\\Users\\user\\OneDrive\\Desktop\\finalproject\\finalyearproject\\backend\\templates\\teacher\\new.html.twig");
+>>>>>>> origin/prizina:backend/var/cache/dev/twig/b7/b75bdabce698af26fcee51f3d6a7c32f.php
     }
 }

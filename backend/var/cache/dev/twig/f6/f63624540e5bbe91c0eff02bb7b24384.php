@@ -3996,6 +3996,10 @@ body.width-full .container {
     body.width-full .container { margin: 0 30px; }
 }
 
+<<<<<<< HEAD:backend/var/cache/dev/twig/f6/f63624540e5bbe91c0eff02bb7b24384.php
 ", "@WebProfiler/Profiler/profiler.css.twig", "C:\\Users\\sandesh\\OneDrive\\Desktop\\finalyearproject\\backend\\vendor\\symfony\\web-profiler-bundle\\Resources\\views\\Profiler\\profiler.css.twig");
+=======
+", "@WebProfiler/Profiler/profiler.css.twig", "C:\\Users\\user\\OneDrive\\Desktop\\finalproject\\finalyearproject\\backend\\vendor\\symfony\\web-profiler-bundle\\Resources\\views\\Profiler\\profiler.css.twig");
+>>>>>>> origin/prizina:backend/var/cache/dev/twig/19/194c6cd59a9d0bc475e199cede0ca518.php
     }
 }

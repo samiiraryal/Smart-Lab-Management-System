@@ -168,6 +168,10 @@ array_key_exists("token", $context)) ? (Twig\Extension\CoreExtension::default((i
     <h2>{{ messages[about].title }}</h2>
     <p>{{ messages[about].message }}</p>
 {% endblock %}
+<<<<<<< HEAD:backend/var/cache/dev/twig/1c/1cb725783fe63bacae8bd4db3543a8c6.php
 ", "@WebProfiler/Profiler/info.html.twig", "C:\\Users\\sandesh\\OneDrive\\Desktop\\finalyearproject\\backend\\vendor\\symfony\\web-profiler-bundle\\Resources\\views\\Profiler\\info.html.twig");
+=======
+", "@WebProfiler/Profiler/info.html.twig", "C:\\Users\\user\\OneDrive\\Desktop\\finalproject\\finalyearproject\\backend\\vendor\\symfony\\web-profiler-bundle\\Resources\\views\\Profiler\\info.html.twig");
+>>>>>>> origin/prizina:backend/var/cache/dev/twig/46/461973dbec91cda1ae974c38f1bddafd.php
     }
 }

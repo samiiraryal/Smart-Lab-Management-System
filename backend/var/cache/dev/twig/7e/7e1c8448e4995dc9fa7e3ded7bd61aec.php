@@ -182,6 +182,10 @@ class __TwigTemplate_2c71bde908815b5bb0847c8468d4d893 extends Template
         {%- endfor -%}
     </pre>
 {% endif %}
+<<<<<<< HEAD:backend/var/cache/dev/twig/7e/7e1c8448e4995dc9fa7e3ded7bd61aec.php
 ", "@Doctrine/Collector/explain.html.twig", "C:\\Users\\sandesh\\OneDrive\\Desktop\\finalyearproject\\backend\\vendor\\doctrine\\doctrine-bundle\\templates\\Collector\\explain.html.twig");
+=======
+", "@Doctrine/Collector/explain.html.twig", "C:\\Users\\user\\OneDrive\\Desktop\\finalproject\\finalyearproject\\backend\\vendor\\doctrine\\doctrine-bundle\\templates\\Collector\\explain.html.twig");
+>>>>>>> origin/prizina:backend/var/cache/dev/twig/0e/0ef9c576253f5134666b574c8fc499c2.php
     }
 }

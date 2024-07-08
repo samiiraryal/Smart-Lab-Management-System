@@ -361,6 +361,10 @@ class __TwigTemplate_98d0e337c469600454999fc5cfe9502f extends Template
         </div>
     </form>
 </div>
+<<<<<<< HEAD:backend/var/cache/dev/twig/6f/6fb10dfd144ab90f238770f776d6f086.php
 ", "@WebProfiler/Profiler/search.html.twig", "C:\\Users\\sandesh\\OneDrive\\Desktop\\finalyearproject\\backend\\vendor\\symfony\\web-profiler-bundle\\Resources\\views\\Profiler\\search.html.twig");
+=======
+", "@WebProfiler/Profiler/search.html.twig", "C:\\Users\\user\\OneDrive\\Desktop\\finalproject\\finalyearproject\\backend\\vendor\\symfony\\web-profiler-bundle\\Resources\\views\\Profiler\\search.html.twig");
+>>>>>>> origin/prizina:backend/var/cache/dev/twig/0c/0c5937a545ed4a9c6f55e1bed6ff2f25.php
     }
 }
