@@ -2,6 +2,7 @@ from flask import Flask, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from models import db, UsageData
 from config import Config
+import joblib
 
 app = Flask(__name__)
 app.config.from_object(Config)
@@ -10,6 +11,7 @@ db.init_app(app)
 class InferenceEngine:
     @staticmethod
     def evaluate(data):
+        # Rule-based thresholds
         faults = 0
         thresholds = {
             'system_errors': 3,
@@ -38,18 +40,40 @@ class InferenceEngine:
             faults += 1
         if data['intrusion_attempts'] > thresholds['intrusion_attempts']:
             faults += 1
-        if data['network_issues']:
-            faults += 1
         if faults >= 3:
             return "Maintenance Needed"
         elif faults >= 1:
             return "Moderate"
         return "Good"
 
+    @staticmethod
+    def ml_evaluate(data):
+        # Load the trained machine learning model
+        model = joblib.load('model.joblib')
+        # Prepare data for prediction
+        features = [
+            data['system_errors'],
+            data['cpu_usage'],
+            data['total_disk_space'],
+            data['used_disk_space'],
+            data['free_disk_space'],
+            data['ram_usage'],
+            data['cpu_temperature'],
+            data['gpu_temperature'],
+            data['crash_reports'],
+            data['prolonged_running_periods'],
+            data['bytes_sent'],
+            data['bytes_recv'],
+            data['intrusion_attempts']
+        ]
+        prediction = model.predict([features])
+        return prediction[0]
+
 @app.route('/receive_data', methods=['POST'])
 def receive_data():
     data = request.json
     status = InferenceEngine.evaluate(data)
+    ml_status = InferenceEngine.ml_evaluate(data)
     usage_data = UsageData(
         system_errors=data.get('system_errors', 0),
         cpu_usage=data.get('cpu_usage', 0.0),
@@ -68,7 +92,7 @@ def receive_data():
     )
     db.session.add(usage_data)
     db.session.commit()
-    return jsonify({"status": status})
+    return jsonify({"status": status, "ml_status": ml_status})
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)

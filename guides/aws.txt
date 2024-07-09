@@ -20,3 +20,31 @@ systemctl start https: to staat the httpd server
 if the site keeps loading forever then we have to check the Security groups;
 then edit the inbound rules
 add http and https [under source choose anywhere and give description as web-port or any name(doesn't matter)]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+AWS account
+dipendra.marasini@eemc.edu.np
+£7nyA_9s3m-<
