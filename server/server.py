@@ -3,10 +3,14 @@ from flask_sqlalchemy import SQLAlchemy
 from models import db, UsageData
 from config import Config
 import joblib
+import logging
 
 app = Flask(__name__)
 app.config.from_object(Config)
 db.init_app(app)
+
+#configure logging
+logging.basicConfig(level=logging.DEBUG)
 
 class InferenceEngine:
     @staticmethod
@@ -71,9 +75,16 @@ class InferenceEngine:
 
 @app.route('/receive_data', methods=['POST'])
 def receive_data():
+    app.logger.info("Received data")
     data = request.json
+    app.logger.debug(f"Received data: {data}")
+
     status = InferenceEngine.evaluate(data)
+    app.logger.info(f"Rule-based evaluation result: {status}")
+
     ml_status = InferenceEngine.ml_evaluate(data)
+    app.logger.info(f"Machine learning evaluation result: {ml_status}")
+
     usage_data = UsageData(
         system_errors=data.get('system_errors', 0),
         cpu_usage=data.get('cpu_usage', 0.0),
@@ -92,9 +103,12 @@ def receive_data():
     )
     db.session.add(usage_data)
     db.session.commit()
+    app.logger.info("Data saved to database")
+
     return jsonify({"status": status, "ml_status": ml_status})
 
 if __name__ == '__main__':
+    app.logger.info("Starting the server")
     with app.app_context():
         db.create_all()
-    app.run(host='0.0.0.0', port=5000)
+    app.run(host='0.0.0.0', port=5000, debug=True)
