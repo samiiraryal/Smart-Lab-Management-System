@@ -4,28 +4,8 @@ import json
 import logging
 from computer_expert_system import ComputerExpertSystem
 
-#  server's public IP and port
-SERVER_URL = 'http://13.215.254.7:5000/receive_data'
-
-async def send_data():
-    computer_expert_system = ComputerExpertSystem()
-    computer_expert_system.collect_usage_data()
-    computer_expert_system.evaluate_rules()
-    data = computer_expert_system.working_memory['local_computer']
-    data['status'] = computer_expert_system.status
-    
-    logging.info("Preparing to send data to server")
-    logging.debug(f"Data to be sent: {json.dumps(data, indent=2)}")
-
-
-    pythonCopyimport asyncio
-import aiohttp
-import json
-import logging
-from computer_expert_system import ComputerExpertSystem
-
 # Configure logging
-logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+logging.basicConfig(level=logging.DEBUG)
 
 # Server's public IP and port
 SERVER_URL = 'http://13.215.254.7:5000/receive_data'
@@ -36,7 +16,7 @@ async def send_data():
     computer_expert_system.evaluate_rules()
     data = computer_expert_system.working_memory['local_computer']
     data['status'] = computer_expert_system.status
-
+    
     logging.info("Preparing to send data to server")
     logging.debug(f"Data to be sent: {json.dumps(data, indent=2)}")
 
