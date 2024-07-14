@@ -69,7 +69,7 @@ const StudentDetailGraph = ({ student }: { student: any }) => {
 export default StudentDetailGraph;
 
 export const StudentLabReportDetailGraph = ({ student }: { student: any }) => {
-    const totalDays = 100;
+    const totalDays = 15;
     const data = {
       labels: ["Lab Report Days"],
       datasets: [

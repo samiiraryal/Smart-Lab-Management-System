@@ -23,6 +23,11 @@ add http and https [under source choose anywhere and give description as web-por
 
 
 
+token for github to aws:
+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
+
+
+
 
 
 
