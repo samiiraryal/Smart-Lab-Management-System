@@ -4,8 +4,8 @@ import styles from './computerCondition.module.css';
 const computers = [
   { id: 'PC-001', status: 'good', errors: 0, cpuUsage: 20, networkIssue: false },
   { id: 'PC-002', status: 'bad', errors: 5, cpuUsage: 90, networkIssue: true },
-  { id: 'PC-003', status: 'bad', errors: 5, cpuUsage: 90, networkIssue: true },
-  { id: 'PC-004', status: 'bad', errors: 5, cpuUsage: 70, networkIssue: true },
+  { id: 'PC-003', status: 'good', errors: 0, cpuUsage: 30, networkIssue: true },
+  { id: 'PC-004', status: 'bad', errors: 5, cpuUsage: 100, networkIssue: true },
   // Add more computer objects as needed
 ];
 

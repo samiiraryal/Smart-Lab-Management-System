@@ -27,11 +27,11 @@ const StudentDetail = () => {
   const attendancePercentage = ((student.attendance / totalDays) * 100).toFixed(
     2
   );
-  const TotalLabReport = 100; // Total number of lab report
+  const TotalLabReport = 15; // Total number of lab report
   const LabReportPercentage = (
-    (student.attendance / TotalLabReport) *
+    (student.reportDays / TotalLabReport) *
     100
-  ).toFixed(2);
+    ).toFixed(2);
 
   return (
     <div className={styles.studentDetail}>
