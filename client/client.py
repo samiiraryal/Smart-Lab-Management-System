@@ -25,7 +25,8 @@ async def send_data():
             async with session.post(SERVER_URL, json=data) as response:
                 if response.status == 200:
                     result = await response.json()
-                    logging.info(f"Data sent successfully. Server status: {result['status']}, ML status: {result['ml_status']}")
+                    # logging.info(f"Data sent successfully. Server status: {result['status']}, ML status: {result['ml_status']}")
+                    logging.info(f"Data sent successfully. Server status: {result['status']}")
                 else:
                     logging.error(f"Failed to send data. Status code: {response.status}")
                     response_text = await response.text()
