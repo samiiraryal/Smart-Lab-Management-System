@@ -8,7 +8,7 @@ from computer_expert_system import ComputerExpertSystem
 logging.basicConfig(level=logging.DEBUG)
 
 # Server's public IP and port
-SERVER_URL = 'http://13.215.254.7:5000/receive_data'
+SERVER_URL = 'http://13.215.254.7:8080/receive_data'
 
 async def send_data():
     computer_expert_system = ComputerExpertSystem()
