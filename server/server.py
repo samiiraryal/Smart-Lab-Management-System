@@ -2,7 +2,7 @@ from flask import Flask, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from models import db, UsageData
 from config import Config
-import joblib
+# import joblib
 import logging
 
 app = Flask(__name__)
@@ -50,28 +50,28 @@ class InferenceEngine:
             return "Moderate"
         return "Good"
 
-    @staticmethod
-    def ml_evaluate(data):
-        # Load the trained machine learning model
-        model = joblib.load('model.joblib')
-        # Prepare data for prediction
-        features = [
-            data['system_errors'],
-            data['cpu_usage'],
-            data['total_disk_space'],
-            data['used_disk_space'],
-            data['free_disk_space'],
-            data['ram_usage'],
-            data['cpu_temperature'],
-            data['gpu_temperature'],
-            data['crash_reports'],
-            data['prolonged_running_periods'],
-            data['bytes_sent'],
-            data['bytes_recv'],
-            data['intrusion_attempts']
-        ]
-        prediction = model.predict([features])
-        return prediction[0]
+    # @staticmethod
+    # def ml_evaluate(data):
+    #     # Load the trained machine learning model
+    #     model = joblib.load('model.joblib')
+    #     # Prepare data for prediction
+    #     features = [
+    #         data['system_errors'],
+    #         data['cpu_usage'],
+    #         data['total_disk_space'],
+    #         data['used_disk_space'],
+    #         data['free_disk_space'],
+    #         data['ram_usage'],
+    #         data['cpu_temperature'],
+    #         data['gpu_temperature'],
+    #         data['crash_reports'],
+    #         data['prolonged_running_periods'],
+    #         data['bytes_sent'],
+    #         data['bytes_recv'],
+    #         data['intrusion_attempts']
+    #     ]
+    #     prediction = model.predict([features])
+    #     return prediction[0]
 
 @app.route('/receive_data', methods=['POST'])
 def receive_data():
@@ -82,8 +82,8 @@ def receive_data():
     status = InferenceEngine.evaluate(data)
     app.logger.info(f"Rule-based evaluation result: {status}")
 
-    ml_status = InferenceEngine.ml_evaluate(data)
-    app.logger.info(f"Machine learning evaluation result: {ml_status}")
+    # ml_status = InferenceEngine.ml_evaluate(data)
+    # app.logger.info(f"Machine learning evaluation result: {ml_status}")
 
     usage_data = UsageData(
         system_errors=data.get('system_errors', 0),
@@ -105,7 +105,8 @@ def receive_data():
     db.session.commit()
     app.logger.info("Data saved to database")
 
-    return jsonify({"status": status, "ml_status": ml_status})
+    # return jsonify({"status": status, "ml_status": ml_status}) #to not return the ml model
+    return jsonify({"status": status})
 
 if __name__ == '__main__':
     app.logger.info("Starting the server")
