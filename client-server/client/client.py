@@ -19,8 +19,8 @@ def get_system_metrics():
     }  
 
 def main():  
-    # Run the code 15 times with a 10-second interval  
-    for i in range(15):  
+    # Run the code 8 times with a 10-second interval  
+    for i in range(8):  
         # Get the current system metrics  
         data = get_system_metrics()  
 
@@ -34,8 +34,8 @@ def main():
         else:  
             print(f"Run {i+1}: Error: {response.text}")  
 
-        # Wait for 10 seconds before the next run  
-        time.sleep(10)  
+        # Wait for 5 seconds before the next run  
+        time.sleep(5)  
 
 if __name__ == "__main__":  
     main()

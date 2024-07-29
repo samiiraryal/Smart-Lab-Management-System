@@ -14,17 +14,20 @@ logger = logging.getLogger(__name__)
 
 # Define the rules with more granularity and a catch-all rule
 RULES = [
-    {'conditions': {'cpu': '>90', 'ram': '>95'}, 'result': 'critical'},
-    {'conditions': {'cpu': '>80', 'ram': '>90'}, 'result': 'maintenance_needed'},
-    {'conditions': {'gpu': '>80', 'network': '>150'}, 'result': 'maintenance_needed'},
-    {'conditions': {'cpu': '>70', 'ram': '>80', 'gpu': '>70'}, 'result': 'high_usage'},
+    {'conditions': {'cpu': '>90', 'ram': '>95', 'duration': '>30'}, 'result': 'maintenance_needed'},
+    {'conditions': {'cpu': '>80', 'ram': '>90', 'duration': '>60'}, 'result': 'maintenance_needed'},
+    {'conditions': {'gpu': '>80', 'network': '>150', 'duration': '>60'}, 'result': 'maintenance_needed'},
+    {'conditions': {'cpu': '>70', 'ram': '>80', 'gpu': '>70', 'duration': '>120'}, 'result': 'maintenance_needed'},
     {'conditions': {'crash_reports': '>5'}, 'result': 'maintenance_needed'},
+    {'conditions': {'cpu': '>70', 'ram': '>80', 'gpu': '>70'}, 'result': 'high_usage'},
     {'conditions': {'cpu': '>60', 'ram': '>70', 'gpu': '>50', 'network': '<100'}, 'result': 'moderate'},
     {'conditions': {'cpu': '<70', 'ram': '<80', 'gpu': '<60', 'network': '<100', 'crash_reports': '<5'}, 'result': 'running_good'},
     {'conditions': {}, 'result': 'normal'}  # Catch-all rule
 ]
 
 crash_reports = []
+high_usage_start_time = None
+last_boot_time = psutil.boot_time()
 
 def measure_network_latency():
     try:
@@ -43,6 +46,8 @@ def get_crash_reports():
     return len(crash_reports)
 
 def collect_metrics():
+    global high_usage_start_time, last_boot_time
+    
     data = {}
     data['cpu'] = psutil.cpu_percent(interval=1)
     data['ram'] = psutil.virtual_memory().percent
@@ -57,6 +62,25 @@ def collect_metrics():
         logger.error(f"Error getting GPU usage: {e}")
     data['network'] = measure_network_latency()
     data['crash_reports'] = get_crash_reports()
+    
+    # Check if the system has been rebooted
+    current_boot_time = psutil.boot_time()
+    if current_boot_time != last_boot_time:
+        high_usage_start_time = None
+        last_boot_time = current_boot_time
+    
+    # Track duration of high usage
+    if data['cpu'] > 70 or data['ram'] > 80 or data['gpu'] > 70:
+        if high_usage_start_time is None:
+            high_usage_start_time = datetime.now()
+    else:
+        high_usage_start_time = None
+    
+    if high_usage_start_time:
+        data['duration'] = (datetime.now() - high_usage_start_time).total_seconds() / 60  # Convert to minutes
+    else:
+        data['duration'] = 0
+    
     logger.info(f"Collected metrics: {data}")
     return data
 
@@ -87,11 +111,12 @@ def infer_result(data):
 
 @app.route('/process', methods=['POST'])
 def process_data():
-    data = collect_metrics()
+    data = request.json
     result = infer_result(data)
     
     response = {'result': result, 'metrics': data}
-    logger.info(f"Response: {response}")
+    logger.info(f"Received metrics: {data}")
+    logger.info(f"Inferred result: {result}")
     return jsonify(response)
 
 @app.route('/report_crash', methods=['POST'])
