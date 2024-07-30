@@ -30,7 +30,7 @@ logging.basicConfig(level=logging.INFO,
                     filemode='a')
 logger = logging.getLogger(__name__)
 
-SERVER_URL = "127.0.0.1:8080"  # Replace with your server's IP and port
+SERVER_URL = "http://127.0.0.1:8080/process"  # Replace with your server's IP and port
 
 def measure_network_latency():
     try:

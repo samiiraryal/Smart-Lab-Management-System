@@ -11,3 +11,5 @@
 --setup.py only needs to be run once to do all the setup on the client side that includes adding the requirements(packages) and the start_monitor.bat
 
 --by going into the task manager and on the start-up section we can verify that our batch file is added to the system start up
+
+--working on metrics left are storage and prolonged usage confirmation
