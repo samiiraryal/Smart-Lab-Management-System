@@ -15,3 +15,6 @@
 --client_monitoyr.py is working on the background from the startup time and it sends data to the server continuously after predefined time duration (butthe results of client.py and client_monitor.py are not matching)
 
 --working on metrics left are storage and prolonged usage confirmation
+
+--on closing the start-up file, the client doesnot send data to the server,this needs to be addressed
+
