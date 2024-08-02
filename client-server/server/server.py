@@ -97,6 +97,21 @@ def evaluate_condition(metric, condition, value):
         return False
 
 def infer_result(data):
+    global high_usage_start_time
+    
+    # Check if high usage condition is met
+    if data.get('cpu', 0) > 70 or data.get('ram', 0) > 80 or data.get('gpu', 0) > 70:
+        if high_usage_start_time is None:
+            high_usage_start_time = datetime.now()
+    else:
+        high_usage_start_time = None
+    
+    # Calculate duration of high usage
+    if high_usage_start_time:
+        data['duration'] = (datetime.now() - high_usage_start_time).total_seconds() / 60  # Convert to minutes
+    else:
+        data['duration'] = 0
+    
     for rule in RULES:
         conditions_met = all(
             metric not in data or evaluate_condition(metric, condition, data[metric])
@@ -112,11 +127,11 @@ def infer_result(data):
 @app.route('/process', methods=['POST'])
 def process_data():
     data = request.json
+    logger.debug(f"Received data: {data}")
     result = infer_result(data)
     
     response = {'result': result, 'metrics': data}
-    logger.info(f"Received metrics: {data}")
-    logger.info(f"Inferred result: {result}")
+    logger.info(f"Processed result: {result}")
     return jsonify(response)
 
 @app.route('/report_crash', methods=['POST'])

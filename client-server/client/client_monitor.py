@@ -5,6 +5,7 @@ import time
 import logging
 import platform
 import requests
+import json
 import winreg as reg
 from pathlib import Path
 
@@ -24,7 +25,7 @@ log_dir = Path.home() / "AppData" / "Local" / "SystemMonitor"
 log_dir.mkdir(parents=True, exist_ok=True)
 log_file = log_dir / 'system_monitor.log'
 
-logging.basicConfig(level=logging.INFO, 
+logging.basicConfig(level=logging.DEBUG, 
                     format='%(asctime)s - %(levelname)s - %(message)s',
                     filename=log_file,
                     filemode='a')
@@ -57,14 +58,15 @@ def collect_metrics():
         logger.error(f"Error getting GPU usage: {e}")
     data['network'] = measure_network_latency()
     data['hostname'] = platform.node()
-    logger.info(f"Collected metrics: {data}")
+    logger.debug(f"Collected metrics: {json.dumps(data, indent=2)}")
     return data
 
 def send_metrics_to_server(data):
     try:
         response = requests.post(SERVER_URL, json=data)
         if response.status_code == 200:
-            logger.info("Metrics sent successfully")
+            result = response.json()
+            logger.info(f"Metrics sent successfully. Server response: {json.dumps(result, indent=2)}")
         else:
             logger.error(f"Failed to send metrics. Status code: {response.status_code}")
     except Exception as e:
@@ -86,7 +88,7 @@ def main():
     while True:
         metrics = collect_metrics()
         send_metrics_to_server(metrics)
-        time.sleep(60)  # Wait for 60 seconds before the next collection
+        time.sleep(10)  # Wait for 10 seconds before the next collection
 
 if __name__ == "__main__":
     main()

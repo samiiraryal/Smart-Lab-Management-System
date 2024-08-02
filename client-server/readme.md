@@ -12,4 +12,6 @@
 
 --by going into the task manager and on the start-up section we can verify that our batch file is added to the system start up
 
+--client_monitoyr.py is working on the background from the startup time and it sends data to the server continuously after predefined time duration (butthe results of client.py and client_monitor.py are not matching)
+
 --working on metrics left are storage and prolonged usage confirmation
