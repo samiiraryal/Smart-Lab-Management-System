@@ -97,6 +97,9 @@ def run_minimized():
     if sys.platform.startswith('win'):
         ctypes.windll.user32.ShowWindow(ctypes.windll.kernel32.GetConsoleWindow(), 6)  # SW_MINIMIZE = 6
 
+def display_info_message():
+    ctypes.windll.user32.MessageBoxW(0, "This is a tool to measure system metrics and suggest maintenance. The window will be minimized to prevent accidental closing.", "System Monitor", 0x40)
+
 def parse_arguments():
     parser = argparse.ArgumentParser(description="System Monitor Client")
     parser.add_argument("--test", action="store_true", help="Run in test mode (8 iterations)")
@@ -126,8 +129,10 @@ def main():
     args = parse_arguments()
     logger.info("Starting System Monitor Client")
     
-    if args.minimized:
-        run_minimized()
+    if not args.minimized:
+        display_info_message()
+    
+    run_minimized()
     
     if not args.test:
         add_to_startup()
