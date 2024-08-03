@@ -8,17 +8,10 @@ import requests
 import json
 import winreg as reg
 from pathlib import Path
-
-# Check if psutil and GPUtil are installed, if not, install them
-required_packages = ['psutil', 'GPUtil']
-for package in required_packages:
-    try:
-        __import__(package)
-    except ImportError:
-        subprocess.check_call([sys.executable, "-m", "pip", "install", package])
-
+import argparse
 import psutil
 import GPUtil
+import ctypes
 
 # Set up logging in user's home directory
 log_dir = Path.home() / "AppData" / "Local" / "SystemMonitor"
@@ -43,6 +36,19 @@ def measure_network_latency():
         logger.error(f"Error measuring network latency: {e}")
         return 0
 
+def get_storage_metrics():
+    try:
+        storage = psutil.disk_usage('/')
+        return {
+            'total': storage.total / (1024 ** 3),  # Convert to GB
+            'used': storage.used / (1024 ** 3),
+            'free': storage.free / (1024 ** 3),
+            'percent': storage.percent
+        }
+    except Exception as e:
+        logger.error(f"Error getting storage metrics: {e}")
+        return {}
+
 def collect_metrics():
     data = {}
     data['cpu'] = psutil.cpu_percent(interval=1)
@@ -57,38 +63,77 @@ def collect_metrics():
         data['gpu'] = 0
         logger.error(f"Error getting GPU usage: {e}")
     data['network'] = measure_network_latency()
+    data['storage'] = get_storage_metrics()
     data['hostname'] = platform.node()
+    data['crash_reports'] = 0  # Initialize crash_reports to 0
     logger.debug(f"Collected metrics: {json.dumps(data, indent=2)}")
     return data
 
 def send_metrics_to_server(data):
     try:
-        response = requests.post(SERVER_URL, json=data)
+        response = requests.post(SERVER_URL, json=data, timeout=10)
         if response.status_code == 200:
             result = response.json()
             logger.info(f"Metrics sent successfully. Server response: {json.dumps(result, indent=2)}")
+            return result
         else:
             logger.error(f"Failed to send metrics. Status code: {response.status_code}")
-    except Exception as e:
+            return None
+    except requests.exceptions.RequestException as e:
         logger.error(f"Error sending metrics to server: {e}")
+        return None
 
 def add_to_startup():
     key_path = r"Software\Microsoft\Windows\CurrentVersion\Run"
     try:
         key = reg.OpenKey(reg.HKEY_CURRENT_USER, key_path, 0, reg.KEY_ALL_ACCESS)
-        reg.SetValueEx(key, "SystemMonitor", 0, reg.REG_SZ, f'"{sys.executable}" "{os.path.abspath(__file__)}"')
+        reg.SetValueEx(key, "SystemMonitor", 0, reg.REG_SZ, f'"{sys.executable}" "{os.path.abspath(__file__)}" --minimized')
         reg.CloseKey(key)
         logger.info("Added to startup successfully")
     except WindowsError as e:
         logger.error(f"Failed to add to startup: {e}")
 
-def main():
-    logger.info("Starting System Monitor Client")
-    add_to_startup()
+def run_minimized():
+    if sys.platform.startswith('win'):
+        ctypes.windll.user32.ShowWindow(ctypes.windll.kernel32.GetConsoleWindow(), 6)  # SW_MINIMIZE = 6
+
+def parse_arguments():
+    parser = argparse.ArgumentParser(description="System Monitor Client")
+    parser.add_argument("--test", action="store_true", help="Run in test mode (8 iterations)")
+    parser.add_argument("--minimized", action="store_true", help="Run the script minimized")
+    return parser.parse_args()
+
+def run_continuous_monitoring():
     while True:
         metrics = collect_metrics()
-        send_metrics_to_server(metrics)
+        result = send_metrics_to_server(metrics)
+        if result:
+            logger.info(f"Result: {result['result']}")
+            logger.info(f"Metrics: {json.dumps(result['metrics'], indent=2)}")
         time.sleep(10)  # Wait for 10 seconds before the next collection
+
+def run_test_mode():
+    print("Running in test mode (8 iterations)")
+    for i in range(8):
+        metrics = collect_metrics()
+        result = send_metrics_to_server(metrics)
+        if result:
+            print(f"Run {i+1}: Result: {result['result']}")
+            print(f"Metrics: {json.dumps(result['metrics'], indent=2)}")
+        time.sleep(5)  # Wait for 5 seconds before the next run
+
+def main():
+    args = parse_arguments()
+    logger.info("Starting System Monitor Client")
+    
+    if args.minimized:
+        run_minimized()
+    
+    if not args.test:
+        add_to_startup()
+        run_continuous_monitoring()
+    else:
+        run_test_mode()
 
 if __name__ == "__main__":
     main()
