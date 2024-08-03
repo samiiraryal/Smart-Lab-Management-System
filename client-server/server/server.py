@@ -14,14 +14,14 @@ logger = logging.getLogger(__name__)
 
 # Define the rules with more granularity and a catch-all rule
 RULES = [
-    {'conditions': {'cpu': '>90', 'ram': '>95', 'duration': '>30'}, 'result': 'maintenance_needed'},
-    {'conditions': {'cpu': '>80', 'ram': '>90', 'duration': '>60'}, 'result': 'maintenance_needed'},
+    {'conditions': {'cpu': '>90', 'ram': '>95', 'storage': '>95', 'duration': '>30'}, 'result': 'maintenance_needed'},
+    {'conditions': {'cpu': '>80', 'ram': '>90', 'storage': '>90', 'duration': '>60'}, 'result': 'maintenance_needed'},
     {'conditions': {'gpu': '>80', 'network': '>150', 'duration': '>60'}, 'result': 'maintenance_needed'},
-    {'conditions': {'cpu': '>70', 'ram': '>80', 'gpu': '>70', 'duration': '>120'}, 'result': 'maintenance_needed'},
+    {'conditions': {'cpu': '>70', 'ram': '>80', 'gpu': '>70', 'storage': '>80', 'duration': '>120'}, 'result': 'maintenance_needed'},
     {'conditions': {'crash_reports': '>5'}, 'result': 'maintenance_needed'},
-    {'conditions': {'cpu': '>70', 'ram': '>80', 'gpu': '>70'}, 'result': 'high_usage'},
-    {'conditions': {'cpu': '>60', 'ram': '>70', 'gpu': '>50', 'network': '<100'}, 'result': 'moderate'},
-    {'conditions': {'cpu': '<70', 'ram': '<80', 'gpu': '<60', 'network': '<100', 'crash_reports': '<5'}, 'result': 'running_good'},
+    {'conditions': {'cpu': '>70', 'ram': '>80', 'gpu': '>70', 'storage': '>70'}, 'result': 'high_usage'},
+    {'conditions': {'cpu': '>60', 'ram': '>70', 'gpu': '>50', 'storage': '>60', 'network': '<100'}, 'result': 'moderate'},
+    {'conditions': {'cpu': '<70', 'ram': '<80', 'gpu': '<60', 'storage': '<60', 'network': '<100', 'crash_reports': '<5'}, 'result': 'running_good'},
     {'conditions': {}, 'result': 'normal'}  # Catch-all rule
 ]
 
@@ -100,7 +100,8 @@ def infer_result(data):
     global high_usage_start_time
     
     # Check if high usage condition is met
-    if data.get('cpu', 0) > 70 or data.get('ram', 0) > 80 or data.get('gpu', 0) > 70:
+    if (data.get('cpu', 0) > 70 or data.get('ram', 0) > 80 or 
+        data.get('gpu', 0) > 70 or data.get('storage', {}).get('percent', 0) > 70):
         if high_usage_start_time is None:
             high_usage_start_time = datetime.now()
     else:
@@ -114,7 +115,8 @@ def infer_result(data):
     
     for rule in RULES:
         conditions_met = all(
-            metric not in data or evaluate_condition(metric, condition, data[metric])
+            metric not in data or evaluate_condition(metric, condition, 
+                data[metric] if metric != 'storage' else data['storage']['percent'])
             for metric, condition in rule['conditions'].items()
         )
         if conditions_met:
@@ -138,7 +140,9 @@ def process_data():
 def report_crash():
     global crash_reports
     crash_reports.append(datetime.now())
-    return jsonify({'status': 'Crash reported successfully'}), 200
+    # Remove crash reports older than 1 hour
+    crash_reports = [report for report in crash_reports if report > datetime.now() - timedelta(hours=1)]
+    return jsonify({'status': 'Crash reported successfully', 'total_crashes': len(crash_reports)}), 200
 
 if __name__ == '__main__':
     app.run(host='127.0.0.1', port=8080, debug=True)
