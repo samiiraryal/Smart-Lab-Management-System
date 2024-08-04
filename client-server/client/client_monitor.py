@@ -49,6 +49,19 @@ def get_storage_metrics():
         logger.error(f"Error getting storage metrics: {e}")
         return {}
 
+def check_for_crashes():
+    try:
+        # Get the process ID of the script
+        script_process_id = os.getpid()
+        
+        # Check if the process is still running
+        if psutil.pid_exists(script_process_id):
+            return 0  # No crash detected
+        else:
+            return 1  # Crash detected
+    except Exception as e:
+        logger.error(f"Error checking for crashes: {e}")
+        return 0
 def collect_metrics():
     data = {}
     data['cpu'] = psutil.cpu_percent(interval=1)
@@ -65,7 +78,7 @@ def collect_metrics():
     data['network'] = measure_network_latency()
     data['storage'] = get_storage_metrics()
     data['hostname'] = platform.node()
-    data['crash_reports'] = 0  # Initialize crash_reports to 0
+    data['crash_reports'] = check_for_crashes()
     logger.debug(f"Collected metrics: {json.dumps(data, indent=2)}")
     return data
 
