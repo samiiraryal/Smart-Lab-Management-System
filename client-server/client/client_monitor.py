@@ -12,19 +12,27 @@ import argparse
 import psutil
 import GPUtil
 import ctypes
+from datetime import datetime, timedelta
 
 # Set up logging in user's home directory
 log_dir = Path.home() / "AppData" / "Local" / "SystemMonitor"
 log_dir.mkdir(parents=True, exist_ok=True)
 log_file = log_dir / 'system_monitor.log'
 
+# Configure logging to both file and console
 logging.basicConfig(level=logging.DEBUG, 
                     format='%(asctime)s - %(levelname)s - %(message)s',
-                    filename=log_file,
-                    filemode='a')
+                    handlers=[
+                        logging.FileHandler(log_file),
+                        logging.StreamHandler()
+                    ])
 logger = logging.getLogger(__name__)
 
-SERVER_URL = "http://127.0.0.1:8080/process"  # Replace with your server's IP and port
+SERVER_URL = "http://127.0.0.1:8080/process"
+CRASH_REPORT_URL = "http://127.0.0.1:8080/report_crash"
+
+# File to store computer runtime data
+RUNTIME_FILE = log_dir / 'computer_runtime.json'
 
 def measure_network_latency():
     try:
@@ -49,19 +57,48 @@ def get_storage_metrics():
         logger.error(f"Error getting storage metrics: {e}")
         return {}
 
-def check_for_crashes():
+def get_computer_runtime():
+    if RUNTIME_FILE.exists():
+        with open(RUNTIME_FILE, 'r') as f:
+            data = json.load(f)
+        last_shutdown = datetime.fromtimestamp(data['last_shutdown'])
+        total_runtime = timedelta(hours=data['total_runtime'])
+    else:
+        last_shutdown = datetime.fromtimestamp(psutil.boot_time())
+        total_runtime = timedelta()
+
+    current_time = datetime.now()
+    current_session = current_time - datetime.fromtimestamp(psutil.boot_time())
+    total_runtime += current_session
+
+    return total_runtime.total_seconds() / 3600  # Convert to hours
+
+def update_runtime_file():
+    current_time = datetime.now().timestamp()
+    total_runtime = get_computer_runtime()
+
+    data = {
+        'last_shutdown': current_time,
+        'total_runtime': total_runtime
+    }
+
+    with open(RUNTIME_FILE, 'w') as f:
+        json.dump(data, f)
+
+def report_crash(app_name):
     try:
-        # Get the process ID of the script
-        script_process_id = os.getpid()
-        
-        # Check if the process is still running
-        if psutil.pid_exists(script_process_id):
-            return 0  # No crash detected
+        crash_data = {
+            'hostname': platform.node(),
+            'app_name': app_name
+        }
+        response = requests.post(CRASH_REPORT_URL, json=crash_data, timeout=10)
+        if response.status_code == 200:
+            logger.info(f"Crash reported successfully for app: {app_name}")
         else:
-            return 1  # Crash detected
+            logger.error(f"Failed to report crash. Status code: {response.status_code}")
     except Exception as e:
-        logger.error(f"Error checking for crashes: {e}")
-        return 0
+        logger.error(f"Error reporting crash: {e}")
+
 def collect_metrics():
     data = {}
     data['cpu'] = psutil.cpu_percent(interval=1)
@@ -78,7 +115,8 @@ def collect_metrics():
     data['network'] = measure_network_latency()
     data['storage'] = get_storage_metrics()
     data['hostname'] = platform.node()
-    data['crash_reports'] = check_for_crashes()
+    data['uptime'] = get_computer_runtime()
+    data['boot_time'] = psutil.boot_time()
     logger.debug(f"Collected metrics: {json.dumps(data, indent=2)}")
     return data
 
@@ -110,9 +148,6 @@ def run_minimized():
     if sys.platform.startswith('win'):
         ctypes.windll.user32.ShowWindow(ctypes.windll.kernel32.GetConsoleWindow(), 6)  # SW_MINIMIZE = 6
 
-def display_info_message():
-    ctypes.windll.user32.MessageBoxW(0, "This is a tool to measure system metrics and suggest maintenance. The window will be minimized to prevent accidental closing.", "System Monitor", 0x40)
-
 def parse_arguments():
     parser = argparse.ArgumentParser(description="System Monitor Client")
     parser.add_argument("--test", action="store_true", help="Run in test mode (8 iterations)")
@@ -120,13 +155,20 @@ def parse_arguments():
     return parser.parse_args()
 
 def run_continuous_monitoring():
+    logger.info("Starting continuous monitoring...")
     while True:
-        metrics = collect_metrics()
-        result = send_metrics_to_server(metrics)
-        if result:
-            logger.info(f"Result: {result['result']}")
-            logger.info(f"Metrics: {json.dumps(result['metrics'], indent=2)}")
-        time.sleep(10)  # Wait for 10 seconds before the next collection
+        try:
+            metrics = collect_metrics()
+            logger.info(f"Collected metrics: {json.dumps(metrics, indent=2)}")
+            result = send_metrics_to_server(metrics)
+            if result:
+                logger.info(f"Server response - Result: {result['result']}")
+                logger.info(f"Server response - Scores: {json.dumps(result['scores'], indent=2)}")
+                logger.info(f"Server response - Metrics: {json.dumps(result['metrics'], indent=2)}")
+            time.sleep(600)  # Wait for 10 minutes before the next collection
+        except Exception as e:
+            logger.error(f"Error in continuous monitoring: {e}")
+            time.sleep(60)  # Wait for 1 minute before retrying
 
 def run_test_mode():
     print("Running in test mode (8 iterations)")
@@ -142,16 +184,20 @@ def main():
     args = parse_arguments()
     logger.info("Starting System Monitor Client")
     
-    if not args.minimized:
-        display_info_message()
-    
-    run_minimized()
+    if args.minimized:
+        run_minimized()
+    else:
+        ctypes.windll.user32.MessageBoxW(0, "This is a tool to measure system metrics for lab maintenance. The window will be minimized to prevent accidental closing.", "Lab System Monitor", 0x40)
+        run_minimized()
     
     if not args.test:
         add_to_startup()
         run_continuous_monitoring()
     else:
         run_test_mode()
+
+    # Update runtime file before exit
+    update_runtime_file()
 
 if __name__ == "__main__":
     main()

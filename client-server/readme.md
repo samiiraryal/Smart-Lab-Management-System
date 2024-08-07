@@ -18,3 +18,8 @@
 
 --on closing the start-up file, the client doesnot send data to the server,this needs to be addressed
 
+--crash reports are now handled in server for cenralized storage and handling, consistency and persistance as client may delete the log files
+
+--crash reporting is now more detailed with app name and host name
+
+--added weight metrics in rules to better predict the condition
