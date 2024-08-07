@@ -3,6 +3,12 @@ import psutil
 import time
 import subprocess
 import platform
+import GPUtil
+from datetime import datetime, timedelta
+import json
+
+SERVER_URL = "http://127.0.0.1:8080/process"
+CRASH_REPORT_URL = "http://127.0.0.1:8080/report_crash"
 
 def measure_network_latency():
     try:
@@ -27,43 +33,61 @@ def get_storage_metrics():
         print(f"Error getting storage metrics: {e}")
         return {}
 
+def get_computer_uptime():
+    return (datetime.now() - datetime.fromtimestamp(psutil.boot_time())).total_seconds() / 3600  # Convert to hours
+
 def get_system_metrics():
-    # Get the current system metrics
     cpu_usage = psutil.cpu_percent(interval=1)
     ram_usage = psutil.virtual_memory().percent
-    gpu_usage = 0  # Assuming no GPU usage for now
+    gpu_usage = 0
+    try:
+        gpus = GPUtil.getGPUs()
+        if gpus:
+            gpu_usage = gpus[0].load * 100
+    except Exception as e:
+        print(f"Error getting GPU usage: {e}")
+    
     network_latency = measure_network_latency()
     storage_metrics = get_storage_metrics()
-    crash_reports = 0  # Assuming no crash reports for now
-
+    uptime = get_computer_uptime()
+    
     return {
         'cpu': cpu_usage,
         'ram': ram_usage,
         'gpu': gpu_usage,
         'network': network_latency,
         'storage': storage_metrics,
-        'crash_reports': crash_reports,
-        'hostname': platform.node()
+        'uptime': uptime,
+        'hostname': platform.node(),
+        'boot_time': psutil.boot_time()
     }
 
-def main():
-    # Run the code 8 times with a 10-second interval
-    for i in range(8):
-        # Get the current system metrics
-        data = get_system_metrics()
-
-        # Send the data to the server
-        response = requests.post('http://127.0.0.1:8080/process', json=data)
-
-        # Check if the response was successful
+def send_metrics_to_server(data):
+    try:
+        response = requests.post(SERVER_URL, json=data, timeout=10)
         if response.status_code == 200:
-            result = response.json()['result']
-            print(f"Run {i+1}: Result: {result}")
+            return response.json()
         else:
-            print(f"Run {i+1}: Error: {response.text}")
+            print(f"Error: Server returned status code {response.status_code}")
+            return None
+    except requests.exceptions.RequestException as e:
+        print(f"Error sending metrics to server: {e}")
+        return None
 
-        # Wait for 5 seconds before the next run
-        time.sleep(5)
+def main():
+    print("Running system monitoring...")
+    for i in range(8):
+        data = get_system_metrics()
+        print(f"\nRun {i+1} - Collected metrics:")
+        print(json.dumps(data, indent=2))
+        
+        result = send_metrics_to_server(data)
+        if result:
+            print(f"Server response: {result['result']}")
+        else:
+            print("Failed to get response from server")
+        
+        time.sleep(5)  # Wait for 5 seconds before the next run
 
 if __name__ == "__main__":
     main()
