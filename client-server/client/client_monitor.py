@@ -163,8 +163,20 @@ def run_continuous_monitoring():
             result = send_metrics_to_server(metrics)
             if result:
                 logger.info(f"Server response - Result: {result['result']}")
+                logger.info(f"Server response - Confidence: {result['confidence']:.2f}")
                 logger.info(f"Server response - Scores: {json.dumps(result['scores'], indent=2)}")
                 logger.info(f"Server response - Metrics: {json.dumps(result['metrics'], indent=2)}")
+                
+                if result['result'] == 'maintenance_needed':
+                    logger.warning("The system requires maintenance based on the collected metrics.")
+                elif result['result'] == 'high_usage':
+                    logger.warning("The system is experiencing high usage.")
+                elif result['result'] == 'moderate':
+                    logger.info("The system is experiencing moderate usage.")
+                elif result['result'] == 'running_good':
+                    logger.info("The system is running well.")
+                else:
+                    logger.warning(f"Unknown result from the server: {result['result']}")
             time.sleep(600)  # Wait for 10 minutes before the next collection
         except Exception as e:
             logger.error(f"Error in continuous monitoring: {e}")
@@ -176,7 +188,7 @@ def run_test_mode():
         metrics = collect_metrics()
         result = send_metrics_to_server(metrics)
         if result:
-            print(f"Run {i+1}: Result: {result['result']}")
+            print(f"Run {i+1}: Result: {result['result']}, Confidence: {result['confidence']:.2f}")
             print(f"Metrics: {json.dumps(result['metrics'], indent=2)}")
         time.sleep(5)  # Wait for 5 seconds before the next run
 
