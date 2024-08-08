@@ -76,7 +76,7 @@ def send_metrics_to_server(data):
 
 def main():
     print("Running system monitoring...")
-    for i in range(8):
+    for i in range(20):
         data = get_system_metrics()
         print(f"\nRun {i+1} - Collected metrics:")
         print(json.dumps(data, indent=2))
