@@ -115,8 +115,15 @@ def collect_metrics():
     data['network'] = measure_network_latency()
     data['storage'] = get_storage_metrics()
     data['hostname'] = platform.node()
-    data['uptime'] = get_computer_runtime()
-    data['boot_time'] = psutil.boot_time()
+    
+    # Calculate uptime in seconds
+    boot_time = psutil.boot_time()
+    current_time = time.time()
+    uptime_seconds = current_time - boot_time
+    
+    data['uptime'] = uptime_seconds
+    data['boot_time'] = boot_time
+    
     logger.debug(f"Collected metrics: {json.dumps(data, indent=2)}")
     return data
 

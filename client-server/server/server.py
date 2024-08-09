@@ -123,6 +123,9 @@ def evaluate_condition(metric, condition, value):
 def process_data():
     current_data = request.json
     
+    # Convert uptime from seconds to hours
+    uptime_hours = current_data.get('uptime', 0) / 3600
+    
     # Format the received data for logging
     formatted_data = {
         "cpu": f"{current_data.get('cpu', 0):.2f}%",
@@ -130,12 +133,12 @@ def process_data():
         "gpu": f"{current_data.get('gpu', 0):.2f}%",
         "network": f"{current_data.get('network', 0):.2f} Mbps",
         "storage": {
-            "total": f"{current_data.get('storage', {}).get('total', 0) / 1024:.2f} GB",
-            "used": f"{current_data.get('storage', {}).get('used', 0) / 1024:.2f} GB",
-            "free": f"{current_data.get('storage', {}).get('free', 0) / 1024:.2f} GB",
+            "total": f"{current_data.get('storage', {}).get('total', 0):.2f} GB",
+            "used": f"{current_data.get('storage', {}).get('used', 0):.2f} GB",
+            "free": f"{current_data.get('storage', {}).get('free', 0):.2f} GB",
             "percent": f"{current_data.get('storage', {}).get('percent', 0):.2f}%"
         },
-        "uptime": f"{current_data.get('uptime', 0) / 3600:.2f} hours",
+        "uptime": f"{uptime_hours:.2f} hours",
         "hostname": current_data.get('hostname', 'unknown'),
         "boot_time": datetime.fromtimestamp(current_data.get('boot_time', 0)).strftime('%Y-%m-%d %H:%M:%S')
     }
