@@ -184,10 +184,10 @@ def run_continuous_monitoring():
                     logger.info("The system is running well.")
                 else:
                     logger.warning(f"Unknown result from the server: {result['result']}")
-            time.sleep(600)  # Wait for 10 minutes before the next collection
+            time.sleep(10)  # Wait for 10 minutes before the next collection
         except Exception as e:
             logger.error(f"Error in continuous monitoring: {e}")
-            time.sleep(60)  # Wait for 1 minute before retrying
+            time.sleep(5)  # Wait for 1 minute before retrying
 
 def run_test_mode():
     print("Running in test mode (8 iterations)")
