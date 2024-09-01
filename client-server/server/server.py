@@ -117,10 +117,7 @@ def save_crash_reports(reports):
     with open(CRASH_REPORT_FILE, 'w') as f:
         json.dump(reports, f)
 
-def calculate_usage_score(cpu, ram, gpu, storage, network):
-    # Normalize network latency (assuming 500ms as the max)
-    normalized_network = min(network / 500, 1)
-    return (cpu * 0.25 + ram * 0.25 + gpu * 0.2 + storage * 0.2 + normalized_network * 0.1) / 100
+
 
 def calculate_usage_score(cpu, ram, gpu, storage, network):
     # Extract storage percentage
