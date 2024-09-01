@@ -1,13 +1,9 @@
 from flask import Flask, request, jsonify
-import psutil
-import GPUtil
-import platform
-import time
 import logging
 from datetime import datetime, timedelta
 import json
 from pathlib import Path
-
+from collections import deque
 
 app = Flask(__name__)
 
@@ -30,42 +26,36 @@ HISTORY_FILE = log_dir / 'system_history.json'
 # File to store crash reports
 CRASH_REPORT_FILE = log_dir / 'crash_reports.json'
 
-# Improved RULES with more nuanced conditions
+# Updated RULES with more nuanced conditions
 RULES = {
     'maintenance_needed': {
         'conditions': [
-            {'cpu': '>90', 'ram': '>90', 'storage': '>90', 'duration': '>2'},
-            {'cpu': '>80', 'ram': '>85', 'gpu': '>80', 'storage': '>85', 'duration': '>4'},
-            {'crash_reports': '>10', 'duration': '>24'},
-            {'uptime': '>336'},  # More than 14 days uptime
-            {'usage_score': '>0.8', 'uptime': '>168'},  # High usage for over a week
+            {'high_usage_duration': '>4'},  # High usage for more than 4 hours
         ],
         'weight': 1.0
     },
     'high_usage': {
         'conditions': [
-            {'cpu': '>70', 'ram': '>80', 'duration': '>1'},
-            {'gpu': '>70', 'duration': '>2'},
-            {'storage': '>80', 'duration': '>24'},
-            {'usage_score': '>0.7', 'duration': '>12'},  # High usage for over 12 hours
-            {'uptime': '>168', 'usage_score': '>0.6'},  # Moderate-high usage for over a week
+            {'cpu': '>70', 'ram': '>80'},
+            {'gpu': '>70'},
+            {'storage': '>80'},
+            {'usage_score': '>0.7'},
         ],
         'weight': 0.7
     },
     'moderate': {
         'conditions': [
-            {'cpu': '>50', 'ram': '>60', 'duration': '>0.5'},
-            {'gpu': '>50', 'duration': '>1'},
+            {'cpu': '>50', 'ram': '>60'},
+            {'gpu': '>50'},
             {'storage': '>70'},
-            {'usage_score': '>0.5', 'duration': '>6'},  # Moderate usage for over 6 hours
-            {'crash_reports': '>5', 'duration': '>24'},  # More than 5 crashes in 24 hours
+            {'usage_score': '>0.5'},
         ],
         'weight': 0.4
     },
     'running_good': {
         'conditions': [
-            {'cpu': '<50', 'ram': '<60', 'gpu': '<50', 'storage': '<70', 'crash_reports': '<3', 'uptime': '<72'},
-            {'usage_score': '<0.4', 'duration': '>12', 'crash_reports': '0'},  # Low usage for over 12 hours, no crashes
+            {'cpu': '<50', 'ram': '<60', 'gpu': '<50', 'storage': '<70'},
+            {'usage_score': '<0.4'},
         ],
         'weight': 0.1
     }
@@ -98,18 +88,21 @@ def save_crash_reports(reports):
         json.dump(reports, f)
 
 def calculate_usage_score(cpu, ram, gpu, storage):
-    return (cpu * 0.4 + ram * 0.3 + gpu * 0.2 + storage * 0.1) / 100
+    return (cpu * 0.3 + ram * 0.3 + gpu * 0.2 + storage * 0.2) / 100
 
-def analyze_usage_pattern(history):
-    if not history:
+def analyze_usage_pattern(history, duration):
+    # Convert duration from hours to number of entries (assuming 5-minute intervals)
+    num_entries = int(float(duration[1:]) * 12)
+    relevant_history = history[-num_entries:] if len(history) >= num_entries else history
+    
+    if not relevant_history:
         return 0
     
-    recent_scores = [entry['usage_score'] for entry in history[-24:]]  # Last 24 entries (assuming hourly data)
-    avg_score = sum(recent_scores) / len(recent_scores)
-    return avg_score
+    return sum(entry['usage_score'] for entry in relevant_history) / len(relevant_history)
 
 def evaluate_condition(metric, condition, value):
     operator, threshold = condition[0], float(condition[1:])
+    
     if operator == '>':
         return value > threshold
     elif operator == '<':
@@ -120,31 +113,11 @@ def evaluate_condition(metric, condition, value):
         logger.warning(f"Unknown operator in condition: {condition}")
         return False
 
+# Modify the process_data function to include the new high_usage_duration metric
 @app.route('/process', methods=['POST'])
 def process_data():
     current_data = request.json
-    
-    # Convert uptime from seconds to hours
-    uptime_hours = current_data.get('uptime', 0) / 3600
-    
-    # Format the received data for logging
-    formatted_data = {
-        "cpu": f"{current_data.get('cpu', 0):.2f}%",
-        "ram": f"{current_data.get('ram', 0):.2f}%",
-        "gpu": f"{current_data.get('gpu', 0):.2f}%",
-        "network": f"{current_data.get('network', 0):.2f} Mbps",
-        "storage": {
-            "total": f"{current_data.get('storage', {}).get('total', 0):.2f} GB",
-            "used": f"{current_data.get('storage', {}).get('used', 0):.2f} GB",
-            "free": f"{current_data.get('storage', {}).get('free', 0):.2f} GB",
-            "percent": f"{current_data.get('storage', {}).get('percent', 0):.2f}%"
-        },
-        "uptime": f"{uptime_hours:.2f} hours",
-        "hostname": current_data.get('hostname', 'unknown'),
-        "boot_time": datetime.fromtimestamp(current_data.get('boot_time', 0)).strftime('%Y-%m-%d %H:%M:%S')
-    }
-    
-    logger.info(f"Received data: {json.dumps(formatted_data, indent=2)}")
+    logger.info(f"Received data: {json.dumps(current_data, indent=2)}")
 
     history = load_history()
     crash_reports = load_crash_reports()
@@ -152,9 +125,16 @@ def process_data():
     result, confidence, scores = infer_result(current_data, history, crash_reports)
 
     # Update history
+    current_usage_score = calculate_usage_score(
+        current_data.get('cpu', 0),
+        current_data.get('ram', 0),
+        current_data.get('gpu', 0),
+        current_data.get('storage', {}).get('percent', 0)
+    )
     history.append({
         'timestamp': datetime.now().isoformat(),
-        'usage_score': current_data['usage_score']
+        'usage_score': current_usage_score,
+        'high_usage_duration': current_data.get('high_usage_duration', 0)
     })
     
     # Keep only last 7 days of history
@@ -172,7 +152,14 @@ def process_data():
     logger.info(f"Processed result: {result} with confidence {confidence:.2f}")
     return jsonify(response)
 
+
+# Add this global variable to track high usage duration
+high_usage_start = None
+usage_history = deque(maxlen=720)  # Store 6 hours of data (assuming 30-second intervals)
+
 def infer_result(data, history, crash_reports):
+    global high_usage_start, usage_history
+    
     # Extract storage percentage safely
     storage_percent = data.get('storage', {}).get('percent', 0)
     if isinstance(storage_percent, dict):
@@ -185,11 +172,23 @@ def infer_result(data, history, crash_reports):
         storage_percent
     )
     data['usage_score'] = usage_score
-    data['uptime'] = data.get('uptime', 0) / 3600  # Convert to hours
     
-    # Get crash reports count for the last 24 hours
-    data['crash_reports'] = sum(1 for report in crash_reports 
-                                if datetime.now() - datetime.fromisoformat(report['timestamp']) <= timedelta(days=1))
+    # Update usage history
+    current_time = datetime.now()
+    usage_history.append((current_time, usage_score))
+    
+    # Track high usage duration
+    if usage_score > 0.7:
+        if high_usage_start is None:
+            high_usage_start = current_time
+    else:
+        high_usage_start = None
+    
+    high_usage_duration = 0
+    if high_usage_start:
+        high_usage_duration = (current_time - high_usage_start).total_seconds() / 3600  # in hours
+    
+    data['high_usage_duration'] = high_usage_duration
     
     # Calculate the score for each category
     scores = {}
@@ -203,7 +202,8 @@ def infer_result(data, history, crash_reports):
     
     # Determine the result based on the highest score
     result = max(scores, key=scores.get)
-    confidence = scores[result]
+    total_score = sum(scores.values())
+    confidence = scores[result] / total_score if total_score > 0 else 0
     
     return result, confidence, scores
 
@@ -225,61 +225,6 @@ def report_crash():
     save_crash_reports(crash_reports)
     
     return jsonify({'status': 'Crash reported successfully', 'total_crashes': len(crash_reports)}), 200
-
-@app.route('/system_info', methods=['GET'])
-def get_system_info():
-    cpu_freq = psutil.cpu_freq()
-    mem = psutil.virtual_memory()
-    disk = psutil.disk_usage('/')
-    
-    try:
-        gpus = GPUtil.getGPUs()
-        gpu_info = [{
-            'name': gpu.name,
-            'load': f"{gpu.load * 100:.2f}%",
-            'memory': {
-                'total': f"{gpu.memoryTotal / 1024:.2f} GB",
-                'used': f"{gpu.memoryUsed / 1024:.2f} GB",
-                'free': f"{gpu.memoryFree / 1024:.2f} GB"
-            }
-        } for gpu in gpus]
-    except:
-        gpu_info = []
-
-    boot_time = psutil.boot_time()
-    current_time = time.time()
-    uptime = current_time - boot_time
-
-    system_info = {
-        'hostname': platform.node(),
-        'os': platform.system(),
-        'os_version': platform.version(),
-        'cpu': {
-            'physical_cores': psutil.cpu_count(logical=False),
-            'total_cores': psutil.cpu_count(logical=True),
-            'max_frequency': f"{cpu_freq.max / 1000:.2f} GHz",
-            'current_frequency': f"{cpu_freq.current / 1000:.2f} GHz"
-        },
-        'memory': {
-            'total': f"{mem.total / (1024**3):.2f} GB",
-            'available': f"{mem.available / (1024**3):.2f} GB",
-            'used': f"{mem.used / (1024**3):.2f} GB",
-            'percent': f"{mem.percent:.2f}%"
-        },
-        'disk': {
-            'total': f"{disk.total / (1024**3):.2f} GB",
-            'used': f"{disk.used / (1024**3):.2f} GB",
-            'free': f"{disk.free / (1024**3):.2f} GB",
-            'percent': f"{disk.percent:.2f}%"
-        },
-        'gpu': gpu_info,
-        'boot_time': f"{int(boot_time)} seconds since epoch",
-        'boot_time_formatted': datetime.fromtimestamp(boot_time).strftime('%Y-%m-%d %H:%M:%S'),
-        'uptime': f"{uptime / 3600:.2f} hours"
-    }
-    
-    logger.info(f"System info retrieved: {json.dumps(system_info, indent=2)}")
-    return jsonify(system_info)
 
 if __name__ == '__main__':
     logger.info("Starting Flask server...")
