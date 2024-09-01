@@ -23,3 +23,5 @@
 --crash reporting is now more detailed with app name and host name
 
 --added weight metrics in rules to better predict the condition
+
+--added the prolonged period of time (1-2 hours) on high usage to suggest for maintenace

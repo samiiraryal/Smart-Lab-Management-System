@@ -12,6 +12,7 @@ import argparse
 import psutil
 import GPUtil
 import ctypes
+import time
 from datetime import datetime, timedelta
 
 # Set up logging in user's home directory
@@ -89,9 +90,10 @@ def report_crash(app_name):
     try:
         crash_data = {
             'hostname': platform.node(),
-            'app_name': app_name
+            'app_name': app_name,
+            'timestamp': datetime.now().isoformat()
         }
-        response = requests.post(CRASH_REPORT_URL, json=crash_data, timeout=10)
+        response = requests.post(f"{SERVER_URL}/report_crash", json=crash_data, timeout=10)
         if response.status_code == 200:
             logger.info(f"Crash reported successfully for app: {app_name}")
         else:
@@ -113,16 +115,24 @@ def collect_metrics():
         data['gpu'] = 0
         logger.error(f"Error getting GPU usage: {e}")
     data['network'] = measure_network_latency()
-    data['storage'] = get_storage_metrics()
+    data['storage'] = get_storage_metrics()['percent']
     data['hostname'] = platform.node()
+    data['uptime'] = time.time() - psutil.boot_time()
     
-    # Calculate uptime in seconds
-    boot_time = psutil.boot_time()
-    current_time = time.time()
-    uptime_seconds = current_time - boot_time
+    # Calculate usage score
+    data['usage_score'] = (data['cpu'] + data['ram'] + data['gpu'] + data['storage']) / 400
     
-    data['uptime'] = uptime_seconds
-    data['boot_time'] = boot_time
+    # Calculate high usage duration
+    if data['usage_score'] > 0.7:
+        if high_usage_start is None:
+            high_usage_start = datetime.now()
+    else:
+        high_usage_start = None
+    
+    if high_usage_start:
+        data['high_usage_duration'] = (datetime.now() - high_usage_start).total_seconds() / 3600  # in hours
+    else:
+        data['high_usage_duration'] = 0
     
     logger.debug(f"Collected metrics: {json.dumps(data, indent=2)}")
     return data
