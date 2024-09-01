@@ -166,7 +166,6 @@ def run_continuous_monitoring():
     while True:
         try:
             metrics = collect_metrics()
-            logger.info(f"Collected metrics: {json.dumps(metrics, indent=2)}")
             result = send_metrics_to_server(metrics)
             if result:
                 logger.info(f"Server response - Result: {result['result']}")
