@@ -39,33 +39,32 @@ RULES = {
             {'high_usage_duration': '>2'},  # High usage for more than 2 hours
             {'uptime': '>168'},  # System running for more than 7 days (168 hours)
             {'network': '>500', 'high_usage_duration': '>2'},  # High latency and extended high usage
-            {'cpu': '>90', 'high_usage_duration': '>1'},  # Critical CPU usage for over 1 hour
-            {'ram': '>90', 'high_usage_duration': '>1'},  # Critical RAM usage for over 1 hour
-            {'cpu': '>85', 'ram': '>85', 'high_usage_duration': '>1'},  # Both CPU and RAM very high for over 1 hour
-            {'cpu': '>85', 'frequency': '>3', 'time_frame': '24h'},  # CPU >85% more than 3 times in 24 hours
-            {'cpu': '>90', 'ram': '>90', 'network': '>700', 'high_usage_duration': '>0.5'}  # Critical resource usage for over 30 minutes
+            {'cpu': '>90', 'ram': '>90', 'high_usage_duration': '>1'},  # Critical CPU and RAM usage for over 1 hour
+            {'cpu': '>85', 'ram': '>85', 'gpu': '>85', 'high_usage_duration': '>1'},  # All resources very high for over 1 hour
+            {'cpu': '>85', 'ram': '>85', 'frequency': '>3', 'time_frame': '24h'},  # Both CPU and RAM very high more than 3 times in 24 hours
+            {'cpu': '>90', 'ram': '>90', 'gpu': '>90', 'network': '>700', 'high_usage_duration': '>0.5'}  # Critical resource usage for over 30 minutes
         ],
         'weight': 1.0
     },
     'high_usage': {
         'conditions': [
-            {'cpu': '>80'},  # High CPU usage
-            {'ram': '>80'},  # High RAM usage
-            {'cpu': '>70', 'ram': '>70'},  # Both CPU and RAM high
-            {'gpu': '>70'},
-            {'storage': '>80'},
-            {'usage_score': '>0.7'},
-            {'network': '>300'},  # High network latency
+            {'cpu': '>80', 'ram': '>80'},  # Both CPU and RAM high
+            {'cpu': '>85', 'gpu': '>80'},  # High CPU and GPU usage
+            {'ram': '>90', 'gpu': '>80'},  # High RAM and GPU usage
+            {'cpu': '>70', 'ram': '>70', 'gpu': '>70'},  # All resources moderately high
+            {'storage': '>90'},  # Very high storage usage
+            {'usage_score': '>0.75'},
+            {'network': '>500'},  # Very high network latency
             {'frequency': '>3', 'time_frame': '24h'}  # Frequent high usage
         ],
-        'weight': 0.7
+        'weight': 0.77
     },
     'moderate': {
         'conditions': [
-            {'cpu': '>50', 'ram': '>60'},
+            {'cpu': '>50', 'ram': '>65'},
             {'gpu': '>50'},
             {'storage': '>70'},
-            {'usage_score': '>0.5'},
+            {'usage_score': '>0.6'},
             {'network': '>150'},  # Moderate network latency
             {'frequency': '>2', 'time_frame': '24h'}  # Occasional high usage
         ],
@@ -73,7 +72,7 @@ RULES = {
     },
     'running_good': {
         'conditions': [
-            {'cpu': '<50', 'ram': '<60', 'gpu': '<50', 'storage': '<70', 'network': '<100'},
+            {'cpu': '<50', 'ram': '<65', 'gpu': '<50', 'storage': '<70', 'network': '<100'},
             {'usage_score': '<0.4'},
         ],
         'weight': 0.1
@@ -83,11 +82,12 @@ RULES = {
 def check_critical_usage(data):
     cpu = data.get('cpu', 0)
     ram = data.get('ram', 0)
+    gpu = data.get('gpu', 0)
     high_usage_duration = data.get('high_usage_duration', 0)
     
-    if (cpu > 90 or ram > 90) and high_usage_duration > 1:
+    if (cpu > 90 and ram > 90) and high_usage_duration > 1:
         return 'maintenance_needed'
-    elif cpu > 80 or ram > 80 or (cpu > 70 and ram > 70):
+    elif (cpu > 85 and ram > 85) or (cpu > 90 or ram > 90 or gpu > 90):
         return 'high_usage'
     return None
 
@@ -125,7 +125,24 @@ def calculate_usage_score(cpu, ram, gpu, storage, network):
     
     # Normalize network latency (assuming 500ms as the max)
     normalized_network = min(network / 500, 1)
-    return (cpu * 0.25 + ram * 0.25 + gpu * 0.2 + storage_percent * 0.2 + normalized_network * 0.1) / 100
+    
+    # Calculate individual scores
+    cpu_score = cpu / 100
+    ram_score = ram / 100
+    gpu_score = gpu / 100
+    storage_score = storage_percent / 100
+    network_score = normalized_network
+    
+    # Calculate weighted average
+    weighted_score = (
+        cpu_score * 0.3 +
+        ram_score * 0.3 +
+        gpu_score * 0.2 +
+        storage_score * 0.1 +
+        network_score * 0.1
+    )
+    
+    return weighted_score
 
 def evaluate_condition(metric, condition, data):
     if metric == 'frequency':
@@ -133,7 +150,13 @@ def evaluate_condition(metric, condition, data):
     elif metric == 'high_usage_duration':
         return data.get(metric, 0) > float(condition[1:])
     elif metric == 'storage':
-        storage_percent = data.get('storage', {}).get('percent', 0)
+        storage_value = data.get('storage', 0)
+        # If storage is already a percentage (float), use it directly
+        # Otherwise, if it's a dict, get the 'percent' value
+        if isinstance(storage_value, dict):
+            storage_percent = storage_value.get('percent', 0)
+        else:
+            storage_percent = storage_value
         return evaluate_simple_condition(storage_percent, condition)
     elif metric in data:
         return evaluate_simple_condition(data[metric], condition)
