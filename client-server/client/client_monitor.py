@@ -15,6 +15,10 @@ import ctypes
 import time
 from datetime import datetime, timedelta
 
+HIGH_USAGE_THRESHOLD = 80  # Example threshold
+high_usage_start = None
+high_usage_duration = 0
+
 # Set up logging in user's home directory
 log_dir = Path.home() / "AppData" / "Local" / "SystemMonitor"
 log_dir.mkdir(parents=True, exist_ok=True)
@@ -102,38 +106,41 @@ def report_crash(app_name):
         logger.error(f"Error reporting crash: {e}")
 
 def collect_metrics():
+    global high_usage_start, high_usage_duration
+
     data = {}
-    data['cpu'] = psutil.cpu_percent(interval=1)
-    data['ram'] = psutil.virtual_memory().percent
+    data['cpu'] = float(psutil.cpu_percent(interval=1))
+    data['ram'] = float(psutil.virtual_memory().percent)
     try:
         gpus = GPUtil.getGPUs()
         if gpus:
-            data['gpu'] = gpus[0].load * 100
+            data['gpu'] = float(gpus[0].load * 100)
         else:
-            data['gpu'] = 0
+            data['gpu'] = 0.0
     except Exception as e:
-        data['gpu'] = 0
+        data['gpu'] = 0.0
         logger.error(f"Error getting GPU usage: {e}")
-    data['network'] = measure_network_latency()
-    data['storage'] = get_storage_metrics()['percent']
+    data['network'] = float(measure_network_latency())
+    data['storage'] = float(get_storage_metrics()['percent'])
     data['hostname'] = platform.node()
-    data['uptime'] = time.time() - psutil.boot_time()
-    
+    data['uptime'] = float(time.time() - psutil.boot_time())
+
     # Calculate usage score
-    data['usage_score'] = (data['cpu'] + data['ram'] + data['gpu'] + data['storage']) / 400
-    
+    data['usage_score'] = float((data['cpu'] + data['ram'] + data['gpu'] + data['storage']) / 400)
+
     # Calculate high usage duration
-    if data['usage_score'] > 0.7:
+    if data['usage_score'] > 0.5:
         if high_usage_start is None:
             high_usage_start = datetime.now()
+        high_usage_duration = float((datetime.now() - high_usage_start).total_seconds() / 3600)  # Convert to hours
     else:
-        high_usage_start = None
-    
-    if high_usage_start:
-        data['high_usage_duration'] = (datetime.now() - high_usage_start).total_seconds() / 3600  # in hours
-    else:
-        data['high_usage_duration'] = 0
-    
+        if high_usage_start is not None:
+            data['high_usage_duration'] = high_usage_duration
+            high_usage_start = None
+            high_usage_duration = 0.0
+        else:
+            data['high_usage_duration'] = 0.0
+
     logger.debug(f"Collected metrics: {json.dumps(data, indent=2)}")
     return data
 

@@ -32,30 +32,35 @@ crash_reports = []  # Store crash reports
 high_usage_start = None
 usage_history = deque(maxlen=720)  # Store 6 hours of data (assuming 30-second intervals)
 
+def format_duration(seconds):
+    hours, remainder = divmod(seconds, 3600)
+    minutes, seconds = divmod(remainder, 60)
+    return f"{int(hours)}h {int(minutes)}m {int(seconds)}s"
+
 # Updated RULES (as provided)
 RULES = {
     'maintenance_needed': {
         'conditions': [
-            {'high_usage_duration': '>2'},  # High usage for more than 2 hours
-            {'uptime': '>168'},  # System running for more than 7 days (168 hours)
-            {'network': '>500', 'high_usage_duration': '>2'},  # High latency and extended high usage
-            {'cpu': '>90', 'ram': '>90', 'high_usage_duration': '>1'},  # Critical CPU and RAM usage for over 1 hour
-            {'cpu': '>85', 'ram': '>85', 'gpu': '>85', 'high_usage_duration': '>1'},  # All resources very high for over 1 hour
-            {'cpu': '>85', 'ram': '>85', 'frequency': '>3', 'time_frame': '24h'},  # Both CPU and RAM very high more than 3 times in 24 hours
-            {'cpu': '>90', 'ram': '>90', 'gpu': '>90', 'network': '>700', 'high_usage_duration': '>0.5'}  # Critical resource usage for over 30 minutes
+            {'high_usage_duration': '>2'},
+            {'uptime': '>168'},
+            {'network': '>500', 'high_usage_duration': '>2'},
+            {'cpu': '>90', 'ram': '>90', 'high_usage_duration': '>1'},
+            {'cpu': '>85', 'ram': '>85', 'gpu': '>85', 'high_usage_duration': '>1'},
+            {'cpu': '>85', 'ram': '>85', 'frequency': '>3', 'time_frame': '24h'},
+            {'cpu': '>90', 'ram': '>90', 'gpu': '>90', 'network': '>700', 'high_usage_duration': '>0.5'}
         ],
         'weight': 1.0
     },
     'high_usage': {
         'conditions': [
-            {'cpu': '>80', 'ram': '>80'},  # Both CPU and RAM high
-            {'cpu': '>85', 'gpu': '>80'},  # High CPU and GPU usage
-            {'ram': '>90', 'gpu': '>80'},  # High RAM and GPU usage
-            {'cpu': '>70', 'ram': '>70', 'gpu': '>70'},  # All resources moderately high
-            {'storage': '>90'},  # Very high storage usage
+            {'cpu': '>80', 'ram': '>80'},
+            {'cpu': '>85', 'gpu': '>80'},
+            {'ram': '>90', 'gpu': '>80'},
+            {'cpu': '>70', 'ram': '>70', 'gpu': '>70'},
+            {'storage': '>90'},
             {'usage_score': '>0.75'},
-            {'network': '>500'},  # Very high network latency
-            {'frequency': '>3', 'time_frame': '24h'}  # Frequent high usage
+            {'network': '>500'},
+            {'frequency': '>3', 'time_frame': '24h'}
         ],
         'weight': 0.77
     },
@@ -65,8 +70,8 @@ RULES = {
             {'gpu': '>50'},
             {'storage': '>70'},
             {'usage_score': '>0.6'},
-            {'network': '>150'},  # Moderate network latency
-            {'frequency': '>2', 'time_frame': '24h'}  # Occasional high usage
+            {'network': '>150'},
+            {'frequency': '>2', 'time_frame': '24h'}
         ],
         'weight': 0.4
     },
@@ -117,7 +122,24 @@ def save_crash_reports(reports):
     with open(CRASH_REPORT_FILE, 'w') as f:
         json.dump(reports, f)
 
+def calculate_high_usage_time(usage_history, threshold=0.7):
+    high_usage_time = timedelta()
+    current_high_usage_start = None
 
+    for i, (timestamp, score) in enumerate(usage_history):
+        if score > threshold:
+            if current_high_usage_start is None:
+                current_high_usage_start = timestamp
+        else:
+            if current_high_usage_start is not None:
+                high_usage_time += timestamp - current_high_usage_start
+                current_high_usage_start = None
+
+        # Handle the case where high usage continues to the end
+        if i == len(usage_history) - 1 and current_high_usage_start is not None:
+            high_usage_time += timestamp - current_high_usage_start
+
+    return high_usage_time.total_seconds() / 3600  # Convert to hours
 
 def calculate_usage_score(cpu, ram, gpu, storage, network):
     # Extract storage percentage
@@ -144,22 +166,27 @@ def calculate_usage_score(cpu, ram, gpu, storage, network):
     
     return weighted_score
 
+def evaluate_frequency(condition, time_frame):
+    threshold = int(condition[1:])
+    hours = int(time_frame[:-1])
+    start_time = datetime.now() - timedelta(hours=hours)
+    count = sum(1 for event in high_usage_events if event > start_time)
+    return count > threshold
+
 def evaluate_condition(metric, condition, data):
     if metric == 'frequency':
         return evaluate_frequency(condition, data.get('time_frame', '24h'))
     elif metric == 'high_usage_duration':
-        return data.get(metric, 0) > float(condition[1:])
+        return float(data.get(metric, 0)) > float(condition[1:])
     elif metric == 'storage':
         storage_value = data.get('storage', 0)
-        # If storage is already a percentage (float), use it directly
-        # Otherwise, if it's a dict, get the 'percent' value
         if isinstance(storage_value, dict):
             storage_percent = storage_value.get('percent', 0)
         else:
             storage_percent = storage_value
-        return evaluate_simple_condition(storage_percent, condition)
+        return evaluate_simple_condition(float(storage_percent), condition)
     elif metric in data:
-        return evaluate_simple_condition(data[metric], condition)
+        return evaluate_simple_condition(float(data[metric]), condition)
     return False
 
 def evaluate_simple_condition(value, condition):
@@ -171,13 +198,6 @@ def evaluate_simple_condition(value, condition):
     elif operator == '=':
         return value == threshold
     return False
-
-def evaluate_frequency(condition, time_frame):
-    threshold = int(condition[1:])
-    hours = int(time_frame[:-1])
-    start_time = datetime.now() - timedelta(hours=hours)
-    count = sum(1 for event in high_usage_events if event > start_time)
-    return count > threshold
 
 @app.route('/process', methods=['POST'])
 def process_data():
@@ -213,12 +233,13 @@ def process_data():
     else:
         high_usage_start = None
     
-    high_usage_duration = 0
+    high_usage_duration_seconds = 0
     if high_usage_start:
-        high_usage_duration = (current_time - high_usage_start).total_seconds() / 3600  # in hours
+        high_usage_duration_seconds = (current_time - high_usage_start).total_seconds()
     
-    current_data['high_usage_duration'] = high_usage_duration
-    
+    # Store high_usage_duration in seconds for numerical comparison
+    current_data['high_usage_duration'] = high_usage_duration_seconds / 3600  # Convert to hours
+
     # Convert uptime from seconds to hours
     current_data['uptime'] = current_data.get('uptime', 0) / 3600
 
@@ -228,13 +249,14 @@ def process_data():
     history.append({
         'timestamp': current_time.isoformat(),
         'usage_score': usage_score,
-        'high_usage_duration': high_usage_duration,
+        'high_usage_duration_seconds': high_usage_duration_seconds,
+        'high_usage_duration': format_duration(high_usage_duration_seconds),
         'uptime': current_data['uptime']
     })
     
     # Keep only last 7 days of history
     history = [entry for entry in history 
-               if current_time - datetime.fromisoformat(entry['timestamp']) <= timedelta(days=7)]
+                if current_time - datetime.fromisoformat(entry['timestamp']) <= timedelta(days=7)]
     
     save_history(history)
 
@@ -245,6 +267,7 @@ def process_data():
         'metrics': current_data
     }
     logger.info(f"Processed result: {result} with confidence {confidence:.2f}")
+    logger.info(f"High usage duration: {format_duration(high_usage_duration_seconds)}")  # Log formatted duration
     return jsonify(response)
 
 # Add this global variable to track high usage duration
