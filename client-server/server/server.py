@@ -41,46 +41,46 @@ def format_duration(seconds):
 RULES = {
     'maintenance_needed': {
         'conditions': [
-            {'high_usage_duration': '>2'},
-            {'uptime': '>168'},
-            {'network': '>500', 'high_usage_duration': '>2'},
-            {'cpu': '>90', 'ram': '>90', 'high_usage_duration': '>1'},
-            {'cpu': '>85', 'ram': '>85', 'gpu': '>85', 'high_usage_duration': '>1'},
-            {'cpu': '>85', 'ram': '>85', 'frequency': '>3', 'time_frame': '24h'},
-            {'cpu': '>90', 'ram': '>90', 'gpu': '>90', 'network': '>700', 'high_usage_duration': '>0.5'}
+            {'high_usage_duration': '>2'},  # High usage for over 2 hours
+            {'uptime': '>168'},  # System has been running for over a week
+            {'network': '>500', 'high_usage_duration': '>2'},  # High network usage with prolonged high overall usage
+            {'cpu': '>90', 'ram': '>90', 'high_usage_duration': '>1'},  # Critical CPU & RAM usage for over an hour
+            {'cpu': '>85', 'ram': '>85', 'gpu': '>85', 'high_usage_duration': '>1'},  # High usage across CPU, RAM, & GPU
+            {'cpu': '>85', 'ram': '>85', 'frequency': '>3', 'time_frame': '24h'},  # Frequent high CPU & RAM usage
+            {'cpu': '>90', 'ram': '>90', 'gpu': '>90', 'network': '>700', 'high_usage_duration': '>0.5'}  # Extreme usage across all metrics
         ],
-        'weight': 1.0
+        'weight': 1.0  # Highest weight for maintenance_needed
     },
     'high_usage': {
         'conditions': [
-            {'cpu': '>80', 'ram': '>80'},
-            {'cpu': '>85', 'gpu': '>80'},
-            {'ram': '>90', 'gpu': '>80'},
-            {'cpu': '>70', 'ram': '>70', 'gpu': '>70'},
-            {'storage': '>90'},
-            {'usage_score': '>0.75'},
-            {'network': '>500'},
-            {'frequency': '>3', 'time_frame': '24h'}
+            {'cpu': '>80', 'ram': '>80'},  # High CPU & RAM usage
+            {'cpu': '>85', 'gpu': '>80'},  # High CPU & GPU usage
+            {'ram': '>90', 'gpu': '>80'},  # High RAM & GPU usage
+            {'cpu': '>70', 'ram': '>70', 'gpu': '>70'},  # Moderately high usage across CPU, RAM, & GPU
+            {'storage': '>90'},  # Very high storage usage
+            {'usage_score': '>0.75'},  # High overall usage score
+            {'network': '>500'},  # High network usage
+            {'frequency': '>3', 'time_frame': '24h'}  # Frequent high usage events
         ],
         'weight': 0.77
     },
     'moderate': {
         'conditions': [
-            {'cpu': '>50', 'ram': '>65'},
-            {'gpu': '>50'},
-            {'storage': '>70'},
-            {'usage_score': '>0.6'},
-            {'network': '>150'},
-            {'frequency': '>2', 'time_frame': '24h'}
+            {'cpu': '>50', 'ram': '>50', 'cpu': '<80', 'ram': '<80'},  # Moderate CPU & RAM usage
+            {'gpu': '>50', 'gpu': '<80'},  # Moderate GPU usage
+            {'storage': '>70', 'storage': '<90'},  # Moderate storage usage
+            {'usage_score': '>0.5', 'usage_score': '<0.75'},  # Moderate overall usage score
+            {'network': '>100', 'network': '<500'},  # Moderate network usage
+            {'frequency': '>1', 'time_frame': '24h', 'frequency': '<3', 'time_frame': '24h'}  # Occasional high usage events
         ],
         'weight': 0.4
     },
     'running_good': {
         'conditions': [
-            {'cpu': '<50', 'ram': '<65', 'gpu': '<50', 'storage': '<70', 'network': '<100'},
-            {'usage_score': '<0.4'},
+            {'cpu': '<50', 'ram': '<50', 'gpu': '<50', 'storage': '<70', 'network': '<100'},  # Low usage across all metrics
+            {'usage_score': '<0.5'},  # Low overall usage score
         ],
-        'weight': 0.1
+        'weight': 0.1  # Lowest weight for running_good
     }
 }
 
@@ -286,7 +286,12 @@ def infer_result(data):
         for condition_set in rule['conditions']:
             if all(evaluate_condition(metric, condition, data) for metric, condition in condition_set.items()):
                 score += rule['weight']
-        scores[category] = score
+        scores[category] = score * rule['weight']
+
+    # Prioritize 'running_good' if its score is significantly higher or if multiple metrics are "good"
+    if (scores['running_good'] > 1.2 * max(scores.values())) or \
+       (scores['running_good'] > 0 and sum(1 for metric in ['cpu', 'ram', 'gpu', 'network'] if data[metric] < 50) >= 3): 
+        return 'running_good', 1.0, scores
 
     result = max(scores, key=scores.get)
     total_score = sum(scores.values())
