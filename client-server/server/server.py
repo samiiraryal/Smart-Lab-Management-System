@@ -26,17 +26,40 @@ HISTORY_FILE = log_dir / 'system_history.json'
 # File to store crash reports
 CRASH_REPORT_FILE = log_dir / 'crash_reports.json'
 
+# File to store total high usage duration
+HIGH_USAGE_DURATION_FILE = log_dir / 'high_usage_duration.json'
+
 # Global variables
 high_usage_events = deque(maxlen=1000)  # Store recent high usage events
 crash_reports = []  # Store crash reports
 high_usage_start = None
 usage_history = deque(maxlen=720)  # Store 6 hours of data (assuming 30-second intervals)
 total_high_usage_duration = 0
+last_process_time = None
 
 def format_duration(seconds):
     hours, remainder = divmod(seconds, 3600)
     minutes, seconds = divmod(remainder, 60)
     return f"{int(hours)}h {int(minutes)}m {int(seconds)}s"
+
+# Load total high usage duration
+def load_high_usage_duration():
+    global total_high_usage_duration
+    try:
+        if HIGH_USAGE_DURATION_FILE.exists():
+            with open(HIGH_USAGE_DURATION_FILE, 'r') as f:
+                data = json.load(f)
+                total_high_usage_duration = data.get('total_high_usage_duration', 0)
+    except json.JSONDecodeError as e:
+        logger.error(f"Error loading high usage duration file: {e}")
+
+# Save total high usage duration
+def save_high_usage_duration():
+    with open(HIGH_USAGE_DURATION_FILE, 'w') as f:
+        json.dump({'total_high_usage_duration': total_high_usage_duration}, f)
+
+# Load high usage duration at startup
+load_high_usage_duration()
 
 # Updated RULES (as provided)
 RULES = {
@@ -202,10 +225,9 @@ def evaluate_simple_condition(value, condition):
 
 @app.route('/process', methods=['POST'])
 def process_data():
-    global high_usage_start, usage_history, high_usage_events, total_high_usage_duration
+    global high_usage_start, usage_history, high_usage_events, total_high_usage_duration, last_process_time
 
-    high_usage_duration_seconds = 0  # Initialize at the top
-
+    current_time = datetime.now()
     current_data = request.json
     logger.info(f"Received data: {json.dumps(current_data, indent=2)}")
 
@@ -223,13 +245,12 @@ def process_data():
     current_data['usage_score'] = usage_score
 
     # Update usage history and high usage events
-    current_time = datetime.now()
     usage_history.append((current_time, usage_score))
 
     if current_data.get('cpu', 0) > 70 or current_data.get('ram', 0) > 80 or current_data.get('gpu', 0) > 70:
         high_usage_events.append(current_time)
 
-    # Define "high stress" based on multiple metrics and thresholds (adjust as needed)
+    # Define "high stress" based on multiple metrics and thresholds
     is_high_stress = (
         current_data.get('cpu', 0) > 80 or 
         current_data.get('ram', 0) > 75 or
@@ -238,24 +259,24 @@ def process_data():
     )
 
     # Track high usage duration
-    if is_high_stress:
-        if high_usage_start is None:
-            high_usage_start = current_time
+    if last_process_time is not None:
+        time_diff = (current_time - last_process_time).total_seconds() / 3600  # Convert to hours
+        
+        if is_high_stress:
+            if high_usage_start is None:
+                high_usage_start = current_time
+            total_high_usage_duration += time_diff
         else:
-            high_usage_duration_seconds = (current_time - high_usage_start).total_seconds()
-    else:  # System is NOT under high stress
-        if high_usage_start is not None:
-            high_usage_duration = high_usage_duration_seconds / 3600  # Convert to hours
-            total_high_usage_duration += high_usage_duration  # Accumulate total duration
-            # Log total_high_usage_duration only when transitioning out of high usage and it's greater than 0
-            if total_high_usage_duration > 0:
-                logger.info(f"Total high usage duration: {format_duration(total_high_usage_duration * 3600)}")
-            high_usage_start = None
+            if high_usage_start is not None:
+                high_usage_start = None
+
+    last_process_time = current_time
+
+    # Save the updated total high usage duration
+    save_high_usage_duration()
 
     # Update current_data['high_usage_duration'] 
-    if high_usage_start: 
-        high_usage_duration_seconds = (current_time - high_usage_start).total_seconds()
-    current_data['high_usage_duration'] = high_usage_duration_seconds / 3600
+    current_data['high_usage_duration'] = total_high_usage_duration
 
     # Convert uptime from seconds to hours
     current_data['uptime'] = current_data.get('uptime', 0) / 3600
@@ -266,8 +287,7 @@ def process_data():
     history.append({
         'timestamp': current_time.isoformat(),
         'usage_score': usage_score,
-        'high_usage_duration_seconds': high_usage_duration_seconds,
-        'high_usage_duration': format_duration(high_usage_duration_seconds),
+        'high_usage_duration': format_duration(int(total_high_usage_duration * 3600)),
         'uptime': current_data['uptime']
     })
 
@@ -277,8 +297,6 @@ def process_data():
 
     save_history(history)
 
-    # Save total_high_usage_duration (implement saving logic here)
-
     response = {
         'result': result,
         'confidence': confidence,
@@ -286,6 +304,7 @@ def process_data():
         'metrics': current_data
     }
     logger.info(f"Processed result: {result} with confidence {confidence:.2f}")
+    logger.info(f"Total high usage duration: {format_duration(int(total_high_usage_duration * 3600))}")
     return jsonify(response)
 
 # Add this global variable to track high usage duration
