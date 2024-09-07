@@ -1,9 +1,12 @@
 import logging
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, request_finished  # Import request_finished
 from datetime import datetime, timedelta
 import json
 from pathlib import Path
 from collections import deque
+import atexit
+import signal
+from apscheduler.schedulers.background import BackgroundScheduler  # Import BackgroundScheduler
 
 app = Flask(__name__)
 
@@ -284,7 +287,44 @@ def save_crash_reports(reports):
     with open(CRASH_REPORT_FILE, 'w') as f:
         json.dump(reports, f)
 
+# Function to save usage history
+def save_usage_history():
+    with open('usage_history.json', 'w') as f:
+        json.dump(list(usage_history), f)
+
+# Function to handle graceful shutdowns (e.g., Ctrl+C, SIGTERM)
+def handle_shutdown(*args):
+    logger.info("Graceful shutdown initiated. Saving usage history...")
+    save_usage_history()
+    exit(0)
+
+
 if __name__ == '__main__':
     logger.info("Starting Flask server...")
+
+    # Load usage history
+    try:
+        if Path('usage_history.json').exists():
+            with open('usage_history.json', 'r') as f:
+                loaded_history = json.load(f)
+                usage_history = deque(loaded_history, maxlen=720)
+        else:
+            usage_history = deque(maxlen=720)
+    except json.JSONDecodeError as e:
+        logger.error(f"Error loading usage history: {e}")
+        usage_history = deque(maxlen=720)
+
+    # Register signal handlers for graceful shutdowns
+    signal.signal(signal.SIGINT, handle_shutdown)
+    signal.signal(signal.SIGTERM, handle_shutdown)
+
+    # Register a function to be called at exit (attempts to save even on abrupt shutdowns)
+    atexit.register(save_usage_history)
+
+    # Optional: Schedule periodic saving using APScheduler
+    scheduler = BackgroundScheduler()
+    scheduler.add_job(save_usage_history, 'interval', hours=1)  # Adjust interval as needed
+    scheduler.start()
+
     app.run(host='0.0.0.0', port=8080, debug=True)
     logger.info("Flask server started.")
