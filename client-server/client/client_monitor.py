@@ -12,7 +12,6 @@ import argparse
 import psutil
 import GPUtil
 import ctypes
-import time
 from datetime import datetime, timedelta
 
 HIGH_USAGE_THRESHOLD = 80  # Example threshold
@@ -97,7 +96,7 @@ def report_crash(app_name):
             'app_name': app_name,
             'timestamp': datetime.now().isoformat()
         }
-        response = requests.post(f"{SERVER_URL}/report_crash", json=crash_data, timeout=10)
+        response = requests.post(CRASH_REPORT_URL, json=crash_data, timeout=10)
         if response.status_code == 200:
             logger.info(f"Crash reported successfully for app: {app_name}")
         else:
@@ -121,12 +120,12 @@ def collect_metrics():
         data['gpu'] = 0.0
         logger.error(f"Error getting GPU usage: {e}")
     data['network'] = float(measure_network_latency())
-    data['storage'] = float(get_storage_metrics()['percent'])
+    data['storage'] = get_storage_metrics()
     data['hostname'] = platform.node()
     data['uptime'] = float(time.time() - psutil.boot_time())
 
     # Calculate usage score
-    data['usage_score'] = float((data['cpu'] + data['ram'] + data['gpu'] + data['storage']) / 400)
+    data['usage_score'] = float((data['cpu'] + data['ram'] + data['gpu'] + data['storage']['percent']) / 400)
 
     # Calculate high usage duration
     if data['usage_score'] > 0.5:
@@ -200,10 +199,10 @@ def run_continuous_monitoring():
                     logger.info("The system is running well.")
                 else:
                     logger.warning(f"Unknown result from the server: {result['result']}")
-            time.sleep(10)  # Wait for 10 minutes before the next collection
+            time.sleep(600)  # Wait for 10 minutes before the next collection
         except Exception as e:
             logger.error(f"Error in continuous monitoring: {e}")
-            time.sleep(5)  # Wait for 1 minute before retrying
+            time.sleep(60)  # Wait for 1 minute before retrying
 
 def run_test_mode():
     print("Running in test mode (8 iterations)")
