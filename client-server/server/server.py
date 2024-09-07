@@ -194,6 +194,50 @@ def infer_result(data):
 
     return result, confidence, scores
 
+# Function to save usage history (with enhanced error handling)
+def save_usage_history():
+    try:
+        # Ensure the directory exists
+        Path('usage_history.json').parent.mkdir(parents=True, exist_ok=True)
+
+        logger.debug(f"Current usage history length: {len(usage_history)}")
+
+        with open('usage_history.json', 'w') as f:
+            # Convert datetime objects to strings
+            serializable_history = [(timestamp.isoformat(), score) for timestamp, score in usage_history]
+
+            # Check if usage_history is empty
+            if not serializable_history:
+                logger.warning("Usage history is empty. Nothing to save.")
+                return
+
+            json.dump(serializable_history, f)
+            logger.info(f"Usage history saved successfully. Saved {len(serializable_history)} entries.")
+    except Exception as e:
+        logger.error(f"Error saving usage history: {e}")
+
+# Function to handle graceful shutdowns
+def handle_shutdown(*args):
+    logger.info("Graceful shutdown initiated. Saving usage history...")
+    save_usage_history()
+    exit(0)
+
+# On request finished (for additional safety)
+def save_usage_history_on_shutdown(sender, **extra):  # Define the function here
+    save_usage_history()
+
+# Register signal handlers
+signal.signal(signal.SIGINT, handle_shutdown)
+signal.signal(signal.SIGTERM, handle_shutdown)
+
+# Register atexit function
+atexit.register(save_usage_history)
+
+# Schedule periodic saving (every 10 minutes)
+scheduler = BackgroundScheduler()
+scheduler.add_job(save_usage_history, 'interval', minutes=10)
+scheduler.start()
+
 @app.route('/process', methods=['POST'])
 def process_data():
     global high_usage_start, usage_history, high_usage_events, total_high_usage_duration, last_process_time
@@ -211,7 +255,9 @@ def process_data():
     )
     current_data['usage_score'] = usage_score
 
+    # Append to usage history
     usage_history.append((current_time, usage_score))
+    logger.debug(f"Appended to usage history. Current length: {len(usage_history)}")
 
     is_high_stress = (
         current_data.get('cpu', 0) > 80 or 
@@ -287,17 +333,6 @@ def save_crash_reports(reports):
     with open(CRASH_REPORT_FILE, 'w') as f:
         json.dump(reports, f)
 
-# Function to save usage history
-def save_usage_history():
-    with open('usage_history.json', 'w') as f:
-        json.dump(list(usage_history), f)
-
-# Function to handle graceful shutdowns (e.g., Ctrl+C, SIGTERM)
-def handle_shutdown(*args):
-    logger.info("Graceful shutdown initiated. Saving usage history...")
-    save_usage_history()
-    exit(0)
-
 
 if __name__ == '__main__':
     logger.info("Starting Flask server...")
@@ -307,24 +342,14 @@ if __name__ == '__main__':
         if Path('usage_history.json').exists():
             with open('usage_history.json', 'r') as f:
                 loaded_history = json.load(f)
-                usage_history = deque(loaded_history, maxlen=720)
+                usage_history = deque([(datetime.fromisoformat(timestamp), score) for timestamp, score in loaded_history], maxlen=720)
         else:
             usage_history = deque(maxlen=720)
     except json.JSONDecodeError as e:
         logger.error(f"Error loading usage history: {e}")
         usage_history = deque(maxlen=720)
 
-    # Register signal handlers for graceful shutdowns
-    signal.signal(signal.SIGINT, handle_shutdown)
-    signal.signal(signal.SIGTERM, handle_shutdown)
-
-    # Register a function to be called at exit (attempts to save even on abrupt shutdowns)
-    atexit.register(save_usage_history)
-
-    # Optional: Schedule periodic saving using APScheduler
-    scheduler = BackgroundScheduler()
-    scheduler.add_job(save_usage_history, 'interval', hours=1)  # Adjust interval as needed
-    scheduler.start()
+    
 
     app.run(host='0.0.0.0', port=8080, debug=True)
     logger.info("Flask server started.")
