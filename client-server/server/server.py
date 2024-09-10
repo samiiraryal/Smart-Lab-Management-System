@@ -16,10 +16,10 @@ log_dir.mkdir(parents=True, exist_ok=True)
 log_file = log_dir / 'server.log'
 
 logging.basicConfig(level=logging.DEBUG, 
-                    format='%(asctime)s - %(levelname)s - %(message)s',
+                    format='%(asctime)s - %(levelname)s - %(filename)s:%(lineno)d - %(message)s',
                     handlers=[
                         logging.FileHandler(log_file),
-                        logging.StreamHandler()  # Add this line to output logs to console
+                        logging.StreamHandler()
                     ])
 logger = logging.getLogger(__name__)
 
@@ -194,25 +194,53 @@ def infer_result(data):
 
     return result, confidence, scores
 
+def load_usage_history():
+    global usage_history
+    usage_history_file = Path('usage_history.json')
+    logger.info(f"Attempting to load usage history from {usage_history_file.absolute()}")
+    
+    if not usage_history_file.exists():
+        logger.warning(f"usage_history.json does not exist at {usage_history_file.absolute()}. Initializing empty usage history.")
+        return
+    
+    if usage_history_file.stat().st_size == 0:
+        logger.warning(f"usage_history.json is empty at {usage_history_file.absolute()}. Initializing empty usage history.")
+        return
+    
+    try:
+        with open(usage_history_file, 'r') as f:
+            content = f.read()
+            logger.debug(f"Content of usage_history.json: {content[:100]}...")  # Log first 100 chars
+            loaded_history = json.loads(content)
+            usage_history = deque(
+                [(datetime.fromisoformat(timestamp), score) for timestamp, score in loaded_history],
+                maxlen=720
+            )
+    except json.JSONDecodeError as e:
+        logger.error(f"JSON decoding error in usage_history.json: {e}")
+        logger.debug(f"Problematic content: {content}")
+    except Exception as e:
+        logger.error(f"Unexpected error loading usage history: {e}")
+
 # Function to save usage history (with enhanced error handling)
 def save_usage_history():
+    global usage_history
+    usage_history_file = Path('usage_history.json')
+    logger.info(f"Attempting to save usage history to {usage_history_file.absolute()}")
+    
     try:
-        # Ensure the directory exists
-        Path('usage_history.json').parent.mkdir(parents=True, exist_ok=True)
-
-        logger.debug(f"Current usage history length: {len(usage_history)}")
-
-        with open('usage_history.json', 'w') as f:
-            # Convert datetime objects to strings
-            serializable_history = [(timestamp.isoformat(), score) for timestamp, score in usage_history]
-
-            # Check if usage_history is empty
-            if not serializable_history:
-                logger.warning("Usage history is empty. Nothing to save.")
-                return
-
+        usage_history_file.parent.mkdir(parents=True, exist_ok=True)
+        
+        if not usage_history:
+            logger.warning("Usage history is empty. Nothing to save.")
+            return
+        
+        serializable_history = [(timestamp.isoformat(), score) for timestamp, score in usage_history]
+        
+        with open(usage_history_file, 'w') as f:
             json.dump(serializable_history, f)
-            logger.info(f"Usage history saved successfully. Saved {len(serializable_history)} entries.")
+        
+        logger.info(f"Usage history saved successfully. Saved {len(serializable_history)} entries.")
     except Exception as e:
         logger.error(f"Error saving usage history: {e}")
 
@@ -240,7 +268,7 @@ scheduler.start()
 
 @app.route('/process', methods=['POST'])
 def process_data():
-    global high_usage_start, usage_history, high_usage_events, total_high_usage_duration, last_process_time
+    global usage_history, high_usage_start, high_usage_events, total_high_usage_duration, last_process_time
 
     current_time = datetime.now()
     current_data = request.json
