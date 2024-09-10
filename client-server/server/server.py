@@ -7,6 +7,13 @@ from collections import deque
 import atexit
 import signal
 from apscheduler.schedulers.background import BackgroundScheduler  # Import BackgroundScheduler
+import threading
+import time
+import tempfile
+import os
+import threading
+from queue import Queue
+from collections import deque
 
 app = Flask(__name__)
 
@@ -38,6 +45,15 @@ high_usage_start = None
 usage_history = deque(maxlen=720)
 total_high_usage_duration = 0
 last_process_time = None
+
+# Thread-safe queue for usage history
+usage_history_queue = Queue(maxsize=720)
+
+# Lock for thread-safe operations
+usage_history_lock = threading.Lock()
+
+# Flag to ensure shutdown happens only once
+shutdown_flag = threading.Event()
 
 # RULES definition (as provided in your original code)
 RULES = {
@@ -195,50 +211,53 @@ def infer_result(data):
     return result, confidence, scores
 
 def load_usage_history():
-    global usage_history
+    global usage_history_queue
     usage_history_file = Path('usage_history.json')
     logger.info(f"Attempting to load usage history from {usage_history_file.absolute()}")
     
     if not usage_history_file.exists():
-        logger.warning(f"usage_history.json does not exist at {usage_history_file.absolute()}. Initializing empty usage history.")
-        return
-    
-    if usage_history_file.stat().st_size == 0:
-        logger.warning(f"usage_history.json is empty at {usage_history_file.absolute()}. Initializing empty usage history.")
+        logger.warning(f"usage_history.json does not exist. Initializing empty usage history.")
         return
     
     try:
         with open(usage_history_file, 'r') as f:
-            content = f.read()
-            logger.debug(f"Content of usage_history.json: {content[:100]}...")  # Log first 100 chars
-            loaded_history = json.loads(content)
-            usage_history = deque(
-                [(datetime.fromisoformat(timestamp), score) for timestamp, score in loaded_history],
-                maxlen=720
-            )
+            loaded_history = json.load(f)
+            with usage_history_lock:
+                for timestamp, score in loaded_history:
+                    if not usage_history_queue.full():
+                        usage_history_queue.put((datetime.fromisoformat(timestamp), score))
+                    else:
+                        break
+        logger.info(f"Loaded {usage_history_queue.qsize()} entries into usage history.")
     except json.JSONDecodeError as e:
         logger.error(f"JSON decoding error in usage_history.json: {e}")
-        logger.debug(f"Problematic content: {content}")
     except Exception as e:
         logger.error(f"Unexpected error loading usage history: {e}")
 
 # Function to save usage history (with enhanced error handling)
 def save_usage_history():
-    global usage_history
+    global usage_history_queue
     usage_history_file = Path('usage_history.json')
     logger.info(f"Attempting to save usage history to {usage_history_file.absolute()}")
     
     try:
-        usage_history_file.parent.mkdir(parents=True, exist_ok=True)
+        with usage_history_lock:
+            # Create a temporary copy of the queue
+            temp_history = list(usage_history_queue.queue)
         
-        if not usage_history:
+        if not temp_history:
             logger.warning("Usage history is empty. Nothing to save.")
             return
         
-        serializable_history = [(timestamp.isoformat(), score) for timestamp, score in usage_history]
+        serializable_history = [(timestamp.isoformat(), score) for timestamp, score in temp_history]
         
-        with open(usage_history_file, 'w') as f:
-            json.dump(serializable_history, f)
+        # Use a temporary file for atomic write
+        with tempfile.NamedTemporaryFile('w', delete=False) as tf:
+            json.dump(serializable_history, tf)
+            tempname = tf.name
+        
+        # Rename the temporary file to the actual file (atomic operation)
+        os.replace(tempname, usage_history_file)
         
         logger.info(f"Usage history saved successfully. Saved {len(serializable_history)} entries.")
     except Exception as e:
@@ -246,9 +265,11 @@ def save_usage_history():
 
 # Function to handle graceful shutdowns
 def handle_shutdown(*args):
-    logger.info("Graceful shutdown initiated. Saving usage history...")
-    save_usage_history()
-    exit(0)
+    if not shutdown_flag.is_set():
+        shutdown_flag.set()
+        logger.info("Graceful shutdown initiated. Saving usage history...")
+        save_usage_history()
+        exit(0)
 
 # On request finished (for additional safety)
 def save_usage_history_on_shutdown(sender, **extra):  # Define the function here
@@ -268,7 +289,7 @@ scheduler.start()
 
 @app.route('/process', methods=['POST'])
 def process_data():
-    global usage_history, high_usage_start, high_usage_events, total_high_usage_duration, last_process_time
+    global usage_history, high_usage_start, high_usage_events, total_high_usage_duration, last_process_time, usage_history_queue, last_process_time
 
     current_time = datetime.now()
     current_data = request.json
@@ -282,10 +303,20 @@ def process_data():
         current_data.get('network', 0)
     )
     current_data['usage_score'] = usage_score
+    
+    with usage_history_lock:
+        if usage_history_queue.full():
+            usage_history_queue.get()  # Remove oldest item if full
+        usage_history_queue.put((current_time, usage_score))
+
+    logger.info(f"Appended to usage history. Current length: {usage_history_queue.qsize()}")
 
     # Append to usage history
     usage_history.append((current_time, usage_score))
-    logger.debug(f"Appended to usage history. Current length: {len(usage_history)}")
+    logger.info(f"Appended to usage history. Current length: {len(usage_history)}")
+    
+    # Save usage history after each update
+    save_usage_history()
 
     is_high_stress = (
         current_data.get('cpu', 0) > 80 or 
@@ -330,6 +361,17 @@ def process_data():
 
     return jsonify(response)
 
+def background_save():
+    while True:
+        time.sleep(60)  # Save every minute
+        save_usage_history()
+
+# Start the background saving thread
+save_thread = threading.Thread(target=background_save, daemon=True)
+save_thread.start()
+
+
+
 @app.route('/report_crash', methods=['POST'])
 def report_crash():
     crash_data = request.json
@@ -364,6 +406,7 @@ def save_crash_reports(reports):
 
 if __name__ == '__main__':
     logger.info("Starting Flask server...")
+    load_usage_history()
 
     # Load usage history
     try:
@@ -378,6 +421,9 @@ if __name__ == '__main__':
         usage_history = deque(maxlen=720)
 
     
-
+    # Register signal handlers
+    signal.signal(signal.SIGINT, handle_shutdown)
+    signal.signal(signal.SIGTERM, handle_shutdown)
+    
     app.run(host='0.0.0.0', port=8080, debug=True)
     logger.info("Flask server started.")
