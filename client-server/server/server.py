@@ -251,8 +251,8 @@ def save_usage_history():
     global usage_history_queue
     
     # Ensure only one save attempt during shutdown
-    if shutdown_flag.is_set() and save_attempt_flag.is_set():
-        logger.info("Save already attempted during shutdown. Skipping.")
+    if shutdown_flag.is_set():
+        logger.info("Shutdown in progress. Skipping regular save.")
         return
 
     usage_history_file = Path('usage_history.json')
@@ -260,9 +260,6 @@ def save_usage_history():
     
     try:
         with usage_history_lock:
-            # Set the save attempt flag
-            save_attempt_flag.set()
-            
             # Create a temporary copy of the queue
             temp_history = list(usage_history_queue.queue)
         
@@ -283,21 +280,16 @@ def save_usage_history():
         logger.info(f"Usage history saved successfully. Saved {len(serializable_history)} entries.")
     except Exception as e:
         logger.error(f"Error saving usage history: {e}")
-    finally:
-        # Reset the save attempt flag
-        save_attempt_flag.clear()
 
 # Function to handle graceful shutdowns
-def handle_shutdown(*args):
+def handle_shutdown(signum, frame):
+    global shutdown_flag
     if not shutdown_flag.is_set():
         shutdown_flag.set()
         logger.info("Graceful shutdown initiated. Saving usage history...")
         save_usage_history()
         # Stop the Flask server
-        func = request.environ.get('werkzeug.server.shutdown')
-        if func is None:
-            raise RuntimeError('Not running with the Werkzeug Server')
-        func()
+        os._exit(0)
 
 # On request finished (for additional safety)
 def save_usage_history_on_shutdown(sender, **extra):  # Define the function here
@@ -391,7 +383,7 @@ def process_data():
 
 def background_save():
     while not shutdown_flag.is_set():
-        time.sleep(60)  # Save every minute
+        time.sleep(10)  # Save every minute
         save_usage_history()
         
 # Register cleanup function
