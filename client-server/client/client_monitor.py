@@ -42,6 +42,8 @@ CRASH_REPORT_URL = "http://127.0.0.1:8080/report_crash"
 # File to store computer runtime data
 RUNTIME_FILE = log_dir / 'computer_runtime.json'
 
+
+
 def get_or_create_client_id():
     if CLIENT_ID_FILE.exists():
         with open(CLIENT_ID_FILE, 'r') as f:
@@ -52,6 +54,7 @@ def get_or_create_client_id():
         with open(CLIENT_ID_FILE, 'w') as f:
             json.dump({'client_id': client_id}, f)
         return client_id
+    
 
 def measure_network_latency():
     try:
@@ -121,6 +124,7 @@ def report_crash(app_name):
 
 # Generate a unique client ID
 CLIENT_ID = get_or_create_client_id()
+print(f"Client ID: {CLIENT_ID}")  # Verify the generated/retrieved client ID
 
 def collect_metrics():
     global high_usage_start, high_usage_duration
@@ -166,6 +170,7 @@ def send_metrics_to_server(data):
     try:
         # Include the Client-ID in both the headers and the JSON data
         headers = {'Client-ID': CLIENT_ID}
+        print(f"Sending data with headers: {headers} and JSON: {data}")  # Verify data being sent
         response = requests.post(SERVER_URL, json=data, headers=headers, timeout=10)
         if response.status_code == 200:
             result = response.json()
