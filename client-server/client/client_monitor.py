@@ -15,6 +15,9 @@ import ctypes
 from datetime import datetime, timedelta
 import uuid
 
+# Add this near the top of your file, after other imports
+CLIENT_ID_FILE = Path.home() / "AppData" / "Local" / "SystemMonitor" / "client_id.json"
+
 HIGH_USAGE_THRESHOLD = 80  # Example threshold
 high_usage_start = None
 high_usage_duration = 0
@@ -38,6 +41,17 @@ CRASH_REPORT_URL = "http://127.0.0.1:8080/report_crash"
 
 # File to store computer runtime data
 RUNTIME_FILE = log_dir / 'computer_runtime.json'
+
+def get_or_create_client_id():
+    if CLIENT_ID_FILE.exists():
+        with open(CLIENT_ID_FILE, 'r') as f:
+            return json.load(f)['client_id']
+    else:
+        client_id = str(uuid.uuid4())
+        CLIENT_ID_FILE.parent.mkdir(parents=True, exist_ok=True)
+        with open(CLIENT_ID_FILE, 'w') as f:
+            json.dump({'client_id': client_id}, f)
+        return client_id
 
 def measure_network_latency():
     try:
@@ -106,7 +120,7 @@ def report_crash(app_name):
         logger.error(f"Error reporting crash: {e}")
 
 # Generate a unique client ID
-CLIENT_ID = str(uuid.uuid4())
+CLIENT_ID = get_or_create_client_id()
 
 def collect_metrics():
     global high_usage_start, high_usage_duration
@@ -150,8 +164,9 @@ def collect_metrics():
 
 def send_metrics_to_server(data):
     try:
+        # Include the Client-ID in both the headers and the JSON data
         headers = {'Client-ID': CLIENT_ID}
-        response = requests.post(SERVER_URL, json=data, timeout=10)
+        response = requests.post(SERVER_URL, json=data, headers=headers, timeout=10)
         if response.status_code == 200:
             result = response.json()
             logger.info(f"Metrics sent successfully. Server response: {json.dumps(result, indent=2)}")

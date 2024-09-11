@@ -52,7 +52,7 @@ usage_history_queue = Queue(maxsize=720)
 usage_history_lock = threading.Lock()
 shutdown_flag = threading.Event()
 save_attempt_flag = threading.Event()
-client_usage_histories = defaultdict(list)
+client_usage_histories = defaultdict(lambda: Queue(maxsize=720))
 
 
 # Thread-safe queue for usage history
@@ -220,7 +220,7 @@ def infer_result(data):
     return result, confidence, scores
 
 def load_usage_history():
-    global usage_history_queue
+    global client_usage_histories
     usage_history_file = Path('usage_history.json')
     logger.info(f"Attempting to load usage history from {usage_history_file.absolute()}")
     
@@ -232,12 +232,14 @@ def load_usage_history():
         with open(usage_history_file, 'r') as f:
             loaded_history = json.load(f)
             with usage_history_lock:
-                for timestamp, score in loaded_history:
-                    if not usage_history_queue.full():
-                        usage_history_queue.put((datetime.fromisoformat(timestamp), score))
-                    else:
-                        break
-        logger.info(f"Loaded {usage_history_queue.qsize()} entries into usage history.")
+                for client_id, history in loaded_history.items():
+                    client_queue = client_usage_histories[client_id]
+                    for timestamp, score in history:
+                        if not client_queue.full():
+                            client_queue.put((datetime.fromisoformat(timestamp), score))
+                        else:
+                            break
+        logger.info(f"Loaded history for {len(client_usage_histories)} clients.")
     except json.JSONDecodeError as e:
         logger.error(f"JSON decoding error in usage_history.json: {e}")
     except Exception as e:
@@ -248,9 +250,8 @@ usage_history_lock = threading.Lock()
 
 # Function to save usage history (with enhanced error handling)
 def save_usage_history():
-    global usage_history_queue
+    global client_usage_histories
     
-    # Ensure only one save attempt during shutdown
     if shutdown_flag.is_set():
         logger.info("Shutdown in progress. Skipping regular save.")
         return
@@ -260,24 +261,30 @@ def save_usage_history():
     
     try:
         with usage_history_lock:
-            # Create a temporary copy of the queue
-            temp_history = list(usage_history_queue.queue)
+            # Create a temporary copy of the histories
+            temp_histories = {
+                client_id: list(queue.queue)
+                for client_id, queue in client_usage_histories.items()
+            }
         
-        if not temp_history:
+        if not temp_histories:
             logger.warning("Usage history is empty. Nothing to save.")
             return
         
-        serializable_history = [(timestamp.isoformat(), score) for timestamp, score in temp_history]
+        serializable_histories = {
+            client_id: [(timestamp.isoformat(), score) for timestamp, score in history]
+            for client_id, history in temp_histories.items()
+        }
         
         # Use a temporary file for atomic write
         with tempfile.NamedTemporaryFile('w', delete=False) as tf:
-            json.dump(serializable_history, tf)
+            json.dump(serializable_histories, tf, indent=2)
             tempname = tf.name
         
         # Rename the temporary file to the actual file (atomic operation)
         os.replace(tempname, usage_history_file)
         
-        logger.info(f"Usage history saved successfully. Saved {len(serializable_history)} entries.")
+        logger.info(f"Usage history saved successfully for {len(serializable_histories)} clients.")
     except Exception as e:
         logger.error(f"Error saving usage history: {e}")
 
@@ -309,10 +316,16 @@ scheduler.start()
 
 @app.route('/process', methods=['POST'])
 def process_data():
-    global usage_history, high_usage_start, high_usage_events, total_high_usage_duration, last_process_time, usage_history_queue, last_process_time
+    global usage_history, high_usage_start, high_usage_events, total_high_usage_duration, last_process_time, client_usage_histories
 
     current_time = datetime.now()
     current_data = request.json
+    
+    # Try to get client_id from headers first, then from JSON data, fallback to 'unknown'
+    client_id = request.headers.get('Client-ID') or current_data.get('client_id', 'unknown')
+    
+    # Log the received client_id for debugging
+    logger.info(f"Received data for client_id: {client_id}")
 
     # Calculate usage score
     usage_score = calculate_usage_score(
@@ -325,11 +338,14 @@ def process_data():
     current_data['usage_score'] = usage_score
     
     with usage_history_lock:
-        if usage_history_queue.full():
-            usage_history_queue.get()  # Remove oldest item if full
-        usage_history_queue.put((current_time, usage_score))
+        if client_id not in client_usage_histories:
+            client_usage_histories[client_id] = Queue(maxsize=720)
+        
+        if client_usage_histories[client_id].full():
+            client_usage_histories[client_id].get()  # Remove oldest item if full
+        client_usage_histories[client_id].put((current_time, usage_score))
 
-    logger.info(f"Appended to usage history. Current length: {usage_history_queue.qsize()}")
+    logger.info(f"Appended to usage history for client {client_id}. Current size: {client_usage_histories[client_id].qsize()}")
 
     # Append to usage history
     usage_history.append((current_time, usage_score))
