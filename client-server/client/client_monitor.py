@@ -13,6 +13,7 @@ import psutil
 import GPUtil
 import ctypes
 from datetime import datetime, timedelta
+import uuid
 
 HIGH_USAGE_THRESHOLD = 80  # Example threshold
 high_usage_start = None
@@ -104,12 +105,16 @@ def report_crash(app_name):
     except Exception as e:
         logger.error(f"Error reporting crash: {e}")
 
+# Generate a unique client ID
+CLIENT_ID = str(uuid.uuid4())
+
 def collect_metrics():
     global high_usage_start, high_usage_duration
 
     data = {}
     data['cpu'] = float(psutil.cpu_percent(interval=1))
     data['ram'] = float(psutil.virtual_memory().percent)
+    data['client_id'] = CLIENT_ID
     try:
         gpus = GPUtil.getGPUs()
         if gpus:
@@ -145,6 +150,7 @@ def collect_metrics():
 
 def send_metrics_to_server(data):
     try:
+        headers = {'Client-ID': CLIENT_ID}
         response = requests.post(SERVER_URL, json=data, timeout=10)
         if response.status_code == 200:
             result = response.json()
