@@ -14,6 +14,8 @@ import os
 import threading
 from queue import Queue
 from collections import deque
+import threading
+from collections import defaultdict
 
 app = Flask(__name__)
 
@@ -45,6 +47,13 @@ high_usage_start = None
 usage_history = deque(maxlen=720)
 total_high_usage_duration = 0
 last_process_time = None
+
+usage_history_queue = Queue(maxsize=720)
+usage_history_lock = threading.Lock()
+shutdown_flag = threading.Event()
+save_attempt_flag = threading.Event()
+client_usage_histories = defaultdict(list)
+
 
 # Thread-safe queue for usage history
 usage_history_queue = Queue(maxsize=720)
@@ -234,14 +243,26 @@ def load_usage_history():
     except Exception as e:
         logger.error(f"Unexpected error loading usage history: {e}")
 
+# Add a global lock for usage history
+usage_history_lock = threading.Lock()
+
 # Function to save usage history (with enhanced error handling)
 def save_usage_history():
     global usage_history_queue
+    
+    # Ensure only one save attempt during shutdown
+    if shutdown_flag.is_set() and save_attempt_flag.is_set():
+        logger.info("Save already attempted during shutdown. Skipping.")
+        return
+
     usage_history_file = Path('usage_history.json')
     logger.info(f"Attempting to save usage history to {usage_history_file.absolute()}")
     
     try:
         with usage_history_lock:
+            # Set the save attempt flag
+            save_attempt_flag.set()
+            
             # Create a temporary copy of the queue
             temp_history = list(usage_history_queue.queue)
         
@@ -262,6 +283,9 @@ def save_usage_history():
         logger.info(f"Usage history saved successfully. Saved {len(serializable_history)} entries.")
     except Exception as e:
         logger.error(f"Error saving usage history: {e}")
+    finally:
+        # Reset the save attempt flag
+        save_attempt_flag.clear()
 
 # Function to handle graceful shutdowns
 def handle_shutdown(*args):
@@ -269,7 +293,11 @@ def handle_shutdown(*args):
         shutdown_flag.set()
         logger.info("Graceful shutdown initiated. Saving usage history...")
         save_usage_history()
-        exit(0)
+        # Stop the Flask server
+        func = request.environ.get('werkzeug.server.shutdown')
+        if func is None:
+            raise RuntimeError('Not running with the Werkzeug Server')
+        func()
 
 # On request finished (for additional safety)
 def save_usage_history_on_shutdown(sender, **extra):  # Define the function here
@@ -362,9 +390,15 @@ def process_data():
     return jsonify(response)
 
 def background_save():
-    while True:
+    while not shutdown_flag.is_set():
         time.sleep(60)  # Save every minute
         save_usage_history()
+        
+# Register cleanup function
+@atexit.register
+def cleanup():
+    logger.info("Performing final cleanup...")
+    save_usage_history()
 
 # Start the background saving thread
 save_thread = threading.Thread(target=background_save, daemon=True)
@@ -408,22 +442,26 @@ if __name__ == '__main__':
     logger.info("Starting Flask server...")
     load_usage_history()
 
-    # Load usage history
-    try:
-        if Path('usage_history.json').exists():
-            with open('usage_history.json', 'r') as f:
-                loaded_history = json.load(f)
-                usage_history = deque([(datetime.fromisoformat(timestamp), score) for timestamp, score in loaded_history], maxlen=720)
-        else:
-            usage_history = deque(maxlen=720)
-    except json.JSONDecodeError as e:
-        logger.error(f"Error loading usage history: {e}")
-        usage_history = deque(maxlen=720)
+    # # Load usage history
+    # try:
+    #     if Path('usage_history.json').exists():
+    #         with open('usage_history.json', 'r') as f:
+    #             loaded_history = json.load(f)
+    #             usage_history = deque([(datetime.fromisoformat(timestamp), score) for timestamp, score in loaded_history], maxlen=720)
+    #     else:
+    #         usage_history = deque(maxlen=720)
+    # except json.JSONDecodeError as e:
+    #     logger.error(f"Error loading usage history: {e}")
+    #     usage_history = deque(maxlen=720)
 
     
     # Register signal handlers
     signal.signal(signal.SIGINT, handle_shutdown)
     signal.signal(signal.SIGTERM, handle_shutdown)
+    
+    # Start the background saving thread
+    save_thread = threading.Thread(target=background_save, daemon=True)
+    save_thread.start()
     
     app.run(host='0.0.0.0', port=8080, debug=True)
     logger.info("Flask server started.")
