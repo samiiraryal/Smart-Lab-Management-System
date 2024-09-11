@@ -316,16 +316,24 @@ scheduler.start()
 
 @app.route('/process', methods=['POST'])
 def process_data():
-    global usage_history, high_usage_start, high_usage_events, total_high_usage_duration, last_process_time, client_usage_histories
+    global high_usage_start, high_usage_events, total_high_usage_duration, last_process_time, client_usage_histories
 
     current_time = datetime.now()
     current_data = request.json
-    
-    # Try to get client_id from headers first, then from JSON data, fallback to 'unknown'
+
+    print(f"Received headers: {request.headers}")  # Inspect received headers
+    print(f"Received JSON data: {request.json}")  # Inspect received JSON data
+
+    # Extract client_id from the request headers, fallback to JSON if necessary
     client_id = request.headers.get('Client-ID') or current_data.get('client_id', 'unknown')
-    
+ 
+
+    # # If client_id is not found in headers, assign 'unknown'
+    # if not client_id:
+    #     client_id = 'unknown'
+
     # Log the received client_id for debugging
-    logger.info(f"Received data for client_id: {client_id}")
+    logger.info(f"Extracted client_id: {client_id}")
 
     # Calculate usage score
     usage_score = calculate_usage_score(
@@ -336,23 +344,16 @@ def process_data():
         current_data.get('network', 0)
     )
     current_data['usage_score'] = usage_score
-    
+
     with usage_history_lock:
         if client_id not in client_usage_histories:
             client_usage_histories[client_id] = Queue(maxsize=720)
-        
+
         if client_usage_histories[client_id].full():
             client_usage_histories[client_id].get()  # Remove oldest item if full
         client_usage_histories[client_id].put((current_time, usage_score))
 
     logger.info(f"Appended to usage history for client {client_id}. Current size: {client_usage_histories[client_id].qsize()}")
-
-    # Append to usage history
-    usage_history.append((current_time, usage_score))
-    logger.info(f"Appended to usage history. Current length: {len(usage_history)}")
-    
-    # Save usage history after each update
-    save_usage_history()
 
     is_high_stress = (
         current_data.get('cpu', 0) > 80 or 
