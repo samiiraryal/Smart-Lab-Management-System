@@ -36,8 +36,8 @@ logging.basicConfig(level=logging.DEBUG,
                     ])
 logger = logging.getLogger(__name__)
 
-SERVER_URL = "http://127.0.0.1:8080/process"
-CRASH_REPORT_URL = "http://127.0.0.1:8080/report_crash"
+SERVER_URL = "http://18.141.49.211:8080/process"
+CRASH_REPORT_URL = "http://18.141.49.211:8080/report_crash"
 
 # File to store computer runtime data
 RUNTIME_FILE = log_dir / 'computer_runtime.json'
