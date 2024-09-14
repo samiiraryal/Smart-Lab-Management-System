@@ -37,14 +37,19 @@ logger = logging.getLogger(__name__)
 REMOTE_PHP_BACKEND = "mysql://root:@127.0.0.1:3306/metrics_db"
 
 def send_to_php_backend(data):
+    logger.info(f"Attempting to send data to PHP backend: {REMOTE_PHP_BACKEND}")
     try:
+        logger.debug(f"Sending data: {json.dumps(data, indent=2)}")
         response = requests.post(REMOTE_PHP_BACKEND, json=data, timeout=10)
+        logger.info(f"Response status code: {response.status_code}")
+        logger.info(f"Response content: {response.text}")
         if response.status_code == 200:
             logger.info("Data sent successfully to remote PHP backend")
         else:
             logger.error(f"Failed to send data to remote PHP backend. Status code: {response.status_code}")
     except requests.exceptions.RequestException as e:
-        logger.error(f"Error sending data to remote PHP backend: {e}")
+        logger.error(f"Error sending data to remote PHP backend: {str(e)}")
+        logger.error(f"Traceback: {traceback.format_exc()}")
 
 # File to store historical data
 HISTORY_FILE = log_dir / 'system_history.json'
@@ -407,8 +412,12 @@ def process_data():
         'metrics': current_data
     }
     
-    # Send data to remote PHP backend
+    logger.info("Calling send_to_php_backend function")
+    
+    #send data to remote PHP backend
     send_to_php_backend(response)
+    
+    logger.info("send_to_php_backend function call completed")
 
     logger.info(f"Processed data: {json.dumps(response, indent=2)}")
     save_high_usage_duration()
