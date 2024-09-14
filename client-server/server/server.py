@@ -16,6 +16,8 @@ from queue import Queue
 from collections import deque
 import threading
 from collections import defaultdict
+import requests
+
 
 app = Flask(__name__)
 
@@ -31,6 +33,18 @@ logging.basicConfig(level=logging.DEBUG,
                         logging.StreamHandler()
                     ])
 logger = logging.getLogger(__name__)
+
+REMOTE_PHP_BACKEND = "mysql://root:@127.0.0.1:3306/metrics_db"
+
+def send_to_php_backend(data):
+    try:
+        response = requests.post(REMOTE_PHP_BACKEND, json=data, timeout=10)
+        if response.status_code == 200:
+            logger.info("Data sent successfully to remote PHP backend")
+        else:
+            logger.error(f"Failed to send data to remote PHP backend. Status code: {response.status_code}")
+    except requests.exceptions.RequestException as e:
+        logger.error(f"Error sending data to remote PHP backend: {e}")
 
 # File to store historical data
 HISTORY_FILE = log_dir / 'system_history.json'
@@ -392,6 +406,9 @@ def process_data():
         'scores': scores,
         'metrics': current_data
     }
+    
+    # Send data to remote PHP backend
+    send_to_php_backend(response)
 
     logger.info(f"Processed data: {json.dumps(response, indent=2)}")
     save_high_usage_duration()
