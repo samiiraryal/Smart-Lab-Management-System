@@ -18,6 +18,7 @@ import threading
 from collections import defaultdict
 import requests
 import traceback
+from requests.exceptions import RequestException
 
 
 app = Flask(__name__)
@@ -37,20 +38,41 @@ logger = logging.getLogger(__name__)
 
 REMOTE_PHP_BACKEND = "http://192.168.9.215:8000/store-metrics"
 
+# Create a session with keep-alive
+session = requests.Session()
+session.keep_alive = True
+
 def send_to_php_backend(data):
-    logger.info(f"Attempting to send data to PHP backend: {REMOTE_PHP_BACKEND}")
-    try:
-        logger.debug(f"Sending data: {json.dumps(data, indent=2)}")
-        response = requests.post(REMOTE_PHP_BACKEND, json=data, timeout=10)
-        logger.info(f"Response status code: {response.status_code}")
-        logger.info(f"Response content: {response.text}")
-        if response.status_code == 200:
-            logger.info("Data sent successfully to remote PHP backend")
-        else:
-            logger.error(f"Failed to send data to remote PHP backend. Status code: {response.status_code}")
-    except requests.exceptions.RequestException as e:
-        logger.error(f"Error sending data to remote PHP backend: {str(e)}")
-        logger.error(f"Traceback: {traceback.format_exc()}")
+    max_retries = 3
+    timeout = 30  # Increased timeout
+
+    for attempt in range(max_retries):
+        logger.info(f"Attempt {attempt + 1}/{max_retries}: Sending data to PHP backend: {REMOTE_PHP_BACKEND}")
+        try:
+            logger.debug(f"Sending data: {json.dumps(data, indent=2)}")
+            response = session.post(REMOTE_PHP_BACKEND, json=data, timeout=timeout)
+            logger.info(f"Response status code: {response.status_code}")
+            logger.info(f"Response content: {response.text}")
+            
+            if response.status_code == 200:
+                logger.info("Data sent successfully to remote PHP backend")
+                return response
+            else:
+                logger.error(f"Failed to send data to remote PHP backend. Status code: {response.status_code}")
+        
+        except RequestException as e:
+            logger.error(f"Error sending data to remote PHP backend: {str(e)}")
+            logger.error(f"Traceback: {traceback.format_exc()}")
+            
+            if attempt == max_retries - 1:
+                logger.error("Max retries reached. Giving up.")
+                break
+            
+            wait_time = 2 ** attempt  # Exponential backoff
+            logger.info(f"Retrying in {wait_time} seconds...")
+            time.sleep(wait_time)
+    
+    logger.error("Failed to send data to remote PHP backend after all retries.")
 
 # File to store historical data
 HISTORY_FILE = log_dir / 'system_history.json'
