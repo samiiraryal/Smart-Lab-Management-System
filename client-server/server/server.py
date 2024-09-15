@@ -35,7 +35,7 @@ logging.basicConfig(level=logging.DEBUG,
                     ])
 logger = logging.getLogger(__name__)
 
-REMOTE_PHP_BACKEND = "mysql://root:@127.0.0.1:3306/metrics_db"
+REMOTE_PHP_BACKEND = "http://localhost:8000/api/store-metrics"
 
 def send_to_php_backend(data):
     logger.info(f"Attempting to send data to PHP backend: {REMOTE_PHP_BACKEND}")
@@ -74,6 +74,24 @@ shutdown_flag = threading.Event()
 save_attempt_flag = threading.Event()
 client_usage_histories = defaultdict(lambda: Queue(maxsize=720))
 
+HIGH_USAGE_THRESHOLD = {
+    'cpu': 80,
+    'ram': 75,
+    'gpu': 70,
+    'network': 400
+}
+
+def is_high_stress(data):
+    return any(
+        data.get(metric, 0) > threshold
+        for metric, threshold in HIGH_USAGE_THRESHOLD.items()
+    )
+
+def calculate_recent_high_usage(events, duration=timedelta(hours=1)):
+    now = datetime.now()
+    recent_events = [event for event in events if now - event <= duration]
+    total_duration = sum((min(now, event + duration) - event).total_seconds() for event in recent_events)
+    return total_duration / 3600  # Convert to hours
 
 # Thread-safe queue for usage history
 usage_history_queue = Queue(maxsize=720)
@@ -421,9 +439,7 @@ def cleanup():
 
 # Start the background saving thread
 save_thread = threading.Thread(target=background_save, daemon=True)
-save_thread.start()
-
-
+save_thread.start() 
 
 @app.route('/report_crash', methods=['POST'])
 def report_crash():
