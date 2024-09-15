@@ -35,7 +35,7 @@ logging.basicConfig(level=logging.DEBUG,
                     ])
 logger = logging.getLogger(__name__)
 
-REMOTE_PHP_BACKEND = "http://localhost:8000/api/store-metrics"
+REMOTE_PHP_BACKEND = "http://localhost:8000/store-metrics"
 
 def send_to_php_backend(data):
     logger.info(f"Attempting to send data to PHP backend: {REMOTE_PHP_BACKEND}")
