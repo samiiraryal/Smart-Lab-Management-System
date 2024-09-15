@@ -88,13 +88,13 @@ shutdown_flag = threading.Event()
 RULES = {
     'maintenance_needed': {
         'conditions': [
-            {'high_usage_duration': '>2'},
-            {'uptime': '>168'},
-            {'network': '>500', 'high_usage_duration': '>2'},
-            {'cpu': '>90', 'ram': '>90', 'high_usage_duration': '>1'},
-            {'cpu': '>85', 'ram': '>85', 'gpu': '>85', 'high_usage_duration': '>1'},
+            {'recent_high_usage': '>2'},
+            {'total_high_usage': '>48'},
+            {'network': '>500', 'recent_high_usage': '>2'},
+            {'cpu': '>90', 'ram': '>90', 'recent_high_usage': '>1'},
+            {'cpu': '>85', 'ram': '>85', 'gpu': '>85', 'recent_high_usage': '>1'},
             {'cpu': '>85', 'ram': '>85', 'frequency': '>3', 'time_frame': '24h'},
-            {'cpu': '>90', 'ram': '>90', 'gpu': '>90', 'network': '>700', 'high_usage_duration': '>0.5'}
+            {'cpu': '>90', 'ram': '>90', 'gpu': '>90', 'network': '>700', 'recent_high_usage': '>0.5'}
         ],
         'weight': 1.0
     },
@@ -107,6 +107,8 @@ RULES = {
             {'storage': '>90'},
             {'usage_score': '>0.75'},
             {'network': '>500'},
+            {'recent_high_usage': '>1'},
+            {'total_high_usage': '>24'},
             {'frequency': '>3', 'time_frame': '24h'}
         ],
         'weight': 0.77
@@ -118,6 +120,8 @@ RULES = {
             {'storage': '>70', 'storage': '<90'},
             {'usage_score': '>0.5', 'usage_score': '<0.75'},
             {'network': '>100', 'network': '<500'},
+            {'recent_high_usage': '>0.5', 'recent_high_usage': '<1'},
+            {'total_high_usage': '>12', 'total_high_usage': '<24'},
             {'frequency': '>1', 'time_frame': '24h', 'frequency': '<3', 'time_frame': '24h'}
         ],
         'weight': 0.4
@@ -126,6 +130,8 @@ RULES = {
         'conditions': [
             {'cpu': '<50', 'ram': '<50', 'gpu': '<50', 'storage': '<70', 'network': '<100'},
             {'usage_score': '<0.5'},
+            {'recent_high_usage': '<0.5'},
+            {'total_high_usage': '<12'}
         ],
         'weight': 0.1
     }
@@ -195,7 +201,8 @@ def evaluate_frequency(condition, time_frame):
 def calculate_recent_high_usage(events, duration=timedelta(hours=1)):
     now = datetime.now()
     recent_events = [event for event in events if now - event <= duration]
-    return len(recent_events) * (30 / 3600)  # Assuming 30-second intervals, convert to hours
+    total_duration = sum((min(now, event + duration) - event).total_seconds() for event in recent_events)
+    return total_duration / 3600  # Convert to hours
 
 def calculate_usage_score(cpu, ram, gpu, storage, network):
     storage_percent = storage.get('percent', 0) if isinstance(storage, dict) else storage
@@ -336,26 +343,14 @@ scheduler.start()
 
 @app.route('/process', methods=['POST'])
 def process_data():
-    global high_usage_start, high_usage_events, total_high_usage_duration, last_process_time, client_usage_histories
+    global high_usage_events, total_high_usage_duration, last_process_time, client_usage_histories
 
     current_time = datetime.now()
     current_data = request.json
 
-    print(f"Received headers: {request.headers}")  # Inspect received headers
-    print(f"Received JSON data: {request.json}")  # Inspect received JSON data
-
-    # Extract client_id from the request headers, fallback to JSON if necessary
     client_id = request.headers.get('Client-ID') or current_data.get('client_id', 'unknown')
- 
-
-    # # If client_id is not found in headers, assign 'unknown'
-    # if not client_id:
-    #     client_id = 'unknown'
-
-    # Log the received client_id for debugging
     logger.info(f"Extracted client_id: {client_id}")
 
-    # Calculate usage score
     usage_score = calculate_usage_score(
         current_data.get('cpu', 0),
         current_data.get('ram', 0),
@@ -370,10 +365,8 @@ def process_data():
             client_usage_histories[client_id] = Queue(maxsize=720)
 
         if client_usage_histories[client_id].full():
-            client_usage_histories[client_id].get()  # Remove oldest item if full
+            client_usage_histories[client_id].get()
         client_usage_histories[client_id].put((current_time, usage_score))
-
-    logger.info(f"Appended to usage history for client {client_id}. Current size: {client_usage_histories[client_id].qsize()}")
 
     is_high_stress = (
         current_data.get('cpu', 0) > 80 or 
@@ -384,13 +377,6 @@ def process_data():
 
     if is_high_stress:
         high_usage_events.append(current_time)
-        if high_usage_start is None:
-            high_usage_start = current_time
-    else:
-        if high_usage_start is not None:
-            duration = (current_time - high_usage_start).total_seconds() / 3600
-            total_high_usage_duration += duration
-            high_usage_start = None
 
     if last_process_time is not None:
         time_diff = (current_time - last_process_time).total_seconds() / 3600
@@ -412,12 +398,9 @@ def process_data():
         'scores': scores,
         'metrics': current_data
     }
-    
+
     logger.info("Calling send_to_php_backend function")
-    
-    #send data to remote PHP backend
     send_to_php_backend(response)
-    
     logger.info("send_to_php_backend function call completed")
 
     logger.info(f"Processed data: {json.dumps(response, indent=2)}")
