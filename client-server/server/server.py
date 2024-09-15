@@ -36,21 +36,22 @@ logging.basicConfig(level=logging.DEBUG,
                     ])
 logger = logging.getLogger(__name__)
 
-REMOTE_PHP_BACKEND = "https://4367-2400-1a00-b030-dc8d-909-d516-28fc-5c7f.ngrok-free.app/store-metric"
+REMOTE_PHP_BACKEND = "https://4367-2400-1a00-b030-dc8d-909-d516-28fc-5c7f.ngrok-free.app/store-metrics"
 
 # Create a session with keep-alive
 session = requests.Session()
 session.keep_alive = True
 
 def send_to_php_backend(data):
-    max_retries = 3
-    timeout = 30  # Increased timeout
+    max_retries = 5
+    base_timeout = 30
 
     for attempt in range(max_retries):
+        timeout = base_timeout * (2 ** attempt)
         logger.info(f"Attempt {attempt + 1}/{max_retries}: Sending data to PHP backend: {REMOTE_PHP_BACKEND}")
         try:
             logger.debug(f"Sending data: {json.dumps(data, indent=2)}")
-            response = session.post(REMOTE_PHP_BACKEND, json=data, timeout=timeout)
+            response = requests.post(REMOTE_PHP_BACKEND, json=data, timeout=timeout)
             logger.info(f"Response status code: {response.status_code}")
             logger.info(f"Response content: {response.text}")
             
@@ -68,7 +69,7 @@ def send_to_php_backend(data):
                 logger.error("Max retries reached. Giving up.")
                 break
             
-            wait_time = 2 ** attempt  # Exponential backoff
+            wait_time = 2 ** attempt
             logger.info(f"Retrying in {wait_time} seconds...")
             time.sleep(wait_time)
     
