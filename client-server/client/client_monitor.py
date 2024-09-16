@@ -14,6 +14,7 @@ import GPUtil
 import ctypes
 from datetime import datetime, timedelta
 import uuid
+import re #regular expression operation
 
 # Add this near the top of your file, after other imports
 CLIENT_ID_FILE = Path.home() / "AppData" / "Local" / "SystemMonitor" / "client_id.json"
@@ -55,6 +56,36 @@ def get_or_create_client_id():
             json.dump({'client_id': client_id}, f)
         return client_id
     
+def escape_powershell_string(input_string):
+    """Escapes PowerShell special characters within a string."""
+    return re.sub(r'([\+\-\[\]\{\}\(\)\*\^\$\|\\])', r'`\1', input_string)
+
+def fetch_event_logs(application_name, log_name="Application", event_type="Error"):
+    escaped_application_name = escape_powershell_string(application_name)
+    command = f"""
+    Get-WinEvent -LogName {log_name} | 
+    Where-Object {{ $_.ProviderName -like '*{escaped_application_name}*' -and $_.LevelDisplayName -eq '{event_type}' }} |
+    Select-Object TimeCreated, ProviderName, Message |
+    ConvertTo-Json
+    """
+    result = subprocess.run(["powershell", "-Command", command], capture_output=True, text=True)
+    if result.returncode == 0 and result.stdout.strip():
+        return result.stdout
+    elif result.stdout.strip() == "":
+        logger.info(f"No new logs for {application_name}.")
+    else:
+        logger.error(f"Error fetching logs for {application_name}: {result.stderr}")
+
+def monitor_applications():
+    applications = ["NetBeans", "Dev C++", "MATLAB"]  # Adjust this list based on your needs
+    for app in applications:
+        logs = fetch_event_logs(app)
+        if logs:
+            logger.info(f"Logs for {app}: {logs}")
+        else:
+            logger.info(f"No new logs for {app}.")
+
+    
 
 def measure_network_latency():
     try:
@@ -65,6 +96,8 @@ def measure_network_latency():
     except Exception as e:
         logger.error(f"Error measuring network latency: {e}")
         return 0
+    
+    
 
 def get_storage_metrics():
     try:
@@ -209,6 +242,8 @@ def run_continuous_monitoring():
         try:
             metrics = collect_metrics()
             result = send_metrics_to_server(metrics)
+            monitor_applications()  # Monitor application logs
+            time.sleep(3600)  # Wait for 1 hour before the next cycle
             if result:
                 logger.info(f"Server response - Result: {result['result']}")
                 logger.info(f"Server response - Confidence: {result['confidence']:.2f}")
@@ -225,10 +260,10 @@ def run_continuous_monitoring():
                     logger.info("The system is running well.")
                 else:
                     logger.warning(f"Unknown result from the server: {result['result']}")
-            time.sleep(10)  # Wait for 10 minutes before the next collection
+            time.sleep(600)  # Wait for 10 minutes before the next collection
         except Exception as e:
             logger.error(f"Error in continuous monitoring: {e}")
-            time.sleep(5)  # Wait for 1 minute before retrying
+            time.sleep(60)  # Wait for 1 minute before retrying
 
 def run_test_mode():
     print("Running in test mode (8 iterations)")
