@@ -256,25 +256,37 @@ def evaluate_condition(metric, condition, data):
     return False
 
 def process_logs(logs):
-    # Start by assuming all apps have issues
-    software_status = {'NetBeans': 'issues', 'DevC++': 'issues', 'MATLAB': 'issues'}
+    # Start by assuming all apps have no issues
+    software_status = {
+        'NetBeans': 'no_issues',
+        'DevC++': 'no_issues',
+        'MATLAB': 'no_issues'
+    }
+
+    logger.info("Processing logs to determine software status.")
 
     # Process each log entry
     for log in logs:
-        if "No new logs" in log:
-            # Extract the application name and update its status to 'no_issues'
+        logger.info(f"Log entry: {log}")  # Log the current log entry being processed
+
+        # Check for issues in logs
+        if "error" in log.lower():  # Example check for an error in logs
             if "NetBeans" in log:
-                software_status['NetBeans'] = 'no_issues'
-                logger.info("NetBeans status updated to no_issues")
+                software_status['NetBeans'] = 'issues'
+                logger.info("NetBeans status updated to issues")
             elif "Dev C++" in log:
-                software_status['DevC++'] = 'no_issues'
-                logger.info("Dev C++ status updated to no_issues")
+                software_status['DevC++'] = 'issues'
+                logger.info("Dev C++ status updated to issues")
             elif "MATLAB" in log:
-                software_status['MATLAB'] = 'no_issues'
-                logger.info("MATLAB status updated to no_issues")
+                software_status['MATLAB'] = 'issues'
+                logger.info("MATLAB status updated to issues")
+        elif "No new logs" in log:
+            # This log indicates no new issues, but we can skip since we already initialized with no issues
+            logger.info(f"No new logs for {log}. Status remains no_issues.")
 
     logger.info(f"Final software status after processing logs: {software_status}")
     return software_status
+
 
 
 def evaluate_simple_condition(value, condition):
