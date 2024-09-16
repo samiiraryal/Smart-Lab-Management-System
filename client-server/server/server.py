@@ -175,6 +175,14 @@ RULES = {
             {'total_high_usage': '<12'}
         ],
         'weight': 0.1
+    },
+    'logs_no_issue': {  # This is the new rule to add
+        'conditions': [
+            {'NetBeans': 'no_issues'},
+            {'DevC++': 'no_issues'},
+            {'MATLAB': 'no_issues'}
+        ],
+        'weight': 0.05  # Assign lower weight since it's minor but helps overall health evaluation
     }
 }
 
@@ -230,8 +238,10 @@ def check_critical_usage(data):
     return None
 
 def evaluate_condition(metric, condition, data):
-    if metric == 'frequency':
-        return evaluate_frequency(condition, data.get('time_frame', '24h'))
+    # if metric == 'frequency':
+    #     return evaluate_frequency(condition, data.get('time_frame', '24h'))
+    if metric in ['NetBeans', 'DevC++', 'MATLAB']:
+        return data.get(metric, '') == 'no_issues'
     elif metric == 'high_usage_duration':
         return float(data.get(metric, 0)) > float(condition[1:])
     elif metric == 'storage':
@@ -244,6 +254,15 @@ def evaluate_condition(metric, condition, data):
     elif metric in data:
         return evaluate_simple_condition(float(data[metric]), condition)
     return False
+
+def process_logs(logs):
+    # Dictionary to store status of each app
+    software_status = {'NetBeans': 'issues', 'DevC++': 'issues', 'MATLAB': 'issues'}
+    for log in logs:
+        if "No new logs" in log:
+            app_name = extract_app_name(log)  # Function to parse which app the log is referring to
+            software_status[app_name] = 'no_issues'
+    return software_status
 
 def evaluate_simple_condition(value, condition):
     operator, threshold = condition[0], float(condition[1:])
@@ -288,27 +307,41 @@ def format_duration(seconds):
     return f"{int(hours)}h {int(minutes)}m {int(seconds)}s"
 
 def infer_result(data):
+    # Step 1: Check if there's a critical condition based on the data
     critical_result = check_critical_usage(data)
     if critical_result:
         return critical_result, 1.0, {critical_result: 1.0}
 
+    # Step 2: Initialize a dictionary to store the scores for each rule category
     scores = {}
     for category, rule in RULES.items():
         score = 0
+        # Evaluate each condition set within the rule
         for condition_set in rule['conditions']:
+            # If all conditions in the set are met, add the rule's weight to the score
             if all(evaluate_condition(metric, condition, data) for metric, condition in condition_set.items()):
                 score += rule['weight']
+        # Store the weighted score for the current category
         scores[category] = score * rule['weight']
 
+    # Step 3: Incorporate the log status into the 'running_good' category
+    if all(data.get(app) == 'no_issues' for app in ['NetBeans', 'DevC++', 'MATLAB']):
+        # If all software logs are clean, slightly boost the 'running_good' score
+        scores['running_good'] += 0.1
+
+    # Step 4: Check if 'running_good' should be the final result
     if (scores['running_good'] > 1.2 * max(scores.values())) or \
        (scores['running_good'] > 0 and sum(1 for metric in ['cpu', 'ram', 'gpu', 'network'] if data[metric] < 50) >= 3): 
+        # If the 'running_good' score is significantly higher than others, return it as the result
         return 'running_good', 1.0, scores
 
+    # Step 5: Otherwise, determine the result based on the highest score
     result = max(scores, key=scores.get)
     total_score = sum(scores.values())
     confidence = scores[result] / total_score if total_score > 0 else 0
 
     return result, confidence, scores
+
 
 def load_usage_history():
     global client_usage_histories
@@ -412,6 +445,12 @@ def process_data():
     current_time = datetime.now()
     current_data = request.json
 
+    # Step 1: Process the logs to determine if they are clean (no issues)
+    logs = current_data.get('logs', [])
+    software_status = process_logs(logs)  # This function will process logs and return statuses like 'no_issues' or 'issues'
+    current_data.update(software_status)  # Update current data with log status
+
+    # Step 2: Proceed with the regular usage processing (NO EARLY EXIT)
     client_id = request.headers.get('Client-ID') or current_data.get('client_id', 'unknown')
     logger.info(f"Extracted client_id: {client_id}")
 
@@ -454,6 +493,7 @@ def process_data():
     current_data['total_high_usage_duration'] = total_high_usage_duration
     current_data['recent_high_usage_duration'] = recent_high_usage_duration
 
+    # Step 3: Infer result based on the data (logs + other metrics)
     result, confidence, scores = infer_result(current_data)
 
     response = {
@@ -471,6 +511,7 @@ def process_data():
     save_high_usage_duration()
 
     return jsonify(response)
+
 
 def background_save():
     while not shutdown_flag.is_set():
