@@ -178,6 +178,29 @@ RULES = {
     }
 }
 
+@app.route('/report_error', methods=['POST'])
+def report_error():
+    error_data = request.json
+    app_name = error_data['app_name']
+    logs = error_data['logs']
+    # Process the logs as needed, e.g., counting errors, storing logs, etc.
+    process_error_logs(app_name, logs)
+    return jsonify({'status': 'Received and processed error logs successfully'}), 200
+
+def process_error_logs(app_name, logs):
+    # Example: Increment a counter for errors for this specific application
+    error_count_key = f"{app_name}_errors"
+    if error_count_key in client_usage_histories:
+        client_usage_histories[error_count_key] += 1
+    else:
+        client_usage_histories[error_count_key] = 1
+    
+    # Log this for review
+    logger.info(f"Processed error logs for {app_name}: current count {client_usage_histories[error_count_key]}")
+
+    # Implement further logic as needed based on error counts or other criteria
+
+
 def load_high_usage_duration():
     global total_high_usage_duration
     try:
