@@ -256,12 +256,19 @@ def evaluate_condition(metric, condition, data):
     return False
 
 def process_logs(logs):
-    # Dictionary to store status of each app
+    # Start by assuming all apps have issues
     software_status = {'NetBeans': 'issues', 'DevC++': 'issues', 'MATLAB': 'issues'}
+
+    # Process each log entry
     for log in logs:
         if "No new logs" in log:
-            app_name = extract_app_name(log)  # Function to parse which app the log is referring to
-            software_status[app_name] = 'no_issues'
+            if "NetBeans" in log:
+                software_status['NetBeans'] = 'no_issues'
+            elif "Dev C++" in log:
+                software_status['DevC++'] = 'no_issues'
+            elif "MATLAB" in log:
+                software_status['MATLAB'] = 'no_issues'
+
     return software_status
 
 def evaluate_simple_condition(value, condition):
