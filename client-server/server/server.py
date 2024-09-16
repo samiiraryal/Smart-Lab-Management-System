@@ -262,14 +262,20 @@ def process_logs(logs):
     # Process each log entry
     for log in logs:
         if "No new logs" in log:
+            # Extract the application name and update its status to 'no_issues'
             if "NetBeans" in log:
                 software_status['NetBeans'] = 'no_issues'
+                logger.info("NetBeans status updated to no_issues")
             elif "Dev C++" in log:
                 software_status['DevC++'] = 'no_issues'
+                logger.info("Dev C++ status updated to no_issues")
             elif "MATLAB" in log:
                 software_status['MATLAB'] = 'no_issues'
+                logger.info("MATLAB status updated to no_issues")
 
+    logger.info(f"Final software status after processing logs: {software_status}")
     return software_status
+
 
 def evaluate_simple_condition(value, condition):
     operator, threshold = condition[0], float(condition[1:])
@@ -454,8 +460,10 @@ def process_data():
 
     # Step 1: Process the logs to determine if they are clean (no issues)
     logs = current_data.get('logs', [])
-    software_status = process_logs(logs)  # This function will process logs and return statuses like 'no_issues' or 'issues'
+    software_status = process_logs(logs)  # Process logs to update software status
     current_data.update(software_status)  # Update current data with log status
+
+    logger.info(f"Processed data with software status: {current_data}")
 
     # Step 2: Proceed with the regular usage processing (NO EARLY EXIT)
     client_id = request.headers.get('Client-ID') or current_data.get('client_id', 'unknown')
