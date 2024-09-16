@@ -260,7 +260,7 @@ def run_continuous_monitoring():
             metrics = collect_metrics()
             result = send_metrics_to_server(metrics)
             monitor_applications()  # Monitor application logs
-            time.sleep(3600)  # Wait for 1 hour before the next cycle
+            time.sleep(10)  # Wait for 1 hour before the next cycle
             if result:
                 logger.info(f"Server response - Result: {result['result']}")
                 logger.info(f"Server response - Confidence: {result['confidence']:.2f}")
