@@ -82,8 +82,25 @@ def monitor_applications():
         logs = fetch_event_logs(app)
         if logs:
             logger.info(f"Logs for {app}: {logs}")
+            send_error_logs_to_server(app, logs)
         else:
             logger.info(f"No new logs for {app}.")
+
+def send_error_logs_to_server(app_name, logs):
+    error_data = {
+        'client_id': CLIENT_ID,
+        'app_name': app_name,
+        'logs': logs,
+        'timestamp': datetime.now().isoformat()
+    }
+    try:
+        response = requests.post("http://18.141.49.211:8080/report_error", json=error_data)
+        if response.status_code == 200:
+            logger.info("Error logs sent successfully to the server.")
+        else:
+            logger.error(f"Failed to send error logs. Status code: {response.status_code}")
+    except Exception as e:
+        logger.error(f"Error sending error logs to server: {e}")
 
     
 
