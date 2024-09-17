@@ -183,7 +183,7 @@ def collect_metrics():
     global high_usage_start, high_usage_duration
 
     data = {}
-    data['cpu'] = f"{psutil.cpu(interval=1)}%"  # CPU usage with unit
+    data['cpu'] = f"{psutil.cpu_percent(interval=1)}%"  # CPU usage with unit
     data['ram'] = f"{psutil.virtual_memory().percent}%"  # RAM usage with unit
     data['client_id'] = CLIENT_ID
     try:
@@ -201,8 +201,14 @@ def collect_metrics():
     data['hostname'] = platform.node()
     data['uptime_hours'] = f"{(time.time() - psutil.boot_time()) / 3600:.2f} hours"  # Uptime in hours
 
+    # Extract and convert metrics to float for calculation
+    cpu_usage = float(data['cpu'].rstrip('%'))
+    ram_usage = float(data['ram'].rstrip('%'))
+    gpu_usage = float(data['gpu'].rstrip('%'))
+    storage_percent = data['storage']['percent']  # Assuming this is already a float
+
     # Calculate usage score
-    data['usage_score'] = float((data['cpu'] + data['ram'] + data['gpu'] + data['storage']['percent']) / 400)
+    data['usage_score'] = (cpu_usage + ram_usage + gpu_usage + storage_percent) / 400
 
     # Calculate high usage duration and include it with units
     if data['usage_score'] > 0.5:
@@ -220,6 +226,7 @@ def collect_metrics():
 
     logger.debug(f"Collected metrics with units: {json.dumps(data, indent=2)}")
     return data
+
 
 
 def send_metrics_to_server(data):
