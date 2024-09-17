@@ -183,17 +183,17 @@ def collect_metrics():
     global high_usage_start, high_usage_duration
 
     data = {}
-    data['cpu_percent'] = f"{psutil.cpu_percent(interval=1)}%"  # CPU usage with unit
-    data['ram_percent'] = f"{psutil.virtual_memory().percent}%"  # RAM usage with unit
+    data['cpu'] = f"{psutil.cpu(interval=1)}%"  # CPU usage with unit
+    data['ram'] = f"{psutil.virtual_memory().percent}%"  # RAM usage with unit
     data['client_id'] = CLIENT_ID
     try:
         gpus = GPUtil.getGPUs()
         if gpus:
-            data['gpu_percent'] = f"{gpus[0].load * 100:.2f}%"  # GPU usage with unit
+            data['gpu'] = f"{gpus[0].load * 100:.2f}%"  # GPU usage with unit
         else:
-            data['gpu_percent'] = "0.0%"  # If no GPU found
+            data['gpu'] = "0.0%"  # If no GPU found
     except Exception as e:
-        data['gpu_percent'] = "0.0%"  # Handling exceptions by setting GPU usage to 0%
+        data['gpu'] = "0.0%"  # Handling exceptions by setting GPU usage to 0%
         logger.error(f"Error getting GPU usage: {e}")
 
     data['network_latency_ms'] = f"{measure_network_latency():.2f} ms"  # Network latency in milliseconds
