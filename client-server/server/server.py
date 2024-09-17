@@ -36,7 +36,7 @@ logging.basicConfig(level=logging.DEBUG,
                     ])
 logger = logging.getLogger(__name__)
 
-REMOTE_PHP_BACKEND = "https://c395-124-41-211-99.ngrok-free.app/store-metrics"
+REMOTE_PHP_BACKEND = "https://bc4e-124-41-211-99.ngrok-free.app/store-metrics"
 
 # Create a session with keep-alive
 session = requests.Session()
