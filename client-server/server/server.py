@@ -106,7 +106,7 @@ HIGH_USAGE_THRESHOLD = {
 
 def is_high_stress(data):
     return any(
-        float(data.get(metric, '0%').rstrip('%')) > threshold
+        data.get(metric, 0) > threshold
         for metric, threshold in HIGH_USAGE_THRESHOLD.items()
     )
 
@@ -195,10 +195,10 @@ def save_high_usage_duration():
 load_high_usage_duration()
 
 def check_critical_usage(data):
-    cpu = float(data.get('cpu', 0))
-    ram = float(data.get('ram', 0))
-    gpu = float(data.get('gpu', 0))
-    high_usage_duration = float(data.get('high_usage_duration', 0))
+    cpu = data.get('cpu', 0)
+    ram = data.get('ram', 0)
+    gpu = data.get('gpu', 0)
+    high_usage_duration = data.get('high_usage_duration', 0)
     
     if (cpu > 90 and ram > 90) and high_usage_duration > 1:
         return 'maintenance_needed'
@@ -210,16 +210,16 @@ def evaluate_condition(metric, condition, data):
     if metric == 'frequency':
         return evaluate_frequency(condition, data.get('time_frame', '24h'))
     elif metric == 'high_usage_duration':
-        return float(data.get(metric, '0h')[:-1]) > float(condition[1:])
+        return float(data.get(metric, 0)) > float(condition[1:])
     elif metric == 'storage':
-        storage_value = data.get('storage', {'percent': '0%'})
+        storage_value = data.get('storage', 0)
         if isinstance(storage_value, dict):
-            storage_percent = float(storage_value.get('percent', '0%')[:-1])
+            storage_percent = storage_value.get('percent', 0)
         else:
-            storage_percent = float(storage_value[:-1])
-        return evaluate_simple_condition(storage_percent, condition)
+            storage_percent = storage_value
+        return evaluate_simple_condition(float(storage_percent), condition)
     elif metric in data:
-        return evaluate_simple_condition(float(data[metric][:-1] if isinstance(data[metric], str) else data[metric]), condition)
+        return evaluate_simple_condition(float(data[metric]), condition)
     return False
 
 def evaluate_simple_condition(value, condition):
@@ -246,12 +246,7 @@ def calculate_recent_high_usage(events, duration=timedelta(hours=1)):
     return total_duration / 3600  # Convert to hours
 
 def calculate_usage_score(cpu, ram, gpu, storage, network):
-    cpu = float(cpu[:-1]) if isinstance(cpu, str) else cpu
-    ram = float(ram[:-1]) if isinstance(ram, str) else ram
-    gpu = float(gpu[:-1]) if isinstance(gpu, str) else gpu
-    storage_percent = float(storage['percent'][:-1]) if isinstance(storage, dict) and isinstance(storage['percent'], str) else storage.get('percent', 0)
-    network = float(network[:-2]) if isinstance(network, str) else network
-    
+    storage_percent = storage.get('percent', 0) if isinstance(storage, dict) else storage
     normalized_network = min(network / 500, 1)
     
     weighted_score = (
@@ -415,10 +410,10 @@ def process_data():
         client_usage_histories[client_id].put((current_time, usage_score))
 
     is_high_stress = (
-        float(current_data.get('cpu', 0)) > 80 or 
-        float(current_data.get('ram', 0)) > 75 or
-        float(current_data.get('gpu', 0)) > 70 or
-        float(current_data.get('network', 0)) > 400 
+        current_data.get('cpu', 0) > 80 or 
+        current_data.get('ram', 0) > 75 or
+        current_data.get('gpu', 0) > 70 or
+        current_data.get('network', 0) > 400 
     )
 
     if is_high_stress:
@@ -436,27 +431,6 @@ def process_data():
     current_data['total_high_usage_duration'] = total_high_usage_duration
     current_data['recent_high_usage_duration'] = recent_high_usage_duration
 
-    # Create formatted metrics
-    formatted_metrics = {
-        'cpu': f"{current_data['cpu']:.2f}%",
-        'ram': f"{current_data['ram']:.2f}%",
-        'gpu': f"{current_data['gpu']:.2f}%",
-        'network': f"{current_data['network']:.2f}ms",
-        'storage': {
-            'total': f"{current_data['storage']['total']:.2f}GB",
-            'used': f"{current_data['storage']['used']:.2f}GB",
-            'free': f"{current_data['storage']['free']:.2f}GB",
-            'percent': f"{current_data['storage']['percent']:.2f}%"
-        },
-        'uptime': f"{current_data['uptime']/3600:.2f}h",
-        'usage_score': f"{usage_score:.2f}",
-        'total_high_usage_duration': f"{total_high_usage_duration:.2f}h",
-        'recent_high_usage_duration': f"{recent_high_usage_duration:.2f}h"
-    }
-
-    # Add formatted metrics to current_data
-    current_data['formatted_metrics'] = formatted_metrics
-
     result, confidence, scores = infer_result(current_data)
 
     response = {
@@ -467,7 +441,12 @@ def process_data():
     }
     
     logger.info(f"Processed data: Result: {result}, Confidence: {confidence:.2f}")
-    logger.info(f"Metrics: {json.dumps(current_data, indent=2)}")
+    logger.info(f"Metrics: CPU: {current_data.get('cpu', 0):.2f}%, RAM: {current_data.get('ram', 0):.2f}%, "
+                f"GPU: {current_data.get('gpu', 0):.2f}%, Network Latency: {current_data.get('network', 0):.2f}ms, "
+                f"Storage Used: {current_data.get('storage', {}).get('percent', 0):.2f}%, "
+                f"Uptime: {current_data.get('uptime', 0)/3600:.2f}h, Usage Score: {usage_score:.2f}, "
+                f"Recent High Usage Duration: {current_data.get('recent_high_usage_duration', 0):.2f}h, "
+                f"Total High Usage Duration: {total_high_usage_duration:.2f}h")
 
     logger.info("Calling send_to_php_backend function")
     send_to_php_backend(response)
