@@ -433,11 +433,32 @@ def process_data():
 
     result, confidence, scores = infer_result(current_data)
 
+    # Modify the metrics dictionary to include units
+    metrics_with_units = {
+        'cpu': f"{current_data.get('cpu', 0):.2f}%",
+        'ram': f"{current_data.get('ram', 0):.2f}%",
+        'client_id': client_id,
+        'gpu': f"{current_data.get('gpu', 0):.2f}%",
+        'network': f"{current_data.get('network', 0):.2f}ms",
+        'storage': {
+            'total': f"{current_data['storage'].get('total', 0):.2f}GB",
+            'used': f"{current_data['storage'].get('used', 0):.2f}GB",
+            'free': f"{current_data['storage'].get('free', 0):.2f}GB",
+            'percent': f"{current_data['storage'].get('percent', 0):.2f}%"
+        },
+        'hostname': current_data.get('hostname', 'unknown'),
+        'uptime': f"{current_data.get('uptime', 0):.2f}s",
+        'usage_score': f"{usage_score:.4f}",
+        'high_usage_duration': f"{current_data.get('high_usage_duration', 0):.2f}h",
+        'total_high_usage_duration': f"{total_high_usage_duration:.2f}h",
+        'recent_high_usage_duration': f"{recent_high_usage_duration:.2f}h"
+    }
+
     response = {
         'result': result,
         'confidence': confidence,
         'scores': scores,
-        'metrics': current_data
+        'metrics': metrics_with_units
     }
 
     logger.info("Calling send_to_php_backend function")
