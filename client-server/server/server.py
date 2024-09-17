@@ -106,7 +106,7 @@ HIGH_USAGE_THRESHOLD = {
 
 def is_high_stress(data):
     return any(
-        data.get(metric, 0) > threshold
+        float(data.get(metric, '0%').rstrip('%')) > threshold
         for metric, threshold in HIGH_USAGE_THRESHOLD.items()
     )
 
@@ -195,10 +195,10 @@ def save_high_usage_duration():
 load_high_usage_duration()
 
 def check_critical_usage(data):
-    cpu = data.get('cpu', 0)
-    ram = data.get('ram', 0)
-    gpu = data.get('gpu', 0)
-    high_usage_duration = data.get('high_usage_duration', 0)
+    cpu = float(data.get('cpu', 0))
+    ram = float(data.get('ram', 0))
+    gpu = float(data.get('gpu', 0))
+    high_usage_duration = float(data.get('high_usage_duration', 0))
     
     if (cpu > 90 and ram > 90) and high_usage_duration > 1:
         return 'maintenance_needed'
@@ -415,10 +415,10 @@ def process_data():
         client_usage_histories[client_id].put((current_time, usage_score))
 
     is_high_stress = (
-        current_data.get('cpu', 0) > 80 or 
-        current_data.get('ram', 0) > 75 or
-        current_data.get('gpu', 0) > 70 or
-        current_data.get('network', 0) > 400 
+        float(current_data.get('cpu', 0)) > 80 or 
+        float(current_data.get('ram', 0)) > 75 or
+        float(current_data.get('gpu', 0)) > 70 or
+        float(current_data.get('network', 0)) > 400 
     )
 
     if is_high_stress:
@@ -436,19 +436,26 @@ def process_data():
     current_data['total_high_usage_duration'] = total_high_usage_duration
     current_data['recent_high_usage_duration'] = recent_high_usage_duration
 
-    # Add units to the metrics
-    current_data['cpu'] = f"{current_data['cpu']:.2f}%"
-    current_data['ram'] = f"{current_data['ram']:.2f}%"
-    current_data['gpu'] = f"{current_data['gpu']:.2f}%"
-    current_data['network'] = f"{current_data['network']:.2f}ms"
-    current_data['storage']['total'] = f"{current_data['storage']['total']:.2f}GB"
-    current_data['storage']['used'] = f"{current_data['storage']['used']:.2f}GB"
-    current_data['storage']['free'] = f"{current_data['storage']['free']:.2f}GB"
-    current_data['storage']['percent'] = f"{current_data['storage']['percent']:.2f}%"
-    current_data['uptime'] = f"{current_data['uptime']/3600:.2f}h"
-    current_data['usage_score'] = f"{usage_score:.2f}"  # No unit, it's a score
-    current_data['total_high_usage_duration'] = f"{total_high_usage_duration:.2f}h"
-    current_data['recent_high_usage_duration'] = f"{recent_high_usage_duration:.2f}h"
+    # Create formatted metrics
+    formatted_metrics = {
+        'cpu': f"{current_data['cpu']:.2f}%",
+        'ram': f"{current_data['ram']:.2f}%",
+        'gpu': f"{current_data['gpu']:.2f}%",
+        'network': f"{current_data['network']:.2f}ms",
+        'storage': {
+            'total': f"{current_data['storage']['total']:.2f}GB",
+            'used': f"{current_data['storage']['used']:.2f}GB",
+            'free': f"{current_data['storage']['free']:.2f}GB",
+            'percent': f"{current_data['storage']['percent']:.2f}%"
+        },
+        'uptime': f"{current_data['uptime']/3600:.2f}h",
+        'usage_score': f"{usage_score:.2f}",
+        'total_high_usage_duration': f"{total_high_usage_duration:.2f}h",
+        'recent_high_usage_duration': f"{recent_high_usage_duration:.2f}h"
+    }
+
+    # Add formatted metrics to current_data
+    current_data['formatted_metrics'] = formatted_metrics
 
     result, confidence, scores = infer_result(current_data)
 
