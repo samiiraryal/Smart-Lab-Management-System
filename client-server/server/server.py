@@ -372,17 +372,17 @@ def load_usage_history():
     global client_usage_histories
     usage_history_file = Path('usage_history.json')
     logger.info(f"Attempting to load usage history from {usage_history_file.absolute()}")
-    
+
     if not usage_history_file.exists():
         logger.warning(f"usage_history.json does not exist. Initializing empty usage history.")
         return
-    
+
     try:
         with open(usage_history_file, 'r') as f:
             loaded_history = json.load(f)
             with usage_history_lock:
                 for client_id, history in loaded_history.items():
-                    client_queue = client_usage_histories[client_id]
+                    client_queue = client_usage_histories[client_id]  # Assumes client_usage_histories is a defaultdict(Queue)
                     for timestamp, score in history:
                         if not client_queue.full():
                             client_queue.put((datetime.fromisoformat(timestamp), score))
@@ -393,6 +393,13 @@ def load_usage_history():
         logger.error(f"JSON decoding error in usage_history.json: {e}")
     except Exception as e:
         logger.error(f"Unexpected error loading usage history: {e}")
+
+def check_maintenance_needed(client_id):
+    # Example function to calculate if maintenance is needed based on historical data
+    history = client_usage_histories[client_id]
+    average_cpu_usage = sum(data[1]['cpu'] for data in history) / len(history) if history else 0
+    return average_cpu_usage > 85  # example threshold
+
 
 # Add a global lock for usage history
 usage_history_lock = threading.Lock()
@@ -463,6 +470,18 @@ scheduler = BackgroundScheduler()
 scheduler.add_job(save_usage_history, 'interval', minutes=10)
 scheduler.start()
 
+def update_usage_history(client_id, new_data):
+    with usage_history_lock:
+        if client_id not in client_usage_histories:
+            client_usage_histories[client_id] = deque(maxlen=720)  # Define max length for history
+        
+        # Assuming new_data is a tuple like (timestamp, usage_score)
+        client_usage_histories[client_id].append(new_data)
+
+        # Optionally, you could log this update
+        logger.debug(f"Updated usage history for client {client_id}: {new_data}")
+
+
 @app.route('/process', methods=['POST'])
 def process_data():
     global high_usage_events, total_high_usage_duration, last_process_time, client_usage_histories
@@ -481,28 +500,32 @@ def process_data():
     client_id = request.headers.get('Client-ID') or current_data.get('client_id', 'unknown')
     logger.info(f"Extracted client_id: {client_id}")
 
+    # Assume calculate_usage_score can handle units, or adjust it to strip units before processing
     usage_score = calculate_usage_score(
-        current_data.get('cpu', 0),
-        current_data.get('ram', 0),
-        current_data.get('gpu', 0),
-        current_data.get('storage', {}),
-        current_data.get('network', 0)
+        current_data.get('cpu_percent').rstrip('%'),  # Strip the '%' and convert to float if necessary
+        current_data.get('ram_percent').rstrip('%'),
+        current_data.get('gpu_percent').rstrip('%'),
+        current_data.get('storage')['percent'].rstrip('%'),  # Assuming storage metrics also include units
+        current_data.get('network_latency_ms').rstrip(' ms')
     )
-    current_data['usage_score'] = usage_score
+    current_data['usage_score'] = f"{usage_score:.2f}"  # Convert score to string if it isn't already
 
+    # Update the client's usage history with the new data
+    update_usage_history(client_id, (current_time, usage_score))
+
+    # Retrieve historical data for client to inform decision-making
     with usage_history_lock:
-        if client_id not in client_usage_histories:
-            client_usage_histories[client_id] = Queue(maxsize=720)
-
-        if client_usage_histories[client_id].full():
-            client_usage_histories[client_id].get()
-        client_usage_histories[client_id].put((current_time, usage_score))
+        historical_data = list(client_usage_histories[client_id].queue)
+    historical_cpu_averages = [data[1] for data in historical_data]
+    if historical_cpu_averages:
+        average_cpu_usage = sum(historical_cpu_averages) / len(historical_cpu_averages)
+        current_data['average_cpu_usage'] = f"{average_cpu_usage:.2f}%"  # Ensure this is formatted as a string with unit
 
     is_high_stress = (
-        current_data.get('cpu', 0) > 80 or 
-        current_data.get('ram', 0) > 75 or
-        current_data.get('gpu', 0) > 70 or
-        current_data.get('network', 0) > 400 
+        float(current_data.get('cpu_percent').rstrip('%')) > 80 or 
+        float(current_data.get('ram_percent').rstrip('%')) > 75 or
+        float(current_data.get('gpu_percent').rstrip('%')) > 70 or
+        float(current_data.get('network_latency_ms').rstrip(' ms')) > 400
     )
 
     if is_high_stress:
@@ -517,8 +540,8 @@ def process_data():
 
     recent_high_usage_duration = calculate_recent_high_usage(high_usage_events)
 
-    current_data['total_high_usage_duration'] = total_high_usage_duration
-    current_data['recent_high_usage_duration'] = recent_high_usage_duration
+    current_data['total_high_usage_duration'] = f"{total_high_usage_duration:.2f} hours"
+    current_data['recent_high_usage_duration'] = f"{recent_high_usage_duration:.2f} hours"
 
     # Step 3: Infer result based on the data (logs + other metrics)
     result, confidence, scores = infer_result(current_data)
@@ -527,17 +550,18 @@ def process_data():
         'result': result,
         'confidence': confidence,
         'scores': scores,
-        'metrics': current_data
+        'metrics': current_data  # Ensure all metrics sent in response include units
     }
 
     logger.info("Calling send_to_php_backend function")
     send_to_php_backend(response)
     logger.info("send_to_php_backend function call completed")
 
-    logger.info(f"Processed data: {json.dumps(response, indent=2)}")
+    logger.info(f"Processed data with units: {json.dumps(response, indent=2)}")
     save_high_usage_duration()
 
     return jsonify(response)
+
 
 
 def background_save():

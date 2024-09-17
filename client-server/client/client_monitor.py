@@ -109,10 +109,13 @@ def measure_network_latency():
         start_time = time.time()
         subprocess.run(["ping", "-n", "1", "8.8.8.8"], capture_output=True, text=True, timeout=5)
         end_time = time.time()
-        return (end_time - start_time) * 1000  # Convert to milliseconds
+        latency = (end_time - start_time) * 1000  # Convert to milliseconds
+        logger.info(f"Measured network latency: {latency:.2f} ms")
+        return latency
     except Exception as e:
         logger.error(f"Error measuring network latency: {e}")
         return 0
+
     
     
 
@@ -180,41 +183,44 @@ def collect_metrics():
     global high_usage_start, high_usage_duration
 
     data = {}
-    data['cpu'] = float(psutil.cpu_percent(interval=1))
-    data['ram'] = float(psutil.virtual_memory().percent)
+    data['cpu_percent'] = f"{psutil.cpu_percent(interval=1)}%"  # CPU usage with unit
+    data['ram_percent'] = f"{psutil.virtual_memory().percent}%"  # RAM usage with unit
     data['client_id'] = CLIENT_ID
     try:
         gpus = GPUtil.getGPUs()
         if gpus:
-            data['gpu'] = float(gpus[0].load * 100)
+            data['gpu_percent'] = f"{gpus[0].load * 100:.2f}%"  # GPU usage with unit
         else:
-            data['gpu'] = 0.0
+            data['gpu_percent'] = "0.0%"  # If no GPU found
     except Exception as e:
-        data['gpu'] = 0.0
+        data['gpu_percent'] = "0.0%"  # Handling exceptions by setting GPU usage to 0%
         logger.error(f"Error getting GPU usage: {e}")
-    data['network'] = float(measure_network_latency())
-    data['storage'] = get_storage_metrics()
+
+    data['network_latency_ms'] = f"{measure_network_latency():.2f} ms"  # Network latency in milliseconds
+    data['storage'] = get_storage_metrics()  # This function should return storage metrics with units
     data['hostname'] = platform.node()
-    data['uptime'] = float(time.time() - psutil.boot_time())
+    data['uptime_hours'] = f"{(time.time() - psutil.boot_time()) / 3600:.2f} hours"  # Uptime in hours
 
     # Calculate usage score
     data['usage_score'] = float((data['cpu'] + data['ram'] + data['gpu'] + data['storage']['percent']) / 400)
 
-    # Calculate high usage duration
+    # Calculate high usage duration and include it with units
     if data['usage_score'] > 0.5:
         if high_usage_start is None:
             high_usage_start = datetime.now()
-        high_usage_duration = float((datetime.now() - high_usage_start).total_seconds() / 3600)  # Convert to hours
+        high_usage_duration = (datetime.now() - high_usage_start).total_seconds() / 3600  # Convert to hours
+        data['high_usage_duration_hours'] = f"{high_usage_duration:.2f} hours"  # Include the unit
     else:
         if high_usage_start is not None:
-            data['high_usage_duration'] = high_usage_duration
+            data['high_usage_duration_hours'] = f"{high_usage_duration:.2f} hours"  # Include the unit
             high_usage_start = None
             high_usage_duration = 0.0
         else:
-            data['high_usage_duration'] = 0.0
+            data['high_usage_duration_hours'] = "0.0 hours"  # Include the unit
 
-    logger.debug(f"Collected metrics: {json.dumps(data, indent=2)}")
+    logger.debug(f"Collected metrics with units: {json.dumps(data, indent=2)}")
     return data
+
 
 def send_metrics_to_server(data):
     try:
