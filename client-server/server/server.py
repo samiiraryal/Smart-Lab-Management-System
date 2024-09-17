@@ -382,7 +382,7 @@ def load_usage_history():
             loaded_history = json.load(f)
             with usage_history_lock:
                 for client_id, history in loaded_history.items():
-                    client_queue = client_usage_histories[client_id]  # Assumes client_usage_histories is a defaultdict(Queue)
+                    client_queue = client_usage_histories[client_id]
                     for timestamp, score in history:
                         if not client_queue.full():
                             client_queue.put((datetime.fromisoformat(timestamp), score))
@@ -473,10 +473,15 @@ scheduler.start()
 def update_usage_history(client_id, new_data):
     with usage_history_lock:
         if client_id not in client_usage_histories:
-            client_usage_histories[client_id] = deque(maxlen=720)  # Define max length for history
+            client_usage_histories[client_id] = Queue(maxsize=720)  # Define max size for history
         
         # Assuming new_data is a tuple like (timestamp, usage_score)
-        client_usage_histories[client_id].append(new_data)
+        if not client_usage_histories[client_id].full():
+            client_usage_histories[client_id].put(new_data)
+        else:
+            # If the queue is full, remove the oldest item and add the new one
+            client_usage_histories[client_id].get()
+            client_usage_histories[client_id].put(new_data)
 
         # Optionally, you could log this update
         logger.debug(f"Updated usage history for client {client_id}: {new_data}")
