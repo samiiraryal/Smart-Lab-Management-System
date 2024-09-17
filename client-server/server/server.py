@@ -439,14 +439,6 @@ def process_data():
         'scores': scores,
         'metrics': current_data
     }
-    
-    logger.info(f"Processed data: Result: {result}, Confidence: {confidence:.2f}")
-    logger.info(f"Metrics: CPU: {current_data.get('cpu', 0):.2f}%, RAM: {current_data.get('ram', 0):.2f}%, "
-                f"GPU: {current_data.get('gpu', 0):.2f}%, Network Latency: {current_data.get('network', 0):.2f}ms, "
-                f"Storage Used: {current_data.get('storage', {}).get('percent', 0):.2f}%, "
-                f"Uptime: {current_data.get('uptime', 0)/3600:.2f}h, Usage Score: {usage_score:.2f}, "
-                f"Recent High Usage Duration: {current_data.get('recent_high_usage_duration', 0):.2f}h, "
-                f"Total High Usage Duration: {total_high_usage_duration:.2f}h")
 
     logger.info("Calling send_to_php_backend function")
     send_to_php_backend(response)
