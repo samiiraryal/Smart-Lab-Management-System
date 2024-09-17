@@ -163,10 +163,7 @@ def collect_metrics():
         else:
             data['high_usage_duration'] = 0.0
 
-    logger.debug(f"Collected metrics: CPU: {data['cpu']}%, RAM: {data['ram']}%, GPU: {data['gpu']}%, "
-                 f"Network Latency: {data['network']:.2f}ms, Storage Used: {data['storage']['percent']}%, "
-                 f"Uptime: {data['uptime']:.2f}h, Usage Score: {data['usage_score']:.2f}, "
-                 f"High Usage Duration: {data['high_usage_duration']:.2f}h")
+    logger.debug(f"Collected metrics: {json.dumps(data, indent=2)}")
     return data
 
 def send_metrics_to_server(data):
