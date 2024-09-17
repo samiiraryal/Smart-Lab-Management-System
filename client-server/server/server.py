@@ -500,13 +500,19 @@ def process_data():
     client_id = request.headers.get('Client-ID') or current_data.get('client_id', 'unknown')
     logger.info(f"Extracted client_id: {client_id}")
 
+    # Helper function to safely convert values to float
+    def safe_float(value):
+        if isinstance(value, str):
+            return float(value.rstrip('%').rstrip(' ms'))
+        return float(value)
+
     # Assume calculate_usage_score can handle units, or adjust it to strip units before processing
     usage_score = calculate_usage_score(
-        current_data.get('cpu').rstrip('%'),  # Strip the '%' and convert to float if necessary
-        current_data.get('ram').rstrip('%'),
-        current_data.get('gpu').rstrip('%'),
-        current_data.get('storage')['percent'].rstrip('%'),  # Assuming storage metrics also include units
-        current_data.get('network_latency_ms').rstrip(' ms')
+        safe_float(current_data.get('cpu', 0)),
+        safe_float(current_data.get('ram', 0)),
+        safe_float(current_data.get('gpu', 0)),
+        safe_float(current_data.get('storage', {}).get('percent', 0)),
+        safe_float(current_data.get('network_latency_ms', 0))
     )
     current_data['usage_score'] = f"{usage_score:.2f}"  # Convert score to string if it isn't already
 
@@ -522,10 +528,10 @@ def process_data():
         current_data['average_cpu_usage'] = f"{average_cpu_usage:.2f}%"  # Ensure this is formatted as a string with unit
 
     is_high_stress = (
-        float(current_data.get('cpu').rstrip('%')) > 80 or 
-        float(current_data.get('ram').rstrip('%')) > 75 or
-        float(current_data.get('gpu').rstrip('%')) > 70 or
-        float(current_data.get('network_latency_ms').rstrip(' ms')) > 400
+        safe_float(current_data.get('cpu', 0)) > 80 or 
+        safe_float(current_data.get('ram', 0)) > 75 or
+        safe_float(current_data.get('gpu', 0)) > 70 or
+        safe_float(current_data.get('network_latency_ms', 0)) > 400
     )
 
     if is_high_stress:
@@ -561,7 +567,6 @@ def process_data():
     save_high_usage_duration()
 
     return jsonify(response)
-
 
 
 def background_save():
