@@ -502,9 +502,9 @@ def process_data():
 
     # Assume calculate_usage_score can handle units, or adjust it to strip units before processing
     usage_score = calculate_usage_score(
-        current_data.get('cpu_percent').rstrip('%'),  # Strip the '%' and convert to float if necessary
-        current_data.get('ram_percent').rstrip('%'),
-        current_data.get('gpu_percent').rstrip('%'),
+        current_data.get('cpu').rstrip('%'),  # Strip the '%' and convert to float if necessary
+        current_data.get('ram').rstrip('%'),
+        current_data.get('gpu').rstrip('%'),
         current_data.get('storage')['percent'].rstrip('%'),  # Assuming storage metrics also include units
         current_data.get('network_latency_ms').rstrip(' ms')
     )
@@ -522,9 +522,9 @@ def process_data():
         current_data['average_cpu_usage'] = f"{average_cpu_usage:.2f}%"  # Ensure this is formatted as a string with unit
 
     is_high_stress = (
-        float(current_data.get('cpu_percent').rstrip('%')) > 80 or 
-        float(current_data.get('ram_percent').rstrip('%')) > 75 or
-        float(current_data.get('gpu_percent').rstrip('%')) > 70 or
+        float(current_data.get('cpu').rstrip('%')) > 80 or 
+        float(current_data.get('ram').rstrip('%')) > 75 or
+        float(current_data.get('gpu').rstrip('%')) > 70 or
         float(current_data.get('network_latency_ms').rstrip(' ms')) > 400
     )
 
