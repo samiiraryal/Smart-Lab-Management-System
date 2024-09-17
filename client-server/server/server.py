@@ -175,39 +175,8 @@ RULES = {
             {'total_high_usage': '<12'}
         ],
         'weight': 0.1
-    },
-    'logs_no_issue': {  # This is the new rule to add
-        'conditions': [
-            {'NetBeans': 'no_issues'},
-            {'DevC++': 'no_issues'},
-            {'MATLAB': 'no_issues'}
-        ],
-        'weight': 0.05  # Assign lower weight since it's minor but helps overall health evaluation
     }
 }
-
-@app.route('/report_error', methods=['POST'])
-def report_error():
-    error_data = request.json
-    app_name = error_data['app_name']
-    logs = error_data['logs']
-    # Process the logs as needed, e.g., counting errors, storing logs, etc.
-    process_error_logs(app_name, logs)
-    return jsonify({'status': 'Received and processed error logs successfully'}), 200
-
-def process_error_logs(app_name, logs):
-    # Example: Increment a counter for errors for this specific application
-    error_count_key = f"{app_name}_errors"
-    if error_count_key in client_usage_histories:
-        client_usage_histories[error_count_key] += 1
-    else:
-        client_usage_histories[error_count_key] = 1
-    
-    # Log this for review
-    logger.info(f"Processed error logs for {app_name}: current count {client_usage_histories[error_count_key]}")
-
-    # Implement further logic as needed based on error counts or other criteria
-
 
 def load_high_usage_duration():
     global total_high_usage_duration
@@ -238,10 +207,8 @@ def check_critical_usage(data):
     return None
 
 def evaluate_condition(metric, condition, data):
-    # if metric == 'frequency':
-    #     return evaluate_frequency(condition, data.get('time_frame', '24h'))
-    if metric in ['NetBeans', 'DevC++', 'MATLAB']:
-        return data.get(metric, '') == 'no_issues'
+    if metric == 'frequency':
+        return evaluate_frequency(condition, data.get('time_frame', '24h'))
     elif metric == 'high_usage_duration':
         return float(data.get(metric, 0)) > float(condition[1:])
     elif metric == 'storage':
@@ -254,40 +221,6 @@ def evaluate_condition(metric, condition, data):
     elif metric in data:
         return evaluate_simple_condition(float(data[metric]), condition)
     return False
-
-def process_logs(logs):
-    # Start by assuming all apps have no issues
-    software_status = {
-        'NetBeans': 'no_issues',
-        'DevC++': 'no_issues',
-        'MATLAB': 'no_issues'
-    }
-
-    logger.info("Processing logs to determine software status.")
-
-    # Process each log entry
-    for log in logs:
-        logger.info(f"Log entry: {log}")  # Log the current log entry being processed
-
-        # Check for issues in logs
-        if "error" in log.lower():  # Example check for an error in logs
-            if "NetBeans" in log:
-                software_status['NetBeans'] = 'issues'
-                logger.info("NetBeans status updated to issues")
-            elif "Dev C++" in log:
-                software_status['DevC++'] = 'issues'
-                logger.info("Dev C++ status updated to issues")
-            elif "MATLAB" in log:
-                software_status['MATLAB'] = 'issues'
-                logger.info("MATLAB status updated to issues")
-        elif "No new logs" in log:
-            # This log indicates no new issues, but we can skip since we already initialized with no issues
-            logger.info(f"No new logs for {log}. Status remains no_issues.")
-
-    logger.info(f"Final software status after processing logs: {software_status}")
-    return software_status
-
-
 
 def evaluate_simple_condition(value, condition):
     operator, threshold = condition[0], float(condition[1:])
@@ -332,51 +265,37 @@ def format_duration(seconds):
     return f"{int(hours)}h {int(minutes)}m {int(seconds)}s"
 
 def infer_result(data):
-    # Step 1: Check if there's a critical condition based on the data
     critical_result = check_critical_usage(data)
     if critical_result:
         return critical_result, 1.0, {critical_result: 1.0}
 
-    # Step 2: Initialize a dictionary to store the scores for each rule category
     scores = {}
     for category, rule in RULES.items():
         score = 0
-        # Evaluate each condition set within the rule
         for condition_set in rule['conditions']:
-            # If all conditions in the set are met, add the rule's weight to the score
             if all(evaluate_condition(metric, condition, data) for metric, condition in condition_set.items()):
                 score += rule['weight']
-        # Store the weighted score for the current category
         scores[category] = score * rule['weight']
 
-    # Step 3: Incorporate the log status into the 'running_good' category
-    if all(data.get(app) == 'no_issues' for app in ['NetBeans', 'DevC++', 'MATLAB']):
-        # If all software logs are clean, slightly boost the 'running_good' score
-        scores['running_good'] += 0.1
-
-    # Step 4: Check if 'running_good' should be the final result
     if (scores['running_good'] > 1.2 * max(scores.values())) or \
        (scores['running_good'] > 0 and sum(1 for metric in ['cpu', 'ram', 'gpu', 'network'] if data[metric] < 50) >= 3): 
-        # If the 'running_good' score is significantly higher than others, return it as the result
         return 'running_good', 1.0, scores
 
-    # Step 5: Otherwise, determine the result based on the highest score
     result = max(scores, key=scores.get)
     total_score = sum(scores.values())
     confidence = scores[result] / total_score if total_score > 0 else 0
 
     return result, confidence, scores
 
-
 def load_usage_history():
     global client_usage_histories
     usage_history_file = Path('usage_history.json')
     logger.info(f"Attempting to load usage history from {usage_history_file.absolute()}")
-
+    
     if not usage_history_file.exists():
         logger.warning(f"usage_history.json does not exist. Initializing empty usage history.")
         return
-
+    
     try:
         with open(usage_history_file, 'r') as f:
             loaded_history = json.load(f)
@@ -393,13 +312,6 @@ def load_usage_history():
         logger.error(f"JSON decoding error in usage_history.json: {e}")
     except Exception as e:
         logger.error(f"Unexpected error loading usage history: {e}")
-
-def check_maintenance_needed(client_id):
-    # Example function to calculate if maintenance is needed based on historical data
-    history = client_usage_histories[client_id]
-    average_cpu_usage = sum(data[1]['cpu'] for data in history) / len(history) if history else 0
-    return average_cpu_usage > 85  # example threshold
-
 
 # Add a global lock for usage history
 usage_history_lock = threading.Lock()
@@ -470,23 +382,6 @@ scheduler = BackgroundScheduler()
 scheduler.add_job(save_usage_history, 'interval', minutes=10)
 scheduler.start()
 
-def update_usage_history(client_id, new_data):
-    with usage_history_lock:
-        if client_id not in client_usage_histories:
-            client_usage_histories[client_id] = Queue(maxsize=720)  # Define max size for history
-        
-        # Assuming new_data is a tuple like (timestamp, usage_score)
-        if not client_usage_histories[client_id].full():
-            client_usage_histories[client_id].put(new_data)
-        else:
-            # If the queue is full, remove the oldest item and add the new one
-            client_usage_histories[client_id].get()
-            client_usage_histories[client_id].put(new_data)
-
-        # Optionally, you could log this update
-        logger.debug(f"Updated usage history for client {client_id}: {new_data}")
-
-
 @app.route('/process', methods=['POST'])
 def process_data():
     global high_usage_events, total_high_usage_duration, last_process_time, client_usage_histories
@@ -494,49 +389,31 @@ def process_data():
     current_time = datetime.now()
     current_data = request.json
 
-    # Step 1: Process the logs to determine if they are clean (no issues)
-    logs = current_data.get('logs', [])
-    software_status = process_logs(logs)  # Process logs to update software status
-    current_data.update(software_status)  # Update current data with log status
-
-    logger.info(f"Processed data with software status: {current_data}")
-
-    # Step 2: Proceed with the regular usage processing (NO EARLY EXIT)
     client_id = request.headers.get('Client-ID') or current_data.get('client_id', 'unknown')
     logger.info(f"Extracted client_id: {client_id}")
 
-    # Helper function to safely convert values to float
-    def safe_float(value):
-        if isinstance(value, str):
-            return float(value.rstrip('%').rstrip(' ms'))
-        return float(value)
-
-    # Assume calculate_usage_score can handle units, or adjust it to strip units before processing
     usage_score = calculate_usage_score(
-        safe_float(current_data.get('cpu', 0)),
-        safe_float(current_data.get('ram', 0)),
-        safe_float(current_data.get('gpu', 0)),
-        safe_float(current_data.get('storage', {}).get('percent', 0)),
-        safe_float(current_data.get('network_latency_ms', 0))
+        current_data.get('cpu', 0),
+        current_data.get('ram', 0),
+        current_data.get('gpu', 0),
+        current_data.get('storage', {}),
+        current_data.get('network', 0)
     )
-    current_data['usage_score'] = f"{usage_score:.2f}"  # Convert score to string if it isn't already
+    current_data['usage_score'] = usage_score
 
-    # Update the client's usage history with the new data
-    update_usage_history(client_id, (current_time, usage_score))
-
-    # Retrieve historical data for client to inform decision-making
     with usage_history_lock:
-        historical_data = list(client_usage_histories[client_id].queue)
-    historical_cpu_averages = [data[1] for data in historical_data]
-    if historical_cpu_averages:
-        average_cpu_usage = sum(historical_cpu_averages) / len(historical_cpu_averages)
-        current_data['average_cpu_usage'] = f"{average_cpu_usage:.2f}%"  # Ensure this is formatted as a string with unit
+        if client_id not in client_usage_histories:
+            client_usage_histories[client_id] = Queue(maxsize=720)
+
+        if client_usage_histories[client_id].full():
+            client_usage_histories[client_id].get()
+        client_usage_histories[client_id].put((current_time, usage_score))
 
     is_high_stress = (
-        safe_float(current_data.get('cpu', 0)) > 80 or 
-        safe_float(current_data.get('ram', 0)) > 75 or
-        safe_float(current_data.get('gpu', 0)) > 70 or
-        safe_float(current_data.get('network_latency_ms', 0)) > 400
+        current_data.get('cpu', 0) > 80 or 
+        current_data.get('ram', 0) > 75 or
+        current_data.get('gpu', 0) > 70 or
+        current_data.get('network', 0) > 400 
     )
 
     if is_high_stress:
@@ -551,28 +428,26 @@ def process_data():
 
     recent_high_usage_duration = calculate_recent_high_usage(high_usage_events)
 
-    current_data['total_high_usage_duration'] = f"{total_high_usage_duration:.2f} hours"
-    current_data['recent_high_usage_duration'] = f"{recent_high_usage_duration:.2f} hours"
+    current_data['total_high_usage_duration'] = total_high_usage_duration
+    current_data['recent_high_usage_duration'] = recent_high_usage_duration
 
-    # Step 3: Infer result based on the data (logs + other metrics)
     result, confidence, scores = infer_result(current_data)
 
     response = {
         'result': result,
         'confidence': confidence,
         'scores': scores,
-        'metrics': current_data  # Ensure all metrics sent in response include units
+        'metrics': current_data
     }
 
     logger.info("Calling send_to_php_backend function")
     send_to_php_backend(response)
     logger.info("send_to_php_backend function call completed")
 
-    logger.info(f"Processed data with units: {json.dumps(response, indent=2)}")
+    logger.info(f"Processed data: {json.dumps(response, indent=2)}")
     save_high_usage_duration()
 
     return jsonify(response)
-
 
 def background_save():
     while not shutdown_flag.is_set():

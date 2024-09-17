@@ -14,7 +14,6 @@ import GPUtil
 import ctypes
 from datetime import datetime, timedelta
 import uuid
-import re #regular expression operation
 
 # Add this near the top of your file, after other imports
 CLIENT_ID_FILE = Path.home() / "AppData" / "Local" / "SystemMonitor" / "client_id.json"
@@ -56,68 +55,16 @@ def get_or_create_client_id():
             json.dump({'client_id': client_id}, f)
         return client_id
     
-def escape_powershell_string(input_string):
-    """Escapes PowerShell special characters within a string."""
-    return re.sub(r'([\+\-\[\]\{\}\(\)\*\^\$\|\\])', r'`\1', input_string)
-
-def fetch_event_logs(application_name, log_name="Application", event_type="Error"):
-    escaped_application_name = escape_powershell_string(application_name)
-    command = f"""
-    Get-WinEvent -LogName {log_name} | 
-    Where-Object {{ $_.ProviderName -like '*{escaped_application_name}*' -and $_.LevelDisplayName -eq '{event_type}' }} |
-    Select-Object TimeCreated, ProviderName, Message |
-    ConvertTo-Json
-    """
-    result = subprocess.run(["powershell", "-Command", command], capture_output=True, text=True)
-    if result.returncode == 0 and result.stdout.strip():
-        return result.stdout
-    elif result.stdout.strip() == "":
-        logger.info(f"No new logs for {application_name}.")
-    else:
-        logger.error(f"Error fetching logs for {application_name}: {result.stderr}")
-
-def monitor_applications():
-    applications = ["NetBeans", "Dev C++", "MATLAB"]  # Adjust this list based on your needs
-    for app in applications:
-        logs = fetch_event_logs(app)
-        if logs:
-            logger.info(f"Logs for {app}: {logs}")
-            send_error_logs_to_server(app, logs)
-        else:
-            logger.info(f"No new logs for {app}.")
-
-def send_error_logs_to_server(app_name, logs):
-    error_data = {
-        'client_id': CLIENT_ID,
-        'app_name': app_name,
-        'logs': logs,
-        'timestamp': datetime.now().isoformat()
-    }
-    try:
-        response = requests.post("http://18.141.49.211:8080/report_error", json=error_data)
-        if response.status_code == 200:
-            logger.info("Error logs sent successfully to the server.")
-        else:
-            logger.error(f"Failed to send error logs. Status code: {response.status_code}")
-    except Exception as e:
-        logger.error(f"Error sending error logs to server: {e}")
-
-    
 
 def measure_network_latency():
     try:
         start_time = time.time()
         subprocess.run(["ping", "-n", "1", "8.8.8.8"], capture_output=True, text=True, timeout=5)
         end_time = time.time()
-        latency = (end_time - start_time) * 1000  # Convert to milliseconds
-        logger.info(f"Measured network latency: {latency:.2f} ms")
-        return latency
+        return (end_time - start_time) * 1000  # Convert to milliseconds
     except Exception as e:
         logger.error(f"Error measuring network latency: {e}")
         return 0
-
-    
-    
 
 def get_storage_metrics():
     try:
@@ -183,51 +130,41 @@ def collect_metrics():
     global high_usage_start, high_usage_duration
 
     data = {}
-    data['cpu'] = f"{psutil.cpu_percent(interval=1)}%"  # CPU usage with unit
-    data['ram'] = f"{psutil.virtual_memory().percent}%"  # RAM usage with unit
+    data['cpu'] = float(psutil.cpu_percent(interval=1))
+    data['ram'] = float(psutil.virtual_memory().percent)
     data['client_id'] = CLIENT_ID
     try:
         gpus = GPUtil.getGPUs()
         if gpus:
-            data['gpu'] = f"{gpus[0].load * 100:.2f}%"  # GPU usage with unit
+            data['gpu'] = float(gpus[0].load * 100)
         else:
-            data['gpu'] = "0.0%"  # If no GPU found
+            data['gpu'] = 0.0
     except Exception as e:
-        data['gpu'] = "0.0%"  # Handling exceptions by setting GPU usage to 0%
+        data['gpu'] = 0.0
         logger.error(f"Error getting GPU usage: {e}")
-
-    data['network_latency_ms'] = f"{measure_network_latency():.2f} ms"  # Network latency in milliseconds
-    data['storage'] = get_storage_metrics()  # This function should return storage metrics with units
+    data['network'] = float(measure_network_latency())
+    data['storage'] = get_storage_metrics()
     data['hostname'] = platform.node()
-    data['uptime_hours'] = f"{(time.time() - psutil.boot_time()) / 3600:.2f} hours"  # Uptime in hours
-
-    # Extract and convert metrics to float for calculation
-    cpu_usage = float(data['cpu'].rstrip('%'))
-    ram_usage = float(data['ram'].rstrip('%'))
-    gpu_usage = float(data['gpu'].rstrip('%'))
-    storage_percent = data['storage']['percent']  # Assuming this is already a float
+    data['uptime'] = float(time.time() - psutil.boot_time())
 
     # Calculate usage score
-    data['usage_score'] = (cpu_usage + ram_usage + gpu_usage + storage_percent) / 400
+    data['usage_score'] = float((data['cpu'] + data['ram'] + data['gpu'] + data['storage']['percent']) / 400)
 
-    # Calculate high usage duration and include it with units
+    # Calculate high usage duration
     if data['usage_score'] > 0.5:
         if high_usage_start is None:
             high_usage_start = datetime.now()
-        high_usage_duration = (datetime.now() - high_usage_start).total_seconds() / 3600  # Convert to hours
-        data['high_usage_duration_hours'] = f"{high_usage_duration:.2f} hours"  # Include the unit
+        high_usage_duration = float((datetime.now() - high_usage_start).total_seconds() / 3600)  # Convert to hours
     else:
         if high_usage_start is not None:
-            data['high_usage_duration_hours'] = f"{high_usage_duration:.2f} hours"  # Include the unit
+            data['high_usage_duration'] = high_usage_duration
             high_usage_start = None
             high_usage_duration = 0.0
         else:
-            data['high_usage_duration_hours'] = "0.0 hours"  # Include the unit
+            data['high_usage_duration'] = 0.0
 
-    logger.debug(f"Collected metrics with units: {json.dumps(data, indent=2)}")
+    logger.debug(f"Collected metrics: {json.dumps(data, indent=2)}")
     return data
-
-
 
 def send_metrics_to_server(data):
     try:
@@ -272,8 +209,6 @@ def run_continuous_monitoring():
         try:
             metrics = collect_metrics()
             result = send_metrics_to_server(metrics)
-            monitor_applications()  # Monitor application logs
-            time.sleep(10)  # Wait for 1 hour before the next cycle
             if result:
                 logger.info(f"Server response - Result: {result['result']}")
                 logger.info(f"Server response - Confidence: {result['confidence']:.2f}")
