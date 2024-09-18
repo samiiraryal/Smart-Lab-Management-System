@@ -125,54 +125,41 @@ usage_history_lock = threading.Lock()
 # Flag to ensure shutdown happens only once
 shutdown_flag = threading.Event()
 
-# RULES definition (as provided in your original code)
+# RULES definition 
 RULES = {
     'maintenance_needed': {
         'conditions': [
-            {'recent_high_usage': '>2'},
-            {'total_high_usage': '>48'},
-            {'network': '>500', 'recent_high_usage': '>2'},
-            {'cpu': '>90', 'ram': '>90', 'recent_high_usage': '>1'},
-            {'cpu': '>85', 'ram': '>85', 'gpu': '>85', 'recent_high_usage': '>1'},
-            {'cpu': '>85', 'ram': '>85', 'frequency': '>3', 'time_frame': '24h'},
-            {'cpu': '>90', 'ram': '>90', 'gpu': '>90', 'network': '>700', 'recent_high_usage': '>0.5'}
+            {'cpu': '>90', 'ram': '>90', 'gpu': '>90', 'storage': '>90', 'network': '>700', 'usage_score': '>0.9', 'recent_high_usage': '>2', 'total_high_usage': '>48', 'frequency': '>5', 'time_frame': '24h'},
+            {'cpu': '>85', 'ram': '>85', 'gpu': '>85', 'storage': '>85', 'network': '>600', 'usage_score': '>0.85', 'recent_high_usage': '>1.5', 'total_high_usage': '>36', 'frequency': '>4', 'time_frame': '24h'},
+            {'cpu': '>80', 'ram': '>90', 'gpu': '>80', 'storage': '>95', 'network': '>800', 'usage_score': '>0.88', 'recent_high_usage': '>1.8', 'total_high_usage': '>40', 'frequency': '>4.5', 'time_frame': '24h'},
+            {'cpu': '>95', 'ram': '>95', 'gpu': '>95', 'storage': '>80', 'network': '>500', 'usage_score': '>0.95', 'recent_high_usage': '>1', 'total_high_usage': '>24', 'frequency': '>3', 'time_frame': '12h'}
         ],
         'weight': 1.0
     },
     'high_usage': {
         'conditions': [
-            {'cpu': '>80', 'ram': '>80'},
-            {'cpu': '>85', 'gpu': '>80'},
-            {'ram': '>90', 'gpu': '>80'},
-            {'cpu': '>70', 'ram': '>70', 'gpu': '>70'},
-            {'storage': '>90'},
-            {'usage_score': '>0.75'},
-            {'network': '>500'},
-            {'recent_high_usage': '>1'},
-            {'total_high_usage': '>24'},
-            {'frequency': '>3', 'time_frame': '24h'}
+            {'cpu': '>80', 'ram': '>80', 'gpu': '>80', 'storage': '>75', 'network': '>500', 'usage_score': '>0.8', 'recent_high_usage': '>1', 'total_high_usage': '>24', 'frequency': '>3', 'time_frame': '24h'},
+            {'cpu': '>75', 'ram': '>85', 'gpu': '>70', 'storage': '>80', 'network': '>450', 'usage_score': '>0.78', 'recent_high_usage': '>0.8', 'total_high_usage': '>20', 'frequency': '>2.5', 'time_frame': '24h'},
+            {'cpu': '>70', 'ram': '>90', 'gpu': '>75', 'storage': '>85', 'network': '>550', 'usage_score': '>0.82', 'recent_high_usage': '>1.2', 'total_high_usage': '>28', 'frequency': '>3.5', 'time_frame': '24h'},
+            {'cpu': '>85', 'ram': '>75', 'gpu': '>85', 'storage': '>70', 'network': '>400', 'usage_score': '>0.81', 'recent_high_usage': '>0.9', 'total_high_usage': '>22', 'frequency': '>2.8', 'time_frame': '24h'}
         ],
         'weight': 0.77
     },
     'moderate': {
         'conditions': [
-            {'cpu': '>50', 'ram': '>50', 'cpu': '<80', 'ram': '<80'},
-            {'gpu': '>50', 'gpu': '<80'},
-            {'storage': '>70', 'storage': '<90'},
-            {'usage_score': '>0.5', 'usage_score': '<0.75'},
-            {'network': '>100', 'network': '<500'},
-            {'recent_high_usage': '>0.5', 'recent_high_usage': '<1'},
-            {'total_high_usage': '>12', 'total_high_usage': '<24'},
-            {'frequency': '>1', 'time_frame': '24h', 'frequency': '<3', 'time_frame': '24h'}
+            {'cpu': '50-80', 'ram': '50-80', 'gpu': '50-80', 'storage': '50-75', 'network': '200-500', 'usage_score': '0.5-0.8', 'recent_high_usage': '0.5-1', 'total_high_usage': '12-24', 'frequency': '1-3', 'time_frame': '24h'},
+            {'cpu': '40-75', 'ram': '60-85', 'gpu': '40-70', 'storage': '60-80', 'network': '150-450', 'usage_score': '0.45-0.75', 'recent_high_usage': '0.4-0.9', 'total_high_usage': '10-22', 'frequency': '0.8-2.8', 'time_frame': '24h'},
+            {'cpu': '55-75', 'ram': '45-70', 'gpu': '55-75', 'storage': '55-75', 'network': '250-550', 'usage_score': '0.55-0.77', 'recent_high_usage': '0.6-1.1', 'total_high_usage': '14-26', 'frequency': '1.2-3.2', 'time_frame': '24h'},
+            {'cpu': '45-70', 'ram': '55-80', 'gpu': '45-70', 'storage': '45-70', 'network': '180-480', 'usage_score': '0.48-0.73', 'recent_high_usage': '0.45-0.95', 'total_high_usage': '11-23', 'frequency': '0.9-2.9', 'time_frame': '24h'}
         ],
         'weight': 0.4
     },
     'running_good': {
         'conditions': [
-            {'cpu': '<50', 'ram': '<50', 'gpu': '<50', 'storage': '<70', 'network': '<100'},
-            {'usage_score': '<0.5'},
-            {'recent_high_usage': '<0.5'},
-            {'total_high_usage': '<12'}
+            {'cpu': '<50', 'ram': '<50', 'gpu': '<50', 'storage': '<50', 'network': '<200', 'usage_score': '<0.5', 'recent_high_usage': '<0.5', 'total_high_usage': '<12', 'frequency': '<1', 'time_frame': '24h'},
+            {'cpu': '<40', 'ram': '<60', 'gpu': '<40', 'storage': '<60', 'network': '<150', 'usage_score': '<0.45', 'recent_high_usage': '<0.4', 'total_high_usage': '<10', 'frequency': '<0.8', 'time_frame': '24h'},
+            {'cpu': '<45', 'ram': '<45', 'gpu': '<45', 'storage': '<55', 'network': '<180', 'usage_score': '<0.47', 'recent_high_usage': '<0.45', 'total_high_usage': '<11', 'frequency': '<0.9', 'time_frame': '24h'},
+            {'cpu': '<55', 'ram': '<55', 'gpu': '<55', 'storage': '<45', 'network': '<220', 'usage_score': '<0.52', 'recent_high_usage': '<0.55', 'total_high_usage': '<13', 'frequency': '<1.1', 'time_frame': '24h'}
         ],
         'weight': 0.1
     }
