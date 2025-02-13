@@ -15,6 +15,7 @@ import ctypes
 from datetime import datetime, timedelta
 import uuid
 
+
 # Add this near the top of your file, after other imports
 CLIENT_ID_FILE = Path.home() / "AppData" / "Local" / "SystemMonitor" / "client_id.json"
 
