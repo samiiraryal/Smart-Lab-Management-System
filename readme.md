@@ -74,7 +74,7 @@ The project files are organized into the following directories:
 
 Visual representations of the system architecture and workflows.
 
-Getting Started
+
 
 Prerequisites
 
