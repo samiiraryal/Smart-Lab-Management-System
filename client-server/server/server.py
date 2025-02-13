@@ -19,7 +19,10 @@ from collections import defaultdict
 import requests
 import traceback
 from requests.exceptions import RequestException
-
+import pandas as pd
+from sklearn.ensemble import RandomForestClassifier
+import joblib
+import numpy as np
 
 app = Flask(__name__)
 
@@ -35,6 +38,35 @@ logging.basicConfig(level=logging.DEBUG,
                         logging.StreamHandler()
                     ])
 logger = logging.getLogger(__name__)
+
+
+TRAINING_DATA_FILE = log_dir / 'training_data.csv'
+ML_MODEL_FILE = log_dir / 'maintenance_model.pkl'
+
+def save_training_data(client_id, metrics, result):
+    try:
+        features = {
+            'client_id': client_id,
+            'timestamp': datetime.now().isoformat(),
+            'cpu': metrics.get('cpu', 0),
+            'ram': metrics.get('ram', 0),
+            'gpu': metrics.get('gpu', 0),
+            'network': metrics.get('network', 0),
+            'storage_percent': metrics.get('storage', {}).get('percent', 0),
+            'usage_score': metrics.get('usage_score', 0),
+            'high_usage_duration': metrics.get('high_usage_duration', 0),
+            'maintenance_needed': 1 if result == 'maintenance_needed' else 0
+        }
+        
+        df = pd.DataFrame([features])
+        
+        if not TRAINING_DATA_FILE.exists():
+            df.to_csv(TRAINING_DATA_FILE, index=False)
+        else:
+            df.to_csv(TRAINING_DATA_FILE, mode='a', header=False, index=False)
+            
+    except Exception as e:
+        logger.error(f"Error saving training data: {e}")
 
 REMOTE_PHP_BACKEND = "https://8712-2400-1a00-b030-d210-ac71-d9d7-cdb1-44d2.ngrok-free.app/store-metrics"
 
@@ -129,10 +161,10 @@ shutdown_flag = threading.Event()
 RULES = {
     'maintenance_needed': {
         'conditions': [
-            {'cpu': '>90', 'ram': '>90', 'gpu': '>90', 'storage': '>90', 'network': '>700', 'usage_score': '>0.9', 'recent_high_usage': '>2', 'total_high_usage': '>48', 'frequency': '>5', 'time_frame': '24h'},
-            {'cpu': '>85', 'ram': '>85', 'gpu': '>85', 'storage': '>85', 'network': '>600', 'usage_score': '>0.85', 'recent_high_usage': '>1.5', 'total_high_usage': '>36', 'frequency': '>4', 'time_frame': '24h'},
-            {'cpu': '>80', 'ram': '>90', 'gpu': '>80', 'storage': '>95', 'network': '>800', 'usage_score': '>0.88', 'recent_high_usage': '>1.8', 'total_high_usage': '>40', 'frequency': '>4.5', 'time_frame': '24h'},
-            {'cpu': '>95', 'ram': '>95', 'gpu': '>95', 'storage': '>80', 'network': '>500', 'usage_score': '>0.95', 'recent_high_usage': '>1', 'total_high_usage': '>24', 'frequency': '>3', 'time_frame': '12h'}
+            {'cpu': '>90', 'ram': '>90', 'gpu': '>0', 'storage': '>50', 'network': '>700', 'usage_score': '>0.9', 'recent_high_usage': '>2', 'total_high_usage': '>48', 'frequency': '>5', 'time_frame': '24h'},
+            {'cpu': '>85', 'ram': '>85', 'gpu': '>0', 'storage': '>40', 'network': '>600', 'usage_score': '>0.85', 'recent_high_usage': '>1.5', 'total_high_usage': '>36', 'frequency': '>4', 'time_frame': '24h'},
+            {'cpu': '>80', 'ram': '>90', 'gpu': '>0', 'storage': '>40', 'network': '>800', 'usage_score': '>0.88', 'recent_high_usage': '>1.8', 'total_high_usage': '>40', 'frequency': '>4.5', 'time_frame': '24h'},
+            {'cpu': '>95', 'ram': '>95', 'gpu': '>0', 'storage': '>40', 'network': '>500', 'usage_score': '>0.95', 'recent_high_usage': '>1', 'total_high_usage': '>24', 'frequency': '>3', 'time_frame': '12h'}
         ],
         'weight': 1.0
     },
@@ -252,10 +284,12 @@ def format_duration(seconds):
     return f"{int(hours)}h {int(minutes)}m {int(seconds)}s"
 
 def infer_result(data):
+    # Existing rule-based inference
     critical_result = check_critical_usage(data)
     if critical_result:
         return critical_result, 1.0, {critical_result: 1.0}
 
+    # Rule-based scores
     scores = {}
     for category, rule in RULES.items():
         score = 0
@@ -264,10 +298,22 @@ def infer_result(data):
                 score += rule['weight']
         scores[category] = score * rule['weight']
 
-    if (scores['running_good'] > 1.2 * max(scores.values())) or \
-       (scores['running_good'] > 0 and sum(1 for metric in ['cpu', 'ram', 'gpu', 'network'] if data[metric] < 50) >= 3): 
-        return 'running_good', 1.0, scores
-
+    # ML-based prediction
+    client_id = data.get('client_id', 'unknown')
+    ml_prob = predict_with_ml(client_id, data) or 0.0
+    
+    # Combine rule-based and ML results
+    ml_weight = 0.7  
+    rule_weight = 0.3
+    
+    # Adjust scores based on ML prediction
+    if ml_prob > 0.5:
+        scores['maintenance_needed'] = scores.get('maintenance_needed', 0) + ml_prob * ml_weight
+        scores['high_usage'] = scores.get('high_usage', 0) + (1 - ml_prob) * rule_weight
+    else:
+        scores['running_good'] = scores.get('running_good', 0) + (1 - ml_prob) * rule_weight
+    
+    # Determine final result
     result = max(scores, key=scores.get)
     total_score = sum(scores.values())
     confidence = scores[result] / total_score if total_score > 0 else 0
@@ -402,9 +448,9 @@ def process_data():
         current_data.get('gpu', 0) > 70 or
         current_data.get('network', 0) > 400 
     )
-
+    
     if is_high_stress:
-        high_usage_events.append(current_time)
+        high_usage_events.append(current_time)  # This line was missing
 
     if last_process_time is not None:
         time_diff = (current_time - last_process_time).total_seconds() / 3600
@@ -418,7 +464,9 @@ def process_data():
     current_data['total_high_usage_duration'] = total_high_usage_duration
     current_data['recent_high_usage_duration'] = recent_high_usage_duration
 
-    result, confidence, scores = infer_result(current_data)
+    result, confidence, scores = infer_result(current_data)  # Moved UP
+
+    save_training_data(client_id, current_data, result)  # Call AFTER result is assigned
 
     response = {
         'result': result,
@@ -435,6 +483,53 @@ def process_data():
     save_high_usage_duration()
 
     return jsonify(response)
+
+def load_ml_model():
+    try:
+        if ML_MODEL_FILE.exists():
+            return joblib.load(ML_MODEL_FILE)
+        return None
+    except Exception as e:
+        logger.error(f"Error loading ML model: {e}")
+        return None
+
+def predict_with_ml(client_id, current_data):
+    try:
+        model = load_ml_model()
+        if not model:
+            return None
+            
+        # Create features dataframe
+        features = pd.DataFrame([{
+            'cpu': current_data.get('cpu', 0),
+            'ram': current_data.get('ram', 0),
+            'gpu': current_data.get('gpu', 0),
+            'network': current_data.get('network', 0),
+            'storage_percent': current_data.get('storage', {}).get('percent', 0),
+            'usage_score': current_data.get('usage_score', 0),
+            'high_usage_duration': current_data.get('high_usage_duration', 0)
+        }])
+        
+        # Generate rolling features (this should match training setup)
+        window_size = 5
+        training_data = pd.read_csv(log_dir / 'training_data_combined.csv') # Use combined data file
+        
+        for feat in ['cpu', 'ram', 'gpu', 'network', 'storage_percent', 
+                    'usage_score', 'high_usage_duration']:
+            client_data = training_data[training_data['client_id'] == client_id]
+            features[f'{feat}_mean'] = client_data[feat].rolling(window_size).mean().iloc[-1]
+            features[f'{feat}_std'] = client_data[feat].rolling(window_size).std().iloc[-1]
+        
+        # Fill any remaining NaNs
+        features = features.fillna(features.mean())
+        
+        # Make prediction
+        proba = model.predict_proba(features)[0][1]
+        return float(proba)
+        
+    except Exception as e:
+        logger.error(f"ML prediction error: {e}")
+        return None
 
 def background_save():
     while not shutdown_flag.is_set():

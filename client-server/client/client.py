@@ -76,7 +76,7 @@ def send_metrics_to_server(data):
 
 def main():
     print("Running system monitoring...")
-    for i in range(20):
+    for i in range(2000):
         data = get_system_metrics()
         print(f"\nRun {i+1} - Collected metrics:")
         print(json.dumps(data, indent=2))
@@ -87,7 +87,7 @@ def main():
         else:
             print("Failed to get response from server")
         
-        time.sleep(5)  # Wait for 5 seconds before the next run
+        time.sleep(1)  # Wait for 1 seconds before the next run
 
 if __name__ == "__main__":
     main()
