@@ -1,0 +1,11 @@
+
+# Sensitive files and keys
+.env
+.env.*
+*.ppk
+generated-key
+# Sensitive files and keys
+.env
+.env.*
+*.ppk
+generated-key
